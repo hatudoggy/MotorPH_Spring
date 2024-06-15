@@ -4,33 +4,45 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.sql.Date;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 
-@Entity
-@Setter
-@Getter
+@Getter @Setter
+@Entity @Table(name = "attendance")
 public class Attendance {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long attendanceId;
 
-    @ManyToOne
-    @JoinColumn(name = "employeeId", nullable = false)
-    private Employee employee;
+    private Long employeeId;
+    private LocalDate date;
+    private LocalTime timeIn;
+    private LocalTime timeOut;
 
-    private LocalDate workDate;
+    public Attendance() {}
 
-    private LocalDateTime clockIn;
+    public Attendance(
+            Long employeeId,
+            LocalDate date,
+            LocalTime timeIn,
+            LocalTime timeOut
+    ) {
+        this.employeeId = employeeId;
+        this.date = date;
+        this.timeIn = timeIn;
+        this.timeOut = timeOut;
+    }
 
-    private LocalDateTime clockOut;
+    @Override
+    public String toString() {
+        return "Attendance{" +
+                "attendanceId=" + attendanceId +
+                ", employeeId=" + employeeId +
+                ", date=" + date +
+                ", timeIn=" + timeIn +
+                ", timeOut=" + timeOut +
+                '}';
+    }
 
-    private int overtime;
-
-    private int hoursWorked;
-
-    @Transient
-    private String status;
 }
