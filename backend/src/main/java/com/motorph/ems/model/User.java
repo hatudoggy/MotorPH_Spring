@@ -57,7 +57,7 @@ public class User {
     public static class Role {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long userRoleId;
+        private int userRoleId;
         private String role;
 
         @Override
