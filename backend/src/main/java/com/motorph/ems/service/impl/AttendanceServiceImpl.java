@@ -32,7 +32,7 @@ public class AttendanceServiceImpl implements AttendanceService {
 
     @Override
     public List<Attendance> getAllAttendancesByEmployeeId(Long employeeId) {
-        return attendanceRepository.findAllById(Collections.singleton(employeeId));
+        return attendanceRepository.findByEmployeeId(employeeId);
     }
 
     @Override
@@ -47,7 +47,7 @@ public class AttendanceServiceImpl implements AttendanceService {
 
     @Override
     public void updateAttendance(Attendance attendance) {
-
+        attendanceRepository.save(attendance);
     }
 
     @Override

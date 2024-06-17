@@ -22,17 +22,17 @@ public class LeaveRequestServiceImpl implements LeaveRequestService {
 
     @Override
     public LeaveRequest addNewLeaveRequest(LeaveRequest leaveRequest) {
-        return null;
+        return requestRepository.save(leaveRequest);
     }
 
     @Override
     public List<LeaveRequest> getAllLeaveRequests() {
-        return List.of();
+        return requestRepository.findAll();
     }
 
     @Override
     public List<LeaveRequest> getAllLeaveRequestsByEmployeeId(Long employeeId) {
-        return List.of();
+        return requestRepository.findByEmployeeId(employeeId);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class LeaveRequestServiceImpl implements LeaveRequestService {
 
     @Override
     public LeaveRequest getLeaveRequestById(Long leaveRequestId) {
-        return null;
+        return requestRepository.findById(leaveRequestId).orElse(null);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class LeaveRequestServiceImpl implements LeaveRequestService {
 
     @Override
     public LeaveRequest updateLeaveRequest(LeaveRequest leaveRequest) {
-        return null;
+        return requestRepository.save(leaveRequest);
     }
 
     @Override
