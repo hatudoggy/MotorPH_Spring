@@ -19,6 +19,8 @@ public class Attendance {
     private LocalDate date;
     private LocalTime timeIn;
     private LocalTime timeOut;
+    private int hoursWorked;
+    private int overtime;
 
     public Attendance() {}
 
@@ -26,12 +28,16 @@ public class Attendance {
             Long employeeId,
             LocalDate date,
             LocalTime timeIn,
-            LocalTime timeOut
+            LocalTime timeOut,
+            int hoursWorked,
+            int overtime
     ) {
         this.employeeId = employeeId;
         this.date = date;
         this.timeIn = timeIn;
         this.timeOut = timeOut;
+        this.hoursWorked = hoursWorked;
+        this.overtime = overtime;
     }
 
     @Override

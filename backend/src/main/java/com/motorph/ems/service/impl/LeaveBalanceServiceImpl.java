@@ -23,7 +23,7 @@ public class LeaveBalanceServiceImpl implements LeaveBalanceService {
 
     @Override
     public LeaveBalance addNewLeaveBalance(LeaveBalance leaveBalance) {
-        return null;
+        return balanceRepository.save(leaveBalance);
     }
 
     @Override
@@ -32,8 +32,8 @@ public class LeaveBalanceServiceImpl implements LeaveBalanceService {
     }
 
     @Override
-    public LeaveBalance getLeaveBalanceById(Long employeeId) {
-        return null;
+    public LeaveBalance getLeaveBalanceById(Long id) {
+        return balanceRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -43,17 +43,17 @@ public class LeaveBalanceServiceImpl implements LeaveBalanceService {
 
     @Override
     public List<LeaveBalance> getAllLeaveBalances() {
-        return List.of();
+        return balanceRepository.findAll();
     }
 
     @Override
     public List<LeaveBalance> getLeaveBalancesByEmployeeId(Long employeeId) {
-        return List.of();
+        return balanceRepository.findByEmployeeId(employeeId);
     }
 
     @Override
     public LeaveBalance updateLeaveBalance(LeaveBalance leaveBalance) {
-        return null;
+        return balanceRepository.save(leaveBalance);
     }
 
     @Override

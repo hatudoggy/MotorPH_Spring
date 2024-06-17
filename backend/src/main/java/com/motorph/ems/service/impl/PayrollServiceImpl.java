@@ -1,5 +1,6 @@
 package com.motorph.ems.service.impl;
 
+import com.motorph.ems.model.LeaveRequest;
 import com.motorph.ems.model.Payroll;
 import com.motorph.ems.repository.PayrollRepository;
 import com.motorph.ems.service.PayrollService;
@@ -22,27 +23,37 @@ public class PayrollServiceImpl implements PayrollService {
 
     @Override
     public Payroll addNewPayroll(Payroll payroll) {
-        return null;
+        return payrollRepository.save(payroll);
+    }
+
+    @Override
+    public void batchAddPayroll() {
+
     }
 
     @Override
     public List<Payroll> getAllPayrolls() {
-        return List.of();
+        return payrollRepository.findAll();
     }
 
     @Override
     public Payroll getPayrollById(Long payrollId) {
-        return null;
+        return payrollRepository.findById(payrollId).orElse(null);
     }
 
     @Override
-    public Payroll getPayrollByEmployeeIdAndPeriodDates(Long employeeId, LocalDate start, LocalDate end) {
-        return null;
+    public List<Payroll> getPayrollsByEmployeeId(Long employeeId) {
+        return payrollRepository.findByEmployeeId(employeeId);
+    }
+
+    @Override
+    public List<Payroll> getPayrollByEmployeeIdAndPeriodDates(Long employeeId, LocalDate start, LocalDate end) {
+        return payrollRepository.findAllByEmployeeIdAndPeriodStartBetween(employeeId, start, end);
     }
 
     @Override
     public Payroll updatePayroll(Payroll payroll) {
-        return null;
+        return payrollRepository.save(payroll);
     }
 
     @Override
