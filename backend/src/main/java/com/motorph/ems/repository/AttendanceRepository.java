@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
-    List<Attendance> findByEmployeeId(Long employeeId);
-    Optional<Attendance> findByEmployeeIdAndDate(Long employeeId, LocalDate date);
+    List<Attendance> findByEmployeeEmployeeIdOrderByDateDesc(Long employeeId);
+    Optional<Attendance> findByEmployeeEmployeeIdAndDate(Long employeeId, LocalDate date);
+    List<Attendance> findByDate(LocalDate date);
 }

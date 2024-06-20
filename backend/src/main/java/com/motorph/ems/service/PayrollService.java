@@ -1,5 +1,6 @@
 package com.motorph.ems.service;
 
+import com.motorph.ems.dto.PayrollDTO;
 import com.motorph.ems.model.LeaveRequest;
 import com.motorph.ems.model.Payroll;
 
@@ -12,6 +13,8 @@ public interface PayrollService {
     void batchAddPayroll();
 
     List<Payroll> getAllPayrolls();
+
+    List<PayrollDTO> getAllPayrollsDTO();
 
     Payroll getPayrollById(Long payrollId);
 

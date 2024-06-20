@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping(path = "api/attendances")
 public class AttendanceController {
@@ -21,13 +23,26 @@ public class AttendanceController {
     }
 
     @GetMapping()
-    public List<Attendance> getAttendances() {
-        return attendanceService.getAllAttendances();
+    public List<Attendance> getAttendances(
+        @RequestParam(value = "date", required = false) String date
+    ) {
+        if(date != null){
+            return attendanceService.getAllAttendancesByDate(LocalDate.parse(date));
+        } else {
+            return attendanceService.getAllAttendances();
+        }
     }
 
     @GetMapping("/{id}")
-    public Attendance getAttendanceById(@PathVariable(value = "id") Long id) {
-        return attendanceService.getAttendanceById(id);
+    public Attendance getAttendanceById(
+            @PathVariable(value = "id") Long id,
+            @RequestParam(value = "date", required = false) String date
+    ) {
+        if(date != null) {
+            return attendanceService.getAttendanceByEmployeeIdAndDate(id, LocalDate.parse(date));
+        } else {
+            return attendanceService.getAttendanceById(id);
+        }
     }
 
     @PatchMapping("/{id}")

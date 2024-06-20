@@ -1,6 +1,7 @@
 package com.motorph.ems.controller;
 
 
+import com.motorph.ems.dto.AttendanceSummary;
 import com.motorph.ems.model.*;
 import com.motorph.ems.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,11 +9,13 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import static java.time.temporal.ChronoUnit.HOURS;
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping(path = "api/employees")
 public class EmployeeController {
@@ -56,8 +59,18 @@ public class EmployeeController {
     }
 
     @GetMapping()
-    public List<Employee> getAllEmployees() {
-        return employeeService.getAllEmployees();
+    public List<Employee> getAllEmployees(
+        @RequestParam(value = "name", required = false) String name
+    ) {
+        if(name != null) {
+            if(!name.isEmpty()) {
+                return employeeService.getAllEmployeesNameContains(name);
+            } else {
+                return employeeService.getAllEmployees();
+            }
+        } else {
+            return employeeService.getAllEmployees();
+        }
     }
 
     @GetMapping("/{id}")
@@ -87,7 +100,7 @@ public class EmployeeController {
         return employmentService.getEmploymentByEmployeeId(employeeID);
     }
 
-    @GetMapping("/{id}/governmentId")
+    @GetMapping("/{id}/governmentIds")
     public List<GovernmentId> getGovernmentIdByEmployeeId(@PathVariable(value = "id") Long employeeID) {
         return governmentIdService.getAllGovernmentIdByEmployeeId(employeeID);
     }
@@ -96,22 +109,64 @@ public class EmployeeController {
         return benefitsService.getAllBenefitsByEmployeeId(employeeID);
     }
 
-    @GetMapping("/{id}/attendance")
-    public List<Attendance> getEmployeeAttendance(@PathVariable long id) {
-        return attendanceService.getAllAttendancesByEmployeeId(id);
+    @GetMapping("/{id}/attendances")
+    public List<Attendance> getEmployeeAttendance(
+            @PathVariable long id,
+            @RequestParam(value = "date", required = false) String date
+    ) {
+        if(date != null) {
+            List<Attendance> attendanceList = new ArrayList<>();
+            attendanceList.add(attendanceService.getAttendanceByEmployeeIdAndDate(id, LocalDate.parse(date)));
+            return attendanceList;
+        } else {
+            return attendanceService.getAllAttendancesByEmployeeId(id);
+        }
     }
 
-    @GetMapping("/{id}/leave-balance")
+    @GetMapping("/{id}/attendances/summary")
+    public AttendanceSummary getEmployeeAttendanceSummary(
+            @PathVariable long id
+    ) {
+        return attendanceService.getAttendanceSummaryByEmployeeId(id);
+    }
+
+    @PostMapping("/{id}/attendances/timeIn")
+    public Attendance employeeTimeIn(@PathVariable long id) {
+        Employee employee = employeeService.getEmployeeById(id);
+        Attendance attendanceToday = new Attendance();
+        attendanceToday.setEmployee(employee);
+        attendanceToday.setDate(LocalDate.now());
+        attendanceToday.setTimeIn(LocalTime.now());
+        return attendanceService.addNewAttendance(attendanceToday);
+    }
+
+    @PostMapping("/{id}/attendances/timeOut")
+    public Attendance employeeTimeOut(@PathVariable long id) {
+        Attendance attendanceToday = attendanceService.getAttendanceByEmployeeIdAndDate(id, LocalDate.now());
+        LocalTime timeOut = LocalTime.now();
+
+        attendanceToday.setTimeOut(timeOut);
+        attendanceToday.setHoursWorked(
+                (int) HOURS.between(attendanceToday.getTimeIn(),timeOut)
+        );
+        attendanceToday.setOvertime(
+                Math.max(0, (int) HOURS.between(LocalTime.of(17, 0),timeOut))
+        );
+        return attendanceService.updateAttendance(attendanceToday);
+    }
+
+
+    @GetMapping("/{id}/leave-balances")
     public List<LeaveBalance> getEmployeeLeaveBalance(@PathVariable long id) {
         return leaveBalanceService.getLeaveBalancesByEmployeeId(id);
     }
 
-    @GetMapping("/{id}/leave-request")
+    @GetMapping("/{id}/leave-requests")
     public List<LeaveRequest> getEmployeeLeaveRequest(@PathVariable long id) {
         return leaveRequestService.getAllLeaveRequestsByEmployeeId(id);
     }
 
-    @GetMapping("/{id}/payroll")
+    @GetMapping("/{id}/payrolls")
     public List<Payroll> getEmployeePayroll(
             @PathVariable long id,
             @RequestParam(value = "startDate", required = false) String startDate,

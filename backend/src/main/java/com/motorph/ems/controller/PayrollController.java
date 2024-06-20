@@ -1,5 +1,6 @@
 package com.motorph.ems.controller;
 
+import com.motorph.ems.dto.PayrollDTO;
 import com.motorph.ems.model.LeaveBalance;
 import com.motorph.ems.model.LeaveRequest;
 import com.motorph.ems.model.Payroll;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping(path = "api/payrolls")
 public class PayrollController {
@@ -22,8 +24,8 @@ public class PayrollController {
     }
 
     @GetMapping
-    public List<Payroll> getPayrolls() {
-        return payrollService.getAllPayrolls();
+    public List<PayrollDTO> getPayrolls() {
+        return payrollService.getAllPayrollsDTO();
     }
 
     @GetMapping("/{id}")

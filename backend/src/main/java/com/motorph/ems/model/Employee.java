@@ -1,5 +1,6 @@
 package com.motorph.ems.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -45,6 +46,14 @@ public class Employee {
     @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JsonManagedReference
     private GovernmentId governmentId;
+
+    @OneToMany(mappedBy = "employee")
+    @JsonBackReference
+    private List<Payroll> payrolls;
+
+    @OneToMany(mappedBy = "employee")
+    @JsonBackReference
+    private List<Attendance> attendances;
 
     public Employee() {}
 

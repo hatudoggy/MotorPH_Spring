@@ -10,8 +10,8 @@ import java.util.List;
 
 @Repository
 public interface PayrollRepository extends JpaRepository<Payroll, Long> {
-    List<Payroll> findByEmployeeId(Long employeeId);
-    List<Payroll> findAllByEmployeeIdAndPeriodStartBetween(
+    List<Payroll> findByEmployeeEmployeeId(Long employeeId);
+    List<Payroll> findAllByEmployeeEmployeeIdAndPeriodStartBetween(
             Long employeeId,
             LocalDate dateStart,
             LocalDate dateEnd

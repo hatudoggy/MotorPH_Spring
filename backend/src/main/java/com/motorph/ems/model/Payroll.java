@@ -1,10 +1,13 @@
 package com.motorph.ems.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter @Setter
 @Entity @Table(name = "payroll")
@@ -13,7 +16,11 @@ public class Payroll {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long payrollId;
 
-    private Long employeeId;
+    @ManyToOne
+    @JoinColumn(name = "employee_id")
+    @JsonManagedReference
+    private Employee employee;
+
     private LocalDate periodStart;
     private LocalDate periodEnd;
     private double monthlyRate;
@@ -22,10 +29,14 @@ public class Payroll {
     private double grossIncome;
     private double netIncome;
 
+    @OneToMany(mappedBy = "payroll", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JsonManagedReference
+    private List<Deductions> deductions;
+
+
     public Payroll() {}
 
-    public Payroll(Long employeeId, LocalDate periodStart, LocalDate periodEnd, double monthlyRate, double dailyRate, double overtimePay, double grossIncome, double netIncome) {
-        this.employeeId = employeeId;
+    public Payroll(LocalDate periodStart, LocalDate periodEnd, double monthlyRate, double dailyRate, double overtimePay, double grossIncome, double netIncome) {
         this.periodStart = periodStart;
         this.periodEnd = periodEnd;
         this.monthlyRate = monthlyRate;
@@ -39,7 +50,6 @@ public class Payroll {
     public String toString() {
         return "Payroll{" +
                 "payrollId=" + payrollId +
-                ", employeeId=" + employeeId +
                 ", periodStart=" + periodStart +
                 ", periodEnd=" + periodEnd +
                 ", monthlyRate=" + monthlyRate +

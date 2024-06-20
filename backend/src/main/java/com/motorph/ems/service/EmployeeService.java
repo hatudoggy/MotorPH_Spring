@@ -33,6 +33,13 @@ public interface EmployeeService {
     List<Employee> getAllEmployees();
 
     /**
+     * Retrieves a list of all employees that is filtered by employee name.
+     *
+     * @return A list of all employee records.
+     */
+    List<Employee> getAllEmployeesNameContains( String name);
+
+    /**
      * Update an existing employee record.
      *
      * @param employee The updated employee details.

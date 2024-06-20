@@ -1,5 +1,6 @@
 package com.motorph.ems.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +16,11 @@ public class Attendance {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long attendanceId;
 
-    private Long employeeId;
+    @ManyToOne
+    @JoinColumn(name = "employeeId")
+    @JsonManagedReference
+    private Employee employee;
+
     private LocalDate date;
     private LocalTime timeIn;
     private LocalTime timeOut;
@@ -25,14 +30,12 @@ public class Attendance {
     public Attendance() {}
 
     public Attendance(
-            Long employeeId,
             LocalDate date,
             LocalTime timeIn,
             LocalTime timeOut,
             int hoursWorked,
             int overtime
     ) {
-        this.employeeId = employeeId;
         this.date = date;
         this.timeIn = timeIn;
         this.timeOut = timeOut;
@@ -44,7 +47,6 @@ public class Attendance {
     public String toString() {
         return "Attendance{" +
                 "attendanceId=" + attendanceId +
-                ", employeeId=" + employeeId +
                 ", date=" + date +
                 ", timeIn=" + timeIn +
                 ", timeOut=" + timeOut +

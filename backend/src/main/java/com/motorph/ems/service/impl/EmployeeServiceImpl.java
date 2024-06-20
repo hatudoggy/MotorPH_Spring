@@ -56,6 +56,11 @@ public class EmployeeServiceImpl implements EmployeeService, EmploymentService, 
     }
 
     @Override
+    public List<Employee> getAllEmployeesNameContains(String name) {
+        return employeeRepository.findByNameContaining(name);
+    }
+
+    @Override
     public Employee updateEmployee(Employee employee) {
         return employeeRepository.save(employee);
     }

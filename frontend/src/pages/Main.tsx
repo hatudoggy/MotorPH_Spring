@@ -5,6 +5,8 @@ import Sidebar from "../components/Sidebar";
 
 export default function Main() {
 
+  const role = 'admin'
+
   return(
     <Box
       sx={{
@@ -12,7 +14,7 @@ export default function Main() {
         display: 'flex'
       }}
     >
-      <Sidebar />
+      <Sidebar role={role}/>
       <Outlet />
     </Box>
   )

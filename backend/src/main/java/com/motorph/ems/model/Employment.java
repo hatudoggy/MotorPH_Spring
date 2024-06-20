@@ -1,6 +1,9 @@
 package com.motorph.ems.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,27 +19,27 @@ public class Employment {
     private Long employeeId;
     @OneToOne
     @JoinColumn(name = "employee_id", nullable = false)
-    @JsonBackReference
+    @JsonIgnore
     private Employee employee;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "supervisor_id")
-    @JsonBackReference
+    @JsonIgnore
     private Employee supervisor;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "department_code", nullable = false)
-    @JsonBackReference
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Department department;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "position_code", nullable = false)
-    @JsonBackReference
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Position position;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "status_id", nullable = false)
-    @JsonBackReference
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private EmploymentStatus status;
 
     private LocalDate hireDate;
@@ -71,6 +74,14 @@ public class Employment {
         return Math.round((this.basicSalary / 21 / 8) * 100.0) / 100.0;
     }
 
+    @JsonProperty("supervisor")
+    public Supervisor getSupervisor() {
+        if (supervisor != null) {
+            return new Supervisor(supervisor.getEmployeeId(), supervisor.getFirstName(), supervisor.getLastName());
+        }
+        return null;
+    }
+
     @Override
     public String toString() {
         return "Employment{" +
@@ -86,6 +97,34 @@ public class Employment {
     }
 
 
+    public static class Supervisor {
+        private Long id;
+        private String firstName;
+        private String lastName;
+
+        public Supervisor(Long id, String firstName, String lastName) {
+            this.id = id;
+            this.firstName = firstName;
+            this.lastName = lastName;
+        }
+
+        @JsonProperty("id")
+        public Long getId() {
+            return id;
+        }
+
+        @JsonProperty("firstName")
+        public String getFirstName() {
+            return firstName;
+        }
+
+        @JsonProperty("lastName")
+        public String getLastName() {
+            return lastName;
+        }
+    }
+
+
     @Getter @Setter
     @Entity @Table(name = "employment_status")
     public static class EmploymentStatus {
@@ -93,6 +132,13 @@ public class Employment {
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private int statusId;
         private String status;
+
+        public EmploymentStatus() {
+        }
+
+        public EmploymentStatus(String status) {
+            this.status = status;
+        }
 
         @Override
         public String toString() {
