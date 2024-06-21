@@ -36,7 +36,7 @@ function PayrollMonthList() {
 
   const fetchPayroll = async() => {
     const {EMPLOYEES, PAYROLLS} = API
-    const res = await axios.get(BASE_API + EMPLOYEES.BASE + employeeId + PAYROLLS.BASE)
+    const res = await axios.get(BASE_API + EMPLOYEES.BASE + employeeId + PAYROLLS.ALL)
     return res.data;
   }
 
@@ -47,7 +47,15 @@ function PayrollMonthList() {
 
   return(
     <Stack flex={1} gap={2}>
-      <Select defaultValue='2024' size="small" sx={{width: 130}}>
+      <Select 
+        defaultValue='2024' 
+        size="small" 
+        sx={{
+          width: 130,
+          borderRadius: 3,
+          bgcolor: 'white'
+        }}
+      >
         <MenuItem value="2024">2024</MenuItem>
         <MenuItem value="2023">2023</MenuItem>
         <MenuItem value="2022">2022</MenuItem>
@@ -138,7 +146,7 @@ function PayrollSelect({selectedPayroll, goBack}: PayrollSelect) {
 
   const fetchPayrollById = async() => {
     const { PAYROLLS} = API
-    const res = await axios.get(BASE_API + PAYROLLS.BASE + `/${selectedPayroll}`)
+    const res = await axios.get(BASE_API + PAYROLLS.BASE + selectedPayroll)
     return res.data;
   }
 
@@ -159,6 +167,8 @@ function PayrollSelect({selectedPayroll, goBack}: PayrollSelect) {
   )
   const totalGross = (totalEarnings && totalDeductions) && totalEarnings - totalDeductions
 
+  const month = new Date(data.periodEnd).toLocaleString('default', { month: 'long' })
+
   return(
     selectedPayroll && data &&
       <Paper
@@ -175,7 +185,10 @@ function PayrollSelect({selectedPayroll, goBack}: PayrollSelect) {
             <IconButton onClick={goBack}>
               <ArrowBack />
             </IconButton>
-            <Typography variant="h6">Payslip Summary</Typography>
+            <Stack direction='row' flex={1} pr={2}  alignItems='center' justifyContent='space-between'>
+              <Typography variant="h6">Payslip Summary</Typography>
+              <Typography color='GrayText'>{month}</Typography>
+            </Stack>
           </Stack>
         <Stack px={3} pb={3} gap={1.5}>
           <Stack alignItems='center'>

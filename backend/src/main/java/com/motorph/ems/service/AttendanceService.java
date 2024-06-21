@@ -13,6 +13,8 @@ public interface AttendanceService {
 
     public List<Attendance> getAllAttendancesByDate(LocalDate localDate);
 
+    public List<Attendance> getAllAttendancesByDateAndNameContains(LocalDate localDate, String name);
+
     public List<Attendance> getAllAttendancesByEmployeeId(Long employeeId);
 
     public Attendance getAttendanceById(Long attendanceId);

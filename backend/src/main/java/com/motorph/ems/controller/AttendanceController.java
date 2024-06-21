@@ -24,10 +24,15 @@ public class AttendanceController {
 
     @GetMapping()
     public List<Attendance> getAttendances(
-        @RequestParam(value = "date", required = false) String date
+        @RequestParam(value = "date", required = false) String date,
+        @RequestParam(value = "name", required = false) String name
     ) {
         if(date != null){
-            return attendanceService.getAllAttendancesByDate(LocalDate.parse(date));
+            if(name != null && !name.isEmpty()){
+                return attendanceService.getAllAttendancesByDateAndNameContains(LocalDate.parse(date), name);
+            } else {
+                return attendanceService.getAllAttendancesByDate(LocalDate.parse(date));
+            }
         } else {
             return attendanceService.getAllAttendances();
         }

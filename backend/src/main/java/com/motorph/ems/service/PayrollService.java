@@ -14,13 +14,21 @@ public interface PayrollService {
 
     List<Payroll> getAllPayrolls();
 
+    List<Payroll> getAllPayrollsByDate(LocalDate date);
+
     List<PayrollDTO> getAllPayrollsDTO();
+
+    List<PayrollDTO> getAllPayrollsDTOByDate(LocalDate date);
 
     Payroll getPayrollById(Long payrollId);
 
     List<Payroll> getPayrollsByEmployeeId(Long employeeId);
 
     List<Payroll> getPayrollByEmployeeIdAndPeriodDates(Long employeeId, LocalDate start, LocalDate end);
+
+    List<Integer> getDistinctYear();
+
+    List<LocalDate> getDistinctMonthsByYear(int year);
 
     Payroll updatePayroll(Payroll payroll);
 

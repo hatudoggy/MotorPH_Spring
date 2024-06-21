@@ -10,6 +10,7 @@ import com.motorph.ems.service.PayrollService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @CrossOrigin
@@ -24,8 +25,24 @@ public class PayrollController {
     }
 
     @GetMapping
-    public List<PayrollDTO> getPayrolls() {
-        return payrollService.getAllPayrollsDTO();
+    public List<PayrollDTO> getPayrolls(
+            @RequestParam(value = "date", required = false) String date
+    ) {
+        if(date != null && !date.isEmpty()){
+            return payrollService.getAllPayrollsDTOByDate(LocalDate.parse(date));
+        } else {
+            return payrollService.getAllPayrollsDTO();
+        }
+    }
+
+    @GetMapping("/years")
+    public List<Integer> getDistinctYears() {
+        return payrollService.getDistinctYear();
+    }
+
+    @GetMapping("/years/{year}")
+    public List<LocalDate> getDistinctMonthsByYear(@PathVariable(value = "year") int year) {
+        return payrollService.getDistinctMonthsByYear(year);
     }
 
     @GetMapping("/{id}")

@@ -15,12 +15,16 @@ export const API = {
     TIME_OUT: "/attendances/timeOut",
   },
   LEAVES: {
-    BASE: "/leaves",
+    BASE: "/leaves/",
+    ALL: "/leaves",
   },
   PAYROLLS: {
-    BASE: "/payrolls"
+    BASE: "/payrolls/",
+    ALL: "/payrolls",
+    YEARS: "/years"
   },
   USERS: {
-    BASE:  "/users",
+    BASE:  "/users/",
+    ALL: "/users",
   },
 }

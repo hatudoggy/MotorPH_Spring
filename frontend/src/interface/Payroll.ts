@@ -2,6 +2,8 @@
 interface PayrollRes {
   payrollId: number
   employeeId: number
+  employeeFirstName: string
+  employeeLastName: string
   periodStart: string
   periodEnd: string
   monthlyRate: number
@@ -9,6 +11,7 @@ interface PayrollRes {
   overtimePay: number
   grossIncome: number
   netIncome: number
+  deductions: Deductions[]
 }
 
 interface PayrollFull {

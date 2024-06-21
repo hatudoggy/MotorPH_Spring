@@ -11,6 +11,8 @@ import { RouterProvider } from 'react-router-dom';
 import { router } from './Routing.tsx';
 import { Colors } from './constants/Colors.ts';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3'
 
 const theme = createTheme({
   palette: {
@@ -26,7 +28,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <RouterProvider router={router} />
+        </LocalizationProvider>
       </QueryClientProvider>
     </ThemeProvider>
   </React.StrictMode>,

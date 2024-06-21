@@ -39,8 +39,18 @@ public class PayrollServiceImpl implements PayrollService {
     }
 
     @Override
+    public List<Payroll> getAllPayrollsByDate(LocalDate date) {
+        return payrollRepository.findByPeriodEnd(date);
+    }
+
+    @Override
     public List<PayrollDTO> getAllPayrollsDTO() {
         return payrollRepository.findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PayrollDTO> getAllPayrollsDTOByDate(LocalDate date) {
+        return payrollRepository.findByPeriodEnd(date).stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
     @Override
@@ -56,6 +66,16 @@ public class PayrollServiceImpl implements PayrollService {
     @Override
     public List<Payroll> getPayrollByEmployeeIdAndPeriodDates(Long employeeId, LocalDate start, LocalDate end) {
         return payrollRepository.findAllByEmployeeEmployeeIdAndPeriodStartBetween(employeeId, start, end);
+    }
+
+    @Override
+    public List<Integer> getDistinctYear() {
+        return payrollRepository.findDistinctYears();
+    }
+
+    @Override
+    public List<LocalDate> getDistinctMonthsByYear(int year) {
+        return payrollRepository.findDistinctMonthsByYear(year);
     }
 
     @Override

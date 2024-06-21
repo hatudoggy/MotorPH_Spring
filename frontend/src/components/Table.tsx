@@ -1,5 +1,7 @@
-import { Box, BoxProps, CircularProgress, Divider, Stack, Typography } from "@mui/material"
+import { BoxProps, CircularProgress, Divider, Stack, Typography } from "@mui/material"
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
+import { FixedSizeList as List } from "react-window"
+import AutoSizer from "react-virtualized-auto-sizer"
 
 interface TableData {
   [key: string]: any;
@@ -11,12 +13,13 @@ interface Props<RowData extends TableData> {
   colSizes?: ColSize[]
   colHeader?: string[]
   tableData: RowData[],
+  rowHeight?: number
   loading?: boolean
   sx?: BoxProps
   renderers?: { [K in keyof RowData]?: (data: RowData[K]) => React.ReactNode }
 }
 
-export default function Table<RowData extends TableData>({colSizes, tableData, colHeader,  loading, sx, renderers}: Props<RowData>) {
+export default function Table<RowData extends TableData>({colSizes, tableData, colHeader, rowHeight = 40,  loading, sx, renderers}: Props<RowData>) {
 
   const colHeaders = tableData.length > 0 ? Object.keys(tableData[0]) : [];
 
@@ -28,21 +31,33 @@ export default function Table<RowData extends TableData>({colSizes, tableData, c
         sx={{
           height: 0,
           minHeight: 0,
-          overflowY: 'scroll',
-          overflowX: 'hidden',
         }}
       >
         {
           !loading ?
-          tableData.map((row, idx) => 
-              <TableRow 
-                key={idx}
-                rowData={row}
-                colSizes={colSizes}
-                colHeaders={colHeaders}
-                renderers={renderers}
-              />
-            )
+            <AutoSizer>
+              {({height, width}) => (
+                <List 
+                  height={height}
+                  width={width}
+                  itemCount={tableData.length}
+                  itemSize={rowHeight}
+                  style={{overflowX: 'hidden'}}
+                >
+                  {({ index, style }) => (
+                    <div style={style}>
+                      <TableRow
+                        key={index}
+                        rowData={tableData[index]}
+                        colSizes={colSizes}
+                        colHeaders={colHeaders}
+                        renderers={renderers}
+                      />
+                    </div>
+                  )}
+                </List>
+              )}
+            </AutoSizer>
             :
             <Stack alignItems='center'>
               <CircularProgress />
@@ -84,6 +99,7 @@ function TableHeader({colSizes, colHeaders}: TableHeader) {
   )
 }
 
+
 interface TableRow<RowData extends TableData> {
   rowData: RowData
   colSizes?: ColSize[]
@@ -111,7 +127,6 @@ function TableRow<RowData extends TableData>({rowData, colSizes, colHeaders, ren
           </Grid>
         )
       }
-
     </Grid>
   )
 }

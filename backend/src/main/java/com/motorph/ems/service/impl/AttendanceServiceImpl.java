@@ -39,6 +39,11 @@ public class AttendanceServiceImpl implements AttendanceService {
     }
 
     @Override
+    public List<Attendance> getAllAttendancesByDateAndNameContains(LocalDate localDate, String name) {
+        return attendanceRepository.findByDateAndNameContaining(localDate, name);
+    }
+
+    @Override
     public List<Attendance> getAllAttendancesByEmployeeId(Long employeeId) {
         return attendanceRepository.findByEmployeeEmployeeIdOrderByDateDesc(employeeId);
     }
