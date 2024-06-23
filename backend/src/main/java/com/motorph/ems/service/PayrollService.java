@@ -1,20 +1,26 @@
 package com.motorph.ems.service;
 
-import com.motorph.ems.model.Payroll;
+import com.motorph.ems.dto.PayrollDTO;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public interface PayrollService {
-    Payroll addNewPayroll(Payroll payroll);
 
-    List<Payroll> getAllPayrolls();
+    PayrollDTO addNewPayroll(PayrollDTO payroll);
+    
+    Optional<PayrollDTO> getPayrollById(Long payrollId);
 
-    Payroll getPayrollById(Long payrollId);
+    Optional<PayrollDTO> getPayrollByEmployeeIdAndPeriodStart(Long employeeId, LocalDate periodStart);
 
-    Payroll getPayrollByEmployeeIdAndPeriodDates(Long employeeId, LocalDate start, LocalDate end);
+    List<PayrollDTO> getAllPayrolls();
 
-    Payroll updatePayroll(Payroll payroll);
+    List<PayrollDTO> getPayrollsByEmployeeId(Long employeeId);
+
+    List<PayrollDTO> getPayrollsForPeriod(LocalDate periodStart, LocalDate periodEnd);
+
+    PayrollDTO updatePayroll(PayrollDTO payroll);
 
     void deletePayroll(Long payrollId);
 }
