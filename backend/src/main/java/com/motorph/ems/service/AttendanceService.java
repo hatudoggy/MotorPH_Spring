@@ -1,22 +1,35 @@
 package com.motorph.ems.service;
 
-import com.motorph.ems.model.Attendance;
+import com.motorph.ems.dto.AttendanceDTO;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
+/**
+ *
+ */
 public interface AttendanceService {
-    public void addNewAttendance(Attendance attendance);
+     AttendanceDTO addNewAttendance(AttendanceDTO attendance);
 
-    public List<Attendance> getAllAttendances();
+     List<AttendanceDTO> getAllAttendances();
 
-    public List<Attendance> getAllAttendancesByEmployeeId(Long employeeId);
+     List<AttendanceDTO> getAllAttendancesByEmployeeId(Long employeeId);
 
-    public Attendance getAttendanceById(Long attendanceId);
+     Optional<AttendanceDTO> getAttendanceById(Long attendanceId);
 
-    public Attendance getAttendanceByEmployeeIdAndDate(Long employeeId, LocalDate date);
+     Optional<AttendanceDTO> getAttendanceByEmployeeIdAndDate(Long employeeId, LocalDate date);
 
-    public void updateAttendance(Attendance attendance);
-    public void deleteAttendance(Long attendanceId);
+     List<AttendanceDTO> getAllByDate(LocalDate date);
 
+     List<AttendanceDTO> getAttendancesForDateRange(LocalDate start, LocalDate end);
+
+     List<AttendanceDTO> getAttendancesAfterTimeIn(LocalTime timeIn, LocalDate date);
+
+     List<AttendanceDTO> getAttendancesAfterTimeOut(LocalTime timeOut, LocalDate date);
+
+     AttendanceDTO updateAttendance(Long attendanceId, AttendanceDTO attendance);
+
+     void deleteAttendanceById(Long attendanceId);
 }
