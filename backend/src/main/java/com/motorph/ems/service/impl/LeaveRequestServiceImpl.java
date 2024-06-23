@@ -59,13 +59,6 @@ public class LeaveRequestServiceImpl implements LeaveRequestService {
     }
 
     @Override
-    public List<LeaveRequestDTO> getAllLeaveRequestsByEmployeeName(String firstName, String lastName) {
-        return requestRepository.findAllByEmployee_FirstNameAndEmployee_LastName(firstName, lastName).stream()
-                .map(leaveRequestMapper::toDTO)
-                .collect(Collectors.toList());
-    }
-
-    @Override
     public List<LeaveRequestDTO> getAllLeaveRequestsByPositionCode(String positionCode) {
         return requestRepository.findAllByEmployee_Position_PositionCode(positionCode).stream()
                 .map(leaveRequestMapper::toDTO)
@@ -121,12 +114,6 @@ public class LeaveRequestServiceImpl implements LeaveRequestService {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public List<LeaveRequestDTO> getAllLeaveRequestsBySupervisorName(String supervisorFirstName, String supervisorLastName) {
-        return requestRepository.findByEmployee_Supervisor_FirstNameAndEmployee_Supervisor_LastName(supervisorFirstName, supervisorLastName).stream()
-                .map(leaveRequestMapper::toDTO)
-                .collect(Collectors.toList());
-    }
 
     @Override
     public Optional<LeaveRequestDTO> getLeaveRequestById(Long leaveRequestId) {
