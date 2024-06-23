@@ -1,24 +1,36 @@
 package com.motorph.ems.service;
 
-import com.motorph.ems.model.LeaveBalance;
+import com.motorph.ems.dto.LeaveBalanceDTO;
+import com.motorph.ems.dto.LeaveTypeDTO;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface LeaveBalanceService {
 
-    LeaveBalance addNewLeaveBalance(LeaveBalance leaveBalance);
+    LeaveBalanceDTO addNewLeaveBalance(LeaveBalanceDTO leaveBalance);
 
-    List<LeaveBalance> addMultipleLeaveBalances(List<LeaveBalance> leaveBalances);
+    List<LeaveBalanceDTO> addMultipleLeaveBalances(List<LeaveBalanceDTO> leaveBalances);
 
-    LeaveBalance getLeaveBalanceById(Long employeeId);
+    Optional<LeaveBalanceDTO> getLeaveBalanceById(Long leaveBalanceId);
 
-    LeaveBalance getLeaveBalanceByEmployeeIdAndLeaveType(Long employeeId, String leaveType);
+    Optional<LeaveBalanceDTO> getLeaveBalanceByEmployeeIdAndLeaveType(Long employeeId, int leaveTypeId);
 
-    List<LeaveBalance> getAllLeaveBalances();
+    List<LeaveBalanceDTO> getAllLeaveBalances();
 
-    List<LeaveBalance> getLeaveBalancesByEmployeeId(Long employeeId);
+    List<LeaveBalanceDTO> getLeaveBalancesByEmployeeId(Long employeeId);
 
-    LeaveBalance updateLeaveBalance(LeaveBalance leaveBalance);
+    LeaveBalanceDTO updateLeaveBalance(LeaveBalanceDTO leaveBalance);
 
-    void deleteLeaveBalance(Long employeeId);
+    void deleteLeaveBalanceById(Long leaveBalanceId);
+
+    void deleteMultipleLeaveBalancesByEmployeeId(Long employeeId);
+
+    LeaveTypeDTO addNewLeaveType(LeaveTypeDTO leaveType);
+
+    Optional<LeaveTypeDTO> getLeaveTypeById(int leaveTypeId);
+
+    Optional<LeaveTypeDTO> getLeaveTypeByTypeName(String leaveTypeName);
+
+    List<LeaveTypeDTO> getAllLeaveTypes();
 }
