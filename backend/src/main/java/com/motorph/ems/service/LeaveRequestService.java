@@ -1,26 +1,48 @@
 package com.motorph.ems.service;
 
-import com.motorph.ems.model.LeaveRequest;
-import com.motorph.ems.model.LeaveRequest.LeaveStatus;
+import com.motorph.ems.dto.LeaveRequestDTO;
+import com.motorph.ems.dto.LeaveStatusDTO;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public interface LeaveRequestService {
 
-    LeaveRequest addNewLeaveRequest(LeaveRequest leaveRequest);
+    LeaveRequestDTO addNewLeaveRequest(LeaveRequestDTO leaveRequest);
 
-    List<LeaveRequest> getAllLeaveRequests();
+    List<LeaveRequestDTO> getAllLeaveRequests();
 
-    List<LeaveRequest> getAllLeaveRequestsByEmployeeId(Long employeeId);
+    List<LeaveRequestDTO> getAllLeaveRequestsByEmployeeId(Long employeeId);
 
-    List<LeaveRequest> getAllLeaveRequestsByStatus(LeaveStatus status);
+    List<LeaveRequestDTO> getAllLeaveRequestsByPositionCode(String positionCode);
 
-    LeaveRequest getLeaveRequestById(Long leaveRequestId);
+    List<LeaveRequestDTO> getAllLeaveRequestsByDepartmentCode(String departmentCode);
 
-    LeaveRequest getLeaveRequestByEmployeeIdAndDate(Long employeeId, LocalDate date);
+    List<LeaveRequestDTO> getAllLeaveRequestsByStatus(String status);
 
-    LeaveRequest updateLeaveRequest(LeaveRequest leaveRequest);
+    List<LeaveRequestDTO> getAllLeaveRequestsByRequestDate(LocalDate requestDate);
+
+    List<LeaveRequestDTO> getAllLeaveRequestsByStartDate(LocalDate startDate);
+
+    List<LeaveRequestDTO> getAllLeaveRequestsByRequestDateBetween(LocalDate startDate, LocalDate endDate);
+
+    List<LeaveRequestDTO> getAllLeaveRequestsByStatusAndRequestDateBetween(String status, LocalDate startDate, LocalDate endDate);
+
+    List<LeaveRequestDTO> getAllLeaveRequestsBySupervisorId(Long supervisorId);
+
+    Optional<LeaveRequestDTO> getLeaveRequestById(Long leaveRequestId);
+
+    Optional<LeaveRequestDTO> getLeaveRequestByEmployeeIdAndDate(Long employeeId, LocalDate date);
+
+    LeaveRequestDTO updateLeaveRequest(LeaveRequestDTO leaveRequest);
 
     void deleteLeaveRequest(Long leaveRequestId);
+
+    Optional<LeaveStatusDTO> getLeaveStatusById(int leaveStatusId);
+
+    Optional<LeaveStatusDTO> getLeaveStatusByStatusName(String statusName);
+
+    List<LeaveStatusDTO> getAllLeaveStatus();
 }
+

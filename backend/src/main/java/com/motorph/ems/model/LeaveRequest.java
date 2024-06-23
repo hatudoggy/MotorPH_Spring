@@ -2,12 +2,17 @@ package com.motorph.ems.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
-@Getter @Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity @Table(name = "leave_request")
 public class LeaveRequest {
 
@@ -15,10 +20,17 @@ public class LeaveRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long leaveRequestId;
 
+    @ManyToOne
+    @JoinColumn(name = "employee_id")
+    @JsonManagedReference
+    private Employee employee;
+
     private LocalDate requestDate;
-    private Long employeeId;
     private LocalDate startDate;
     private LocalDate endDate;
+
+    @Transient
+    private int daysRequested;
 
     @ManyToOne
     @JoinColumn(name = "leave_status_id")
@@ -27,21 +39,24 @@ public class LeaveRequest {
 
     private String reason;
 
-    public LeaveRequest() {}
-
     public LeaveRequest(
-            LocalDate requestDate,
             Long employeeId,
+            LocalDate requestDate,
             LocalDate startDate,
             LocalDate endDate,
-            LeaveStatus status,
-            String reason) {
+            int statusId,
+            String reason){
+
+        this.employee = new Employee(employeeId);
         this.requestDate = requestDate;
-        this.employeeId = employeeId;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.status = status;
+        this.status = new LeaveStatus(statusId);
         this.reason = reason;
+    }
+
+    public int getDaysRequested() {
+        return (int) (endDate.toEpochDay() - startDate.toEpochDay());
     }
 
     @Override
@@ -49,15 +64,16 @@ public class LeaveRequest {
         return "LeaveRequest{" +
                 "leaveRequestId=" + leaveRequestId +
                 ", requestDate=" + requestDate +
-                ", employeeId=" + employeeId +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
-                ", status='" + status + '\'' +
+                ", statusName='" + status + '\'' +
                 ", reason='" + reason + '\'' +
                 '}';
     }
 
-    @Getter @Setter
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
     @Entity @Table(name = "leave_status")
     public static class LeaveStatus {
 
@@ -65,30 +81,14 @@ public class LeaveRequest {
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private int leaveStatusId;
 
-        private String status;
+        private String statusName;
 
-        public LeaveStatus() {}
-
-        public LeaveStatus(String status) {
-            this.status = status;
+        public LeaveStatus(String statusName) {
+            this.statusName = statusName;
         }
 
-        @Getter
-        public enum Status {
-            APPROVED("Approved"),
-            PENDING("Pending"),
-            REJECTED("Rejected");
-
-            private final String status;
-
-            Status(String status) {
-                this.status = status;
-            }
-
-            @Override
-            public String toString() {
-                return status;
-            }
+        public LeaveStatus(int statusId) {
+            this.leaveStatusId = statusId;
         }
     }
 }
