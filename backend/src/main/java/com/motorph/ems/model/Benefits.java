@@ -1,64 +1,60 @@
 package com.motorph.ems.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-
-@Getter @Setter
-@Entity @Table(name = "benefits")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Entity
+@Table(name = "benefits")
 public class Benefits {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long benefitId;
-    private Double amount;
 
     @ManyToOne
     @JoinColumn(name = "employee_id", nullable = false)
-    @JsonBackReference
+    @JsonManagedReference
     private Employee employee;
+
+    private Double amount;
 
     @ManyToOne
     @JoinColumn(name = "benefit_type_id", nullable = false)
     @JsonManagedReference
     private BenefitType benefitType;
 
-    public Benefits() {}
-
-    public Benefits(
-            Double amount,
-            BenefitType benefitType) {
+    public Benefits(Long employeeId, int benefitTypeId, Double amount) {
+        this.employee = new Employee(employeeId);
         this.amount = amount;
-        this.benefitType = benefitType;
+        this.benefitType = new BenefitType(benefitTypeId);
     }
 
-    @Override
-    public String toString() {
-        return "Benefits{" +
-                "benefitId=" + benefitId +
-                ", employeeID=" + employee.getEmployeeId() +
-                ", amount=" + amount +
-                ", benefitType=" + benefitType +
-                '}';
-    }
-
-    @Getter @Setter
-    @Entity @Table(name = "benefit_type")
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    @Entity
+    @Table(name = "benefit_type")
     public static class BenefitType {
 
         @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
         private int benefitTypeId;
         private String benefit;
-
-        public BenefitType() {
-        }
 
         public BenefitType(String benefit) {
             this.benefit = benefit;
         }
+
+        public BenefitType(int benefitTypeId) {}
 
         @Override
         public String toString() {
@@ -69,4 +65,3 @@ public class Benefits {
         }
     }
 }
-
