@@ -1,56 +1,36 @@
 package com.motorph.ems.service;
 
-import com.motorph.ems.model.Employee;
+import com.motorph.ems.dto.EmployeeDTO;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
-/**
- * Represents a service for handling employee data.
- */
-@SuppressWarnings("unused")
 public interface EmployeeService {
 
-    /**
-     * Add a new employee record.
-     *
-     * @param Employee The employee record to add.
-     */
-    void addNewEmployee(Employee Employee);
+    EmployeeDTO addNewEmployee(EmployeeDTO employee);
 
-    /**
-     * Retrieves an employee record by employee ID.
-     *
-     * @param employeeID The ID of the employee.
-     * @return The employee record.
-     */
-    Employee getEmployeeById(Long employeeID);
+    Optional<EmployeeDTO> getEmployeeById(Long employeeId);
 
-    /**
-     * Retrieves a list of all employees.
-     *
-     * @return A list of all employee records.
-     */
-    List<Employee> getAllEmployees();
+    Optional<EmployeeDTO> getEmployeeByName(String firstName, String lastName);
 
-    /**
-     * Update an existing employee record.
-     *
-     * @param employee The updated employee details.
-     */
-    Employee updateEmployee(Employee employee);
+    List<EmployeeDTO> getEmployees();
 
-    /**
-     * Delete an employee record.
-     *
-     * @param employeeID The Id of the employee to delete.
-     */
-    void deleteEmployee(Long employeeID);
+    List<EmployeeDTO> getEmployeesByDepartment(String departmentName);
 
-    /**
-     * Add employee records from a CSV file.
-     *
-     * @param employeeCSVPath The path to the CSV file containing employee records.
-     */
+    List<EmployeeDTO> getEmployeesByPosition(String positionName);
+
+    List<EmployeeDTO> getEmployeesByStatus(String statusName);
+
+    List<EmployeeDTO> getEmployeesBySupervisorId(Long supervisorId);
+
+    List<EmployeeDTO> getEmployeesBySupervisorName(String firstName, String lastName);
+
+    List<EmployeeDTO> getEmployeesByHiredBetween(LocalDate startDate, LocalDate endDate);
+
+    EmployeeDTO updateEmployee(Long employeeId, EmployeeDTO employee);
+
+    void deleteEmployee(Long employeeId);
+
     void addNewEmployeesFromCSV(String employeeCSVPath);
-
 }

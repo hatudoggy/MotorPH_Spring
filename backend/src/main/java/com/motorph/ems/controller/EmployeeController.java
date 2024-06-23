@@ -1,16 +1,11 @@
 package com.motorph.ems.controller;
 
 
-import com.motorph.ems.model.Benefits;
-import com.motorph.ems.model.Employee;
-import com.motorph.ems.model.Employment;
-import com.motorph.ems.model.GovernmentId;
+import com.motorph.ems.dto.BenefitDTO;
+import com.motorph.ems.dto.EmployeeDTO;
 import com.motorph.ems.service.BenefitsService;
 import com.motorph.ems.service.EmployeeService;
-import com.motorph.ems.service.EmploymentService;
-import com.motorph.ems.service.GovernmentIdService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,70 +17,73 @@ public class EmployeeController {
 
     private final EmployeeService employeeService;
     private final BenefitsService benefitsService;
-    private final EmploymentService employmentService;
-    private final GovernmentIdService governmentIdService;
 
     @Autowired
     public EmployeeController(
             EmployeeService employeeService,
-            @Qualifier("employeeServiceImpl")
-            BenefitsService benefitsService,
-            @Qualifier("employeeServiceImpl")
-            EmploymentService employmentService,
-            @Qualifier("employeeServiceImpl")
-            GovernmentIdService governmentIdService
+            BenefitsService benefitsService
     ){
         this.employeeService = employeeService;
         this.benefitsService = benefitsService;
-        this.employmentService = employmentService;
-        this.governmentIdService = governmentIdService;
     }
 
     @PostMapping("/register")
-    public void registerEmployee(@RequestBody Employee employee) {
-        employeeService.addNewEmployee(employee);
+    public ResponseEntity<EmployeeDTO> registerEmployee(@RequestBody EmployeeDTO employee) {
+        EmployeeDTO savedEmployee = employeeService.addNewEmployee(employee);
+        return ResponseEntity.ok(savedEmployee);
     }
 
-    @GetMapping()
-    public List<Employee> getAllEmployees() {
-        return employeeService.getAllEmployees();
+    @GetMapping("/all")
+    public ResponseEntity<List<EmployeeDTO>> getAllEmployees() {
+        List<EmployeeDTO> employees = employeeService.getEmployees();
+        return ResponseEntity.ok(employees);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Employee> getEmployeeById(@PathVariable(value = "id") Long employeeID) {
-        Employee employee = employeeService.getEmployeeById(employeeID);
+    public ResponseEntity<EmployeeDTO> getEmployeeById(@PathVariable(value = "id") Long employeeID) {
+        EmployeeDTO employee = employeeService.getEmployeeById(employeeID).orElse(null);
         return ResponseEntity.ok().body(employee);
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<Employee> updateEmployee(
-            @PathVariable(value = "id") Long employeeID,
-            @RequestBody Employee employeeDetails
+    @PutMapping("/update/{employeeID}")
+    public ResponseEntity<EmployeeDTO> updateEmployee(
+            @PathVariable(value = "employeeID") Long employeeID,
+            @RequestBody EmployeeDTO employeeDetails
     ) {
-        Employee updatedEmployee = employeeService.updateEmployee(employeeDetails);
+        EmployeeDTO updatedEmployee = employeeService.updateEmployee(employeeID,employeeDetails);
         return ResponseEntity.ok(updatedEmployee);
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteEmployee(@PathVariable(value = "id") Long employeeID) {
-        if (employeeService.getEmployeeById(employeeID) == null) {
+        if (employeeService.getEmployeeById(employeeID).isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         employeeService.deleteEmployee(employeeID);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/employment/{id}")
-    public Employment getEmploymentByEmployeeId(@PathVariable(value = "id") Long employeeID) {
-        return employmentService.getEmploymentByEmployeeId(employeeID);
+    @GetMapping("/all/department/{departmentName}")
+    public ResponseEntity<List<EmployeeDTO>> getEmployeesByDepartment(@PathVariable(value = "departmentName") String departmentName) {
+        List<EmployeeDTO> employeeList = employeeService.getEmployeesByDepartment(departmentName);
+        return ResponseEntity.ok(employeeList);
     }
 
-    @GetMapping("/governmentId/{id}")
-    public List<GovernmentId> getGovernmentIdByEmployeeId(@PathVariable(value = "id") Long employeeID) {
-        return governmentIdService.getAllGovernmentIdByEmployeeId(employeeID);
+    @GetMapping("/all/position/{positionName}")
+    public ResponseEntity<List<EmployeeDTO>> getEmployeesByPosition(@PathVariable(value = "positionName") String positionName) {
+        List<EmployeeDTO> employeeList = employeeService.getEmployeesByPosition(positionName);
+        return ResponseEntity.ok(employeeList);
     }
+
+    @GetMapping("/all/status/{statusName}")
+    public ResponseEntity<List<EmployeeDTO>> getEmployeesByStatus(@PathVariable(value = "statusName") String statusName) {
+        List<EmployeeDTO> employeeList = employeeService.getEmployeesByStatus(statusName);
+        return ResponseEntity.ok(employeeList);
+    }
+
     @GetMapping("/benefits/{id}")
-    public List<Benefits> getBenefitsByEmployeeId(@PathVariable(value = "id") Long employeeID) {
-        return benefitsService.getAllBenefitsByEmployeeId(employeeID);
+    public ResponseEntity<List<BenefitDTO>> getBenefitsByEmployeeId(@PathVariable(value = "id") Long employeeID) {
+        List<BenefitDTO> benefits = benefitsService.getBenefitsByEmployeeId(employeeID);
+        return ResponseEntity.ok(benefits);
     }
 }

@@ -1,150 +1,133 @@
 package com.motorph.ems.service.impl;
 
-import com.motorph.ems.model.Benefits;
+import com.motorph.ems.dto.EmployeeDTO;
+import com.motorph.ems.dto.mapper.EmployeeMapper;
 import com.motorph.ems.model.Employee;
-import com.motorph.ems.model.Employment;
-import com.motorph.ems.model.GovernmentId;
-import com.motorph.ems.repository.BenefitsRepository;
 import com.motorph.ems.repository.EmployeeRepository;
-import com.motorph.ems.repository.EmploymentRepository;
-import com.motorph.ems.repository.GovernmentIdRepository;
-import com.motorph.ems.service.BenefitsService;
 import com.motorph.ems.service.EmployeeService;
-import com.motorph.ems.service.EmploymentService;
-import com.motorph.ems.service.GovernmentIdService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
+@Transactional
 @Service
-public class EmployeeServiceImpl implements EmployeeService, EmploymentService, GovernmentIdService, BenefitsService {
+public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
-    private final EmploymentRepository employmentRepository;
-    private final GovernmentIdRepository governmentIdRepository;
-    private final BenefitsRepository benefitsRepository;
-
+    private final EmployeeMapper employeeMapper;
 
     @Autowired
-    public EmployeeServiceImpl(
-            EmployeeRepository employeeRepository,
-            EmploymentRepository employmentRepository,
-            GovernmentIdRepository governmentIdRepository,
-            BenefitsRepository benefitsRepository
-    ) {
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository, EmployeeMapper employeeMapper) {
         this.employeeRepository = employeeRepository;
-        this.employmentRepository = employmentRepository;
-        this.governmentIdRepository = governmentIdRepository;
-        this.benefitsRepository = benefitsRepository;
+        this.employeeMapper = employeeMapper;
     }
 
     @Override
-    public void addNewEmployee(Employee employee) {
-        employeeRepository.save(employee);
+    @Transactional
+    public EmployeeDTO addNewEmployee(EmployeeDTO employeeDTO) {
+        if (employeeRepository.existsByFirstNameAndLastName(employeeDTO.firstName(), employeeDTO.lastName())) {
+            throw new EntityNotFoundException("Employee with first name " + employeeDTO.firstName() + " and last name " + employeeDTO.lastName() + " already exists");
+        }
+
+        Employee employee = employeeMapper.toEntity(employeeDTO);
+
+        employee.setEmployeeId(null);
+
+        Employee savedEmployee = employeeRepository.save(employee);
+
+        return employeeMapper.toDTO(savedEmployee);
     }
 
     @Override
-    public Employee getEmployeeById(Long employeeID) {
-        return employeeRepository.findById(employeeID).orElse(null);
+    public Optional<EmployeeDTO> getEmployeeById(Long employeeID) {
+        return employeeRepository.findById(employeeID).map(employeeMapper::toDTO);
     }
 
     @Override
-    public List<Employee> getAllEmployees() {
-        return employeeRepository.findAll();
+    public Optional<EmployeeDTO> getEmployeeByName(String firstName, String lastName) {
+        return employeeRepository.findByFirstNameAndLastName(firstName, lastName).map(employeeMapper::toDTO);
     }
 
     @Override
-    public Employee updateEmployee(Employee employee) {
-        return employeeRepository.save(employee);
+    public List<EmployeeDTO> getEmployees() {
+        List<Employee> employees = employeeRepository.findAll();
+
+        if (employees.isEmpty()) {
+            return null;
+        }
+
+        return employees.stream()
+                .map(employeeMapper::toDTO)
+                .toList();
     }
 
     @Override
+    public List<EmployeeDTO> getEmployeesByDepartment(String departmentName) {
+        return employeeRepository.findAllByDepartment_DepartmentName(departmentName)
+                .stream().map(employeeMapper::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<EmployeeDTO> getEmployeesByPosition(String positionName) {
+        return employeeRepository.findAllByPosition_PositionName(positionName)
+                .stream().map(employeeMapper::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<EmployeeDTO> getEmployeesByStatus(String statusName) {
+        return employeeRepository.findAllByStatus_StatusName(statusName)
+                .stream().map(employeeMapper::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<EmployeeDTO> getEmployeesBySupervisorId(Long supervisorId) {
+        return employeeRepository.findAllBySupervisor_EmployeeId(supervisorId)
+                .stream().map(employeeMapper::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<EmployeeDTO> getEmployeesBySupervisorName(String firstName, String lastName) {
+        return employeeRepository.findAllBySupervisor_FirstName_AndSupervisor_LastName(firstName, lastName)
+                .stream().map(employeeMapper::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<EmployeeDTO> getEmployeesByHiredBetween(LocalDate startDate, LocalDate endDate) {
+        return employeeRepository.findAllByHireDateBetween(startDate, endDate)
+                .stream().map(employeeMapper::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public EmployeeDTO updateEmployee(Long employeeID, EmployeeDTO employeeDTO) {
+        // Find the existing employee by ID
+        Employee employee = employeeRepository.findById(employeeID).orElseThrow(
+                () -> new RuntimeException("Employee not found with statusId: " + employeeDTO.employeeId())
+        );
+
+        employeeMapper.updateEntity(employeeDTO, employee);
+
+        return employeeMapper.toDTO(employeeRepository.save(employee));
+    }
+
+    @Override
+    @Transactional
     public void deleteEmployee(Long employeeID) {
-        Employee employee = getEmployeeById(employeeID);
+        Employee employee = employeeRepository.findById(employeeID).orElseThrow(
+                () -> new RuntimeException("EmployeeDTO not found with statusId: " + employeeID)
+        );
+
         employeeRepository.delete(employee);
     }
+
     @Override
     public void addNewEmployeesFromCSV(String employeeCSVPath) {
         //TODO: implement adding employees from CSV
-    }
-
-    //EMPLOYMENT SERVICES
-    @Override
-    public Employment addNewEmployment(Employment employmentDetails) {
-        return employmentRepository.save(employmentDetails);
-    }
-
-    @Override
-    public Employment getEmploymentByEmployeeId(Long employeeID) {
-        return employmentRepository.findById(employeeID).orElse(null);
-    }
-
-    @Override
-    public Employment updateEmployment(Employment employmentDetails) {
-        return employmentRepository.save(employmentDetails);
-    }
-
-    @Override
-    public void deleteEmployment(Long employeeID) {
-        employmentRepository.deleteById(employeeID);
-    }
-
-    //BENEFITS SERVICES
-    @Override
-    public void addNewBenefit(Benefits benefit) {
-        benefitsRepository.save(benefit);
-    }
-
-    @Override
-    public List<Benefits> getAllBenefits() {
-        return benefitsRepository.findAll();
-    }
-
-    @Override
-    public List<Benefits> getAllBenefitsByEmployeeId(Long employeeId) {
-        return benefitsRepository.findAllById(Collections.singleton(employeeId));
-    }
-
-    @Override
-    public Benefits getBenefitById(Long benefitId) {
-        return benefitsRepository.findById(benefitId).orElse(null);
-    }
-
-    @Override
-    public Benefits updateBenefit(Benefits updatedBenefit) {
-        return benefitsRepository.save(updatedBenefit);
-    }
-
-    @Override
-    public void deleteBenefit(Long benefitId) {
-        benefitsRepository.deleteById(benefitId);
-    }
-
-    @Override
-    public void deleteBenefitsByEmployeeId(Long employeeId) {
-        benefitsRepository.deleteAllById(Collections.singleton(employeeId));
-    }
-
-    //GOVERNMENT ID SERVICES
-    @Override
-    public GovernmentId addNewGovernmentId(GovernmentId governmentIdDetails) {
-        return governmentIdRepository.save(governmentIdDetails);
-    }
-
-    @Override
-    public List<GovernmentId> getAllGovernmentIdByEmployeeId(Long employeeID) {
-        return governmentIdRepository.findAllById(Collections.singleton(employeeID));
-    }
-
-    @Override
-    public GovernmentId updateGovernmentId(GovernmentId governmentIdDetails) {
-        return governmentIdRepository.save(governmentIdDetails);
-    }
-
-    @Override
-    public void deleteGovernmentId(Long governmentId) {
-        governmentIdRepository.deleteById(governmentId);
     }
 }
