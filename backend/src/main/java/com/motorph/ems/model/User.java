@@ -1,48 +1,62 @@
 package com.motorph.ems.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-@Getter @Setter
-@Entity @Table(name = "user")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Entity
+@Table(name = "`user`")
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
-    private Long employeeId;
+    @OneToOne
+    @JoinColumn(name = "employee_id")
+    private Employee employee;
 
     @ManyToOne
-    @JoinColumn(name = "role_id")
+    @JoinColumn(name = "role_id", nullable = false)
     private Role role;
 
+    @Column(nullable = false, unique = true)
     private String username;
-    private String salt;
-    private String password;
-    private LocalDate createdAt;
-    private LocalDate lastModified;
 
-    public User() {}
+    @Column(nullable = false)
+    private String salt;
+
+    @Column(nullable = false)
+    private String password;
+
+    @Column(nullable = false)
+    private LocalDateTime createdAt;
+
+    @Column(nullable = false)
+    private LocalDateTime lastModified;
 
     public User(
             Long employeeId,
-            Role role,
+            int roleId,
             String username,
-            String password) {
-        this.employeeId = employeeId;
-        this.role = role;
-        this.username = username;
-        this.password = password;
+            String password,
+            LocalDateTime createdAt,
+            LocalDateTime lastModified) {
     }
 
     @Override
     public String toString() {
         return "User{" +
                 "userId=" + userId +
-                ", employeeId=" + employeeId +
+                ", supervisorId=" + employee.getEmployeeId() +
                 ", role=" + role +
                 ", username='" + username + '\'' +
                 ", salt='" + salt.hashCode() + '\'' +
@@ -52,17 +66,22 @@ public class User {
                 '}';
     }
 
-    @Getter @Setter
-    @Entity @Table(name = "user_role")
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    @Entity
+    @Table(name = "user_role")
     public static class Role {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private int userRoleId;
-        private String role;
+        private String roleName;
 
         @Override
         public String toString() {
-            return role;
+            return roleName;
         }
     }
 }
+
