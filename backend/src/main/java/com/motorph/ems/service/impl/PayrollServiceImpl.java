@@ -1,8 +1,12 @@
 package com.motorph.ems.service.impl;
 
 import com.motorph.ems.dto.PayrollDTO;
+import com.motorph.ems.model.Benefits;
+import com.motorph.ems.model.Employee;
 import com.motorph.ems.model.LeaveRequest;
 import com.motorph.ems.model.Payroll;
+import com.motorph.ems.repository.AttendanceRepository;
+import com.motorph.ems.repository.EmployeeRepository;
 import com.motorph.ems.repository.PayrollRepository;
 import com.motorph.ems.service.PayrollService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,20 +21,23 @@ import java.util.stream.Collectors;
 public class PayrollServiceImpl implements PayrollService {
 
     private final PayrollRepository payrollRepository;
+    private final EmployeeRepository employeeRepository;
+    private final AttendanceRepository attendanceRepository;
 
     @Autowired
-    public PayrollServiceImpl(PayrollRepository payrollRepository) {
+    public PayrollServiceImpl(
+            PayrollRepository payrollRepository,
+            EmployeeRepository employeeRepository,
+            AttendanceRepository attendanceRepository
+    ) {
         this.payrollRepository = payrollRepository;
+        this.employeeRepository = employeeRepository;
+        this.attendanceRepository = attendanceRepository;
     }
 
     @Override
     public Payroll addNewPayroll(Payroll payroll) {
         return payrollRepository.save(payroll);
-    }
-
-    @Override
-    public void batchAddPayroll() {
-
     }
 
     @Override
@@ -103,5 +110,31 @@ public class PayrollServiceImpl implements PayrollService {
         dto.setNetIncome(payroll.getNetIncome());
         dto.setDeductions(payroll.getDeductions());
         return dto;
+    }
+
+
+    @Override
+    public void batchGeneratePayroll(LocalDate periodStart, LocalDate periodEnd) {
+        List<Employee> employees = employeeRepository.findAll();
+
+        for (Employee employee : employees) {
+            Long presentCount = attendanceRepository
+                    .countPresentAttendancesByEmployeeId(employee.getEmployeeId(), periodStart, periodEnd);
+            Long overtimeHours = attendanceRepository
+                    .sumOvertimeHoursByEmployeeId(employee.getEmployeeId(), periodStart, periodEnd);
+            double hourlyRate = employee.getEmployment().getHourlyRate();
+            double dailyRate = hourlyRate * 8;
+
+            List<Benefits> benefits = employee.getBenefits();
+
+            Payroll payroll = new Payroll();
+            payroll.setEmployee(employee);
+            payroll.setPeriodStart(periodStart);
+            payroll.setPeriodEnd(periodEnd);
+            payroll.setMonthlyRate(dailyRate * presentCount);
+            payroll.setDailyRate(dailyRate);
+            payroll.setOvertimePay(hourlyRate * overtimeHours);
+            payroll.setGrossIncome(hourlyRate * overtimeHours);
+        }
     }
 }

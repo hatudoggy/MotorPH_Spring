@@ -5,13 +5,17 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Colors } from "../constants/Colors";
 import PopupState, { bindMenu, bindTrigger } from "material-ui-popup-state";
 import { useEffect, useState } from "react";
+import { useAuth } from "../hooks/AuthProvider";
+import { API, BASE_API } from "../constants/Api";
+import { useQuery } from "@tanstack/react-query";
 
 
 interface Props {
-  role: 'employee' | 'hr' | 'admin'
+  role: UserRole
 }
 
 export default function Sidebar({role}: Props) {
+
 
   const employeeItems: SidebarItem[] = [
     {label: "Dashboard", link: "dashboard", IconActive: Dashboard, IconOutlined: DashboardOutlined},
@@ -176,9 +180,24 @@ function SidebarItem({label, link, active, IconActive, IconOutlined }: SidebarIt
 
 function AccountButton() {
 
-  const handleLogout = () => {
+  const {logout, authUser} = useAuth()
+  const employeeId = authUser?.employeeId
 
+  const fetchEmployee = async() => {
+    const {EMPLOYEES} = API
+    const res = await fetch(BASE_API + EMPLOYEES.BASE + employeeId)
+    return res.json();
   }
+
+  const {isPending, data} = useQuery<EmployeeRes>({
+    queryKey: ['profile'],
+    queryFn: fetchEmployee
+  })
+
+  const handleLogout = () => {
+    logout()
+  }
+
 
   return(
     <PopupState variant="popover">
@@ -197,8 +216,12 @@ function AccountButton() {
               <Avatar />
             </ListItemIcon>
             <Stack maxWidth='100%'>
-              <Typography>John Smith</Typography>
-              <Typography variant="caption" noWrap>johnsmith@email.com</Typography>
+              <Typography noWrap maxWidth={150}>
+                {
+                  `${data?.firstName.split(" ")[0]} ${data?.lastName}`
+                }
+                </Typography>
+              <Typography variant="caption" noWrap>{`${data?.employment.position.positionName}`}</Typography>
             </Stack>
           </MenuItem>
           <Menu 

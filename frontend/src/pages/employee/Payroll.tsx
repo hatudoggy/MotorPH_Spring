@@ -7,9 +7,9 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { formatterWhole } from "../../utils/utils";
+import { useAuth } from "../../hooks/AuthProvider";
 
 
-const employeeId = 1
 
 export default function Payroll() {
 
@@ -32,6 +32,9 @@ export default function Payroll() {
 
 function PayrollMonthList() {
 
+  const {authUser} = useAuth()
+  const employeeId = authUser?.employeeId
+
   const [selectedPayroll, setSelectedPayroll] = useState<number | null>(null)
 
   const fetchPayroll = async() => {
@@ -44,6 +47,8 @@ function PayrollMonthList() {
     queryKey: ['payrolls'],
     queryFn: fetchPayroll
   })
+  
+  console.log(data)
 
   return(
     <Stack flex={1} gap={2}>

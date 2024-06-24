@@ -6,6 +6,7 @@ import { API, BASE_API } from "../../constants/Api";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { LineChart, areaElementClasses } from "@mui/x-charts";
 
 
 export default function HRPayrolls() {
@@ -20,7 +21,7 @@ export default function HRPayrolls() {
   }
 
   const {isPending, data} = useQuery<number[]>({
-    queryKey: ['payrolls'],
+    queryKey: ['payrollYears'],
     queryFn: fetchPayrollYears
   })
 
@@ -30,6 +31,18 @@ export default function HRPayrolls() {
     }
   }, [data])
 
+  const pData = [2400, 1398, 9800, 3908, 4800, 3800, 4300];
+  const amtData = [2400, 2210, 0, 2000, 2181, 2500, 2100];
+  const xLabels = [
+    'Page A',
+    'Page B',
+    'Page C',
+    'Page D',
+    'Page E',
+    'Page F',
+    'Page G',
+  ];
+
   return(
     <Container
       sx={{
@@ -38,7 +51,31 @@ export default function HRPayrolls() {
     >
       <Stack height='100%'>
         <Headertext>HR Payroll</Headertext>
-        <Stack gap={2} flex={1}>
+        <Stack>
+          <Widget variant="outlined" sx={{width: 'min-content'}}>
+            <LineChart 
+              width={500}
+              height={200}
+              series={[
+                { data: pData, label: 'Deductions', area: true, stack: 'total', showMark: true },
+                {
+                  data: amtData,
+                  label: 'Earnings',
+                  area: true,
+                  stack: 'total',
+                  showMark: true,
+                },
+              ]}
+              xAxis={[{ scaleType: 'point', data: xLabels }]}
+              sx={{
+                [`& .${areaElementClasses.root}`]: {
+                  opacity: 0.2
+                },
+              }}
+            />
+          </Widget>
+        </Stack>
+        <Stack gap={2} flex={1} mt={2}>
           <Stack
             direction='row'
             justifyContent='space-between'
@@ -99,7 +136,7 @@ function PayrollMonthList({filterYear, setFilterMonth}: PayrollMonthList) {
   }
 
   const {isPending, data} = useQuery<string[]>({
-    queryKey: ['payrolls', filterYear],
+    queryKey: ['payrollMonths', filterYear],
     queryFn: fetchPayrollYears,
     enabled: !!filterYear
   })
@@ -186,7 +223,7 @@ function PayrollTable({filterMonth}: PayrollTable) {
   }
 
   const {isPending, data} = useQuery<PayrollRes[]>({
-    queryKey: ['payrolls', filterMonth],
+    queryKey: ['payrollAll', filterMonth],
     queryFn: fetchPayrollMonths,
     enabled: !!filterMonth
   })

@@ -1,8 +1,31 @@
-import { Whatshot } from "@mui/icons-material";
-import { Button, Container, Paper, Stack, TextField, Typography } from "@mui/material";
+import { Visibility, VisibilityOff, Whatshot } from "@mui/icons-material";
+import { Button, Container, IconButton, InputAdornment, Paper, Stack, TextField, TextFieldProps, Typography } from "@mui/material";
+import { useState } from "react";
+import { useAuth } from "../hooks/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 
 export default function Login() {
+
+  const {login} = useAuth()
+
+  const navigate = useNavigate()
+
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
+  const [isError, setIsError] = useState(false)
+
+
+  const handleLogin = async() => {
+    const auth = await login(username, password)
+    if(auth) {
+      navigate('../dashboard')
+    } else {
+      setIsError(true)
+    }
+  }
+
+
 
   return(
     <Container
@@ -25,9 +48,14 @@ export default function Login() {
             <Stack gap={1.5}>
               <TextField
                 label="Username"
+                value={username}
+                onChange={(e)=>setUsername(e.target.value)}
               />
-              <TextField
+              <PasswordField
                 label="Password"
+                value={password}
+                type="password"
+                onChange={(e)=>setPassword(e.target.value)}
               />
             </Stack>
             <Button 
@@ -35,6 +63,7 @@ export default function Login() {
               sx={{
                 py: 1
               }}
+              onClick={handleLogin}
             >
               Login
             </Button>
@@ -42,5 +71,30 @@ export default function Login() {
         </Paper>
       </Stack>
       </Container>
+  )
+}
+
+
+type PasswordField = {} & TextFieldProps
+
+function PasswordField({ InputProps, ...props}: PasswordField) {
+
+  const [show, setShow] = useState(false)
+
+  return(
+    <TextField
+      {...props}
+      InputProps={{
+        endAdornment: (
+          <InputAdornment position="end">
+            <IconButton onClick={()=>setShow(!show)}>
+              {show ? <Visibility /> : <VisibilityOff />}
+            </IconButton>
+          </InputAdornment>
+        ),
+        ...InputProps
+      }}
+      type={show ? "text" : "password"}
+    />
   )
 }

@@ -11,7 +11,6 @@ import lombok.Setter;
 public class GovernmentId {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long employeeId;
     private String sssNo;
     private String philHealthNo;
@@ -19,7 +18,8 @@ public class GovernmentId {
     private String tinNo;
 
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @MapsId
     @JoinColumn(name = "employee_id", nullable = false)
     @JsonBackReference
     private Employee employee;

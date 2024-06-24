@@ -6,6 +6,7 @@ import com.motorph.ems.model.*;
 import com.motorph.ems.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,7 +54,7 @@ public class EmployeeController {
         this.payrollService = payrollService;
     }
 
-    @PostMapping("/register")
+    @PostMapping
     public void registerEmployee(@RequestBody Employee employee) {
         employeeService.addNewEmployee(employee);
     }

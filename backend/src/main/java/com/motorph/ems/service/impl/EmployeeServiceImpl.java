@@ -42,6 +42,9 @@ public class EmployeeServiceImpl implements EmployeeService, EmploymentService, 
 
     @Override
     public void addNewEmployee(Employee employee) {
+        System.out.println(employee.getEmployment().getSupervisor().getId());
+        Employee supervisor = employeeRepository.findById(employee.getEmployment().getSupervisor().getId()).orElse(null);
+        employee.getEmployment().setSupervisor(supervisor);
         employeeRepository.save(employee);
     }
 

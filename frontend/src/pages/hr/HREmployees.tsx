@@ -1,17 +1,21 @@
-import { Avatar, Box, Button, Card, CardActionArea, CardContent, Chip, CircularProgress, Container, Dialog, DialogContent, IconButton, InputAdornment, Paper, Stack, Tab, Tabs, TextField, Typography } from "@mui/material";
+import { Autocomplete, Avatar, Box, Button, Card, CardActionArea, CardContent, Chip, CircularProgress, Container, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, IconButton, InputAdornment, InputLabel, ListItemIcon, ListItemText, Menu, MenuItem, Paper, PaperProps, Select, SelectProps, Stack, StackProps, SvgIconTypeMap, Tab, Tabs, TextField, Typography, styled } from "@mui/material";
 import Headertext from "../../components/HeaderText";
 import Labeled from "../../components/Labeled";
-import { Add, ArrowBack, Call, FileCopy, LocalPhone, Search } from "@mui/icons-material";
+import { Add, ArrowBack, Badge, Call, Edit, FileCopy, LocalPhone, MoreVert, Payments, Person, Phone, Search, Work } from "@mui/icons-material";
 import { Shadows } from "../../constants/Shadows";
 import { API, BASE_API } from "../../constants/Api";
 import axios from "axios";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { ReactNode, useEffect, useState } from "react";
 import { useDebounce } from "@uidotdev/usehooks";
-import { TabContext, TabList, TabPanel } from "@mui/lab";
+import { DatePickerProps, TabContext, TabList, TabPanel } from "@mui/lab";
 import ReadonlyTextField from "../../components/ReadOnlyTextField";
 import { calculateAge, formatterWhole, idformatter } from "../../utils/utils";
-
+import PopupState, { bindMenu, bindTrigger } from "material-ui-popup-state";
+import { useForm, SubmitHandler, UseFormRegister, FieldValues, Controller, Control, Path, useFormState, UseFormWatch, UseFormSetValue } from "react-hook-form"
+import { OverridableComponent } from "@mui/material/OverridableComponent";
+import { DatePicker } from "@mui/x-date-pickers";
+import { format } from "date-fns";
 
 export default function HREmployees() {
 
@@ -35,12 +39,21 @@ export default function HREmployees() {
   })
 
   const [openSelectDialog, setOpenSelectDialog] = useState(false)
+  const [openCUDialog, setOpenCUDialog] = useState<null | 'add' | 'edit'>(null)
   const [selectedEmployee, setSelectedEmployee] = useState<number | null>(null)
 
   const handleSelectEmployee = (employeeId: number) => {
     setOpenSelectDialog(true)
     setSelectedEmployee(employeeId)
   }
+
+  const handleCUEmployee = (type: 'add' | 'edit', employeeId?: number ) => {
+    setOpenCUDialog(type)
+    if(employeeId){
+      setSelectedEmployee(employeeId)
+    }
+  }
+
 
   return(
     <>
@@ -85,6 +98,7 @@ export default function HREmployees() {
                 variant="contained"
                 startIcon={<Add />}
                 disableElevation
+                onClick={()=>handleCUEmployee("add")}
               >
                 New Employee
               </Button>
@@ -103,6 +117,7 @@ export default function HREmployees() {
                     contactNo={item.contacts[0].contactNo}
                     status={item.employment.status}
                     onClick={()=>handleSelectEmployee(item.employeeId)}
+                    onEdit={()=>handleCUEmployee("edit", item.employeeId)}
                   />
                 )
                 :
@@ -129,6 +144,25 @@ export default function HREmployees() {
       >
         <EmployeeDetailsDialog selectedEmployee={selectedEmployee} onClose={()=>setOpenSelectDialog(false)}/>
       </Dialog>
+      <Dialog
+        open={openCUDialog !== null}
+        onClose={()=>setOpenCUDialog(null)}
+        TransitionProps={{
+          onExit: ()=>setSelectedEmployee(null)
+        }}
+        fullWidth
+        maxWidth="xs"
+        PaperProps={{
+          sx: {
+            borderRadius: 3,
+          }
+        }}
+      >
+        {
+          openCUDialog &&
+            <EmployeeFormDialog type={openCUDialog} selectedId={selectedEmployee} onClose={()=>setOpenCUDialog(null)}/>
+        }
+      </Dialog>
     </>
   )
 }
@@ -142,10 +176,11 @@ interface EmployeeCard {
   contactNo: string
   status: Status
   onClick: () => void
+  onEdit: () => void
 }
 
 
-function EmployeeCard({name, position, department, hireDate, contactNo, status, onClick}: EmployeeCard) {
+function EmployeeCard({name, position, department, hireDate, contactNo, status, onClick, onEdit}: EmployeeCard) {
 
   const statusColor: Record<number, string> = {
     1: "#66bb6a", //Green
@@ -163,9 +198,54 @@ function EmployeeCard({name, position, department, hireDate, contactNo, status, 
       //variant="outlined"
       sx={{
         borderRadius: 3,
-        boxShadow: Shadows.l1
+        boxShadow: Shadows.l1,
+        position: 'relative'
       }}
     >
+      <Stack 
+        direction='row' 
+        justifyContent='end' 
+        gap={0.5}
+        position='absolute'
+        right={5}
+        top={9}
+        zIndex={5}
+      >
+        <PopupState variant="popover">
+          {(popstate) => (
+            <>
+              <IconButton size="small" {...bindTrigger(popstate)}>
+                <MoreVert fontSize="small"/>
+              </IconButton>
+              <Menu 
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'right',
+                }}
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                {...bindMenu(popstate)}
+              >
+                <MenuItem 
+                  sx={{
+                    minWidth: 130
+                  }}
+                  onClick={()=>{onEdit(); popstate.close()}}
+                >
+                  <ListItemIcon>
+                    <Edit />
+                  </ListItemIcon>
+                  <ListItemText>
+                    Edit
+                  </ListItemText>
+                </MenuItem>
+              </Menu>
+            </>
+          )}
+        </PopupState>
+      </Stack>
       <CardActionArea onClick={onClick}>
         <CardContent
           sx={{
@@ -173,7 +253,11 @@ function EmployeeCard({name, position, department, hireDate, contactNo, status, 
             p: 1.5,
           }}
         >
-          <Stack direction='row' justifyContent='end'>
+          <Stack 
+            direction='row' 
+            justifyContent='end' 
+            mr={3}
+          >
             <Chip 
               size="small" 
               label={status.status}
@@ -420,3 +504,639 @@ function EmployeeDetailsDialog({selectedEmployee, onClose}: EmployeeDetailsDialo
     </>
   )
 }
+
+
+interface EmployeeFormDialog {
+  type: 'add' | 'edit'
+  selectedId?: number | null
+  onClose: () => void
+}
+
+interface BenifitInput {
+  amount: number
+  type: number
+}
+
+interface Inputs {
+  firstName: string
+  lastName: string
+  dob: Date | null
+  address: string
+
+  contacts: string[]
+  benefits: BenifitInput[]
+
+  departmentCode: string
+  positionCode: string
+  statusId: string
+  supervisor: TextCompleteOption | null
+  hireDate: Date | null
+  
+  sssNo: string
+  philHealthNo: string
+  pagIbigNo: string
+  tinNo: string
+
+  basicSalary: number
+  semiMonthlyRate: number
+  hourlyRate: number
+}
+
+function EmployeeFormDialog({type, selectedId, onClose}: EmployeeFormDialog) {
+
+  const queryClient = useQueryClient()
+
+  const fetchEmployee = async() => {
+    const {EMPLOYEES} = API
+    if(selectedId){
+      const res = await axios.get(BASE_API + EMPLOYEES.BASE + selectedId)
+      return res.data;
+    } else {
+      return null
+    }
+  }
+
+  const {isPending, data} = useQuery<EmployeeRes>({
+    queryKey: ['employeeEdit', selectedId],
+    queryFn: fetchEmployee,
+    enabled: !!selectedId
+  })
+
+  const supervisorData = data ? {
+    value: data?.employment.supervisor.id,
+    label: `${data?.employment.supervisor.firstName} ${data?.employment.supervisor.lastName}`
+  } : null
+
+  const {
+    register,
+    control,
+    watch,
+    setValue,
+    handleSubmit,
+    reset
+  } = useForm<Inputs>({
+    defaultValues: {
+      firstName: data?.firstName || "",
+      lastName: data?.lastName || "",
+      dob: data?.dob ? new Date(data.dob) : null,
+      address: data?.address || "",
+    
+      contacts: [],
+      benefits: data?.benefits || [],
+    
+      departmentCode: data?.employment.department.departmentCode || "",
+      positionCode: data?.employment.position.positionCode || "",
+      statusId: data?.employment.status.statusId.toString() || "",
+      supervisor: supervisorData || null,
+      hireDate: data?.dob ? new Date(data.employment.hireDate) : null,
+      
+      sssNo: data?.governmentId.sssNo || "",
+      philHealthNo: data?.governmentId.philHealthNo || "",
+      pagIbigNo: data?.governmentId.pagIbigNo || "",
+      tinNo: data?.governmentId.tinNo || "",
+    
+      basicSalary: data?.employment.basicSalary || 0,
+      semiMonthlyRate: data?.employment.semiMonthlyRate || 0,
+      hourlyRate: data?.employment.hourlyRate || 0,
+    }
+  })
+
+  useEffect(()=>{
+    if(selectedId && !isPending && data) {
+      reset({
+        firstName: data.firstName || "",
+        lastName: data.lastName || "",
+        dob: data.dob ? new Date(data.dob) : null,
+        address: data.address || "",
+      
+        contacts: [],
+        benefits: data.benefits || [],
+      
+        departmentCode: data.employment.department.departmentCode || "",
+        positionCode: data.employment.position.positionCode || "",
+        statusId: data.employment.status.statusId.toString() || "",
+        supervisor: supervisorData || null,
+        hireDate: data.dob ? new Date(data.employment.hireDate) : null,
+        
+        sssNo: data.governmentId.sssNo || "",
+        philHealthNo: data.governmentId.philHealthNo || "",
+        pagIbigNo: data.governmentId.pagIbigNo || "",
+        tinNo: data.governmentId.tinNo || "",
+      
+        basicSalary: data.employment.basicSalary || 0,
+        semiMonthlyRate: data.employment.semiMonthlyRate || 0,
+        hourlyRate: data.employment.hourlyRate || 0,
+      })
+    }
+  }, [data, isPending])
+
+
+  const addEmployee = async (employee: EmployeeReq) => {
+    const {EMPLOYEES } = API
+    const res = await axios.post(BASE_API + EMPLOYEES.ALL, employee);
+    return res.data;
+  }
+
+  const useAddEmployee = useMutation({
+    mutationFn: addEmployee,
+    onSettled: async () => {
+      return await queryClient.invalidateQueries({ queryKey: ['employeesAll']})
+    }
+  })
+
+  const editEmployee = async (employee: EmployeeReq) => {
+    const {EMPLOYEES } = API
+    const res = await axios.patch(BASE_API + EMPLOYEES.BASE + selectedId, employee);
+    return res.data;
+  }
+
+  const useEditEmployee = useMutation({
+    mutationFn: editEmployee,
+    onSettled: async () => {
+      return await queryClient.invalidateQueries({ queryKey: ['employeesAll']})
+    }
+  })
+
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    const formData: EmployeeReq = {
+      lastName: data.lastName,
+      firstName: data.firstName,
+      dob: data.dob ? format(data.dob, 'yyyy-MM-dd') : "",
+      address: data.address,
+        contacts: [
+        {
+          contactNo: "1234567890"
+        }
+      ],
+      benefits: [
+        {
+          amount: 1500,
+          benefitType: {
+            benefitTypeId: 1
+          }
+        },
+        {
+          amount: 2000,
+          benefitType: {
+            benefitTypeId: 2
+          }
+        }
+      ],
+      employment: {
+        department: {
+          departmentCode: data.departmentCode
+        },
+        position: {
+          positionCode: data.positionCode
+        },
+        status: {
+          statusId: Number(data.statusId)
+        },
+        hireDate: data.hireDate ? format(data.hireDate, 'yyyy-MM-dd') : "",
+        basicSalary: data.basicSalary,
+        semiMonthlyRate: data.semiMonthlyRate,
+        hourlyRate: data.hourlyRate,
+        supervisor: {
+          employeeId: Number(data.supervisor?.value)
+        }
+      },
+      governmentId: {
+        sssNo: data.sssNo,
+        philHealthNo: data.philHealthNo,
+        pagIbigNo: data.pagIbigNo,
+        tinNo: data.tinNo
+      }
+    }
+
+    if(selectedId){
+      const formDataWId: EmployeeReq = {
+        employeeId: selectedId,
+        ...formData
+      }
+      useEditEmployee.mutate(formDataWId)
+    } else {
+      useAddEmployee.mutate(formData)
+    }
+
+    onClose()
+  }
+
+  return(
+    <>
+      <DialogTitle textTransform='capitalize'>
+        {`${type} Employee`}
+      </DialogTitle>
+      <DialogContent>
+          <Stack mb={4} gap={3}>
+            <BasicInfoArea register={register} control={control} selectedId={selectedId}/>
+            {/* <ContactNumbersArea register={register} control={control}/> */}
+            <EmploymentInfoArea register={register} control={control} watch={watch} setValue={setValue}/>
+            <ContributionIdsArea register={register} control={control} selectedId={selectedId}/>
+            <SalaryBenefitsArea register={register} control={control} />
+          </Stack>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onClose}>Cancel</Button>
+        <Button variant="contained" onClick={handleSubmit(onSubmit)}>Save</Button>
+      </DialogActions>
+    </>
+  )
+}
+
+interface FormArea {
+  register: UseFormRegister<Inputs>
+  control: Control<Inputs, any>
+  watch?: UseFormWatch<Inputs>
+  setValue?: UseFormSetValue<Inputs>
+  selectedId?: number | null
+}
+
+function BasicInfoArea({register, control, selectedId}: FormArea) {
+
+  return(
+    <Box>
+      <HeadIcon Icon={Person}>Basic Info</HeadIcon>
+      <FormWidget>
+        <TextField 
+          {...register("firstName")}
+          label="First Name"
+          variant="standard"
+          fullWidth
+          InputLabelProps={{ shrink: true }}  
+        />
+        <TextField 
+          {...register("lastName")}
+          label="Last Name"
+          variant="standard"
+          fullWidth
+          InputLabelProps={{ shrink: true }}  
+        />
+        <DateSelect 
+          label="Birth Date"
+          control={control}
+          name="dob"
+        />
+        <TextField 
+          {...register("address")}
+          label="Address"
+          variant="standard"
+          fullWidth
+          InputLabelProps={{ shrink: true }}  
+        />
+      </FormWidget>
+    </Box>
+  )
+}
+
+function ContactNumbersArea({register}: FormArea) {
+
+  return(
+    <Box>
+      <HeadIcon Icon={Phone}>Contact Numbers</HeadIcon>
+      <FormWidget>
+
+      </FormWidget>
+    </Box>
+  )
+}
+
+function EmploymentInfoArea({control, watch, setValue}: FormArea) {
+
+  const departmentCode = watch && watch("departmentCode")
+
+  const fetchAllDepartments = async() => {
+    const {COMPANY} = API
+    const res = await axios.get(BASE_API + COMPANY.DEPARTMENTS)
+    return res.data;
+  }
+  const departments = useQuery<Department[]>({
+    queryKey: ['departments'],
+    queryFn: fetchAllDepartments
+  })
+
+  const fetchAllPositions = async() => {
+    const {COMPANY} = API
+    const res = await axios.get(BASE_API + COMPANY.POSITIONS, {
+      params: {
+        department: departmentCode || ''
+      }
+    })
+    return res.data;
+  }
+  const positions = useQuery<(Position & {departmentCode: string})[]>({
+    queryKey: ['positions', departmentCode],
+    queryFn: fetchAllPositions,
+    enabled: !!departmentCode
+  })
+
+  const fetchAllStatuses = async() => {
+    const {COMPANY} = API
+    const res = await axios.get(BASE_API + COMPANY.STATUSES)
+    return res.data;
+  }
+  const statuses = useQuery<Status[]>({
+    queryKey: ['statuses'],
+    queryFn: fetchAllStatuses
+  })
+
+
+
+  const fetchSupervisors = async() => {
+    const {EMPLOYEES} = API
+    const res = await axios.get(BASE_API + EMPLOYEES.ALL)
+    return res.data;
+  }
+
+  const supervisors = useQuery<EmployeeRes[]>({
+    queryKey: ['supervisors'],
+    queryFn: fetchSupervisors,
+    placeholderData: keepPreviousData
+  })
+
+  const departmentOptions = departments.data 
+    && departments.data.map(({departmentCode, departmentName})=>({value: departmentCode, label: departmentName}))
+
+  const positionOptions = positions.data 
+    && positions.data.map(({positionCode, positionName})=>({value: positionCode, label: positionName}))
+
+  const statusOptions = statuses.data 
+    && statuses.data.map(({statusId, status})=>({value: statusId, label: status}))
+
+  const supervisorOptions = supervisors.data
+    && supervisors.data.map(({employeeId, firstName, lastName}) => ({value: employeeId, label:`${firstName} ${lastName}`}))
+
+  return(
+    <Box>
+      <HeadIcon Icon={Work}>Employment Info</HeadIcon>
+      <FormWidget>
+        <Dropdown 
+          variant="standard"
+          label="Department"
+          options={departmentOptions || []}
+          changeTrigger={()=>{setValue && setValue('positionCode', '')}}
+          control={control}
+          name="departmentCode"
+        />
+        <Dropdown 
+          variant="standard"
+          label="Position"
+          options={positionOptions || []}
+          disabled={!departmentCode}
+          control={control}
+          name="positionCode"
+        />
+        <TextComplete 
+          name="supervisor"
+          control={control}
+          label="Supervisor"
+          options={supervisorOptions || []}
+        />
+        <DateSelect 
+          label="Hire Date"
+          control={control}
+          name="hireDate"
+        />
+        <Dropdown 
+          variant="standard"
+          label="Employment Status"
+          options={statusOptions || []}
+          control={control}
+          name="statusId"
+        />
+      </FormWidget>
+    </Box>
+  )
+}
+
+function ContributionIdsArea({register, selectedId}: FormArea) {
+
+  return(
+    <Box>
+      <HeadIcon Icon={Badge}>Contribution Ids</HeadIcon>
+      <FormWidget>
+        <TextField 
+          {...register("tinNo")}
+          label="Tin Number"
+          variant="standard"
+          fullWidth
+          InputLabelProps={{ shrink: true }}  
+        />
+        <TextField 
+          {...register("sssNo")}
+          label="SSS Number"
+          variant="standard"
+          fullWidth
+          InputLabelProps={{ shrink: true }}  
+        />
+        <TextField 
+          {...register("philHealthNo")}
+          label="Philhealth Number"
+          variant="standard"
+          fullWidth
+          InputLabelProps={{ shrink: true }}  
+        />
+        <TextField 
+          {...register("pagIbigNo")}
+          label="Pagibig Number"
+          variant="standard"
+          fullWidth
+          InputLabelProps={{ shrink: true }}  
+        />
+      </FormWidget>
+    </Box>
+  )
+}
+
+function SalaryBenefitsArea({register}: FormArea) {
+
+  return(
+    <Box>
+      <HeadIcon Icon={Payments}>Salary & Benefits</HeadIcon>
+      <FormWidget>
+        <TextField 
+          {...register("basicSalary")}
+          label="Basic Salary"
+          variant="standard"
+          fullWidth
+          InputLabelProps={{ shrink: true }}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <Typography>₱</Typography>
+              </InputAdornment>
+            )
+          }}
+        />
+      </FormWidget>
+    </Box> 
+  )
+}
+
+
+
+
+interface DropdownOptions {
+  value: any
+  label: string
+}
+
+type Dropdown<T extends FieldValues> = {
+  options: DropdownOptions[];
+  control: Control<T>;
+  name: Path<T>;
+  changeTrigger?: () => void
+} & SelectProps;
+
+
+function Dropdown<T extends FieldValues>({options, control, name, changeTrigger, ...props}: Dropdown<T>) {
+
+  return(
+    <FormControl>
+      <InputLabel variant={props.variant} shrink={true}>{props.label}</InputLabel>
+      <Controller 
+        control={control}
+        name={name}
+        render={({field}) => (
+          <Select
+            {...props}
+            {...field}
+            
+            value={field.value || ''}
+            onChange={(e)=> {
+              field.onChange(e)
+              if(changeTrigger){
+                changeTrigger()
+              }
+            }}
+            sx={{
+              "& .MuiSelect-select": {
+                bgcolor: "transparent",
+              },
+              ...props.sx
+            }}
+          >
+            {
+              options.map((item, idx)=>
+                <MenuItem key={idx} value={item.value}>
+                  {item.label}
+                </MenuItem>
+              )
+            }
+          </Select>
+        )}
+      />
+
+    </FormControl>
+  )
+}
+
+interface TextCompleteOption {
+  label: string;
+  value: string | number;
+}
+
+interface TextCompleteProps<T extends FieldValues> {
+  name: Path<T>;
+  control: Control<T>;
+  label: string;
+  options: TextCompleteOption[];
+}
+
+function TextComplete<T extends FieldValues>({
+  name,
+  control,
+  label,
+  options,
+}: TextCompleteProps<T>) {
+  return (
+    <Controller
+      name={name}
+      control={control}
+      render={({ field: { onChange, value, ref } }) => (
+        <Autocomplete
+          options={options}
+          getOptionLabel={(option) => option.label}
+          onChange={(_, data) => onChange(data)}
+          value={value || null}
+          isOptionEqualToValue={(option, value) => option.value === value?.value}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label={label}
+              variant="standard"
+              inputRef={ref}
+              InputLabelProps={{ shrink: true }}  
+            />
+          )}
+        />
+      )}
+    />
+  );
+}
+
+
+interface DateSelectProps<T extends FieldValues> {
+  name: Path<T>;
+  control: Control<T>;
+  label: string;
+  datePickerProps?: Partial<DatePickerProps<Date>>;
+}
+
+function DateSelect<T extends FieldValues>({
+  name,
+  control,
+  label,
+  datePickerProps,
+}: DateSelectProps<T>) {
+  return (
+    <Controller
+      name={name}
+      control={control}
+      render={({ field: { onChange, value }}) => (
+        <DatePicker
+          {...datePickerProps}
+          value={value || null}
+          onChange={(date) => onChange(date)}
+          label={label}
+          slotProps={{
+            textField: {
+              variant: 'standard',
+              InputLabelProps: { shrink: true }  
+            },
+          }}
+        />
+      )}
+    />
+  );
+}
+
+
+
+
+interface HeadIcon {
+  children: ReactNode
+  Icon: OverridableComponent<SvgIconTypeMap<{}, "svg">> & {muiName: string;}
+}
+
+function HeadIcon({children, Icon}: HeadIcon) {
+
+  return(
+    <Stack direction='row' alignItems='center' gap={0.8} mb={0.5}>
+      <Icon fontSize="small"/>
+      <Typography fontWeight={500}>{children}</Typography>
+    </Stack>
+  )
+}
+
+
+const FormWidget = styled(Stack)<StackProps>(({}) => ({
+  gap: 12,
+  paddingLeft: 8,
+  paddingRight: 8,
+}))
+
+const Widget = styled(Paper)<PaperProps>(({}) => ({
+  flex: 1,
+  borderRadius: 12,
+  padding: 15,
+}))

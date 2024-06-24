@@ -26,5 +26,12 @@ export const API = {
   USERS: {
     BASE:  "/users/",
     ALL: "/users",
+    AUTH: "/users/authenticateUser"
   },
+  COMPANY: {
+    BASE: "/company",
+    POSITIONS: "/company/positions",
+    DEPARTMENTS: "/company/departments",
+    STATUSES: "/company/statuses",
+  }
 }

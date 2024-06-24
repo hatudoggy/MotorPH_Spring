@@ -10,8 +10,6 @@ import java.util.List;
 public interface PayrollService {
     Payroll addNewPayroll(Payroll payroll);
 
-    void batchAddPayroll();
-
     List<Payroll> getAllPayrolls();
 
     List<Payroll> getAllPayrollsByDate(LocalDate date);
@@ -33,4 +31,7 @@ public interface PayrollService {
     Payroll updatePayroll(Payroll payroll);
 
     void deletePayroll(Long payrollId);
+
+    void batchGeneratePayroll(LocalDate periodStart, LocalDate periodEnd);
+
 }

@@ -1,0 +1,23 @@
+meta {
+  name: Authenticate User
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:8080/api/users/authenticateUser
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "username": "RAlvaro10",
+    "password": "4eb57bb1a5d1f9bb3933bf4f87e578a9aeac90d28f471771d4ecce2ef570340a"
+  }
+}
+
+body:multipart-form {
+  username: MGarcia1
+  password: 5bcad36970c12fa4554380e92766bbf497a6efab2ed790eb100d1abf3fcaf944
+}

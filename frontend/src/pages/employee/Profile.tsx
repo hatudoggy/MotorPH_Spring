@@ -8,11 +8,14 @@ import { API, BASE_API } from "../../constants/Api";
 import { useQuery } from "@tanstack/react-query";
 import { calculateAge, formatterWhole, idformatter } from "../../utils/utils";
 import { Shadows } from "../../constants/Shadows";
+import { useAuth } from "../../hooks/AuthProvider";
 
 
-const employeeId = 1
 
 export default function Profile() {
+
+  const {authUser} = useAuth()
+  const employeeId = authUser?.employeeId
 
   const fetchEmployee = async() => {
     const {EMPLOYEES} = API
@@ -21,7 +24,7 @@ export default function Profile() {
   }
 
   const {isPending, data} = useQuery<EmployeeRes>({
-    queryKey: ['employee'],
+    queryKey: ['profile'],
     queryFn: fetchEmployee
   })
 

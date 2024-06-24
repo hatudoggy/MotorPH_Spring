@@ -69,3 +69,66 @@ interface GovernmentId {
   pagIbigNo: string
   tinNo: string
 }
+
+
+
+//POST
+interface EmployeeReq {
+  employeeId?: number
+  firstName: string
+  lastName: string
+  dob: string
+  address: string
+  contacts: ContactsReq[]
+  benefits: BenefitsReq[]
+  employment: EmploymentReq
+  governmentId: GovernmentIdReq
+}
+
+
+interface ContactsReq {
+  contactNo: string
+}
+
+interface BenefitsReq {
+  amount: number
+  benefitType: BenefitTypeReq
+}
+
+interface BenefitTypeReq {
+  benefitTypeId: number
+}
+
+interface EmploymentReq {
+  department: DepartmentReq
+  position: PositionReq
+  status: StatusReq
+  supervisor: SupervisorReq
+  hireDate: string
+  basicSalary: number
+  semiMonthlyRate: number
+  hourlyRate: number
+}
+
+interface DepartmentReq {
+  departmentCode: string
+}
+
+interface PositionReq {
+  positionCode: string
+}
+
+interface StatusReq {
+  statusId: number
+}
+
+interface SupervisorReq {
+  employeeId: number
+}
+
+interface GovernmentIdReq {
+  sssNo: string
+  philHealthNo: string
+  pagIbigNo: string
+  tinNo: string
+}

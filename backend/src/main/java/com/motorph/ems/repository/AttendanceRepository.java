@@ -16,4 +16,24 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
     List<Attendance> findByDate(LocalDate date);
     @Query("SELECT a FROM Attendance a WHERE (a.employee.firstName LIKE %:name% OR a.employee.lastName LIKE %:name%)  AND a.date = %:date%")
     List<Attendance> findByDateAndNameContaining(@Param("date") LocalDate date, @Param("name") String name);
+
+    @Query("SELECT COUNT(a) FROM Attendance a " +
+            "WHERE a.employee.employeeId = %:employeeId% " +
+            "AND a.date BETWEEN %:startDate AND %:endDate% " +
+            "AND a.timeIn IS NOT NULL " +
+            "AND a.timeOut IS NOT NULL")
+    Long countPresentAttendancesByEmployeeId(
+            @Param("employeeId") Long employeeId,
+            @Param("startDate") LocalDate startDate,
+            @Param("endDate") LocalDate endDate);
+
+    @Query("SELECT SUM(a.overtime) FROM Attendance a " +
+            "WHERE a.employee.employeeId = %:employeeId% " +
+            "AND a.date BETWEEN %:startDate AND %:endDate% " +
+            "AND a.timeIn IS NOT NULL " +
+            "AND a.timeOut IS NOT NULL")
+    Long sumOvertimeHoursByEmployeeId(
+            @Param("employeeId") Long employeeId,
+            @Param("startDate") LocalDate startDate,
+            @Param("endDate") LocalDate endDate);
 }

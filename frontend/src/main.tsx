@@ -13,6 +13,7 @@ import { Colors } from './constants/Colors.ts';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3'
+import { AuthProvider } from './hooks/AuthProvider.tsx';
 
 const theme = createTheme({
   palette: {
@@ -29,7 +30,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <CssBaseline />
       <QueryClientProvider client={queryClient}>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <RouterProvider router={router} />
+          <AuthProvider>
+            <RouterProvider router={router} />
+          </AuthProvider>
         </LocalizationProvider>
       </QueryClientProvider>
     </ThemeProvider>

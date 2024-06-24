@@ -23,7 +23,6 @@ public class Benefits {
 
     @ManyToOne
     @JoinColumn(name = "benefit_type_id", nullable = false)
-    @JsonManagedReference
     private BenefitType benefitType;
 
     public Benefits() {}

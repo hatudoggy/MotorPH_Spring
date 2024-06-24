@@ -1,6 +1,5 @@
 package com.motorph.ems.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -20,7 +19,6 @@ import java.util.List;
 
 @Getter @Setter
 @Entity @Table(name = "employee")
-@SuppressWarnings("unused")
 public class Employee {
 
     @Id
@@ -47,13 +45,13 @@ public class Employee {
     @JsonManagedReference
     private GovernmentId governmentId;
 
-    @OneToMany(mappedBy = "employee")
-    @JsonBackReference
-    private List<Payroll> payrolls;
-
-    @OneToMany(mappedBy = "employee")
-    @JsonBackReference
-    private List<Attendance> attendances;
+//    @OneToMany(mappedBy = "employee")
+//    @JsonBackReference
+//    private List<Payroll> payrolls;
+//
+//    @OneToMany(mappedBy = "employee")
+//    @JsonBackReference
+//    private List<Attendance> attendances;
 
     public Employee() {}
 

@@ -9,9 +9,10 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { API, BASE_API } from "../../constants/Api";
 import axios from "axios";
 import { format } from "date-fns";
+import { useAuth } from "../../hooks/AuthProvider";
+import Table from "../../components/Table";
 
 
-const employeeId = 1
 
 export default function Attendance() {
 
@@ -30,7 +31,7 @@ export default function Attendance() {
 
           <Stack flex={1} gap={1}>
             <MonthFilter />
-            <Table />
+            <AttendanceTable />
           </Stack>
 
         </Stack>
@@ -54,6 +55,10 @@ function WidgetBar() {
 }
 
 function AttendanceToday() {
+
+  const {authUser} = useAuth()
+  const employeeId = authUser?.employeeId
+
   const queryClient = useQueryClient()
 
   const fetchAttendanceToday = async() => {
@@ -152,6 +157,9 @@ function AttendanceToday() {
 }
 
 function AttendanceOverview() {
+
+  const {authUser} = useAuth()
+  const employeeId = authUser?.employeeId
 
   const palette = ['#000000', '#575757', '#c4c4c4']
 
@@ -346,7 +354,10 @@ function MonthFilterButton({label, active, onClick}: MonthFilterButton) {
 }
 
 
-function Table() {
+function AttendanceTable() {
+
+  const {authUser} = useAuth()
+  const employeeId = authUser?.employeeId
 
   const fetchAttendance = async() => {
     const {EMPLOYEES, ATTENDANCES} = API
@@ -369,19 +380,53 @@ function Table() {
 }
 
   const filterAttendanceByToday = (attendanceList: AttendanceRes[]) => {
-      if (attendanceList.length === 0) {
-          return attendanceList
-      }
+    if (attendanceList.length === 0) {
+        return attendanceList
+    }
 
-      const firstItemDate = attendanceList[0].date
-      const today = new Date()
+    const firstItemDate = attendanceList[0].date
+    const today = new Date()
 
-      if (isSameDate(firstItemDate, today)) {
-          return attendanceList.slice(1)
-      }
+    if (isSameDate(firstItemDate, today)) {
+        return attendanceList.slice(1)
+    }
 
-      return attendanceList
+    return attendanceList
   }
+
+
+  const statusColor: Record<string, string> = {
+    "N/A": "#666666",
+    "Present": "#67f596",
+    "Late": "#e8dd8b",
+    "Absent": "#f56767",
+  }
+
+  const statusGenerator = (timeIn: string, timeOut: string) => {
+    if(timeOut){
+      if(timeIn) {
+        if(timeIn < "08:15:00") {
+          return "Present"
+        } else {
+          return "Late"
+        }
+      } else {
+        return "Absent"
+      }
+    } else {
+      return "N/A"
+    }
+  }
+
+  const tableData = data && data
+    .map(({attendanceId, employeeId, ...rest})=> ({
+      date: rest.date,
+      timeIn: rest.timeIn.substring(0,5),
+      timeOut: rest.timeOut.substring(0,5),
+      status: statusGenerator(rest.timeIn, rest.timeOut),
+      overtime: rest.overtime,
+      hoursWorked: rest.hoursWorked
+    }))
 
   return(
     <Widget
@@ -391,7 +436,30 @@ function Table() {
         maxHeight: 500
       }}
     >
-      <Stack height='100%' minHeight='min-content'>
+      <Table 
+        colHeader={[ 
+          "Date",
+          "Time In",
+          "Time Out",
+          "Status",
+          "Overtime",
+          "Total Hours",
+        ]}
+        tableData={tableData || []}
+        rowHeight={55}
+        renderers={{
+          status: (item: string) => (
+            <Stack direction='row' alignItems='center' gap={0.5}>
+              <Circle sx={{pb: 0.4, fontSize: 16, color: statusColor[item]}} />
+              <Typography>
+                {item}
+              </Typography>
+            </Stack>
+          )
+        }}
+        loading={isPending}     
+      />
+      {/* <Stack height='100%' minHeight='min-content'>
         <TableHeader />
         <Stack
           flex={1}
@@ -414,7 +482,7 @@ function Table() {
               </Stack>
           }
         </Stack>
-      </Stack>
+      </Stack> */}
     </Widget>
   )
 }

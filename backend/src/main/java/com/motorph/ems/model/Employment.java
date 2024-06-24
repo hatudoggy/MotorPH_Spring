@@ -1,9 +1,6 @@
 package com.motorph.ems.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,17 +12,19 @@ import java.time.LocalDate;
 public class Employment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long employeeId;
+
     @OneToOne
+    @MapsId
     @JoinColumn(name = "employee_id", nullable = false)
-    @JsonIgnore
+    @JsonBackReference
     private Employee employee;
 
-    @ManyToOne
-    @JoinColumn(name = "supervisor_id")
-    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "supervisor_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Employee supervisor;
+
 
     @ManyToOne
     @JoinColumn(name = "department_code", nullable = false)
@@ -33,11 +32,11 @@ public class Employment {
     private Department department;
 
     @ManyToOne
-    @JoinColumn(name = "position_code", nullable = false)
+    @JoinColumn(name = "position_code", referencedColumnName = "positionCode", nullable = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Position position;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "status_id", nullable = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private EmploymentStatus status;
@@ -49,6 +48,8 @@ public class Employment {
     private Double semiMonthlyRate ;
     @Transient
     private Double hourlyRate;
+    @Transient
+    private Double dailyRate;
 
     public Employment() {}
 
@@ -74,6 +75,10 @@ public class Employment {
         return Math.round((this.basicSalary / 21 / 8) * 100.0) / 100.0;
     }
 
+    public Double getDailyRate() {
+        return Math.round((this.basicSalary / 21 ) * 100.0) / 100.0;
+    }
+
     @JsonProperty("supervisor")
     public Supervisor getSupervisor() {
         if (supervisor != null) {
@@ -82,13 +87,18 @@ public class Employment {
         return null;
     }
 
+//    @JsonProperty("supervisor")
+//    public void setSupervisor(Supervisor supervisorNew) {
+//        supervisor.setEmployeeId(supervisorNew.getId());
+//    }
+
     @Override
     public String toString() {
         return "Employment{" +
                 "employeeId=" + employeeId +
                 ", department='" + department + '\'' +
                 ", position='" + position + '\'' +
-                ", supervisor='" + supervisor.getLastName() + ", " + supervisor.getFirstName() + '\'' +
+                //", supervisor='" + supervisor.getLastName() + ", " + supervisor.getFirstName() + '\'' +
                 ", status='" + status + '\'' +
                 ", basicSalary=" + basicSalary +
                 ", semiMonthlyRate=" + semiMonthlyRate +
@@ -96,7 +106,7 @@ public class Employment {
                 '}';
     }
 
-
+    @Getter @Setter
     public static class Supervisor {
         private Long id;
         private String firstName;
@@ -108,76 +118,62 @@ public class Employment {
             this.lastName = lastName;
         }
 
-        @JsonProperty("id")
-        public Long getId() {
-            return id;
-        }
-
-        @JsonProperty("firstName")
-        public String getFirstName() {
-            return firstName;
-        }
-
-        @JsonProperty("lastName")
-        public String getLastName() {
-            return lastName;
-        }
     }
 
 
-    @Getter @Setter
-    @Entity @Table(name = "employment_status")
-    public static class EmploymentStatus {
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private int statusId;
-        private String status;
+//    @Getter @Setter
+//    @Entity @Table(name = "employment_status")
+//    public static class EmploymentStatus {
+//        @Id
+//        @GeneratedValue(strategy = GenerationType.IDENTITY)
+//        private int statusId;
+//        private String status;
+//
+//        public EmploymentStatus() {
+//        }
+//
+//        public EmploymentStatus(String status) {
+//            this.status = status;
+//        }
+//
+//        @Override
+//        public String toString() {
+//            return "EmploymentStatus{" +
+//                    "statusId=" + statusId +
+//                    ", status='" + status + '\'' +
+//                    '}';
+//        }
+//    }
 
-        public EmploymentStatus() {
-        }
+//    @Getter @Setter
+//    @Entity @Table(name = "department")
+//    public static class Department {
+//        @Id
+//        private String departmentCode;
+//        private String departmentName;
+//
+//        @Override
+//        public String toString() {
+//            return "Department{" +
+//                    "departmentCode='" + departmentCode + '\'' +
+//                    ", departmentName='" + departmentName + '\'' +
+//                    '}';
+//        }
+//    }
 
-        public EmploymentStatus(String status) {
-            this.status = status;
-        }
-
-        @Override
-        public String toString() {
-            return "EmploymentStatus{" +
-                    "statusId=" + statusId +
-                    ", status='" + status + '\'' +
-                    '}';
-        }
-    }
-
-    @Getter @Setter
-    @Entity @Table(name = "department")
-    public static class Department {
-        @Id
-        private String departmentCode;
-        private String departmentName;
-
-        @Override
-        public String toString() {
-            return "Department{" +
-                    "departmentCode='" + departmentCode + '\'' +
-                    ", departmentName='" + departmentName + '\'' +
-                    '}';
-        }
-    }
-
-    @Getter @Setter
-    @Entity @Table(name = "position")
-    public static class Position {
-        @Id
-        private String positionCode;
-        private String positionName;
-
-        @Override
-        public String toString() {
-            return "Position{" +
-                    "positionCode='" + positionCode + '\'' +
-                    ", positionName='" + positionName + '\'' +
-                    '}';
-        }
-    }
+//    @Getter @Setter
+//    @Entity @Table(name = "position")
+//    public static class Position {
+//        @Id
+//        private String positionCode;
+//        private String positionName;
+//
+//        @Override
+//        public String toString() {
+//            return "Position{" +
+//                    "positionCode='" + positionCode + '\'' +
+//                    ", positionName='" + positionName + '\'' +
+//                    '}';
+//        }
+//    }
 }
