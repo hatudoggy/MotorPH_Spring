@@ -1,5 +1,6 @@
 package com.motorph.ems.controller;
 
+import com.motorph.ems.dto.MonthlyPayrollReportDTO;
 import com.motorph.ems.dto.PayrollDTO;
 import com.motorph.ems.model.LeaveBalance;
 import com.motorph.ems.model.LeaveRequest;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin
 @RestController
@@ -62,6 +64,21 @@ public class PayrollController {
     @PostMapping
     public void addPayroll(@RequestBody Payroll payroll) {
         payrollService.addNewPayroll(payroll);
+    }
+
+    @PostMapping("/batchGenerate")
+    public void addPayroll(@RequestBody Map<String, Object> requestBody) {
+        String startDate = (String) requestBody.get("startDate");
+        String endDate = (String) requestBody.get("endDate");
+        payrollService.batchGeneratePayroll(LocalDate.parse(startDate), LocalDate.parse(endDate));
+    }
+
+    @GetMapping("/reports/monthlyTotal")
+    public List<MonthlyPayrollReportDTO> getMonthlyTotalReport(
+            @RequestParam(value = "startDate") String startDate,
+            @RequestParam(value = "endDate") String endDate
+    ) {
+        return payrollService.getMonthlyReport(LocalDate.parse(startDate), LocalDate.parse(endDate));
     }
 
 }

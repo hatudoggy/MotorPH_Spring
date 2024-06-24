@@ -21,7 +21,9 @@ export const API = {
   PAYROLLS: {
     BASE: "/payrolls/",
     ALL: "/payrolls",
-    YEARS: "/years"
+    YEARS: "/years",
+    GENERATE: "/payrolls/batchGenerate",
+    REPORT_MONTHLY: "/payrolls/reports/monthlyTotal"
   },
   USERS: {
     BASE:  "/users/",

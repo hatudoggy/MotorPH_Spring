@@ -38,3 +38,11 @@ interface DeductionType {
   name: string
   description: string
 }
+
+
+
+interface PayrollReportMonthly {
+  month: string
+  totalEarnings: number
+  totalDeductions: number
+}

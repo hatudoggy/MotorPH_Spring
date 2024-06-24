@@ -27,6 +27,7 @@ public class Payroll {
     private double dailyRate;
     private double overtimePay;
     private double grossIncome;
+    private double netPay;
     private double netIncome;
 
     @OneToMany(mappedBy = "payroll", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
@@ -36,13 +37,14 @@ public class Payroll {
 
     public Payroll() {}
 
-    public Payroll(LocalDate periodStart, LocalDate periodEnd, double monthlyRate, double dailyRate, double overtimePay, double grossIncome, double netIncome) {
+    public Payroll(LocalDate periodStart, LocalDate periodEnd, double monthlyRate, double dailyRate, double overtimePay, double grossIncome, double netPay, double netIncome) {
         this.periodStart = periodStart;
         this.periodEnd = periodEnd;
         this.monthlyRate = monthlyRate;
         this.dailyRate = dailyRate;
         this.overtimePay = overtimePay;
         this.grossIncome = grossIncome;
+        this.netPay = netPay;
         this.netIncome = netIncome;
     }
 

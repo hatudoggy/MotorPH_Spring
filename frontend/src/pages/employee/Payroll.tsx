@@ -73,7 +73,7 @@ function PayrollMonthList() {
                 <PayrollCard 
                   key={item.payrollId}
                   periodEnd={item.periodEnd}
-                  grossIncome={item.grossIncome}
+                  income={item.netIncome}
                   onClick={()=>setSelectedPayroll(item.payrollId)}
                 />
               )
@@ -94,11 +94,11 @@ function PayrollMonthList() {
 
 interface PayrollCard {
   periodEnd: string
-  grossIncome: number
+  income: number
   onClick?: () => void
 }
 
-function PayrollCard({periodEnd, grossIncome, onClick}: PayrollCard) {
+function PayrollCard({periodEnd, income, onClick}: PayrollCard) {
 
   const month = new Date(periodEnd).toLocaleString('default', { month: 'long' })
   const endDate = new Date(periodEnd).toLocaleDateString()
@@ -122,7 +122,7 @@ function PayrollCard({periodEnd, grossIncome, onClick}: PayrollCard) {
         >
           <Stack direction="row" justifyContent='space-between'>
             <Typography variant="h5" fontWeight={500}>{month}</Typography>
-            <Typography variant="body1" fontWeight={500}>{formatterWhole.format(grossIncome)}</Typography>
+            <Typography variant="body1" fontWeight={500}>{formatterWhole.format(income)}</Typography>
           </Stack>
           <Typography variant="body2" color="GrayText">{endDate}</Typography>
           <East 
@@ -165,12 +165,9 @@ function PayrollSelect({selectedPayroll, goBack}: PayrollSelect) {
     return
   }
 
-  const totalEarnings = data.employee.employment.basicSalary
-  const totalDeductions = data.deductions.reduce(
-    (acc, currVal) => acc + currVal.amount,
-    0
-  )
-  const totalGross = (totalEarnings && totalDeductions) && totalEarnings - totalDeductions
+  const totalEarnings = data.grossIncome
+  const totalDeductions = data.grossIncome - data.netIncome
+  const totalIncome = data.netIncome
 
   const month = new Date(data.periodEnd).toLocaleString('default', { month: 'long' })
 
@@ -220,7 +217,7 @@ function PayrollSelect({selectedPayroll, goBack}: PayrollSelect) {
               }}
             >
               <PieCenterLabel>
-                {formatterWhole.format(totalGross)}
+                {formatterWhole.format(totalIncome)}
               </PieCenterLabel>
             </PieChart>
           </Stack>
@@ -253,8 +250,8 @@ function PayrollSelect({selectedPayroll, goBack}: PayrollSelect) {
               }
               <Divider sx={{mt: 1}}/>
               <Stack mt={1} direction='row' justifyContent='space-between'>
-                <Typography fontWeight={500}>Gross Pay</Typography>
-                <Typography fontWeight={500}>{formatterWhole.format(totalGross)}</Typography>
+                <Typography fontWeight={500}>Net Pay</Typography>
+                <Typography fontWeight={500}>{formatterWhole.format(totalIncome)}</Typography>
               </Stack>
             </Stack>
           </Stack>
@@ -274,6 +271,8 @@ function PayrollSelect({selectedPayroll, goBack}: PayrollSelect) {
       </Paper>
   )
 }
+
+
 
 
 const StyledText = styled('text')(({ theme }) => ({

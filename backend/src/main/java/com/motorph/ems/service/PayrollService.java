@@ -1,5 +1,6 @@
 package com.motorph.ems.service;
 
+import com.motorph.ems.dto.MonthlyPayrollReportDTO;
 import com.motorph.ems.dto.PayrollDTO;
 import com.motorph.ems.model.LeaveRequest;
 import com.motorph.ems.model.Payroll;
@@ -31,6 +32,8 @@ public interface PayrollService {
     Payroll updatePayroll(Payroll payroll);
 
     void deletePayroll(Long payrollId);
+
+    List<MonthlyPayrollReportDTO> getMonthlyReport(LocalDate start, LocalDate end);
 
     void batchGeneratePayroll(LocalDate periodStart, LocalDate periodEnd);
 

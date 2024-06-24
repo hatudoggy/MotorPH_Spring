@@ -11,8 +11,8 @@ export const formatterWhole = new Intl.NumberFormat('en-US', {
 export const formatterDecimal = new Intl.NumberFormat('en-US', {
   style: 'currency',
   currency: 'PHP',
-  minimumFractionDigits: 0,
-  maximumFractionDigits: 0,
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
 })
 
 
