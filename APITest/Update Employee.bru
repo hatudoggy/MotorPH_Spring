@@ -1,0 +1,63 @@
+meta {
+  name: Update Employee
+  type: http
+  seq: 5
+}
+
+patch {
+  url: http://localhost:8080/api/employees/90
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "employeeId": 90,
+    "lastName": "Man",
+    "firstName": "Omni",
+    "dob": "2000-01-01",
+    "address": "Mars",
+      "contacts": [
+      {
+        "contactNo": "1234567890"
+      }
+    ],
+    "benefits": [
+      {
+        "amount": 1500,
+        "benefitType": {
+          "benefitTypeId": 1
+        }
+      },
+      {
+        "amount": 2000,
+        "benefitType": {
+          "benefitTypeId": 2
+        }
+      }
+    ],
+    "employment": {
+      "department": {
+        "departmentCode": "CORP"
+      },
+      "position": {
+        "positionCode": "CEO"
+      },
+      "status": {
+        "statusId": 1
+      },
+      "hireDate": "2023-06-01",
+      "basicSalary": 50000,
+      "supervisor": {
+        "employeeId": 1
+      }
+    },
+    "governmentId": {
+      "sssNo": "1234567890",
+      "philHealthNo": "9876543210",
+      "pagIbigNo": "1122334455",
+      "tinNo": "9988776655"
+    }
+  }
+  
+}
