@@ -134,10 +134,10 @@ class AttendanceServiceTest {
     @Test
     @Transactional
     @DirtiesContext
-    void AttendanceService_getAllAttendancesByEmployeeId_ReturnsListOfAttendance() {
+    void AttendanceService_getAllByEmployeeId_ReturnsListOfAttendance() {
         when(attendanceRepository.findAllByEmployee_EmployeeId_OrderByDateDesc(1L)).thenReturn(Collections.singletonList(attendance1));
 
-        List<AttendanceDTO> attendances = attendanceService.getAllAttendancesByEmployeeId(1L);
+        List<AttendanceDTO> attendances = attendanceService.getAllByEmployeeId(1L);
 
         assertThat(attendances).isNotEmpty();
     }
@@ -145,10 +145,10 @@ class AttendanceServiceTest {
     @Test
     @Transactional
     @DirtiesContext
-    void AttendanceService_getAllAttendancesByEmployeeId_ReturnsListOfAttendanceDTO() {
+    void AttendanceService_getAllByEmployeeId_ReturnsListOfAttendanceDTO() {
         when(attendanceRepository.findAllByEmployee_EmployeeId_OrderByDateDesc(1L)).thenReturn(Collections.singletonList(attendance1));
 
-        List<AttendanceDTO> attendances = attendanceService.getAllAttendancesByEmployeeId(1L);
+        List<AttendanceDTO> attendances = attendanceService.getAllByEmployeeId(1L);
 
         assertThat(attendances).isNotEmpty();
     }

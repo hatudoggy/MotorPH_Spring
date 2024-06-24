@@ -1,5 +1,6 @@
 package com.motorph.ems.service;
 
+import com.motorph.ems.dto.UserAuth;
 import com.motorph.ems.dto.UserDTO;
 import com.motorph.ems.model.User.Role;
 
@@ -34,5 +35,7 @@ public interface UserService {
     Optional<Role> getRoleByRoleName(String roleName);
 
     List<Role> getAllRoles();
+
+    UserAuth authenticateUser(String username, String password);
 }
 

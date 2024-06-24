@@ -28,4 +28,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     List<Employee> findAllByUser_Role_RoleName(String roleName);
 
     boolean existsByFirstNameAndLastName(String firstName, String lastName);
+
+    List<Employee> findAllExceptByStatus_StatusId(int status_statusId);
 }

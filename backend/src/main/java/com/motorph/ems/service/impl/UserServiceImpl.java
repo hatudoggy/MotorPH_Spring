@@ -1,5 +1,6 @@
 package com.motorph.ems.service.impl;
 
+import com.motorph.ems.dto.UserAuth;
 import com.motorph.ems.dto.UserDTO;
 import com.motorph.ems.dto.mapper.UserMapper;
 import com.motorph.ems.model.User;
@@ -114,5 +115,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<Role> getAllRoles() {
         return userRoleRepository.findAll();
+    }
+
+    @Override
+    public UserAuth authenticateUser(String username, String password) {
+        User user = userRepository.findUserByUsernameAndPassword(username, password);
+        UserAuth userAuth = new UserAuth();
+        userAuth.setEmployeeId(user.getEmployee().getEmployeeId());
+        userAuth.setRoleId((long) user.getRole().getUserRoleId());
+        return userAuth;
     }
 }

@@ -15,7 +15,7 @@ public interface AttendanceService {
 
      List<AttendanceDTO> getAllAttendances();
 
-     List<AttendanceDTO> getAllAttendancesByEmployeeId(Long employeeId);
+     List<AttendanceDTO> getAllByEmployeeId(Long employeeId);
 
      Optional<AttendanceDTO> getAttendanceById(Long attendanceId);
 
@@ -32,4 +32,8 @@ public interface AttendanceService {
      AttendanceDTO updateAttendance(Long attendanceId, AttendanceDTO attendance);
 
      void deleteAttendanceById(Long attendanceId);
+
+    double calculateOvertimeHoursByEmployeeIdAndDateRange(Long employeeId, LocalDate start, LocalDate end);
+
+     Long countPresentAttendancesByEmployeeId(Long employeeId, LocalDate periodStart, LocalDate periodEnd);
 }

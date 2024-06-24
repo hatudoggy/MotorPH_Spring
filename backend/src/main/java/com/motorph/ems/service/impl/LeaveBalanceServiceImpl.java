@@ -92,8 +92,8 @@ public class LeaveBalanceServiceImpl implements LeaveBalanceService {
     }
 
     @Override
-    public LeaveBalanceDTO updateLeaveBalance(LeaveBalanceDTO leaveBalance) {
-        LeaveBalance balance = balanceRepository.findById(leaveBalance.id()).orElseThrow(
+    public LeaveBalanceDTO updateLeaveBalance(Long leaveBalanceId, LeaveBalanceDTO leaveBalance) {
+        LeaveBalance balance = balanceRepository.findById(leaveBalanceId).orElseThrow(
                 () -> new IllegalArgumentException("Leave balance with statusId " + leaveBalance.id() + " does not exist")
         );
 

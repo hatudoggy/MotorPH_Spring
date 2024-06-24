@@ -1,15 +1,15 @@
 package com.motorph.ems.controller;
 
-import com.motorph.ems.model.Attendance;
-import com.motorph.ems.model.Department;
-import com.motorph.ems.model.EmploymentStatus;
-import com.motorph.ems.model.Position;
-import com.motorph.ems.service.AttendanceService;
-import com.motorph.ems.service.CompanyService;
+import com.motorph.ems.dto.DepartmentDTO;
+import com.motorph.ems.dto.EmploymentStatusDTO;
+import com.motorph.ems.dto.PositionDTO;
+import com.motorph.ems.service.DepartmentService;
+import com.motorph.ems.service.EmploymentStatusService;
+import com.motorph.ems.service.PositionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @CrossOrigin
@@ -17,29 +17,39 @@ import java.util.List;
 @RequestMapping(path = "api/company")
 public class CompanyController {
 
-    private final CompanyService companyService;
+    private final PositionService positionService;
+    private final DepartmentService departmentService;
+    private final EmploymentStatusService employmentStatusService;
 
     @Autowired
-    public CompanyController(CompanyService companyService) {
-        this.companyService = companyService;
+    public CompanyController(
+            PositionService positionService,
+            DepartmentService departmentService,
+            EmploymentStatusService employmentStatusService) {
+        this.positionService = positionService;
+        this.departmentService = departmentService;
+        this.employmentStatusService = employmentStatusService;
     }
 
     @GetMapping("/positions")
-    public List<Position> getPositionList(@RequestParam(value = "department", required = false) String department) {
+    public ResponseEntity<List<PositionDTO>> getPositionList(@RequestParam(value = "department", required = false) String department) {
+        List<PositionDTO> positions;
         if(department != null){
-            return companyService.getPositionsByDepartment(department);
+            positions =  positionService.getPositionsByDepartment(department);
         } else {
-            return companyService.getPositions();
+            positions = positionService.getPositions();
         }
+
+        return ResponseEntity.ok(positions);
     }
 
     @GetMapping("/departments")
-    public List<Department> getDepartmentList() {
-        return companyService.getDepartments();
+    public ResponseEntity<List<DepartmentDTO>> getDepartmentList() {
+        return ResponseEntity.ok(departmentService.getDepartments());
     }
 
     @GetMapping("/statuses")
-    public List<EmploymentStatus> getStatusList() {
-        return companyService.getEmploymentStatuses();
+    public ResponseEntity<List<EmploymentStatusDTO>> getStatusList() {
+        return ResponseEntity.ok(employmentStatusService.getEmploymentStatuses());
     }
 }

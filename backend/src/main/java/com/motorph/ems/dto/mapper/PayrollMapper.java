@@ -48,7 +48,6 @@ public class PayrollMapper {
 
         return new Payroll(
                 dto.employeeId(),
-                deductionsMapper.toEntity(dto.deductions()),
                 dto.periodStart(),
                 dto.periodEnd(),
                 dto.monthlyRate(),

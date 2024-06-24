@@ -162,7 +162,7 @@ class LeaveBalanceServiceTest {
         when(balanceMapper.toDTO(any(LeaveBalance.class))).thenReturn(leaveBalanceDTO1);
 
 
-        LeaveBalanceDTO updatedBalance = leaveBalanceService.updateLeaveBalance(leaveBalanceDTO1);
+        LeaveBalanceDTO updatedBalance = leaveBalanceService.updateLeaveBalance(1L, leaveBalanceDTO1);
 
         assertThat(updatedBalance).isNotNull();
         assertThat(updatedBalance.id()).isEqualTo(1L);

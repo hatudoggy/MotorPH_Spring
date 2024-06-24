@@ -2,6 +2,8 @@ package com.motorph.ems.repository;
 
 import com.motorph.ems.model.Attendance;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -23,4 +25,16 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
     Optional<Attendance> findByEmployee_EmployeeIdAndDate(Long employeeId, LocalDate date);
 
     boolean existsByEmployee_EmployeeIdAndDate(Long employeeId, LocalDate date);
+
+    @Query("SELECT COUNT(a) FROM Attendance a " +
+            "WHERE a.employee.employeeId = %:employeeId% " +
+            "AND a.date BETWEEN %:startDate AND %:endDate% " +
+            "AND a.timeIn IS NOT NULL " +
+            "AND a.timeOut IS NOT NULL")
+    Long countPresentAttendancesByEmployeeId(
+            @Param("employeeId") Long employeeId,
+            @Param("startDate") LocalDate startDate,
+            @Param("endDate") LocalDate endDate);
+
+    List<Attendance> findAllByEmployee_EmployeeId_AndDateBetween(Long employeeId, LocalDate start, LocalDate end);
 }

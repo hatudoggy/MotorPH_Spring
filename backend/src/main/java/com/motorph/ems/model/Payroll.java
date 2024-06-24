@@ -42,7 +42,6 @@ public class Payroll {
 
     public Payroll(
             Long employeeId,
-            List<Deductions> deductions,
             LocalDate periodStart,
             LocalDate periodEnd,
             double monthlyRate,
@@ -51,7 +50,6 @@ public class Payroll {
             double grossIncome,
             double netIncome) {
         this.employee = new Employee(employeeId);
-        this.deductions = deductions;
         this.periodStart = periodStart;
         this.periodEnd = periodEnd;
         this.monthlyRate = monthlyRate;

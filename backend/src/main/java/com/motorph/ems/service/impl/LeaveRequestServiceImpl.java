@@ -126,8 +126,8 @@ public class LeaveRequestServiceImpl implements LeaveRequestService {
     }
 
     @Override
-    public LeaveRequestDTO updateLeaveRequest(LeaveRequestDTO leaveRequestDTO) {
-        LeaveRequest existingRequest = requestRepository.findById(leaveRequestDTO.leaveRequestId()).orElseThrow(
+    public LeaveRequestDTO updateLeaveRequest(Long leaveRequestId, LeaveRequestDTO leaveRequestDTO) {
+        LeaveRequest existingRequest = requestRepository.findById(leaveRequestId).orElseThrow(
                 () -> new IllegalStateException("Leave request does not exist")
         );
 

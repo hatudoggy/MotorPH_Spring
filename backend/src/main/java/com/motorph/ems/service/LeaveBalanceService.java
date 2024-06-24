@@ -20,7 +20,7 @@ public interface LeaveBalanceService {
 
     List<LeaveBalanceDTO> getLeaveBalancesByEmployeeId(Long employeeId);
 
-    LeaveBalanceDTO updateLeaveBalance(LeaveBalanceDTO leaveBalance);
+    LeaveBalanceDTO updateLeaveBalance(Long leaveBalanceId, LeaveBalanceDTO leaveBalance);
 
     void deleteLeaveBalanceById(Long leaveBalanceId);
 

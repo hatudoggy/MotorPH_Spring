@@ -54,8 +54,8 @@ public class Attendance {
     }
 
     public double getOvertimeHours() {
-        long overtimeHours = LocalTime.of(17,0).toSecondOfDay();
-        return timeOut.toSecondOfDay() < overtimeHours ? 0 : timeOut.toSecondOfDay() - timeIn.toSecondOfDay();
+        long outCutOff = LocalTime.of(17,0).toSecondOfDay();
+        return timeOut.toSecondOfDay() < outCutOff ? 0 : timeOut.toSecondOfDay() - timeIn.toSecondOfDay();
     }
 
     @Override

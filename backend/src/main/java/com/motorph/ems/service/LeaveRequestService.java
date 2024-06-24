@@ -35,7 +35,7 @@ public interface LeaveRequestService {
 
     Optional<LeaveRequestDTO> getLeaveRequestByEmployeeIdAndDate(Long employeeId, LocalDate date);
 
-    LeaveRequestDTO updateLeaveRequest(LeaveRequestDTO leaveRequest);
+    LeaveRequestDTO updateLeaveRequest(Long id, LeaveRequestDTO leaveRequest);
 
     void deleteLeaveRequest(Long leaveRequestId);
 

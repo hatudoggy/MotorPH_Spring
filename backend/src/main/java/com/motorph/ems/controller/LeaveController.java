@@ -1,11 +1,11 @@
 package com.motorph.ems.controller;
 
-import com.motorph.ems.model.Attendance;
-import com.motorph.ems.model.LeaveBalance;
-import com.motorph.ems.model.LeaveRequest;
+import com.motorph.ems.dto.LeaveBalanceDTO;
+import com.motorph.ems.dto.LeaveRequestDTO;
 import com.motorph.ems.service.LeaveBalanceService;
 import com.motorph.ems.service.LeaveRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,37 +24,46 @@ public class LeaveController {
     }
 
     @GetMapping("/requests")
-    public List<LeaveRequest> getLeaveRequests() {
-        return requestService.getAllLeaveRequests();
+    public ResponseEntity<List<LeaveRequestDTO>> getLeaveRequests() {
+        List<LeaveRequestDTO> requests = requestService.getAllLeaveRequests();
+        return ResponseEntity.ok(requests);
     }
 
     @GetMapping("/requests/{id}")
-    public LeaveRequest getLeaveRequestById(@PathVariable(value = "id") Long id) {
-        return requestService.getLeaveRequestById(id);
+    public ResponseEntity<LeaveRequestDTO> getLeaveRequestById(@PathVariable(value = "id") Long id) {
+        LeaveRequestDTO request = requestService.getLeaveRequestById(id).orElseThrow(
+                () -> new IllegalArgumentException("Leave request not found")
+        );
+        return ResponseEntity.ok(request);
     }
 
     @GetMapping("/balances/{id}")
-    public LeaveBalance getLeaveBalanceById(@PathVariable(value = "id") Long id) {
-        return balanceService.getLeaveBalanceById(id);
+    public ResponseEntity<LeaveBalanceDTO> getLeaveBalanceById(@PathVariable(value = "id") Long id) {
+        LeaveBalanceDTO balance = balanceService.getLeaveBalanceById(id).orElseThrow(
+                () -> new IllegalArgumentException("Leave balance not found")
+        );
+        return ResponseEntity.ok(balance);
     }
 
     @PatchMapping("/requests/{id}")
-    public void updateLeaveRequest(
-            @RequestBody LeaveRequest leaveRequest
-    ) {
-        requestService.updateLeaveRequest(leaveRequest);
+    public ResponseEntity<LeaveRequestDTO> updateLeaveRequest(
+            @RequestBody LeaveRequestDTO leaveRequest,
+            @PathVariable Long id) {
+        LeaveRequestDTO request = requestService.updateLeaveRequest(id, leaveRequest);
+        return ResponseEntity.ok(request);
     }
 
     @PatchMapping("/balances/{id}")
-    public void updateLeaveBalance(
-            @RequestBody LeaveBalance leaveBalance
-    ) {
-        balanceService.updateLeaveBalance(leaveBalance);
+    public ResponseEntity<LeaveBalanceDTO> updateLeaveBalance(
+            @RequestBody LeaveBalanceDTO leaveBalance,
+            @PathVariable Long id) {
+        LeaveBalanceDTO balance = balanceService.updateLeaveBalance(id, leaveBalance);
+        return ResponseEntity.ok(balance);
     }
 
     @PostMapping("/requests")
-    public void addLeaveRequest(@RequestBody LeaveRequest leaveRequest) {
-        requestService.addNewLeaveRequest(leaveRequest);
+    public ResponseEntity<LeaveRequestDTO> addLeaveRequest(@RequestBody LeaveRequestDTO leaveRequest) {
+        LeaveRequestDTO request = requestService.addNewLeaveRequest(leaveRequest);
+        return ResponseEntity.ok(request);
     }
-
 }

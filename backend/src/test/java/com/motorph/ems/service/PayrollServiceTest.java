@@ -191,7 +191,7 @@ class PayrollServiceTest {
 
         when(payrollMapper.toDTO(any(Payroll.class))).thenReturn(payrollDTO);
 
-        PayrollDTO result = payrollService.updatePayroll(payrollDTO);
+        PayrollDTO result = payrollService.updatePayroll(1L, payrollDTO);
 
         assertNotNull(result);
         assertEquals(payrollDTO.payrollId(), result.payrollId());
@@ -202,7 +202,7 @@ class PayrollServiceTest {
     void updatePayroll_notFound() {
         when(payrollRepository.findById(anyLong())).thenReturn(Optional.empty());
 
-        assertThrows(IllegalStateException.class, () -> payrollService.updatePayroll(payrollDTO));
+        assertThrows(IllegalStateException.class, () -> payrollService.updatePayroll(1L, payrollDTO));
     }
 
     @Test

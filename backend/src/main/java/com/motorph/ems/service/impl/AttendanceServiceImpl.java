@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
 public class AttendanceServiceImpl implements AttendanceService {
 
     private final AttendanceRepository attendanceRepository;
-
     private final AttendanceMapper attendanceMapper;
 
     @Autowired
@@ -59,7 +58,7 @@ public class AttendanceServiceImpl implements AttendanceService {
     }
 
     @Override
-    public List<AttendanceDTO> getAllAttendancesByEmployeeId(Long employeeId) {
+    public List<AttendanceDTO> getAllByEmployeeId(Long employeeId) {
         return attendanceRepository.findAllByEmployee_EmployeeId_OrderByDateDesc(employeeId).stream()
                 .map(attendanceMapper::toDTO).collect(Collectors.toList());
     }
@@ -107,5 +106,19 @@ public class AttendanceServiceImpl implements AttendanceService {
         }
 
         attendanceRepository.deleteById(attendanceId);
+    }
+
+    @Override
+    public double calculateOvertimeHoursByEmployeeIdAndDateRange(Long employeeId, LocalDate start, LocalDate end) {
+        List<Attendance> attendances = attendanceRepository
+                .findAllByEmployee_EmployeeId_AndDateBetween(employeeId, start, end);
+
+        return attendances.stream().mapToDouble(Attendance::getOvertimeHours).sum();
+    }
+
+    @Override
+    public Long countPresentAttendancesByEmployeeId(Long employeeId, LocalDate periodStart, LocalDate periodEnd) {
+        return attendanceRepository
+                .countPresentAttendancesByEmployeeId(employeeId, periodStart, periodEnd);
     }
 }
