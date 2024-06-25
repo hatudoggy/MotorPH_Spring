@@ -1,6 +1,5 @@
 package com.motorph.ems.repository;
 
-import com.motorph.ems.dto.PayrollDTO;
 import com.motorph.ems.model.Payroll;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
