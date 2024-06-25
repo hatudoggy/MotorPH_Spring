@@ -1,6 +1,7 @@
 package com.motorph.ems.service;
 
 import com.motorph.ems.dto.AttendanceDTO;
+import com.motorph.ems.dto.AttendanceSummaryDTO;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -27,13 +28,13 @@ public interface AttendanceService {
 
      List<AttendanceDTO> getAttendancesAfterTimeIn(LocalTime timeIn, LocalDate date);
 
+    public AttendanceSummaryDTO getAttendanceSummaryByEmployeeId(Long employeeId);
+
      List<AttendanceDTO> getAttendancesAfterTimeOut(LocalTime timeOut, LocalDate date);
 
      AttendanceDTO updateAttendance(Long attendanceId, AttendanceDTO attendance);
 
      void deleteAttendanceById(Long attendanceId);
 
-    double calculateOvertimeHoursByEmployeeIdAndDateRange(Long employeeId, LocalDate start, LocalDate end);
-
-     Long countPresentAttendancesByEmployeeId(Long employeeId, LocalDate periodStart, LocalDate periodEnd);
+    List<AttendanceDTO> getAllAttendanceByEmployeeIdAndDateRange(Long id, LocalDate start, LocalDate end);
 }

@@ -111,11 +111,11 @@ export default function HREmployees() {
                   <EmployeeCard 
                     key={item.employeeId}
                     name={`${item.firstName} ${item.lastName}`}
-                    position={item.employment.position.positionName}
-                    department={item.employment.department.departmentName}
-                    hireDate={item.employment.hireDate}
+                    position={item.position.positionName}
+                    department={item.department.departmentName}
+                    hireDate={item.hireDate}
                     contactNo={item.contacts[0].contactNo}
-                    status={item.employment.status}
+                    status={item.status}
                     onClick={()=>handleSelectEmployee(item.employeeId)}
                     onEdit={()=>handleCUEmployee("edit", item.employeeId)}
                   />

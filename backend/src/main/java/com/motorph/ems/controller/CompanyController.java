@@ -1,11 +1,7 @@
 package com.motorph.ems.controller;
 
-import com.motorph.ems.dto.DepartmentDTO;
-import com.motorph.ems.dto.EmploymentStatusDTO;
-import com.motorph.ems.dto.PositionDTO;
-import com.motorph.ems.service.DepartmentService;
-import com.motorph.ems.service.EmploymentStatusService;
-import com.motorph.ems.service.PositionService;
+import com.motorph.ems.dto.*;
+import com.motorph.ems.service.*;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,15 +17,24 @@ public class CompanyController {
     private final PositionService positionService;
     private final DepartmentService departmentService;
     private final EmploymentStatusService employmentStatusService;
+    private final LeaveBalanceService leaveTypeService;
+    private final LeaveRequestService leaveStatusService;
+    private final BenefitsService benefitsService;
 
     @Autowired
     public CompanyController(
             PositionService positionService,
             DepartmentService departmentService,
-            EmploymentStatusService employmentStatusService) {
+            EmploymentStatusService employmentStatusService,
+            LeaveBalanceService leaveTypeService,
+            LeaveRequestService leaveStatusService,
+            BenefitsService benefitsService) {
         this.positionService = positionService;
         this.departmentService = departmentService;
         this.employmentStatusService = employmentStatusService;
+        this.leaveTypeService = leaveTypeService;
+        this.leaveStatusService = leaveStatusService;
+        this.benefitsService = benefitsService;
     }
 
     @GetMapping("/positions")
@@ -73,5 +78,34 @@ public class CompanyController {
         return ResponseEntity.ok(employmentStatusService.getEmploymentStatusById(id).orElseThrow(
                 () -> new EntityNotFoundException("Employment status not found")
         ));
+    }
+
+    @GetMapping("/leave/types")
+    public ResponseEntity<List<LeaveTypeDTO>> getLeaveTypeList() {
+        return ResponseEntity.ok(leaveTypeService.getAllLeaveTypes());
+    }
+
+    @GetMapping("/leave/types/{id}")
+    public ResponseEntity<LeaveTypeDTO> getLeaveTypeById(@PathVariable(value = "id") int id) {
+        return ResponseEntity.ok(leaveTypeService.getLeaveTypeById(id).orElseThrow(
+                () -> new EntityNotFoundException("Leave type not found")
+        ));
+    }
+
+    @GetMapping("/leave/status")
+    public ResponseEntity<List<LeaveStatusDTO>> getLeaveStatusList() {
+        return ResponseEntity.ok(leaveStatusService.getAllLeaveStatus());
+    }
+
+    @GetMapping("/leave/status/{id}")
+    public ResponseEntity<LeaveStatusDTO> getLeaveStatusById(@PathVariable(value = "id") int id) {
+        return ResponseEntity.ok(leaveStatusService.getLeaveStatusById(id).orElseThrow(
+                () -> new EntityNotFoundException("Leave status not found")
+        ));
+    }
+
+    @GetMapping("/benefit/types")
+    public ResponseEntity<List<BenefitTypeDTO>> getBenefitTypesList(){
+        return ResponseEntity.ok(benefitsService.getAllBenefitTypes());
     }
 }

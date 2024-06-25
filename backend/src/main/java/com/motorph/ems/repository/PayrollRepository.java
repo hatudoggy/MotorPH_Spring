@@ -27,16 +27,11 @@ public interface PayrollRepository extends JpaRepository<Payroll, Long> {
     @Query("SELECT DISTINCT p.periodEnd FROM Payroll p WHERE YEAR(p.periodEnd) = :year ORDER BY MONTH(p.periodEnd)")
     List<LocalDate> findDistinctMonthsByYear(@Param("year") int year);
 
-    @Query("SELECT DATE_FORMAT(p.periodEnd, '%Y-%m-01') AS month, SUM(p.grossIncome) AS totalEarnings, (SUM(p.grossIncome) - SUM(p.netIncome)) AS totalDeductions " +
-            "FROM Payroll p " +
-            "WHERE p.periodEnd BETWEEN %:startDate% AND %:endDate% " +
-            "GROUP BY DATE_FORMAT(p.periodEnd, '%Y-%m-01') " +
-            "ORDER BY DATE_FORMAT(p.periodEnd, '%Y-%m-01') ASC")
-    List<Object[]> getTotalEarningsAndDeductionsByMonth(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
-
     boolean existsByEmployee_EmployeeIdAndPeriodStart(Long aLong, LocalDate localDate);
 
     Optional<Payroll> findByEmployee_EmployeeIdAndPeriodStart(Long employeeId, LocalDate periodStart);
 
     List<Payroll> findAllByPeriodStartAndPeriodEnd(LocalDate periodStart, LocalDate periodEnd);
+
+    List<Payroll> findAllByEmployeeEmployeeIdAndPeriodStartAndPeriodEnd(long id, LocalDate start, LocalDate end);
 }

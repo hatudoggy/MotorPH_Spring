@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface BenefitsRepository extends JpaRepository<Benefits, Long> {
@@ -16,4 +18,6 @@ public interface BenefitsRepository extends JpaRepository<Benefits, Long> {
     List<Benefits> findAllByEmployee_Position_PositionCode(String positionCode);
 
     boolean existsByEmployee_EmployeeIdAndBenefitType_BenefitTypeId(Long employeeId, int benefitTypeId);
+
+    Optional<Object> findAllByEmployee_EmployeeId(Long employeeId);
 }

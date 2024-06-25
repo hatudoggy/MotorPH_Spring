@@ -52,10 +52,10 @@ class PayrollRepositoryTest {
                 .periodStart(LocalDate.of(2023, 6, 1))
                 .periodEnd(LocalDate.of(2023, 6, 15))
                 .monthlyRate(5000.00)
-                .dailyRate(200.00)
+                .hourlyRate(200.00)
                 .overtimePay(50.00)
                 .grossIncome(2500.00)
-                .netIncome(2000.00)
+                .netPay(2000.00)
                 .build();
 
         payroll2 = Payroll.builder()
@@ -63,10 +63,10 @@ class PayrollRepositoryTest {
                 .periodStart(LocalDate.of(2023, 6, 16))
                 .periodEnd(LocalDate.of(2023, 6, 30))
                 .monthlyRate(5000.00)
-                .dailyRate(200.00)
+                .hourlyRate(200.00)
                 .overtimePay(70.00)
                 .grossIncome(2600.00)
-                .netIncome(2100.00)
+                .netPay(2100.00)
                 .build();
 
         payroll3 = Payroll.builder()
@@ -74,10 +74,10 @@ class PayrollRepositoryTest {
                 .periodStart(LocalDate.of(2023, 6, 1))
                 .periodEnd(LocalDate.of(2023, 6, 15))
                 .monthlyRate(4000.00)
-                .dailyRate(160.00)
+                .hourlyRate(160.00)
                 .overtimePay(30.00)
                 .grossIncome(2000.00)
-                .netIncome(1700.00)
+                .netPay(1700.00)
                 .build();
 
         employeeRepository.save(employee1);

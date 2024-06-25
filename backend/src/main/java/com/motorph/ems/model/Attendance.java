@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -28,6 +27,21 @@ public class Attendance {
     private LocalDate date;
     private LocalTime timeIn;
     private LocalTime timeOut;
+    private double totalHours;
+    private double overtimeHours;
+
+    public Attendance(
+            Long employeeId,
+            LocalDate date,
+            LocalTime timeIn
+    ) {
+        this.employee = new Employee(employeeId);
+        this.date = date;
+        this.timeIn = timeIn;
+        this.timeOut = null;
+        this.totalHours = 0;
+        this.overtimeHours = 0;
+    }
 
     public Attendance(
             Long employeeId,
@@ -39,23 +53,31 @@ public class Attendance {
         this.date = date;
         this.timeIn = timeIn;
         this.timeOut = timeOut;
+        this.totalHours = calculateTotalHours();
+        this.overtimeHours = calculateOvertime();
     }
 
-    @Transient
-    private Duration totalHours;
 
-    @Transient
-    private Duration overtimeHours;
 
     //May add new field for boolean paid overtime
 
-    public double getTotalHours() {
-        return timeOut.toSecondOfDay() - timeIn.toSecondOfDay();
+    public double calculateTotalHours() {
+        long secondsDifference = timeOut.toSecondOfDay() - timeIn.toSecondOfDay();
+        return secondsToHours(secondsDifference);
     }
 
-    public double getOvertimeHours() {
-        long outCutOff = LocalTime.of(17,0).toSecondOfDay();
-        return timeOut.toSecondOfDay() < outCutOff ? 0 : timeOut.toSecondOfDay() - timeIn.toSecondOfDay();
+    public double calculateOvertime() {
+        long outCutOff = LocalTime.of(17, 0).toSecondOfDay(); // Assuming 17:00 (5 PM) as the cutoff for overtime
+
+        if (timeOut.toSecondOfDay() < outCutOff) {
+            return 0;
+        }
+
+        return timeOut.toSecondOfDay() - outCutOff;
+    }
+
+    private double secondsToHours(long seconds) {
+        return seconds / 3600.0; // Convert seconds to hours
     }
 
     @Override

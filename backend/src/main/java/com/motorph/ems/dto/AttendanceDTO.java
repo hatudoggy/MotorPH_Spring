@@ -14,4 +14,5 @@ public record AttendanceDTO (
         LocalTime timeOut,
         double totalHours,
         double overtimeHours
-) {}
+) {
+}

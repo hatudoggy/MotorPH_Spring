@@ -1,16 +1,25 @@
 
 interface PayrollRes {
   payrollId: number
+  payDate: string
   employeeId: number
-  employeeFirstName: string
-  employeeLastName: string
+  firstName: string
+  lastName: string
   periodStart: string
   periodEnd: string
+  workingDays:number
+  daysWorked: number
   monthlyRate: number
-  dailyRate: number
+  hoursWorked: number
+  hourlyRate: number
+  overtimeHours: number
+  overtimeRate: number
   overtimePay: number
   grossIncome: number
-  netIncome: number
+  totalBenefits: number
+  totalDeductions: number
+  netPay: number
+  benefits: BenefitRes[]
   deductions: Deductions[]
 }
 
@@ -22,18 +31,19 @@ interface PayrollFull {
   dailyRate: number
   overtimePay: number
   grossIncome: number
-  netIncome: number
+  netPay: number
   deductions: Deductions[]
   employee: EmployeeRes
 }
 
 interface Deductions {
   deductionId: number
+  payrollId: number
   amount: number
-  deductionType: DeductionType
+  deductionType: DeductionTypeRes
 }
 
-interface DeductionType {
+interface DeductionTypeRes {
   deductionCode: string
   name: string
   description: string

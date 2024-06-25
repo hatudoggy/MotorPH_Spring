@@ -1,12 +1,14 @@
 package com.motorph.ems.service.impl;
 
 import com.motorph.ems.dto.AttendanceDTO;
+import com.motorph.ems.dto.AttendanceSummaryDTO;
 import com.motorph.ems.dto.mapper.AttendanceMapper;
 import com.motorph.ems.model.Attendance;
 import com.motorph.ems.repository.AttendanceRepository;
 import com.motorph.ems.service.AttendanceService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -33,7 +35,7 @@ public class AttendanceServiceImpl implements AttendanceService {
     @Override
     public AttendanceDTO addNewAttendance(AttendanceDTO attendanceDTO) {
         if (attendanceRepository.existsByEmployee_EmployeeIdAndDate(attendanceDTO.employeeId(), attendanceDTO.date())) {
-            throw new IllegalStateException("Attendance with employee statusId " + attendanceDTO.employeeId() + " on " + attendanceDTO.date() + " already exists");
+            throw new IllegalStateException("Attendance with employee status " + attendanceDTO.employeeId() + " on " + attendanceDTO.date() + " already exists");
         }
 
         Attendance savedAttendance = attendanceRepository.save(attendanceMapper.toEntity(attendanceDTO));
@@ -41,22 +43,26 @@ public class AttendanceServiceImpl implements AttendanceService {
         return attendanceMapper.toDTO(savedAttendance);
     }
 
+    @Cacheable(value = "attendance", key = "#attendanceId")
     @Override
     public Optional<AttendanceDTO> getAttendanceById(Long attendanceId) {
         return attendanceRepository.findById(attendanceId).map(attendanceMapper::toDTO);
     }
 
+    @Cacheable(value = "attendance", key = "#employeeId + '_' + #date")
     @Override
     public Optional<AttendanceDTO> getAttendanceByEmployeeIdAndDate(Long employeeId, LocalDate date) {
         return attendanceRepository.findByEmployee_EmployeeIdAndDate(employeeId, date).map(attendanceMapper::toDTO);
     }
 
+    @Cacheable(value = "attendance")
     @Override
     public List<AttendanceDTO> getAllAttendances() {
         return attendanceRepository.findAll().stream()
                 .map(attendanceMapper::toDTO).collect(Collectors.toList());
     }
 
+    @Cacheable(value = "attendance", key = "#employeeId")
     @Override
     public List<AttendanceDTO> getAllByEmployeeId(Long employeeId) {
         return attendanceRepository.findAllByEmployee_EmployeeId_OrderByDateDesc(employeeId).stream()
@@ -81,44 +87,73 @@ public class AttendanceServiceImpl implements AttendanceService {
                 .map(attendanceMapper::toDTO).collect(Collectors.toList());
     }
 
+
     @Override
     public List<AttendanceDTO> getAttendancesAfterTimeOut(LocalTime timeOut, LocalDate date) {
         return attendanceRepository.findAllByTimeOutIsAfterAndDate(timeOut, date).stream()
                 .map(attendanceMapper::toDTO).collect(Collectors.toList());
     }
+
     @Override
-    public AttendanceDTO updateAttendance(Long attendanceId, AttendanceDTO attendanceDTO) {
+    public AttendanceDTO updateAttendance(Long attendanceId, AttendanceDTO attendance) {
         Attendance existingAttendance = attendanceRepository.findById(attendanceId).orElseThrow(
-                () -> new EntityNotFoundException("Attendance with statusId " + attendanceId + " does not exist"));
+                ()-> new EntityNotFoundException("Attendance with attendance ID " + attendanceId + " not found")
+        );
 
-        // Update existingAttendance with data from attendanceDTO
-        attendanceMapper.updateFromDTO(attendanceDTO, existingAttendance);
+        attendanceMapper.updateEntity(attendance, existingAttendance);
 
-        // Save the updated entity back to the repository
-        return attendanceMapper.toDTO(attendanceRepository.save(existingAttendance));
+        Attendance updatedAttendance = attendanceRepository.save(existingAttendance);
+
+        return attendanceMapper.toDTO(updatedAttendance);
+    }
+
+    @Cacheable(value = "attendanceSummary", key = "#employeeId")
+    @Override
+    public AttendanceSummaryDTO getAttendanceSummaryByEmployeeId(Long employeeId) {
+        List<Attendance> attendanceList = attendanceRepository.findAllByEmployee_EmployeeId_OrderByDateDesc(employeeId);
+
+        int totalCount = attendanceList.size();
+        int lateCount = (int) attendanceList.stream().filter(a -> a.getTimeIn().isAfter(LocalTime.of(8,0))).count();
+        int absentCount = (int) attendanceList.stream().filter(a -> a.getTimeIn() == null && a.getTimeOut() == null).count();
+
+        double averageCheckInMinutes = attendanceList.stream()
+                .filter(a -> a.getTimeIn() != null)
+                .mapToInt(a -> a.getTimeIn().toSecondOfDay())
+                .average()
+                .orElse(0);
+
+        double averageCheckOutMinutes = attendanceList.stream()
+                .filter(a -> a.getTimeOut() != null)
+                .mapToInt(a -> a.getTimeOut().toSecondOfDay())
+                .average()
+                .orElse(0);
+
+        LocalTime averageCheckIn = LocalTime.ofSecondOfDay((long) averageCheckInMinutes);
+        LocalTime averageCheckOut = LocalTime.ofSecondOfDay((long) averageCheckOutMinutes);
+
+        return AttendanceSummaryDTO.builder()
+                .totalCount(totalCount)
+                .presentCount(totalCount - absentCount)
+                .lateCount(lateCount)
+                .absentCount(absentCount)
+                .averageTimeIn(averageCheckIn)
+                .averageTimeOut(averageCheckOut)
+                .build();
     }
 
     @Override
     public void deleteAttendanceById(Long attendanceId) {
         if (!attendanceRepository.existsById(attendanceId)) {
-
-            throw new EntityNotFoundException("Attendance with statusId " + attendanceId + " does not exist");
+            throw new EntityNotFoundException("Attendance with status " + attendanceId + " does not exist");
         }
 
         attendanceRepository.deleteById(attendanceId);
     }
 
+    @Cacheable(value = "attendance", key = "#employeeId + '_' + #start + '_' + #end")
     @Override
-    public double calculateOvertimeHoursByEmployeeIdAndDateRange(Long employeeId, LocalDate start, LocalDate end) {
-        List<Attendance> attendances = attendanceRepository
-                .findAllByEmployee_EmployeeId_AndDateBetween(employeeId, start, end);
-
-        return attendances.stream().mapToDouble(Attendance::getOvertimeHours).sum();
-    }
-
-    @Override
-    public Long countPresentAttendancesByEmployeeId(Long employeeId, LocalDate periodStart, LocalDate periodEnd) {
-        return attendanceRepository
-                .countPresentAttendancesByEmployeeId(employeeId, periodStart, periodEnd);
+    public List<AttendanceDTO> getAllAttendanceByEmployeeIdAndDateRange(Long employeeId, LocalDate start, LocalDate end) {
+        return attendanceRepository.findAllByEmployee_EmployeeId_AndDateBetween(employeeId, start, end)
+                .stream().map(attendanceMapper::toDTO).collect(Collectors.toList());
     }
 }

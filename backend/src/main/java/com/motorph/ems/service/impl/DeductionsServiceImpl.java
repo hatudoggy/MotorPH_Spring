@@ -35,7 +35,7 @@ public class DeductionsServiceImpl implements DeductionsService {
     public DeductionsDTO addDeduction(DeductionsDTO deductionDTO) {
         if (deductionRepository.existsByPayroll_PayrollId(deductionDTO.payrollId())) {
             throw new IllegalStateException(
-                    "Deduction with code " + deductionDTO.deductionCode() +
+                    "Deduction with code " + deductionDTO.deductionType() +
                     " for payroll " + deductionDTO.payrollId() + " already exists");
         }
 
@@ -55,7 +55,7 @@ public class DeductionsServiceImpl implements DeductionsService {
         if (!deductions.isEmpty()) {
             //Remove any deduction that already exists
             deductionDTOs.removeIf(deduction -> deductions.stream()
-                    .anyMatch(deductionEntity -> deductionEntity.getDeductionType().getDeductionCode().equals(deduction.deductionCode())));
+                    .anyMatch(deductionEntity -> deductionEntity.getDeductionType().getDeductionCode().equals(deduction.deductionType())));
         }
         return deductions.stream().map(deductionMapper::toDTO).toList();
     }
@@ -88,7 +88,7 @@ public class DeductionsServiceImpl implements DeductionsService {
     @Override
     public DeductionsDTO updateDeduction(Long deductionId, DeductionsDTO deductionDTO) {
        Deductions deduction = deductionRepository.findById(deductionId).orElseThrow(
-               () -> new EntityNotFoundException("Deduction with statusId " + deductionId + " does not exist")
+               () -> new EntityNotFoundException("Deduction with status " + deductionId + " does not exist")
        );
 
        deductionMapper.updateFromDTO(deductionDTO, deduction);

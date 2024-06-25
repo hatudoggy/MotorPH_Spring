@@ -15,5 +15,5 @@ public interface PositionService {
 
     Optional<PositionDTO> getPositionByPositionCode(String positionCode);
 
-    Optional<PositionDTO> getPositionByName(String positionName);
+//    Optional<PositionDTO> getPositionByName(String positionName);
 }

@@ -18,7 +18,7 @@ import java.util.List;
         return BenefitDTO.builder()
                 .benefitId(benefit.getBenefitId())
                 .employeeId(benefit.getEmployee().getEmployeeId())
-                .benefitTypeId(benefit.getBenefitType().getBenefitTypeId())
+                .benefitType(toDTO(benefit.getBenefitType()))
                 .amount(benefit.getAmount())
                 .build();
     }
@@ -30,7 +30,7 @@ import java.util.List;
 
         return new Benefits(
                 benefitDTO.employeeId(),
-                benefitDTO.benefitTypeId(),
+                benefitDTO.benefitType().benefitTypeId(),
                 benefitDTO.amount());
     }
 

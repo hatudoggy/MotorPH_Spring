@@ -41,7 +41,7 @@ public interface LeaveRequestService {
 
     Optional<LeaveStatusDTO> getLeaveStatusById(int leaveStatusId);
 
-    Optional<LeaveStatusDTO> getLeaveStatusByStatusName(String statusName);
+//    Optional<LeaveStatusDTO> getLeaveStatusByStatusName(String statusName);
 
     List<LeaveStatusDTO> getAllLeaveStatus();
 }

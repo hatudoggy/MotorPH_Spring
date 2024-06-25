@@ -1,6 +1,7 @@
 package com.motorph.ems.dto;
 
 import lombok.Builder;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -13,15 +14,16 @@ public record EmployeeDTO(
         LocalDate dob,
         String address,
         ContactDTO contacts,
-        String positionCode,
-        String departmentCode,
+        PositionDTO position,
+        DepartmentDTO department,
         GovernmentIdDTO governmentId,
-        Long supervisorId,
-        int statusId,
+        SupervisorDTO supervisor,
+        EmploymentStatusDTO status,
         LocalDate hireDate,
         Double basicSalary,
         Double semiMonthlyRate,
         Double hourlyRate,
         List<BenefitDTO> benefits,
         List<LeaveBalanceDTO> leaveBalances
-) {}
+) {
+}

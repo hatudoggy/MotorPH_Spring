@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -28,51 +29,88 @@ public class Payroll {
     @JoinColumn(name = "payroll_id")
     private List<Deductions> deductions;
 
+    @OneToMany
+    @JoinColumn(name = "employee_id")
+    private List<Benefits> benefits;
+
+    private LocalDate payDate;
     private LocalDate periodStart;
     private LocalDate periodEnd;
+    private int workingDays;
+    private int daysWorked;
     private double monthlyRate;
-    private double dailyRate;
-    private double overtimePay;
+    private double hoursWorked;
+    private double hourlyRate;
+    private double overtimeHours;
+    private double overtimeRate;
+    private double grossIncome;
+    private double totalBenefits;
+    private double totalDeductions;
+    private double netPay;
 
     @Transient
-    private List<BenefitDTO> benefits;
-
-    private double grossIncome;
-    private double netIncome;
+    private double overtimePay;
 
     public Payroll(
             Long employeeId,
             LocalDate periodStart,
             LocalDate periodEnd,
+            int daysWorked,
             double monthlyRate,
-            double dailyRate,
-            double overtimePay,
-            double grossIncome,
-            double netIncome) {
+            double hourlyRate,
+            double hoursWorked,
+            double overtimeHours,
+            double overtimeRate) {
         this.employee = new Employee(employeeId);
         this.periodStart = periodStart;
         this.periodEnd = periodEnd;
+        this.workingDays = calculateWorkingDays(periodStart,periodEnd);
+        this.daysWorked = daysWorked;
         this.monthlyRate = monthlyRate;
-        this.dailyRate = dailyRate;
-        this.overtimePay = overtimePay;
-        this.grossIncome = grossIncome;
-        this.netIncome = netIncome;
+        this.hoursWorked = hoursWorked;
+        this.hourlyRate  = hourlyRate;
+        this.overtimeRate = overtimeRate;
+        this.overtimePay = calculateOvertimePay(overtimeHours,overtimeRate);
+        this.overtimeHours = overtimeHours;
     }
 
     public Payroll(Long payrollId) {}
+
+    public int calculateWorkingDays(LocalDate periodStart, LocalDate periodEnd) {
+        int workingDays = 0;
+        LocalDate date = periodStart;
+
+        while (!date.isAfter(periodEnd)) {
+            if (date.getDayOfWeek() != DayOfWeek.SATURDAY && date.getDayOfWeek() != DayOfWeek.SUNDAY) {
+                workingDays++;
+            }
+            date = date.plusDays(1);
+        }
+
+        return workingDays;
+    }
+
+
+    public double calculateOvertimePay(double overtimeHours, double overtimeRate) {
+        if (overtimeHours > 0){
+            return Math.round(overtimeHours * overtimeRate * 100) / 100.0;
+        }
+
+        return 0.0;
+    }
+
 
     @Override
     public String toString() {
         return "Payroll{" +
                 "payrollId=" + payrollId +
-                ", supervisorId=" + employee.getEmployeeId() +
+                ", supervisor=" + employee.getEmployeeId() +
                 ", periodStart=" + periodStart +
                 ", periodEnd=" + periodEnd +
                 ", monthlyRate=" + monthlyRate +
-                ", dailyRate=" + dailyRate +
                 ", overtimePay=" + overtimePay +
                 ", grossIncome=" + grossIncome +
-                ", netIncome=" + netIncome +
+                ", netPay=" + netPay +
                 '}';
     }
 }

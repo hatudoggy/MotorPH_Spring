@@ -101,10 +101,10 @@ class PayrollServiceTest {
                 .periodStart(LocalDate.now().withDayOfMonth(1))
                 .periodEnd(LocalDate.now().withDayOfMonth(30))
                 .monthlyRate(3000.00)
-                .dailyRate(100.00)
+                .hourlyRate(100.00)
                 .overtimePay(50.00)
                 .grossIncome(3100.00)
-                .netIncome(2900.00)
+                .netPay(2900.00)
                 .build();
 
         payroll = Payroll.builder()
@@ -113,10 +113,10 @@ class PayrollServiceTest {
                 .periodStart(LocalDate.now().withDayOfMonth(1))
                 .periodEnd(LocalDate.now().withDayOfMonth(30))
                 .monthlyRate(3000.00)
-                .dailyRate(100.00)
+                .hourlyRate(100.00)
                 .overtimePay(50.00)
                 .grossIncome(3100.00)
-                .netIncome(2900.00)
+                .netPay(2900.00)
                 .build();
     }
 

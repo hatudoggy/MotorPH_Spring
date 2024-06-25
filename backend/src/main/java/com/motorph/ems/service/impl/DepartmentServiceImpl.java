@@ -6,6 +6,7 @@ import com.motorph.ems.model.Department;
 import com.motorph.ems.repository.DepartmentRepository;
 import com.motorph.ems.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,20 +41,16 @@ public class DepartmentServiceImpl implements DepartmentService {
         return departmentMapper.toDTO(savedDepartment);
     }
 
+    @Cacheable("departments")
     @Override
     public List<DepartmentDTO> getDepartments() {
         return departmentMapper.toDTO(departmentRepository.findAll());
     }
 
+    @Cacheable(value = "departments", key = "#departmentCode")
     @Override
     public Optional<DepartmentDTO> getDepartmentByDepartmentCode(String departmentCode) {
         return departmentRepository.findById(departmentCode)
-                .map(departmentMapper::toDTO);
-    }
-
-    @Override
-    public Optional<DepartmentDTO> getDepartmentByName(String departmentName) {
-        return departmentRepository.findByDepartmentName(departmentName)
                 .map(departmentMapper::toDTO);
     }
 }

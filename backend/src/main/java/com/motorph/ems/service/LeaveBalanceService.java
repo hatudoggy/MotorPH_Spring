@@ -30,7 +30,7 @@ public interface LeaveBalanceService {
 
     Optional<LeaveTypeDTO> getLeaveTypeById(int leaveTypeId);
 
-    Optional<LeaveTypeDTO> getLeaveTypeByTypeName(String leaveTypeName);
+//    Optional<LeaveTypeDTO> getLeaveTypeByTypeName(String leaveTypeName);
 
     List<LeaveTypeDTO> getAllLeaveTypes();
 }

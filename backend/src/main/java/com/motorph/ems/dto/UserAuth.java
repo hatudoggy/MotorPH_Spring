@@ -1,11 +1,12 @@
 package com.motorph.ems.dto;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter @Setter
-public class UserAuth {
-
-    private Long employeeId;
-    private Long roleId;
+@Builder
+public record UserAuth (
+         Long employeeId,
+         Long roleId
+) {
 }

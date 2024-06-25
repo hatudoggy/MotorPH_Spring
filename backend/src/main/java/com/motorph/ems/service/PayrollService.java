@@ -2,6 +2,7 @@ package com.motorph.ems.service;
 
 import com.motorph.ems.dto.MonthlyPayrollReportDTO;
 import com.motorph.ems.dto.PayrollDTO;
+import com.motorph.ems.model.Payroll;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -32,4 +33,6 @@ public interface PayrollService {
     List<MonthlyPayrollReportDTO> getMonthlyReport(LocalDate start, LocalDate end);
 
     void batchGeneratePayroll(LocalDate periodStart, LocalDate periodEnd);
+
+    List<PayrollDTO> getPayrollByEmployeeIdAndPeriodRange(long id, LocalDate start, LocalDate end);
 }

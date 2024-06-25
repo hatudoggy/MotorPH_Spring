@@ -1,14 +1,16 @@
 package com.motorph.ems.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
 
-@Getter @Setter @AllArgsConstructor
-public class MonthlyPayrollReportDTO {
-    private LocalDate month;
-    private double totalEarnings;
-    private double totalDeductions;
+@Builder
+public record MonthlyPayrollReportDTO (
+        LocalDate month,
+        double totalEarnings,
+        double totalDeductions
+){
 }

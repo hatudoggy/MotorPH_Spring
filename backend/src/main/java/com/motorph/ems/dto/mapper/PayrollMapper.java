@@ -11,9 +11,12 @@ import java.util.stream.Collectors;
 public class PayrollMapper {
 
     private final DeductionsMapper deductionsMapper;
+    private final BenefitsMapper benefitsMapper;
 
-    public PayrollMapper(DeductionsMapper deductionsMapper) {
+    public PayrollMapper(DeductionsMapper deductionsMapper,
+                         BenefitsMapper benefitsMapper) {
         this.deductionsMapper = deductionsMapper;
+        this.benefitsMapper = benefitsMapper;
     }
 
     public PayrollDTO toDTO(Payroll entity) {
@@ -23,17 +26,30 @@ public class PayrollMapper {
 
         return PayrollDTO.builder()
                 .payrollId(entity.getPayrollId())
+                .payDate(entity.getPayDate())
                 .employeeId(entity.getEmployee().getEmployeeId())
+                .firstName(entity.getEmployee().getFirstName())
+                .lastName(entity.getEmployee().getLastName())
                 .periodStart(entity.getPeriodStart())
                 .periodEnd(entity.getPeriodEnd())
+                .workingDays(entity.getWorkingDays())
+                .daysWorked(entity.getDaysWorked())
                 .monthlyRate(entity.getMonthlyRate())
-                .dailyRate(entity.getDailyRate())
+                .hoursWorked(entity.getHoursWorked())
+                .hourlyRate(entity.getHourlyRate())
+                .overtimeHours(entity.getOvertimeHours())
+                .overtimeRate(entity.getOvertimeRate())
                 .overtimePay(entity.getOvertimePay())
+                .grossIncome(entity.getGrossIncome())
+                .totalBenefits(entity.getTotalBenefits())
+                .totalDeductions(entity.getTotalDeductions())
+                .netPay(entity.getNetPay())
                 .deductions(entity.getDeductions().stream()
                         .map(deductionsMapper::toDTO)
                         .collect(Collectors.toList()))
-                .grossIncome(entity.getGrossIncome())
-                .netIncome(entity.getNetIncome())
+                .benefits(entity.getEmployee().getBenefits().stream()
+                        .map(benefitsMapper::toDTO)
+                        .collect(Collectors.toList()))
                 .build();
     }
 
@@ -50,11 +66,12 @@ public class PayrollMapper {
                 dto.employeeId(),
                 dto.periodStart(),
                 dto.periodEnd(),
+                dto.daysWorked(),
                 dto.monthlyRate(),
-                dto.dailyRate(),
-                dto.overtimePay(),
-                dto.grossIncome(),
-                dto.netIncome()
+                dto.hourlyRate(),
+                dto.hoursWorked(),
+                dto.overtimeHours(),
+                dto.overtimeRate()
         );
     }
 
@@ -81,9 +98,9 @@ public class PayrollMapper {
         entity.setPeriodStart(payrollDTO.periodStart());
         entity.setPeriodEnd(payrollDTO.periodEnd());
         entity.setMonthlyRate(payrollDTO.monthlyRate());
-        entity.setDailyRate(payrollDTO.dailyRate());
+        entity.setHourlyRate(payrollDTO.hourlyRate());
         entity.setOvertimePay(payrollDTO.overtimePay());
         entity.setGrossIncome(payrollDTO.grossIncome());
-        entity.setNetIncome(payrollDTO.netIncome());
+        entity.setNetPay(payrollDTO.netPay());
     }
 }

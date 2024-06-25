@@ -8,6 +8,7 @@ import com.motorph.ems.repository.LeaveRequestRepository;
 import com.motorph.ems.repository.LeaveStatusRepository;
 import com.motorph.ems.service.LeaveRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -146,16 +147,18 @@ public class LeaveRequestServiceImpl implements LeaveRequestService {
         requestRepository.deleteById(leaveRequestId);
     }
 
+    @Cacheable(value = "leaveStatuses", key = "#leaveStatusId")
     @Override
     public Optional<LeaveStatusDTO> getLeaveStatusById(int leaveStatusId) {
         return statusRepository.findById(leaveStatusId).map(leaveRequestMapper::toDTO);
     }
 
-    @Override
-    public Optional<LeaveStatusDTO> getLeaveStatusByStatusName(String statusName) {
-        return statusRepository.findByStatusName(statusName).map(leaveRequestMapper::toDTO);
-    }
+//    @Override
+//    public Optional<LeaveStatusDTO> getLeaveStatusByStatusName(String statusName) {
+//        return statusRepository.findByStatusName(statusName).map(leaveRequestMapper::toDTO);
+//    }
 
+    @Cacheable("leaveStatuses")
     @Override
     public List<LeaveStatusDTO> getAllLeaveStatus() {
         return statusRepository.findAll().stream()

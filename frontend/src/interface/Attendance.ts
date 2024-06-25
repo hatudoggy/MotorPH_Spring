@@ -5,8 +5,8 @@ interface AttendanceRes {
   date: string
   timeIn: string
   timeOut: string
-  hoursWorked: number
-  overtime: number
+  totalHours: number
+  overtimeHours: number
 }
 
 interface AttendanceSummaryRes {
@@ -24,6 +24,6 @@ interface AttendanceFull {
   date: string
   timeIn: string
   timeOut: string
-  hoursWorked: number
-  overtime: number
+  totalHours: number
+  overtimeHours: number
 }

@@ -13,5 +13,5 @@ public interface EmploymentStatusService {
 
     Optional<EmploymentStatusDTO> getEmploymentStatusById(int statusId);
 
-    Optional<EmploymentStatusDTO> getEmploymentStatusByStatusName(String statusName);
+//    Optional<EmploymentStatusDTO> getEmploymentStatusByStatusName(String statusName);
 }

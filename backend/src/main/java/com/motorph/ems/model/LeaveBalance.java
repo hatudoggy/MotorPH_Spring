@@ -52,7 +52,7 @@ public class LeaveBalance {
     public String toString() {
         return "LeaveBalance{" +
                 "leaveBalanceId=" + leaveBalanceId +
-                ", supervisorId=" + employee.getEmployeeId() +
+                ", supervisor=" + employee.getEmployeeId() +
                 ", leaveType=" + leaveType +
                 ", balance=" + balance +
                 '}';

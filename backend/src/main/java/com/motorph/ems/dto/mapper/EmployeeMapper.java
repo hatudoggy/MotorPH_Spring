@@ -1,10 +1,7 @@
 package com.motorph.ems.dto.mapper;
 
 
-import com.motorph.ems.dto.ContactDTO;
-import com.motorph.ems.dto.EmployeeDTO;
-import com.motorph.ems.dto.GovernmentIdDTO;
-import com.motorph.ems.dto.SupervisorDTO;
+import com.motorph.ems.dto.*;
 import com.motorph.ems.model.Department;
 import com.motorph.ems.model.Employee;
 import com.motorph.ems.model.Employee.Contact;
@@ -22,12 +19,21 @@ public class EmployeeMapper {
 
     private final BenefitsMapper benefitsMapper;
     private final LeaveBalanceMapper leaveBalanceMapper;
+    private final PositionMapper positionMapper;
+    private final DepartmentMapper departmentMapper;
+    private final EmploymentStatusMapper statusMapper;
 
     public EmployeeMapper(
             BenefitsMapper benefitsMapper,
-            LeaveBalanceMapper leaveBalanceMapper) {
+            LeaveBalanceMapper leaveBalanceMapper,
+            PositionMapper positionMapper,
+            DepartmentMapper departmentMapper,
+            EmploymentStatusMapper statusMapper) {
         this.benefitsMapper = benefitsMapper;
         this.leaveBalanceMapper = leaveBalanceMapper;
+        this.positionMapper = positionMapper;
+        this.departmentMapper = departmentMapper;
+        this.statusMapper = statusMapper;
     }
 
     public EmployeeDTO toDTO(Employee employee) {
@@ -48,11 +54,11 @@ public class EmployeeMapper {
 
                 // From DTOs
                 .contacts(toContactDTO(employee.getContacts()))
-                .positionCode(employee.getPosition().getPositionCode())
-                .departmentCode(employee.getDepartment().getDepartmentCode())
+                .position(positionMapper.toDTO(employee.getPosition()))
+                .department(departmentMapper.toDTO(employee.getDepartment()))
                 .governmentId(toGovernmentIdDTO(employee.getGovernmentId()))
-                .supervisorId(employee.getSupervisor().getEmployeeId())
-                .statusId(employee.getStatus().getStatusId())
+                .supervisor(toSupervisorDTO(employee.getSupervisor()))
+                .status(statusMapper.toDTO(employee.getStatus()))
                 .build();
     }
 
@@ -84,10 +90,10 @@ public class EmployeeMapper {
                 employeeDTO.address(),
                 employeeDTO.hireDate(),
                 employeeDTO.basicSalary(),
-                employeeDTO.supervisorId(),
-                employeeDTO.positionCode(),
-                employeeDTO.departmentCode(),
-                employeeDTO.statusId(),
+                employeeDTO.supervisor().supervisorId(),
+                employeeDTO.position().positionCode(),
+                employeeDTO.department().departmentCode(),
+                employeeDTO.status().statusId(),
                 toContactEntity(employeeDTO.contacts()),
                 toGovernmentIdEntity(employeeDTO.governmentId()),
                 benefitsMapper.toEntity(employeeDTO.benefits()),
@@ -147,6 +153,8 @@ public class EmployeeMapper {
         }
 
         return GovernmentIdDTO.builder()
+                .id(governmentId.getId())
+                .employeeId(governmentId.getEmployee().getEmployeeId())
                 .sssNo(governmentId.getSssNo())
                 .philHealthNo(governmentId.getPhilHealthNo())
                 .pagIbigNo(governmentId.getPagIbigNo())
@@ -184,10 +192,10 @@ public class EmployeeMapper {
         employee.setBasicSalary(employeeDTO.basicSalary());
         employee.setSemiMonthlyRate(employeeDTO.semiMonthlyRate());
         employee.setHourlyRate(employeeDTO.hourlyRate());
-        employee.setPosition(new Position(employeeDTO.positionCode()));
-        employee.setDepartment(new Department(employeeDTO.departmentCode()));
-        employee.setStatus(new EmploymentStatus(employeeDTO.statusId()));
-        employee.setSupervisor(new Employee(employeeDTO.supervisorId()));
+        employee.setPosition(new Position(employeeDTO.position().positionCode()));
+        employee.setDepartment(new Department(employeeDTO.department().departmentCode()));
+        employee.setStatus(new EmploymentStatus(employeeDTO.status().statusId()));
+        employee.setSupervisor(new Employee(employeeDTO.supervisor().supervisorId()));
         employee.setContacts(toContactEntity(employeeDTO.contacts()));
         employee.setGovernmentId(toGovernmentIdEntity(employeeDTO.governmentId()));
         employee.setBenefits(benefitsMapper.toEntity(employeeDTO.benefits()));

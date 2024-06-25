@@ -29,7 +29,9 @@
     "react-hook-form": "^7.52.0",
     "react-router-dom": "^6.23.1",
     "react-virtualized-auto-sizer": "^1.0.24",
-    "react-window": "^1.8.10"
+    "react-window": "^1.8.10",
+    "@react-buddy/ide-toolbox": "^2.4.0",
+    "@react-buddy/palette-mui": "^5.0.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",

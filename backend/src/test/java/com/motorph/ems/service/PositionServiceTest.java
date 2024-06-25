@@ -121,17 +121,17 @@ class PositionServiceTest {
         assertThat(foundPosition.get().positionCode()).isEqualTo("P001");
     }
 
-    @Test
-    @Transactional
-    @DirtiesContext
-    void PositionService_getPositionByName_ReturnsPositionByPositionCodeDTO() {
-        when(positionRepository.findByPositionName("Manager")).thenReturn(Optional.of(position1));
-
-        when(positionMapper.toDTO(any(Position.class))).thenReturn(positionDTO1);
-
-        Optional<PositionDTO> foundPosition = positionService.getPositionByName("Manager");
-
-        assertThat(foundPosition).isPresent();
-        assertThat(foundPosition.get().position()).isEqualTo("Manager");
-    }
+//    @Test
+//    @Transactional
+//    @DirtiesContext
+//    void PositionService_getPositionByName_ReturnsPositionByPositionCodeDTO() {
+//        when(positionRepository.findByPositionName("Manager")).thenReturn(Optional.of(position1));
+//
+//        when(positionMapper.toDTO(any(Position.class))).thenReturn(positionDTO1);
+//
+//        Optional<PositionDTO> foundPosition = positionService.getPositionByName("Manager");
+//
+//        assertThat(foundPosition).isPresent();
+//        assertThat(foundPosition.get().position()).isEqualTo("Manager");
+//    }
 }

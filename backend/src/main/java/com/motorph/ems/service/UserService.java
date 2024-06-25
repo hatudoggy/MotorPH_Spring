@@ -1,5 +1,6 @@
 package com.motorph.ems.service;
 
+import com.motorph.ems.dto.RoleDTO;
 import com.motorph.ems.dto.UserAuth;
 import com.motorph.ems.dto.UserDTO;
 import com.motorph.ems.model.User.Role;
@@ -30,11 +31,11 @@ public interface UserService {
 
     void deleteUser(Long userId);
 
-    Optional<Role> getRoleById(int roleId);
+    Optional<RoleDTO> getRoleById(int roleId);
 
-    Optional<Role> getRoleByRoleName(String roleName);
+//    Optional<RoleDTO> getRoleByRoleName(String roleName);
 
-    List<Role> getAllRoles();
+    List<RoleDTO> getAllRoles();
 
     UserAuth authenticateUser(String username, String password);
 }

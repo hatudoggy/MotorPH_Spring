@@ -56,7 +56,7 @@ public class User {
     public String toString() {
         return "User{" +
                 "userId=" + userId +
-                ", supervisorId=" + employee.getEmployeeId() +
+                ", supervisor=" + employee.getEmployeeId() +
                 ", role=" + role +
                 ", username='" + username + '\'' +
                 ", salt='" + salt.hashCode() + '\'' +

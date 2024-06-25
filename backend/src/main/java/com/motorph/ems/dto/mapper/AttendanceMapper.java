@@ -21,8 +21,8 @@ public class AttendanceMapper {
                 .date(entity.getDate())
                 .timeIn(entity.getTimeIn())
                 .timeOut(entity.getTimeOut() == null ? null : entity.getTimeOut())
-                .totalHours(entity.getTimeOut() == null ? 0 : calculateTotalHours(entity) )
-                .overtimeHours(entity.getTimeOut() == null ? 0 : calculateOvertimeHours(entity) )
+                .totalHours(entity.getTimeOut() == null ? 0 : entity.getTotalHours() )
+                .overtimeHours(entity.getTimeOut() == null ? 0 : entity.getOvertimeHours() )
                 .build();
     }
 
@@ -59,7 +59,7 @@ public class AttendanceMapper {
                 .collect(Collectors.toList());
     }
 
-    public void updateFromDTO(AttendanceDTO dto, Attendance entity) {
+    public void updateEntity(AttendanceDTO dto, Attendance entity) {
         if (dto.employeeId() == null) {
             throw new IllegalArgumentException("Employee ID cannot be null when updating attendance");
         }
@@ -69,6 +69,8 @@ public class AttendanceMapper {
         }
 
         entity.setTimeOut(dto.timeOut());
+        entity.setTotalHours(calculateTotalHours(entity));
+        entity.setOvertimeHours(calculateOvertimeHours(entity));
     }
 
     private double calculateTotalHours(Attendance entity) {
@@ -76,7 +78,7 @@ public class AttendanceMapper {
             return 0;
         }
         // Calculate total hours based on your logic
-        return entity.getTotalHours();
+        return entity.calculateTotalHours();
     }
 
     private double calculateOvertimeHours(Attendance entity) {
@@ -84,6 +86,6 @@ public class AttendanceMapper {
             return 0;
         }
         // Calculate overtime hours based on your logic
-        return entity.getOvertimeHours();
+        return entity.calculateOvertime();
     }
 }

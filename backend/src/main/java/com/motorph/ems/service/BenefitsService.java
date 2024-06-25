@@ -1,6 +1,7 @@
 package com.motorph.ems.service;
 
 import com.motorph.ems.dto.BenefitDTO;
+import com.motorph.ems.dto.BenefitTypeDTO;
 import com.motorph.ems.model.Benefits.BenefitType;
 
 import java.util.List;
@@ -26,10 +27,10 @@ public interface BenefitsService {
 
     void deleteBenefitsByEmployeeId(Long employeeId);
 
-    Optional<BenefitType> getBenefitTypeByBenefitId(int benefitId);
+    Optional<BenefitTypeDTO> getBenefitTypeByBenefitId(int benefitId);
 
-    Optional<BenefitType> getBenefitTypeByBenefit(String benefit);
+//    Optional<BenefitTypeDTO> getBenefitTypeByBenefit(String benefit);
 
-    List<BenefitType> getAllBenefitTypes();
+    List<BenefitTypeDTO> getAllBenefitTypes();
 }
 

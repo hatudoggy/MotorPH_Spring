@@ -188,21 +188,9 @@ function AccountButton() {
     return res.json();
   }
 
-  const fetchPosition = async (positionCode: string) => {
-    const {COMPANY} = API
-    const res = await fetch(BASE_API + COMPANY.POSITIONS + positionCode)
-    return res.json();
-  }
-
   const {isPending, data} = useQuery<EmployeeRes>({
     queryKey: ['profile'],
     queryFn: fetchEmployee
-  })
-
-  const { data: positionData } = useQuery<PositionRes>({
-    queryKey: ['position', data?.positionCode],
-    queryFn: () => fetchPosition(data?.positionCode || ""),
-    enabled: !!data?.positionCode // Ensure this query runs only when positionCode is available
   })
 
   const handleLogout = () => {
@@ -232,7 +220,7 @@ function AccountButton() {
                       `${data?.firstName.split(" ")[0]} ${data?.lastName}`
                     }
                   </Typography>
-                  <Typography variant="caption" noWrap>{`${positionData?.position}`}</Typography>
+                  <Typography variant="caption" noWrap>{`${data?.position.position}`}</Typography>
                 </Stack>
               </MenuItem>
               <Menu

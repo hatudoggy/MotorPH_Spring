@@ -36,7 +36,7 @@ public class EmploymentStatus {
     @Override
     public String toString() {
         return "EmploymentStatus{" +
-                "statusId=" + statusId +
+                "status=" + statusId +
                 ", statusName='" + statusName + '\'' +
                 '}';
     }

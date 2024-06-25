@@ -5,20 +5,19 @@ import com.motorph.ems.dto.PayrollDTO;
 import com.motorph.ems.dto.mapper.PayrollMapper;
 import com.motorph.ems.model.*;
 import com.motorph.ems.model.Deductions.DeductionType;
+import com.motorph.ems.repository.AttendanceRepository;
 import com.motorph.ems.repository.EmployeeRepository;
 import com.motorph.ems.repository.PayrollRepository;
-import com.motorph.ems.service.AttendanceService;
 import com.motorph.ems.service.MatrixService;
 import com.motorph.ems.service.PayrollService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -29,7 +28,7 @@ public class PayrollServiceImpl implements PayrollService {
 
     private final PayrollRepository payrollRepository;
     private final EmployeeRepository employeeRepository;
-    private final AttendanceService attendanceService;
+    private final AttendanceRepository attendanceRepository;
     private final MatrixService matrixService;
     private final PayrollMapper payrollMapper;
 
@@ -37,12 +36,12 @@ public class PayrollServiceImpl implements PayrollService {
     public PayrollServiceImpl(
             PayrollRepository payrollRepository,
             EmployeeRepository employeeRepository,
-            AttendanceService attendanceService,
+            AttendanceRepository attendanceRepository,
             MatrixService matrixService,
             PayrollMapper payrollMapper) {
         this.payrollRepository = payrollRepository;
         this.employeeRepository = employeeRepository;
-        this.attendanceService = attendanceService;
+        this.attendanceRepository = attendanceRepository;
         this.matrixService = matrixService;
         this.payrollMapper = payrollMapper;
     }
@@ -83,10 +82,20 @@ public class PayrollServiceImpl implements PayrollService {
     }
 
     @Override
+    public List<PayrollDTO> getPayrollByEmployeeIdAndPeriodRange(long id, LocalDate start, LocalDate end) {
+        return payrollRepository.findAllByEmployeeEmployeeIdAndPeriodStartAndPeriodEnd(id, start, end)
+                .stream()
+                .map(payrollMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Cacheable(value = "payroll", key = "#payrollId")
+    @Override
     public Optional<PayrollDTO> getPayrollById(Long payrollId) {
         return payrollRepository.findById(payrollId).map(payrollMapper::toDTO);
     }
 
+    @Cacheable(value = "payroll", key = "#employeeId + '_' + #periodStart")
     @Override
     public Optional<PayrollDTO> getPayrollByEmployeeIdAndPeriodStart(Long employeeId, LocalDate periodStart) {
         return payrollRepository.findByEmployee_EmployeeIdAndPeriodStart(employeeId, periodStart)
@@ -126,20 +135,21 @@ public class PayrollServiceImpl implements PayrollService {
 
     @Override
     public List<MonthlyPayrollReportDTO> getMonthlyReport(LocalDate start, LocalDate end) {
-        List<Object[]> results = payrollRepository.getTotalEarningsAndDeductionsByMonth(start, end);
-        List<MonthlyPayrollReportDTO> dtoList = new ArrayList<>();
-        DateTimeFormatter monthFormatter = DateTimeFormatter.ofPattern("MMMM yyyy");
-
-        for (Object[] result : results) {
-            LocalDate monthYear = LocalDate.parse((String) result[0]);
-            double totalEarnings = (Double) result[1];
-            double totalDeductions = (Double) result[2];
-
-            MonthlyPayrollReportDTO dto = new MonthlyPayrollReportDTO(monthYear, totalEarnings, totalDeductions);
-            dtoList.add(dto);
-        }
-
-        return dtoList;
+//        List<Object[]> results = payrollRepository.getTotalEarningsAndDeductionsByMonth(start, end);
+//        List<MonthlyPayrollReportDTO> dtoList = new ArrayList<>();
+//        DateTimeFormatter monthFormatter = DateTimeFormatter.ofPattern("MMMM yyyy");
+//
+//        for (Object[] result : results) {
+//            LocalDate monthYear = LocalDate.parse((String) result[0]);
+//            double totalEarnings = (Double) result[1];
+//            double totalDeductions = (Double) result[2];
+//
+//            MonthlyPayrollReportDTO dto = new MonthlyPayrollReportDTO(monthYear, totalEarnings, totalDeductions);
+//            dtoList.add(dto);
+//        }
+//
+//        return dtoList;
+        return null;
     }
 
     @Override
@@ -147,58 +157,71 @@ public class PayrollServiceImpl implements PayrollService {
         List<Employee> employees = employeeRepository.findAllExceptByStatus_StatusId(3);
 
         for (Employee employee : employees) {
-            Long presentCount = attendanceService
-                    .countPresentAttendancesByEmployeeId(employee.getEmployeeId(), periodStart, periodEnd);
-            double overtimeHours = attendanceService
-                    .calculateOvertimeHoursByEmployeeIdAndDateRange(employee.getEmployeeId(), periodStart, periodEnd);
-            double basicSalary = employee.getBasicSalary();
+
+            List<Attendance> attendances = attendanceRepository.findAllByEmployee_EmployeeId_AndDateBetween(
+                    employee.getEmployeeId(), periodStart, periodEnd
+            );
+
+            int presentCount = countPresent(attendances);
+            double hoursWorked = calculateHoursWorked(attendances);
+            double overtimeHours = calculateOvertimeHours(attendances);
+            double monthlyRate = employee.getBasicSalary();
             double hourlyRate = employee.getHourlyRate();
-            double dailyRate = round(hourlyRate * 8, 2);
-            double monthlyRate = round(dailyRate * presentCount, 2);
-            double overtimePay = round(hourlyRate * overtimeHours, 2);
-            double benefits = employee.getBenefits().stream().mapToDouble(Benefits::getAmount).sum();
-            double grossIncome = round(monthlyRate + overtimePay + benefits, 2);
-
-            double sss = matrixService.getSSSMatrix(basicSalary).getContribution();
-            PhilhealthMatrix phm = matrixService.getPhilhealthMatrix(basicSalary);
-            double philhealth = Math.floor(
-                    (phm.getMonthlyPremiumCap() == null ?
-                            phm.getMonthlyPremiumBase() :
-                            basicSalary * phm.getPremiumRate()
-                            ) / 2 * 100) / 100;
-            PagibigMatrix pgm = matrixService.getPagibigMatrix(basicSalary);
-
-            double pagibig = Math.max((basicSalary * pgm.getTotalRate()), 100);
-
-            WitholdingTaxMatrix tm = matrixService.getWitholdingTaxMatrix(basicSalary);
-
-            double witholdingTax = (tm.getTaxBase() + basicSalary - tm.getMinRange()) * tm.getTaxRate();
-            double deductions = sss + philhealth + pagibig + witholdingTax;
-
-            double netPay = round(grossIncome - deductions, 2);
+            double overtimeRate = employee.getOvertimeRate();
 
             Payroll payroll = new Payroll(
                     employee.getEmployeeId(),
                     periodStart,
                     periodEnd,
+                    presentCount,
                     monthlyRate,
-                    dailyRate,
-                    overtimePay,
-                    grossIncome,
-                    netPay
+                    hourlyRate,
+                    hoursWorked,
+                    overtimeHours,
+                    overtimeRate
             );
+
+            double grossIncome = calculateGrossIncome(hoursWorked,hourlyRate,overtimeHours,overtimeRate);
+
+            PhilhealthMatrix phm = matrixService.getPhilhealthMatrix(grossIncome);
+            PagibigMatrix pgm = matrixService.getPagibigMatrix(grossIncome);
+
+            double sss = matrixService.getSSSMatrix(grossIncome).getContribution();
+            double philhealth = Math.floor(
+                    (phm.getMonthlyPremiumCap() == null ?
+                            phm.getMonthlyPremiumBase() :
+                            grossIncome * phm.getPremiumRate()
+                            ) / 2 * 100) / 100;
+
+            double pagibig = Math.max((grossIncome * pgm.getTotalRate()), 100);
+            double partialDeduction = sss + philhealth + pagibig;
+
+            WitholdingTaxMatrix tm = matrixService.getWitholdingTaxMatrix(grossIncome - partialDeduction);
+
+            double withholdingTax = (tm.getTaxBase() + (grossIncome - partialDeduction) - tm.getMinRange()) * tm.getTaxRate();
+
+            double totalDeduction = calculateTotalDeductions(List.of(sss, philhealth, pagibig, withholdingTax));
+
+            double totalBenefits = calculateTotalBenefits(employee.getBenefits().stream().map(Benefits::getAmount).toList());
+
+            double netPay = calculateNetPay(grossIncome,totalBenefits,totalBenefits);
+
+            payroll.setGrossIncome(grossIncome);
+            payroll.setTotalBenefits(totalBenefits);
+            payroll.setTotalDeductions(totalDeduction);
+            payroll.setNetPay(netPay);
 
             Payroll saved = payrollRepository.save(payroll);
 
-            saveDeductions(saved, sss, philhealth, pagibig, witholdingTax);
+            saveDeductions(saved, sss, philhealth, pagibig, withholdingTax);
         }
     }
 
-    private void saveDeductions(Payroll payroll, double sss, double philhealth, double pagibig, double witholdingTax) {
+    private void saveDeductions(Payroll payroll, double sss, double philhealth, double pagibig, double withholdingTax) {
         Deductions sssDeduction = createDeduction(payroll, sss, "SSS");
         Deductions philhealthDeduction = createDeduction(payroll, philhealth, "PHIC");
         Deductions pagibigDeduction = createDeduction(payroll, pagibig, "HDMF");
-        Deductions withholdingTaxDeduction = createDeduction(payroll, witholdingTax, "TAX");
+        Deductions withholdingTaxDeduction = createDeduction(payroll, withholdingTax, "TAX");
 
         payroll.setDeductions(List.of(sssDeduction, philhealthDeduction, pagibigDeduction, withholdingTaxDeduction));
 
@@ -223,5 +246,48 @@ public class PayrollServiceImpl implements PayrollService {
         BigDecimal bd = BigDecimal.valueOf(value);
         bd = bd.setScale(places, RoundingMode.HALF_UP);
         return bd.doubleValue();
+    }
+
+
+    private double calculateHoursWorked(List<Attendance> attendances) {
+        return attendances.stream().mapToDouble(Attendance::calculateTotalHours).sum();
+    }
+
+    private double calculateOvertimeHours(List<Attendance> attendances) {
+        return attendances.stream().mapToDouble(Attendance::calculateOvertime).sum();
+    }
+
+
+    private int countPresent(List<Attendance> attendances) {
+        return attendances.size();
+    }
+
+    private double calculateGrossIncome(double hoursWorked, double hourlyRate, double overtimeHours, double overtimeRate) {
+        if (overtimeHours > 0) {
+            hoursWorked -= overtimeHours;
+            return Math.round((hoursWorked * hourlyRate) + (overtimeHours * overtimeRate) * 100) / 100.0;
+        }
+
+        return Math.round(hoursWorked * hourlyRate * 100) / 100.0;
+    }
+
+    private double calculateTotalDeductions(List<Double> deductions) {
+        return Math.round(deductions.stream().reduce(0.0, Double::sum) * 100) / 100.0;
+    }
+
+    private double calculateTotalBenefits(List<Double> benefits) {
+        return Math.round(benefits.stream().reduce(0.0, Double::sum) * 100) / 100.0;
+    }
+
+    private double calculateGross(double hoursWorked, double hourlyRate, double overtimeHours, double overtimePay) {
+        double gross = hoursWorked * hourlyRate;
+        if (overtimeHours > 0){
+            gross += overtimePay;
+        }
+        return Math.round(gross * 100) / 100.0; // Round the gross;
+    }
+
+    private double calculateNetPay(double grossIncome, double totalDeductions, double totalBenefits) {
+        return (double) Math.round((grossIncome - totalDeductions + totalBenefits) * 100) / 100;
     }
 }

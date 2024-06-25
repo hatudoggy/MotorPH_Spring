@@ -8,14 +8,24 @@ import java.util.List;
 @Builder
 public record PayrollDTO (
         Long payrollId,
+        LocalDate payDate,
         Long employeeId,
+        String firstName,
+        String lastName,
         LocalDate periodStart,
         LocalDate periodEnd,
+        int workingDays,
+        int daysWorked,
         double monthlyRate,
-        double dailyRate,
+        double hoursWorked,
+        double hourlyRate,
+        double overtimeHours,
+        double overtimeRate,
         double overtimePay,
-        List<DeductionsDTO> deductions,
-        List<BenefitDTO> benefits,
         double grossIncome,
-        double netIncome
+        double totalBenefits,
+        double totalDeductions,
+        double netPay,
+        List<DeductionsDTO> deductions,
+        List<BenefitDTO> benefits
 ){}

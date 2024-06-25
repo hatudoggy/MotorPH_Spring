@@ -6,6 +6,6 @@ import lombok.Builder;
 public record BenefitDTO(
     Long benefitId,
     Long employeeId,
-    int benefitTypeId,
+    BenefitTypeDTO benefitType,
     Double amount
 ) {}

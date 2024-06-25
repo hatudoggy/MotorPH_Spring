@@ -1,6 +1,7 @@
 package com.motorph.ems.service.impl;
 
 import com.motorph.ems.dto.BenefitDTO;
+import com.motorph.ems.dto.BenefitTypeDTO;
 import com.motorph.ems.dto.mapper.BenefitsMapper;
 import com.motorph.ems.model.Benefits;
 import com.motorph.ems.model.Benefits.BenefitType;
@@ -10,6 +11,7 @@ import com.motorph.ems.service.BenefitsService;
 import com.motorph.ems.service.EmployeeService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -36,7 +38,7 @@ public class BenefitsServiceImpl implements BenefitsService {
     @Override
     public BenefitDTO addNewBenefit(BenefitDTO benefitDTO) {
         if (benefitsRepository.existsByEmployee_EmployeeIdAndBenefitType_BenefitTypeId(
-                benefitDTO.employeeId(), benefitDTO.benefitTypeId())) {
+                benefitDTO.employeeId(), benefitDTO.benefitType().benefitTypeId())) {
             throw new IllegalArgumentException("This benefit already exists for employee " + benefitDTO.employeeId());
         }
         Benefits savedBenefit = benefitsRepository.save(benefitsMapper.toEntity(benefitDTO));
@@ -52,7 +54,7 @@ public class BenefitsServiceImpl implements BenefitsService {
     @Override
     public BenefitDTO updateBenefit(Long benefitsId, BenefitDTO benefitDTO) {
         Benefits existingBenefit = benefitsRepository.findById(benefitsId).orElseThrow(
-                () -> new EntityNotFoundException("Benefit with statusId " + benefitsId + " does not exist"));
+                () -> new EntityNotFoundException("Benefit with status " + benefitsId + " does not exist"));
 
         benefitsMapper.updateFromDTO(benefitDTO, existingBenefit);
 
@@ -67,7 +69,7 @@ public class BenefitsServiceImpl implements BenefitsService {
 
     @Override
     public List<BenefitDTO> getBenefitsByEmployeeId(Long employeeId) {
-        return benefitsRepository.findAllById(Collections.singleton(employeeId)).stream()
+        return benefitsRepository.findByEmployee_EmployeeId(employeeId).stream()
                 .map(benefitsMapper::toDTO).collect(Collectors.toList());
     }
 
@@ -86,7 +88,7 @@ public class BenefitsServiceImpl implements BenefitsService {
     @Override
     public void deleteBenefitById(Long benefitId) {
         if (!benefitsRepository.existsById(benefitId)) {
-            throw new IllegalStateException("Benefit with statusId " + benefitId + " does not exist");
+            throw new IllegalStateException("Benefit with status " + benefitId + " does not exist");
         }
 
         benefitsRepository.deleteById(benefitId);
@@ -95,24 +97,27 @@ public class BenefitsServiceImpl implements BenefitsService {
     @Override
     public void deleteBenefitsByEmployeeId(Long employeeId) {
         if (!benefitsRepository.existsById(employeeId)) {
-            throw new IllegalStateException("Employee with statusId " + employeeId + " does not exist");
+            throw new IllegalStateException("Employee with status " + employeeId + " does not exist");
         }
 
         benefitsRepository.deleteAllById(Collections.singleton(employeeId));
     }
 
+    @Cacheable(value = "benefits", key = "#benefitId")
     @Override
-    public Optional<BenefitType> getBenefitTypeByBenefitId(int benefitId) {
-        return typeRepository.findById(benefitId);
+    public Optional<BenefitTypeDTO> getBenefitTypeByBenefitId(int benefitId) {
+        return typeRepository.findById(benefitId).map(benefitsMapper::toDTO);
     }
 
-    @Override
-    public Optional<BenefitType> getBenefitTypeByBenefit(String benefit) {
-        return typeRepository.findBenefitTypeByBenefit(benefit);
-    }
+//    @Override
+//    public Optional<BenefitTypeDTO> getBenefitTypeByBenefit(String benefit) {
+//        return typeRepository.findBenefitTypeByBenefit(benefit).map(benefitsMapper::toDTO);
+//    }
 
+    @Cacheable("benefits")
     @Override
-    public List<BenefitType> getAllBenefitTypes() {
-        return typeRepository.findAll();
+    public List<BenefitTypeDTO> getAllBenefitTypes() {
+        return typeRepository.findAll().stream()
+                .map(benefitsMapper::toDTO).toList();
     }
 }

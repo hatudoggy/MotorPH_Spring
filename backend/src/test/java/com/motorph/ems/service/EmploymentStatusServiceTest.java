@@ -92,17 +92,17 @@ class EmploymentStatusServiceTest {
         assertThat(foundStatus.get().statusId()).isEqualTo(1);
     }
 
-    @Test
-    @Transactional
-    @DirtiesContext
-    void EmploymentStatusService_getEmploymentStatusByStatusName_ReturnsEmploymentStatusDTO() {
-        when(employmentStatusRepository.findByStatusName("Active")).thenReturn(Optional.of(employmentStatus1));
-
-        when(statusMapper.toDTO(any(EmploymentStatus.class))).thenReturn(employmentStatusDTO1);
-
-        Optional<EmploymentStatusDTO> foundStatus = employmentStatusService.getEmploymentStatusByStatusName("Active");
-
-        assertThat(foundStatus).isPresent();
-        assertThat(foundStatus.get().statusName()).isEqualTo("Active");
-    }
+//    @Test
+//    @Transactional
+//    @DirtiesContext
+//    void EmploymentStatusService_getEmploymentStatusByStatusName_ReturnsEmploymentStatusDTO() {
+//        when(employmentStatusRepository.findByStatusName("Active")).thenReturn(Optional.of(employmentStatus1));
+//
+//        when(statusMapper.toDTO(any(EmploymentStatus.class))).thenReturn(employmentStatusDTO1);
+//
+//        Optional<EmploymentStatusDTO> foundStatus = employmentStatusService.getEmploymentStatusByStatusName("Active");
+//
+//        assertThat(foundStatus).isPresent();
+//        assertThat(foundStatus.get().statusName()).isEqualTo("Active");
+//    }
 }

@@ -108,7 +108,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public EmployeeDTO updateEmployee(Long employeeID, EmployeeDTO employeeDTO) {
         // Find the existing employee by ID
         Employee employee = employeeRepository.findById(employeeID).orElseThrow(
-                () -> new RuntimeException("Employee not found with statusId: " + employeeDTO.employeeId())
+                () -> new RuntimeException("Employee not found with status: " + employeeDTO.employeeId())
         );
 
         employeeMapper.updateEntity(employeeDTO, employee);
@@ -120,7 +120,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Transactional
     public void deleteEmployee(Long employeeID) {
         Employee employee = employeeRepository.findById(employeeID).orElseThrow(
-                () -> new RuntimeException("EmployeeDTO not found with statusId: " + employeeID)
+                () -> new RuntimeException("EmployeeDTO not found with status: " + employeeID)
         );
 
         employeeRepository.delete(employee);

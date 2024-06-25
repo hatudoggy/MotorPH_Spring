@@ -22,9 +22,15 @@ interface EmployeeRes {
 interface BenefitRes {
   benefitId: number;
   employeeId: number;
-  benefitTypeId: number;
+  benefitType: BenefitTypeRes;
   amount: number;
 }
+
+interface BenefitTypeRes {
+  benefitTypeId: number;
+  benefit: string;
+}
+
 
 interface LeaveBalanceRes {
   id: number;
@@ -91,6 +97,24 @@ interface EmployeeReq {
   hourlyRate: number;
   benefits: BenefitReq[];
   leaveBalances: LeaveBalanceReq[];
+}
+
+interface LeaveBalanceReq {
+  id?: number;
+  employeeId: number;
+  leaveTypeId: number;
+  balance: number;
+}
+
+interface LeaveRequestReq {
+  leaveRequestId?: number;
+  employeeId: number;
+  requestDate: string; // Use string for dates to simplify JSON handling
+  startDate: string; // Use string for dates to simplify JSON handling
+  endDate: string; // Use string for dates to simplify JSON handling
+  daysRequested: number;
+  statusId: number;
+  reason: string;
 }
 
 interface EmploymentStatusReq {

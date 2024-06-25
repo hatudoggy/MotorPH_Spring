@@ -1,7 +1,9 @@
 package com.motorph.ems.dto.mapper;
 
+import com.motorph.ems.dto.RoleDTO;
 import com.motorph.ems.dto.UserDTO;
 import com.motorph.ems.model.User;
+import com.motorph.ems.model.User.Role;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
@@ -50,5 +52,15 @@ public class UserMapper {
         if (dto.password() != null) {
             entity.setPassword(dto.password());
         }
+    }
+
+    public RoleDTO toDTO(Role entity) {
+        if (entity == null) {
+            return null;
+        }
+        return RoleDTO.builder()
+                .id(entity.getUserRoleId())
+                .roleName(entity.getRoleName())
+                .build();
     }
 }

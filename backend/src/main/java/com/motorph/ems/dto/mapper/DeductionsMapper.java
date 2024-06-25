@@ -18,7 +18,7 @@ public class DeductionsMapper {
         return DeductionsDTO.builder()
                 .deductionId(entity.getDeductionId())
                 .payrollId(entity.getPayroll().getPayrollId())
-                .deductionCode(entity.getDeductionType().getDeductionCode())
+                .deductionType(entity.getDeductionType())
                 .amount(entity.getAmount())
                 .build();
     }
@@ -30,7 +30,7 @@ public class DeductionsMapper {
 
         return new Deductions(
                 dto.payrollId(),
-                dto.deductionCode(),
+                dto.deductionType().getDeductionCode(),
                 dto.amount()
         );
     }

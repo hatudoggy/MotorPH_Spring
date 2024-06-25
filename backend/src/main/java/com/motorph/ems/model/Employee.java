@@ -88,7 +88,11 @@ public class Employee {
     }
 
     public Double getHourlyRate() {
-        return Math.round((this.basicSalary / 21 / 8) * 100.0) / 100.0;
+        return Math.round((this.basicSalary / 20 / 8) * 100.0) / 100.0;
+    }
+
+    public Double getOvertimeRate(){
+        return Math.round((this.basicSalary / 20 / 8 * 1.5) * 100.0) / 100.0;
     }
 
     public Employee (

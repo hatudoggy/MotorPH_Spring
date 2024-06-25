@@ -1,5 +1,6 @@
 package com.motorph.ems.service.impl;
 
+import com.motorph.ems.dto.RoleDTO;
 import com.motorph.ems.dto.UserAuth;
 import com.motorph.ems.dto.UserDTO;
 import com.motorph.ems.dto.mapper.UserMapper;
@@ -9,6 +10,7 @@ import com.motorph.ems.repository.UserRepository;
 import com.motorph.ems.repository.UserRoleRepository;
 import com.motorph.ems.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -102,27 +104,30 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(userId);
     }
 
-    @Override
-    public Optional<Role> getRoleById(int roleId) {
-        return userRoleRepository.findById(roleId);
+    @Cacheable(value = "userRoles", key = "#roleId")
+    @Override()
+    public Optional<RoleDTO> getRoleById(int roleId) {
+        return userRoleRepository.findById(roleId).map(userMapper::toDTO);
     }
 
-    @Override
-    public Optional<Role> getRoleByRoleName(String roleName) {
-        return userRoleRepository.findByRoleName(roleName);
-    }
+//    @Override
+//    public Optional<RoleDTO> getRoleByRoleName(String roleName) {
+//        return userRoleRepository.findByRoleName(roleName).map(userMapper::toDTO);
+//    }
 
+    @Cacheable("userRoles")
     @Override
-    public List<Role> getAllRoles() {
-        return userRoleRepository.findAll();
+    public List<RoleDTO> getAllRoles() {
+        return userRoleRepository.findAll().stream().map(userMapper::toDTO).toList();
     }
 
     @Override
     public UserAuth authenticateUser(String username, String password) {
         User user = userRepository.findUserByUsernameAndPassword(username, password);
-        UserAuth userAuth = new UserAuth();
-        userAuth.setEmployeeId(user.getEmployee().getEmployeeId());
-        userAuth.setRoleId((long) user.getRole().getUserRoleId());
-        return userAuth;
+
+        return new UserAuth(
+                user.getEmployee().getEmployeeId(),
+                (long) user.getRole().getUserRoleId()
+        );
     }
 }

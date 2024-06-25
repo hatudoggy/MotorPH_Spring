@@ -1,14 +1,16 @@
 package com.motorph.ems.controller;
 
 
-import com.motorph.ems.dto.BenefitDTO;
-import com.motorph.ems.dto.EmployeeDTO;
-import com.motorph.ems.service.BenefitsService;
-import com.motorph.ems.service.EmployeeService;
+import com.motorph.ems.dto.*;
+import com.motorph.ems.service.*;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 @CrossOrigin
@@ -17,15 +19,24 @@ import java.util.List;
 public class EmployeeController {
 
     private final EmployeeService employeeService;
+    private final PayrollService payrollService;
+    private final AttendanceService attendanceService;
     private final BenefitsService benefitsService;
+    private final LeaveBalanceService leaveBalanceService;
 
     @Autowired
     public EmployeeController(
             EmployeeService employeeService,
-            BenefitsService benefitsService
+            PayrollService payrollService,
+            AttendanceService attendanceService,
+            BenefitsService benefitsService,
+            LeaveBalanceService leaveBalanceService
     ){
         this.employeeService = employeeService;
+        this.payrollService = payrollService;
+        this.attendanceService = attendanceService;
         this.benefitsService = benefitsService;
+        this.leaveBalanceService = leaveBalanceService;
     }
 
     @PostMapping("/register")
@@ -42,8 +53,34 @@ public class EmployeeController {
 
     @GetMapping("/{id}")
     public ResponseEntity<EmployeeDTO> getEmployeeById(@PathVariable(value = "id") Long employeeID) {
-        EmployeeDTO employee = employeeService.getEmployeeById(employeeID).orElse(null);
-        return ResponseEntity.ok().body(employee);
+        EmployeeDTO employee = employeeService.getEmployeeById(employeeID).orElseThrow(
+                () -> new EntityNotFoundException("Employee not found")
+        );
+
+//        List<BenefitDTO> benefit = benefitsService.getBenefitsByEmployeeId(employeeID);
+//        List<LeaveBalanceDTO> leaveBalance = leaveBalanceService.getLeaveBalancesByEmployeeId(employeeID);
+
+        EmployeeDTO result = EmployeeDTO.builder()
+                .employeeId(employeeID)
+                .firstName(employee.firstName())
+                .lastName(employee.lastName())
+                .dob(employee.dob())
+                .hireDate(employee.hireDate())
+                .basicSalary(employee.basicSalary())
+                .semiMonthlyRate(employee.semiMonthlyRate())
+                .hourlyRate(employee.hourlyRate())
+                .position(employee.position())
+                .department(employee.department())
+                .status(employee.status())
+                .supervisor(employee.supervisor())
+                .contacts(employee.contacts())
+                .governmentId(employee.governmentId())
+//                .benefits(benefit)
+//                .leaveBalances(leaveBalance)
+                .build();
+
+
+        return ResponseEntity.ok().body(result);
     }
 
     @PutMapping("/update/{employeeID}")
@@ -64,29 +101,102 @@ public class EmployeeController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/all/department/{departmentName}")
-    public ResponseEntity<List<EmployeeDTO>> getEmployeesByDepartment(@PathVariable(value = "departmentName") String departmentName) {
-        List<EmployeeDTO> employeeList = employeeService.getEmployeesByDepartment(departmentName);
-        return ResponseEntity.ok(employeeList);
+    @GetMapping("/{id}/attendances")
+    public ResponseEntity<List<AttendanceDTO>> getEmployeeAttendance(
+            @PathVariable Long id,
+            @RequestParam(value = "startDate", required = false) String startDate,
+            @RequestParam(value = "endDate", required = false) String endDate
+    ) {
+        List<AttendanceDTO> attendanceList;
+        try {
+            if (startDate != null && endDate != null) {
+                LocalDate start = LocalDate.parse(startDate);
+                LocalDate end = LocalDate.parse(endDate);
+                attendanceList = attendanceService.getAllAttendanceByEmployeeIdAndDateRange(id, start, end);
+                return ResponseEntity.ok(attendanceList);
+            } else if (startDate != null) {
+                LocalDate start = LocalDate.parse(startDate);
+                AttendanceDTO attendance = attendanceService.getAttendanceByEmployeeIdAndDate(id, start).orElse(null);
+                assert attendance != null;
+                attendanceList = List.of(attendance);
+                return ResponseEntity.ok(attendanceList);
+            }
+            return ResponseEntity.ok(attendanceService.getAllByEmployeeId(id));
+        } catch (DateTimeParseException e) {
+            // Handle the case where the date is not properly formatted
+            throw new IllegalArgumentException("Invalid date format: " + startDate + " " + endDate);
+        } catch (Exception e) {
+            // Log the exception and return an appropriate response
+            e.printStackTrace();
+            throw new IllegalArgumentException("Invalid date format: " + startDate + " " + endDate);
+        }
     }
 
-    @GetMapping("/all/position/{positionName}")
-    public ResponseEntity<List<EmployeeDTO>> getEmployeesByPosition(@PathVariable(value = "positionName") String positionName) {
-        List<EmployeeDTO> employeeList = employeeService.getEmployeesByPosition(positionName);
-        return ResponseEntity.ok(employeeList);
+    @GetMapping("/{id}/attendances/summary")
+    public ResponseEntity<AttendanceSummaryDTO> getEmployeeAttendanceSummary(
+            @PathVariable Long id
+    ) {
+        return ResponseEntity.ok(attendanceService.getAttendanceSummaryByEmployeeId(id));
     }
 
-    @GetMapping("/all/status/{statusName}")
-    public ResponseEntity<List<EmployeeDTO>> getEmployeesByStatus(@PathVariable(value = "statusName") String statusName) {
-        List<EmployeeDTO> employeeList = employeeService.getEmployeesByStatus(statusName);
-        return ResponseEntity.ok(employeeList);
+    @PostMapping("/{id}/attendances/timeIn")
+    public ResponseEntity<AttendanceDTO> employeeTimeIn(@PathVariable Long id) {
+        AttendanceDTO attendanceToday = AttendanceDTO.builder()
+                .employeeId(id)
+                .date(LocalDate.now())
+                .timeIn(LocalTime.now())
+                .build();
+
+        return ResponseEntity.ok(attendanceService.addNewAttendance(attendanceToday));
     }
 
-    @GetMapping("/benefits/{id}")
-    public ResponseEntity<List<BenefitDTO>> getBenefitsByEmployeeId(@PathVariable(value = "id") Long employeeID) {
-        List<BenefitDTO> benefits = benefitsService.getBenefitsByEmployeeId(employeeID);
-        return ResponseEntity.ok(benefits);
+    @PostMapping("/{id}/attendances/timeOut")
+    public ResponseEntity<AttendanceDTO> employeeTimeOut(@PathVariable Long id) {
+        AttendanceDTO attendanceToday = attendanceService.getAttendanceByEmployeeIdAndDate(id, LocalDate.now()).orElseThrow(
+                () -> new EntityNotFoundException("You haven't clocked in yet")
+        );
+
+        if (attendanceToday.timeOut() != null) {
+            throw new IllegalArgumentException("You have already clocked out");
+        }
+
+        AttendanceDTO updatedAttendance = AttendanceDTO.builder()
+                .attendanceId(attendanceToday.attendanceId())
+                .employeeId(attendanceToday.employeeId())
+                .timeIn(attendanceToday.timeIn())
+                .timeOut(LocalTime.now())
+                .build();
+
+        return ResponseEntity.ok(attendanceService.updateAttendance(attendanceToday.attendanceId(), updatedAttendance));
     }
 
 
+//    @GetMapping("/{id}/leave-balances")
+//    public List<LeaveBalance> getEmployeeLeaveBalance(@PathVariable long id) {
+//        return leaveBalanceService.getLeaveBalancesByEmployeeId(id);
+//    }
+//
+//    @GetMapping("/{id}/leave-requests")
+//    public List<LeaveRequest> getEmployeeLeaveRequest(@PathVariable long id) {
+//        return leaveRequestService.getAllLeaveRequestsByEmployeeId(id);
+//    }
+
+
+    @GetMapping("/{id}/payrolls")
+    public ResponseEntity<List<PayrollDTO>> getEmployeePayroll(
+            @PathVariable Long id,
+            @RequestParam(value = "startDate", required = false) String startDate,
+            @RequestParam(value = "endDate", required = false) String endDate
+    ){
+        List<PayrollDTO> payrolls;
+        if(startDate != null && endDate != null) {
+            LocalDate start = LocalDate.parse(startDate);
+            LocalDate end = LocalDate.parse(endDate);
+            payrolls = payrollService.getPayrollByEmployeeIdAndPeriodRange(id, start, end);
+        } else {
+            payrolls = payrollService.getPayrollsByEmployeeId(id);
+        }
+
+        return ResponseEntity.ok(payrolls);
+    }
 }

@@ -99,17 +99,17 @@ class DepartmentServiceTest {
         assertThat(foundDepartment.get().departmentCode()).isEqualTo("D001");
     }
 
-    @Test
-    @Transactional
-    @DirtiesContext
-    void DepartmentService_getDepartmentByName_ReturnsDepartmentDTO() {
-        when(departmentRepository.findByDepartmentName("HR")).thenReturn(Optional.of(department1));
-
-        when(departmentMapper.toDTO(any(Department.class))).thenReturn(departmentDTO1);
-
-        Optional<DepartmentDTO> foundDepartment = departmentService.getDepartmentByName("HR");
-
-        assertThat(foundDepartment).isPresent();
-        assertThat(foundDepartment.get().department()).isEqualTo("HR");
-    }
+//    @Test
+//    @Transactional
+//    @DirtiesContext
+//    void DepartmentService_getDepartmentByName_ReturnsDepartmentDTO() {
+//        when(departmentRepository.findByDepartmentName("HR")).thenReturn(Optional.of(department1));
+//
+//        when(departmentMapper.toDTO(any(Department.class))).thenReturn(departmentDTO1);
+//
+//        Optional<DepartmentDTO> foundDepartment = departmentService.getDepartmentByName("HR");
+//
+//        assertThat(foundDepartment).isPresent();
+//        assertThat(foundDepartment.get().department()).isEqualTo("HR");
+//    }
 }

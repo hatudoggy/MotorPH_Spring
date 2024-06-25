@@ -221,19 +221,19 @@ class LeaveBalanceServiceTest {
         assertThat(foundType.get().id()).isEqualTo(1);
     }
 
-    @Test
-    @Transactional
-    @DirtiesContext
-    void LeaveBalanceService_getLeaveTypeByTypeName_ReturnsLeaveTypeDTO() {
-        when(balanceMapper.toLeaveTypeDTO(any(LeaveType.class))).thenReturn(leaveTypeDTO1);
-
-        when(leaveTypeRepository.findByType("Sick Leave")).thenReturn(Optional.of(leaveType1));
-
-        Optional<LeaveTypeDTO> foundType = leaveBalanceService.getLeaveTypeByTypeName("Sick Leave");
-
-        assertThat(foundType).isPresent();
-        assertThat(foundType.get().typeName()).isEqualTo("Sick Leave");
-    }
+//    @Test
+//    @Transactional
+//    @DirtiesContext
+//    void LeaveBalanceService_getLeaveTypeByTypeName_ReturnsLeaveTypeDTO() {
+//        when(balanceMapper.toLeaveTypeDTO(any(LeaveType.class))).thenReturn(leaveTypeDTO1);
+//
+//        when(leaveTypeRepository.findByType("Sick Leave")).thenReturn(Optional.of(leaveType1));
+//
+//        Optional<LeaveTypeDTO> foundType = leaveBalanceService.getLeaveTypeByTypeName("Sick Leave");
+//
+//        assertThat(foundType).isPresent();
+//        assertThat(foundType.get().typeName()).isEqualTo("Sick Leave");
+//    }
 
     @Test
     @Transactional

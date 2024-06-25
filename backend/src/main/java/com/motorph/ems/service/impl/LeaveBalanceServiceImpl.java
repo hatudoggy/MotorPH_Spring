@@ -8,6 +8,7 @@ import com.motorph.ems.repository.LeaveBalanceRepository;
 import com.motorph.ems.repository.LeaveTypeRepository;
 import com.motorph.ems.service.LeaveBalanceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -94,7 +95,7 @@ public class LeaveBalanceServiceImpl implements LeaveBalanceService {
     @Override
     public LeaveBalanceDTO updateLeaveBalance(Long leaveBalanceId, LeaveBalanceDTO leaveBalance) {
         LeaveBalance balance = balanceRepository.findById(leaveBalanceId).orElseThrow(
-                () -> new IllegalArgumentException("Leave balance with statusId " + leaveBalance.id() + " does not exist")
+                () -> new IllegalArgumentException("Leave balance with status " + leaveBalance.id() + " does not exist")
         );
 
         leaveMapper.updateEntity(leaveBalance, balance);
@@ -125,16 +126,18 @@ public class LeaveBalanceServiceImpl implements LeaveBalanceService {
         return leaveMapper.toLeaveTypeDTO(leaveTypeRepository.save(leaveMapper.toLeaveTypeEntity(leaveType)));
     }
 
+    @Cacheable(value = "leaveTypes", key = "#leaveTypeId")
     @Override
     public Optional<LeaveTypeDTO> getLeaveTypeById(int leaveTypeId) {
         return leaveTypeRepository.findById(leaveTypeId).map(leaveMapper::toLeaveTypeDTO);
     }
 
-    @Override
-    public Optional<LeaveTypeDTO> getLeaveTypeByTypeName(String leaveTypeName) {
-        return leaveTypeRepository.findByType(leaveTypeName).map(leaveMapper::toLeaveTypeDTO);
-    }
+//    @Override
+//    public Optional<LeaveTypeDTO> getLeaveTypeByTypeName(String leaveTypeName) {
+//        return leaveTypeRepository.findByType(leaveTypeName).map(leaveMapper::toLeaveTypeDTO);
+//    }
 
+    @Cacheable("leaveTypes")
     @Override
     public List<LeaveTypeDTO> getAllLeaveTypes() {
         return leaveTypeRepository.findAll().stream().map(leaveMapper::toLeaveTypeDTO).toList();
