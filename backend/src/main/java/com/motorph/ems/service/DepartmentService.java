@@ -11,7 +11,7 @@ public interface DepartmentService {
 
     List<DepartmentDTO> getDepartments();
 
-    Optional<DepartmentDTO> getDepartmentById(String departmentCode);
+    Optional<DepartmentDTO> getDepartmentByDepartmentCode(String departmentCode);
 
     Optional<DepartmentDTO> getDepartmentByName(String departmentName);
 }

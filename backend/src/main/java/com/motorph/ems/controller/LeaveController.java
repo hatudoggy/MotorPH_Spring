@@ -66,4 +66,5 @@ public class LeaveController {
         LeaveRequestDTO request = requestService.addNewLeaveRequest(leaveRequest);
         return ResponseEntity.ok(request);
     }
+
 }

@@ -5,7 +5,7 @@ export const BASE_API = "http://localhost:8080/api"
 
 export const API = {
   EMPLOYEES: {
-    BASE: "/employees/",
+    BASE: "/employee/",
     ALL: "/employees",
   },
   ATTENDANCES: {
@@ -30,8 +30,8 @@ export const API = {
   },
   COMPANY: {
     BASE: "/company",
-    POSITIONS: "/company/positions",
-    DEPARTMENTS: "/company/departments",
-    STATUSES: "/company/statuses",
+    POSITIONS: "/company/positions/",
+    DEPARTMENTS: "/company/departments/",
+    STATUSES: "/company/statuses/",
   }
 }

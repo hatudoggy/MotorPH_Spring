@@ -46,7 +46,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public Optional<DepartmentDTO> getDepartmentById(String departmentCode) {
+    public Optional<DepartmentDTO> getDepartmentByDepartmentCode(String departmentCode) {
         return departmentRepository.findById(departmentCode)
                 .map(departmentMapper::toDTO);
     }

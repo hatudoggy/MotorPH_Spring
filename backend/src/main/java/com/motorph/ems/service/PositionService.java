@@ -13,7 +13,7 @@ public interface PositionService {
 
     List<PositionDTO> getPositions();
 
-    Optional<PositionDTO> getPosition(String positionCode);
+    Optional<PositionDTO> getPositionByPositionCode(String positionCode);
 
     Optional<PositionDTO> getPositionByName(String positionName);
 }

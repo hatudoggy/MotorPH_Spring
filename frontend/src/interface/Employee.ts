@@ -1,134 +1,147 @@
 
-
 interface EmployeeRes {
-  employeeId: number
-  firstName: string
-  lastName: string
-  dob: string
-  address: string
-  contacts: Contacts[]
-  benefits: Benefits[]
-  employment: Employment
-  governmentId: GovernmentId
+  employeeId: number;
+  lastName: string;
+  firstName: string;
+  dob: string;
+  address: string;
+  contacts: ContactRes;
+  positionCode: string;
+  departmentCode: string;
+  governmentId: GovernmentIdRes;
+  supervisorId: number;
+  statusId: number;
+  hireDate: string;
+  basicSalary: number;
+  semiMonthlyRate: number;
+  hourlyRate: number;
+  benefits: BenefitRes[];
+  leaveBalances: LeaveBalanceRes[];
 }
 
-
-interface Contacts {
-  contact_id: number
-  contactNo: string
+interface BenefitRes {
+  benefitId: number;
+  employeeId: number;
+  benefitTypeId: number;
+  amount: number;
 }
 
-interface Benefits {
-  benefitId: number
-  amount: number
-  benefitType: BenefitType
+interface LeaveBalanceRes {
+  id: number;
+  employeeId: number;
+  leaveTypeId: number;
+  balance: number;
 }
 
-interface BenefitType {
-  benefitTypeId: number
-  benefit: string
+interface GovernmentIdRes {
+  id: number;
+  employeeId: number;
+  sssNo: string;
+  philHealthNo: string;
+  pagIbigNo: string;
+  tinNo: string;
 }
 
-interface Employment {
-  employeeId: number
-  department: Department
-  position: Position
-  status: Status
-  supervisor: Supervisor
-  hireDate: string
-  basicSalary: number
-  semiMonthlyRate: number
-  hourlyRate: number
+interface EmploymentStatusRes {
+  statusId: number;
+  statusName: string;
 }
 
-interface Department {
-  departmentCode: string
-  departmentName: string
+interface ContactRes {
+  employeeId: number;
+  contactNumbers: string[];
 }
 
-interface Position {
-  positionCode: string
-  positionName: string
+interface DepartmentRes {
+  departmentCode: string;
+  department: string;
 }
 
-interface Status {
-  statusId: number
-  status: string
+interface PositionRes {
+  positionCode: string;
+  position: string;
 }
 
-interface Supervisor {
-  id: number
-  firstName: string
-  lastName: string
+interface SupervisorRes {
+  supervisorId: number;
+  lastName: string;
+  firstName: string;
+  address: string;
+  positionCode: string;
+  contacts: ContactRes;
 }
-
-interface GovernmentId {
-  employeeId: number
-  sssNo: string
-  philHealthNo: string
-  pagIbigNo: string
-  tinNo: string
-}
-
 
 
 //POST
 interface EmployeeReq {
-  employeeId?: number
-  firstName: string
-  lastName: string
-  dob: string
-  address: string
-  contacts: ContactsReq[]
-  benefits: BenefitsReq[]
-  employment: EmploymentReq
-  governmentId: GovernmentIdReq
+  employeeId?: number;
+  lastName: string;
+  firstName: string;
+  dob: string; // Use string for dates to simplify JSON handling
+  address: string;
+  contacts: ContactReq;
+  positionCode: string;
+  departmentCode: string;
+  governmentId: GovernmentIdReq;
+  supervisorId: number;
+  statusId: number;
+  hireDate: string; // Use string for dates to simplify JSON handling
+  basicSalary: number;
+  semiMonthlyRate: number;
+  hourlyRate: number;
+  benefits: BenefitReq[];
+  leaveBalances: LeaveBalanceReq[];
 }
 
-
-interface ContactsReq {
-  contactNo: string
+interface EmploymentStatusReq {
+  statusId: number;
+  statusName: string;
 }
 
-interface BenefitsReq {
-  amount: number
-  benefitType: BenefitTypeReq
+interface ContactReq {
+  employeeId: number;
+  contactNumbers: string[];
+}
+
+interface BenefitReq {
+  benefitId?: number;
+  employeeId: number;
+  benefitTypeId: number;
+  amount: number;
 }
 
 interface BenefitTypeReq {
-  benefitTypeId: number
+  benefitTypeId: number;
+  benefit: string;
 }
 
-interface EmploymentReq {
-  department: DepartmentReq
-  position: PositionReq
-  status: StatusReq
-  supervisor: SupervisorReq
-  hireDate: string
-  basicSalary: number
-  semiMonthlyRate: number
-  hourlyRate: number
-}
 
 interface DepartmentReq {
-  departmentCode: string
+  departmentCode: string;
+  department: string;
 }
+
 
 interface PositionReq {
-  positionCode: string
-}
-
-interface StatusReq {
-  statusId: number
+  positionCode: string;
+  departmentCode: string;
+  position: string;
 }
 
 interface SupervisorReq {
-  employeeId: number
+  supervisorId?: number;
+  lastName: string;
+  firstName: string;
+  address: string;
+  positionCode: string;
+  contacts: ContactReq;
 }
 
 interface GovernmentIdReq {
-  sssNo: string
-  philHealthNo: string
-  pagIbigNo: string
-  tinNo: string
+  id?: number;
+  employeeId: number;
+  sssNo: string;
+  philHealthNo: string;
+  pagIbigNo: string;
+  tinNo: string;
 }

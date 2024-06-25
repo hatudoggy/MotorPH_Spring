@@ -28,7 +28,7 @@ public class Position {
     @Override
     public String toString() {
         return "Position{" +
-                "positionCode='" + positionCode + '\'' +
+                "position='" + positionCode + '\'' +
                 ", positionName='" + positionName + '\'' +
                 '}';
     }

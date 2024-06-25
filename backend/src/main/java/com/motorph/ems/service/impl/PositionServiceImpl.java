@@ -46,7 +46,7 @@ public class PositionServiceImpl implements PositionService {
     }
 
     @Override
-    public Optional<PositionDTO> getPosition(String positionCode) {
+    public Optional<PositionDTO> getPositionByPositionCode(String positionCode) {
         return positionRepository.findById(positionCode).map(positionMapper::toDTO);
     }
 

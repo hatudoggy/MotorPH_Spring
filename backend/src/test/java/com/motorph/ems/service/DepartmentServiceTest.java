@@ -93,7 +93,7 @@ class DepartmentServiceTest {
 
         when(departmentMapper.toDTO(any(Department.class))).thenReturn(departmentDTO1);
 
-        Optional<DepartmentDTO> foundDepartment = departmentService.getDepartmentById("D001");
+        Optional<DepartmentDTO> foundDepartment = departmentService.getDepartmentByDepartmentCode("D001");
 
         assertThat(foundDepartment).isPresent();
         assertThat(foundDepartment.get().departmentCode()).isEqualTo("D001");

@@ -82,7 +82,7 @@ class PositionServiceTest {
     @Test
     @Transactional
     @DirtiesContext
-    void PositionService_getPositionsByDepartment_ReturnsListOfPositionDTO() {
+    void PositionService_getPositionsByDepartment_ReturnsListOfPositionByPositionCodeDTO() {
         when(positionRepository.findAllByDepartment_DepartmentCode("D001")).thenReturn(List.of(position1));
 
         when(positionMapper.toDTO(any(Position.class))).thenReturn(positionDTO1);
@@ -96,7 +96,7 @@ class PositionServiceTest {
     @Test
     @Transactional
     @DirtiesContext
-    void PositionService_getPositions_ReturnsListOfPositionDTO() {
+    void PositionService_getPositions_ReturnsListOfPositionByPositionCodeDTO() {
         when(positionRepository.findAll()).thenReturn(List.of(position1));
 
         when(positionMapper.toDTO(any(Position.class))).thenReturn(positionDTO1);
@@ -110,12 +110,12 @@ class PositionServiceTest {
     @Test
     @Transactional
     @DirtiesContext
-    void PositionService_getPosition_ReturnsPositionDTO() {
+    void PositionService_getPosition_ReturnsPositionByPositionCodeDTO() {
         when(positionRepository.findById("P001")).thenReturn(Optional.of(position1));
 
         when(positionMapper.toDTO(any(Position.class))).thenReturn(positionDTO1);
 
-        Optional<PositionDTO> foundPosition = positionService.getPosition("P001");
+        Optional<PositionDTO> foundPosition = positionService.getPositionByPositionCode("P001");
 
         assertThat(foundPosition).isPresent();
         assertThat(foundPosition.get().positionCode()).isEqualTo("P001");
@@ -124,7 +124,7 @@ class PositionServiceTest {
     @Test
     @Transactional
     @DirtiesContext
-    void PositionService_getPositionByName_ReturnsPositionDTO() {
+    void PositionService_getPositionByName_ReturnsPositionByPositionCodeDTO() {
         when(positionRepository.findByPositionName("Manager")).thenReturn(Optional.of(position1));
 
         when(positionMapper.toDTO(any(Position.class))).thenReturn(positionDTO1);
