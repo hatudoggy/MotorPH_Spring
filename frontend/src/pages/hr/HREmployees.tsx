@@ -394,7 +394,7 @@ function EmployeeDetailsDialog({ selectedEmployee, onClose }: EmployeeDetailsDia
                         >
                           <Tab label="Info" value="1" />
                           <Tab label="Employment" value="2" />
-                          <Tab label="Contribution" value="3" />
+                          <Tab label="Government IDs" value="3" />
                           <Tab label="Salary" value="4" />
                         </TabList>
                       </Box>
@@ -421,10 +421,20 @@ function EmployeeDetailsDialog({ selectedEmployee, onClose }: EmployeeDetailsDia
                               />
                               <ReadonlyTextField
                                   label="Birthdate"
-                                  defaultValue={data.dob}
+                                  defaultValue={format(data.dob,'MMM dd, yyyy')}
                                   fullWidth
                               />
                             </Stack>
+                            <ReadonlyTextField
+                                label="Contact Number"
+                                defaultValue={data.contacts.contactNumbers[0]}
+                                fullWidth
+                            />
+                            <ReadonlyTextField
+                                label="Email Address"
+                                defaultValue={"N/A"}
+                                fullWidth
+                            />
                             <ReadonlyTextField
                                 label="Address"
                                 defaultValue={data.address}
