@@ -121,7 +121,7 @@ function AttendanceTable({dateFilter, searchFilter}: AttendanceTable) {
         tableData={tableData || []}
         rowHeight={70}
         renderers={{
-          employee: (item: EmployeeRes) => (
+          employee: (item: EmployeeBasicRes) => (
             <Stack direction='row' alignItems='center' gap={1.5}>
               <Avatar 
                 sx={{

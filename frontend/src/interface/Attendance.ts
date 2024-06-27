@@ -20,7 +20,7 @@ interface AttendanceSummaryRes {
 
 interface AttendanceFull {
   attendanceId: number
-  employee: EmployeeRes
+  employee: EmployeeBasicRes
   date: string
   timeIn: string
   timeOut: string

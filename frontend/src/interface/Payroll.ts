@@ -33,7 +33,7 @@ interface PayrollFull {
   grossIncome: number
   netPay: number
   deductions: Deductions[]
-  employee: EmployeeRes
+  employee: EmployeeBasicRes
 }
 
 interface Deductions {

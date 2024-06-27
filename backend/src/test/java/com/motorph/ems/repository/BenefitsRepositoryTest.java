@@ -62,7 +62,7 @@ class BenefitsRepositoryTest {
                 .address("123 Main St")
                 .build();
 
-        //Create department and position
+        //Create departmentName and positionName
         department = Department.builder()
                 .departmentCode("D01")
                 .departmentName("Sales")
@@ -73,7 +73,7 @@ class BenefitsRepositoryTest {
                 .positionName("Sales Representative")
                 .build();
 
-        // Save department and position
+        // Save departmentName and positionName
         departmentRepository.save(department);
         positionRepository.save(position);
 
@@ -85,7 +85,7 @@ class BenefitsRepositoryTest {
         // Save employmentStatus
         employmentStatusRepository.save(employmentStatus);
 
-        //Add employees to department and position
+        //Add employees to departmentName and positionName
         employee1.setDepartment(department);
         employee1.setPosition(position);
         employee1.setStatus(employmentStatus);

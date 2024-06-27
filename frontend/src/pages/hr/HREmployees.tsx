@@ -32,7 +32,7 @@ export default function HREmployees() {
     return res.data;
   }
 
-  const {isPending, data} = useQuery<EmployeeRes[]>({
+  const {isPending, data} = useQuery<EmployeeBasicRes[]>({
     queryKey: ['employeesAll', debouncedSearch],
     queryFn: fetchAllEmployees,
     placeholderData: keepPreviousData
@@ -332,7 +332,7 @@ function EmployeeDetailsDialog({selectedEmployee, onClose}: EmployeeDetailsDialo
     return res.data;
   }
 
-  const {isPending, data} = useQuery<EmployeeRes>({
+  const {isPending, data} = useQuery<EmployeeBasicRes>({
     queryKey: ['employee'],
     queryFn: fetchEmployee,
     placeholderData: keepPreviousData
@@ -556,7 +556,7 @@ function EmployeeFormDialog({type, selectedId, onClose}: EmployeeFormDialog) {
     }
   }
 
-  const {isPending, data} = useQuery<EmployeeRes>({
+  const {isPending, data} = useQuery<EmployeeBasicRes>({
     queryKey: ['employeeEdit', selectedId],
     queryFn: fetchEmployee,
     enabled: !!selectedId
@@ -847,7 +847,7 @@ function EmploymentInfoArea({control, watch, setValue}: FormArea) {
     return res.data;
   }
 
-  const supervisors = useQuery<EmployeeRes[]>({
+  const supervisors = useQuery<EmployeeBasicRes[]>({
     queryKey: ['supervisors'],
     queryFn: fetchSupervisors,
     placeholderData: keepPreviousData

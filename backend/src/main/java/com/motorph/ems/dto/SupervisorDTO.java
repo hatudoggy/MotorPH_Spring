@@ -8,6 +8,6 @@ public record SupervisorDTO (
     String lastName,
     String firstName,
     String address,
-    String positionCode,
+    PositionDTO position,
     ContactDTO contacts
 ){}

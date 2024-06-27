@@ -53,7 +53,7 @@ class PositionServiceTest {
 
         positionDTO1 = PositionDTO.builder()
                 .positionCode("P001")
-                .position("Manager")
+                .positionName("Manager")
                 .departmentCode(department.getDepartmentCode())
                 .build();
     }
@@ -76,7 +76,7 @@ class PositionServiceTest {
 
         assertThat(savedPosition).isNotNull();
         assertThat(savedPosition.positionCode()).isEqualTo("P001");
-        assertThat(savedPosition.position()).isEqualTo("Manager");
+        assertThat(savedPosition.positionName()).isEqualTo("Manager");
     }
 
     @Test
@@ -132,6 +132,6 @@ class PositionServiceTest {
 //        Optional<PositionDTO> foundPosition = positionService.getPositionByName("Manager");
 //
 //        assertThat(foundPosition).isPresent();
-//        assertThat(foundPosition.get().position()).isEqualTo("Manager");
+//        assertThat(foundPosition.get().positionName()).isEqualTo("Manager");
 //    }
 }

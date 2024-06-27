@@ -46,7 +46,7 @@ class DepartmentServiceTest {
 
         departmentDTO1 = DepartmentDTO.builder()
                 .departmentCode("D001")
-                .department("HR")
+                .departmentName("HR")
                 .build();
     }
 
@@ -68,7 +68,7 @@ class DepartmentServiceTest {
 
         assertThat(savedDepartment).isNotNull();
         assertThat(savedDepartment.departmentCode()).isEqualTo("D001");
-        assertThat(savedDepartment.department()).isEqualTo("HR");
+        assertThat(savedDepartment.departmentName()).isEqualTo("HR");
     }
 
     @Test
@@ -110,6 +110,6 @@ class DepartmentServiceTest {
 //        Optional<DepartmentDTO> foundDepartment = departmentService.getDepartmentByName("HR");
 //
 //        assertThat(foundDepartment).isPresent();
-//        assertThat(foundDepartment.get().department()).isEqualTo("HR");
+//        assertThat(foundDepartment.get().departmentName()).isEqualTo("HR");
 //    }
 }

@@ -52,7 +52,7 @@ public class CompanyController {
     @GetMapping("/positions/{id}")
     public ResponseEntity<PositionDTO> getPositionByPositionCoded(@PathVariable(value = "id") String id) {
         return ResponseEntity.ok(positionService.getPositionByPositionCode(id).orElseThrow(
-                () -> new EntityNotFoundException("Position not found")
+                () -> new EntityNotFoundException("Position " + id + " not found")
         ));
     }
 
@@ -64,7 +64,7 @@ public class CompanyController {
     @GetMapping("/departments/{id}")
     public ResponseEntity<DepartmentDTO> getDepartmentByDepartmentCoded(@PathVariable(value = "id") String id) {
         return ResponseEntity.ok(departmentService.getDepartmentByDepartmentCode(id).orElseThrow(
-                () -> new EntityNotFoundException("Department not found")
+                () -> new EntityNotFoundException("Department " + id + " not found")
         ));
     }
 

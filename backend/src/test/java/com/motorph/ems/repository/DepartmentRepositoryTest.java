@@ -64,11 +64,11 @@ class DepartmentRepositoryTest {
     @Transactional
     @DirtiesContext
     void DepartmentRepository_updateDepartment_ReturnsUpdatedDepartment() {
-        // Retrieve the department
+        // Retrieve the departmentName
         Department existingDepartment = departmentRepository.findById(department1.getDepartmentCode()).orElse(null);
         assertNotNull(existingDepartment);
 
-        // Update the department name
+        // Update the departmentName name
         String newDepartmentName = "HR";
         existingDepartment.setDepartmentName(newDepartmentName);
         Department updatedDepartment = departmentRepository.save(existingDepartment);
@@ -82,7 +82,7 @@ class DepartmentRepositoryTest {
     @Transactional
     @DirtiesContext
     void DepartmentRepository_deleteDepartment() {
-        // Save a new department to delete later
+        // Save a new departmentName to delete later
         Department departmentToDelete = Department.builder()
                 .departmentCode("D003")
                 .departmentName("IT")
@@ -92,7 +92,7 @@ class DepartmentRepositoryTest {
         // Verify that it's saved
         assertNotNull(departmentRepository.findById(departmentToDelete.getDepartmentCode()));
 
-        // Delete the department
+        // Delete the departmentName
         departmentRepository.delete(departmentToDelete);
 
         // Verify that it's deleted

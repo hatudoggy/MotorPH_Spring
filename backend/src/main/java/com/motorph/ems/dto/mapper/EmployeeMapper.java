@@ -72,7 +72,7 @@ public class EmployeeMapper {
                 .lastName(employee.getLastName())
                 .firstName(employee.getFirstName())
                 .address(employee.getAddress())
-                .positionCode(employee.getPosition().getPositionCode())
+                .position(positionMapper.toDTO(employee.getPosition()))
                 .contacts(toContactDTO(employee.getContacts()))
                 .build();
     }

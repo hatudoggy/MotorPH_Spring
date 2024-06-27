@@ -8,14 +8,19 @@ export const fetchFromApi = async <T>(endpoint: string, options: RequestInit = {
     return response.json();
 };
 
-export const fetchEmployees = async (): Promise<EmployeeRes[]> => {
+export const fetchEmployees = async (): Promise<EmployeeBasicRes[]> => {
     const { EMPLOYEES } = API;
-    return fetchFromApi<EmployeeRes[]>(`${BASE_API}${EMPLOYEES.BASE}`);
+    return fetchFromApi<EmployeeBasicRes[]>(`${BASE_API}${EMPLOYEES.BASE}`);
 };
 
-export const fetchEmployeeById = async (employeeId: number): Promise<EmployeeRes> => {
+export const fetchEmployeeById = async (employeeId: number): Promise<EmployeeBasicRes> => {
     const { EMPLOYEES } = API;
-    return fetchFromApi<EmployeeRes>(`${BASE_API}${EMPLOYEES.BASE}${employeeId}`);
+    return fetchFromApi<EmployeeBasicRes>(`${BASE_API}${EMPLOYEES.BASE}${employeeId}`);
+};
+
+export const fetchEmployeeFullById = async (employeeId: number): Promise<EmployeeFullRes> => {
+    const { EMPLOYEES } = API;
+    return fetchFromApi<EmployeeFullRes>(`${BASE_API}${EMPLOYEES.BASE}${employeeId}`);
 };
 
 export const fetchSupervisorById = async (employeeId: number): Promise<SupervisorRes> => {
@@ -24,33 +29,33 @@ export const fetchSupervisorById = async (employeeId: number): Promise<Superviso
 }
 
 export const fetchPosition = async (): Promise<PositionRes[]> => {
-    const { COMPANY: POSITIONS } = API;
-    return fetchFromApi<PositionRes[]>(`${BASE_API}${POSITIONS.BASE}`);
+    const { COMPANY } = API;
+    return fetchFromApi<PositionRes[]>(`${BASE_API}${COMPANY.POSITIONS}`);
 };
 
 export const fetchPositionById = async (positionCode: string): Promise<PositionRes> => {
-    const { COMPANY: POSITIONS } = API;
-    return fetchFromApi<PositionRes>(`${BASE_API}${POSITIONS.BASE}${positionCode}`);
+    const { COMPANY } = API;
+    return fetchFromApi<PositionRes>(`${BASE_API}${COMPANY.POSITIONS}${positionCode}`);
 };
 
 export const fetchDepartments = async (): Promise<DepartmentRes[]> => {
-    const { COMPANY: DEPARTMENTS } = API;
-    return fetchFromApi<DepartmentRes[]>(`${BASE_API}${DEPARTMENTS.BASE}`);
+    const { COMPANY } = API;
+    return fetchFromApi<DepartmentRes[]>(`${BASE_API}${COMPANY.DEPARTMENTS}`);
 };
 
 export const fetchDepartmentById = async (departmentCode: string): Promise<DepartmentRes> => {
-    const { COMPANY: DEPARTMENTS } = API;
-    return fetchFromApi<DepartmentRes>(`${BASE_API}${DEPARTMENTS.BASE}${departmentCode}`);
+    const { COMPANY } = API;
+    return fetchFromApi<DepartmentRes>(`${BASE_API}${COMPANY.DEPARTMENTS}${departmentCode}`);
 };
 
 export const fetchEmploymentStatuses = async (): Promise<EmploymentStatusRes[]> => {
-    const { COMPANY: STATUSES } = API;
-    return fetchFromApi<EmploymentStatusRes[]>(`${BASE_API}${STATUSES.BASE}`);
+    const { COMPANY } = API;
+    return fetchFromApi<EmploymentStatusRes[]>(`${BASE_API}${COMPANY.STATUSES}`);
 };
 
 export const fetchEmploymentStatusById = async (statusId: number): Promise<EmploymentStatusRes> => {
-    const { COMPANY: STATUSES } = API;
-    return fetchFromApi<EmploymentStatusRes>(`${BASE_API}${STATUSES.BASE}${statusId}`);
+    const { COMPANY } = API;
+    return fetchFromApi<EmploymentStatusRes>(`${BASE_API}${COMPANY.STATUSES}${statusId}`);
 };
 
 export const fetchPayrolls = async (): Promise<PayrollRes[]> => {

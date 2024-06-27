@@ -5,5 +5,5 @@ import lombok.Builder;
 @Builder
 public record DepartmentDTO (
          String departmentCode,
-         String department
+         String departmentName
 ) {}

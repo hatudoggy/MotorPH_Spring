@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import {
-    Box, Button, Card, CardActionArea, CardContent, CircularProgress,
-    Container, Divider, IconButton, MenuItem, Paper, Select, Stack,
+    Box, Button, Card, CardActionArea, CardContent, Container, Divider, IconButton, MenuItem, Paper, Select, Stack,
     Typography, styled
 } from "@mui/material";
 import { ArrowBack, East, Download } from "@mui/icons-material";
@@ -10,6 +9,7 @@ import Headertext from "../../components/HeaderText";
 import { useAuth } from "../../hooks/AuthProvider";
 import { formatterWhole } from "../../utils/utils";
 import {useEmployeePayrollData, useFetchPayrollById} from "../../hooks/UseFetch.ts";
+import {LoadingOrError} from "../../hooks/Errors.tsx";
 
 // Constants
 const CHART_PALETTE = ['#000000', '#575757', '#c4c4c4'];
@@ -28,16 +28,6 @@ const StyledText = styled('text')(({ theme }) => ({
     fontSize: 24,
     fontWeight: 500
 }));
-
-// Reusable components
-const LoadingOrError = ({ isLoading, error, errorMessage }) => {
-    if (isLoading) return <CircularProgress />;
-    if (error) {
-        console.error(errorMessage || "An error occurred");
-        return <Typography>{errorMessage || "An error occurred"}</Typography>;
-    }
-    return null;
-};
 
 const PieCenterLabel = ({ children }) => {
     const { height, top } = useDrawingArea();

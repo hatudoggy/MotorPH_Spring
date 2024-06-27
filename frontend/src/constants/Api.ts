@@ -34,8 +34,7 @@ export const API = {
     DEPARTMENTS: "/company/departments/",
     STATUSES: "/company/statuses/",
     BENEFITS: "/company/benefits/",
-    GOVERNMENT: "/company/government/",
-    LEAVE_TYPES: "/company/leave/types/",
-    LEAVE_STATUS: "/company/leave/status/",
+    LEAVE_TYPES: "/company/leave/types",
+    LEAVE_STATUS: "/company/leave/status",
   }
 }

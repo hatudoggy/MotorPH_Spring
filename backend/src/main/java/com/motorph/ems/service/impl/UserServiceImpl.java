@@ -104,7 +104,6 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(userId);
     }
 
-    @Cacheable(value = "userRoles", key = "#roleId")
     @Override()
     public Optional<RoleDTO> getRoleById(int roleId) {
         return userRoleRepository.findById(roleId).map(userMapper::toDTO);
@@ -115,7 +114,6 @@ public class UserServiceImpl implements UserService {
 //        return userRoleRepository.findByRoleName(roleName).map(userMapper::toDTO);
 //    }
 
-    @Cacheable("userRoles")
     @Override
     public List<RoleDTO> getAllRoles() {
         return userRoleRepository.findAll().stream().map(userMapper::toDTO).toList();

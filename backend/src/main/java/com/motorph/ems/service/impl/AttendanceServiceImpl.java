@@ -43,26 +43,22 @@ public class AttendanceServiceImpl implements AttendanceService {
         return attendanceMapper.toDTO(savedAttendance);
     }
 
-    @Cacheable(value = "attendance", key = "#attendanceId")
     @Override
     public Optional<AttendanceDTO> getAttendanceById(Long attendanceId) {
         return attendanceRepository.findById(attendanceId).map(attendanceMapper::toDTO);
     }
 
-    @Cacheable(value = "attendance", key = "#employeeId + '_' + #date")
     @Override
     public Optional<AttendanceDTO> getAttendanceByEmployeeIdAndDate(Long employeeId, LocalDate date) {
         return attendanceRepository.findByEmployee_EmployeeIdAndDate(employeeId, date).map(attendanceMapper::toDTO);
     }
 
-    @Cacheable(value = "attendance")
     @Override
     public List<AttendanceDTO> getAllAttendances() {
         return attendanceRepository.findAll().stream()
                 .map(attendanceMapper::toDTO).collect(Collectors.toList());
     }
 
-    @Cacheable(value = "attendance", key = "#employeeId")
     @Override
     public List<AttendanceDTO> getAllByEmployeeId(Long employeeId) {
         return attendanceRepository.findAllByEmployee_EmployeeId_OrderByDateDesc(employeeId).stream()
@@ -107,7 +103,6 @@ public class AttendanceServiceImpl implements AttendanceService {
         return attendanceMapper.toDTO(updatedAttendance);
     }
 
-    @Cacheable(value = "attendanceSummary", key = "#employeeId")
     @Override
     public AttendanceSummaryDTO getAttendanceSummaryByEmployeeId(Long employeeId) {
         List<Attendance> attendanceList = attendanceRepository.findAllByEmployee_EmployeeId_OrderByDateDesc(employeeId);
@@ -150,7 +145,6 @@ public class AttendanceServiceImpl implements AttendanceService {
         attendanceRepository.deleteById(attendanceId);
     }
 
-    @Cacheable(value = "attendance", key = "#employeeId + '_' + #start + '_' + #end")
     @Override
     public List<AttendanceDTO> getAllAttendanceByEmployeeIdAndDateRange(Long employeeId, LocalDate start, LocalDate end) {
         return attendanceRepository.findAllByEmployee_EmployeeId_AndDateBetween(employeeId, start, end)

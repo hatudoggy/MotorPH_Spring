@@ -73,7 +73,7 @@ class LeaveRequestRepositoryTest {
         
         employeeRepository.save(supervisor);
 
-        //Create department and position
+        //Create departmentName and positionName
         department = Department.builder()
                 .departmentCode("D01")
                 .departmentName("Sales")
@@ -84,7 +84,7 @@ class LeaveRequestRepositoryTest {
                 .positionName("Sales Representative")
                 .build();
 
-        // Save department and position
+        // Save departmentName and positionName
         departmentRepository.save(department);
         positionRepository.save(position);
 
@@ -96,7 +96,7 @@ class LeaveRequestRepositoryTest {
         // Save employmentStatus
         employmentStatusRepository.save(employmentStatus);
 
-        //Add employees to department and position
+        //Add employees to departmentName and positionName
         employee1.setDepartment(department);
         employee1.setPosition(position);
         employee1.setStatus(employmentStatus);

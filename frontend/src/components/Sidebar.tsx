@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../hooks/AuthProvider";
 import { API, BASE_API } from "../constants/Api";
 import { useQuery } from "@tanstack/react-query";
+import {useFetchEmployeeById} from "../hooks/UseFetch.ts";
 
 
 interface Props {
@@ -182,16 +183,7 @@ function AccountButton() {
   const {logout, authUser} = useAuth()
   const employeeId = authUser?.employeeId
 
-  const fetchEmployee = async() => {
-    const {EMPLOYEES} = API
-    const res = await fetch(BASE_API + EMPLOYEES.BASE + employeeId)
-    return res.json();
-  }
-
-  const {isPending, data} = useQuery<EmployeeRes>({
-    queryKey: ['profile'],
-    queryFn: fetchEmployee
-  })
+  const {data} = useFetchEmployeeById(employeeId);
 
   const handleLogout = () => {
     logout()
@@ -220,7 +212,7 @@ function AccountButton() {
                       `${data?.firstName.split(" ")[0]} ${data?.lastName}`
                     }
                   </Typography>
-                  <Typography variant="caption" noWrap>{`${data?.position.position}`}</Typography>
+                  <Typography variant="caption" noWrap>{`${data?.position.positionName}`}</Typography>
                 </Stack>
               </MenuItem>
               <Menu

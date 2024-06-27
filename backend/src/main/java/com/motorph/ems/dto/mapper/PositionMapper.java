@@ -19,7 +19,7 @@ public class PositionMapper {
         return PositionDTO.builder().
                 positionCode(position.getPositionCode()).
                 departmentCode(position.getDepartment().getDepartmentCode()).
-                position(position.getPositionName()).
+                positionName(position.getPositionName()).
                 build();
     }
 
@@ -30,7 +30,7 @@ public class PositionMapper {
 
         return new Position(
                 positionDTO.positionCode(),
-                positionDTO.position(),
+                positionDTO.positionName(),
                 new Department(positionDTO.departmentCode()));
     }
 

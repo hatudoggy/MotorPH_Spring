@@ -37,7 +37,6 @@ public class EmploymentStatusServiceImpl implements EmploymentStatusService {
         return employmentStatusMapper.toDTO(employmentStatusRepository.save(status));
     }
 
-    @Cacheable("employmentStatus")
     @Override
     public List<EmploymentStatusDTO> getEmploymentStatuses() {
         return employmentStatusRepository.findAll().stream()
@@ -45,7 +44,6 @@ public class EmploymentStatusServiceImpl implements EmploymentStatusService {
                 .collect(Collectors.toList());
     }
 
-    @Cacheable(value = "employmentStatus", key = "#statusId")
     @Override
     public Optional<EmploymentStatusDTO> getEmploymentStatusById(int statusId) {
         return employmentStatusRepository.findById(statusId)

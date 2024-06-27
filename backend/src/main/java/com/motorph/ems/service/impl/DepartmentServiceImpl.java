@@ -32,8 +32,8 @@ public class DepartmentServiceImpl implements DepartmentService {
             throw new IllegalStateException("Department " + departmentDTO.departmentCode() + " already exists");
         }
 
-        if (departmentRepository.findByDepartmentName(departmentDTO.department()).isPresent()) {
-            throw new IllegalStateException("Department with name " + departmentDTO.department() + " already exists");
+        if (departmentRepository.findByDepartmentName(departmentDTO.departmentName()).isPresent()) {
+            throw new IllegalStateException("Department with name " + departmentDTO.departmentName() + " already exists");
         }
 
         Department department = departmentMapper.toEntity(departmentDTO);

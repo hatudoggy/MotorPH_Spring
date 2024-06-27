@@ -1,16 +1,24 @@
 
-interface EmployeeRes {
+interface EmployeeBasicRes {
+  employeeId: number;
+  lastName: string;
+  firstName: string;
+  position: PositionRes;
+  department: DepartmentRes;
+}
+
+interface EmployeeFullRes {
   employeeId: number;
   lastName: string;
   firstName: string;
   dob: string;
   address: string;
   contacts: ContactRes;
-  positionCode: string;
-  departmentCode: string;
+  position: PositionRes;
+  department: DepartmentRes;
   governmentId: GovernmentIdRes;
-  supervisorId: number;
-  statusId: number;
+  supervisor: SupervisorRes;
+  status: EmploymentStatusRes;
   hireDate: string;
   basicSalary: number;
   semiMonthlyRate: number;
@@ -60,12 +68,12 @@ interface ContactRes {
 
 interface DepartmentRes {
   departmentCode: string;
-  department: string;
+  departmentName: string;
 }
 
 interface PositionRes {
   positionCode: string;
-  position: string;
+  positionName: string;
 }
 
 interface SupervisorRes {

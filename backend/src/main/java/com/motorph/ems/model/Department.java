@@ -31,7 +31,7 @@ public class Department {
 
         return DepartmentDTO.builder()
                 .departmentCode(departmentCode)
-                .department(departmentName)
+                .departmentName(departmentName)
                 .build();
     }
     public static Department fromDTO(DepartmentDTO department) {
@@ -41,7 +41,7 @@ public class Department {
 
         return Department.builder()
                 .departmentCode(department.departmentCode())
-                .departmentName(department.department())
+                .departmentName(department.departmentName())
                 .build();
     }
 

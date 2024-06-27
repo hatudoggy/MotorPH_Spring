@@ -11,27 +11,34 @@ import {
     fetchEmploymentStatusById,
     fetchPayrolls,
     fetchPayrollById,
-    fetchPayrollsByEmployeeId
+    fetchPayrollsByEmployeeId,
+    fetchEmployeeFullById, fetchSupervisorById
 } from "../constants/FetchUtil";
 
 export const useFetchEmployeeById = (employeeId: number) => {
-    return useQuery<EmployeeRes>({
+    return useQuery<EmployeeBasicRes>({
         queryKey: ['employee', employeeId],
         queryFn: () => fetchEmployeeById(employeeId),
     });
 };
 
 export const useFetchEmployees = () => {
-    return useQuery<EmployeeRes[]>({
+    return useQuery<EmployeeBasicRes[]>({
         queryKey: ['employees'],
         queryFn: fetchEmployees
     });
 };
 
+export const useFetchEmployeeFullById = (employeeId: number) => {
+    return useQuery<EmployeeFullRes>({
+        queryKey: ['employeeFull', employeeId],
+        queryFn: () => fetchEmployeeFullById(employeeId),
+    });
+};
 export const useFetchSupervisorById = (employeeId: number) => {
     return useQuery<SupervisorRes>({
         queryKey: ['supervisor', employeeId],
-        queryFn: () => fetchEmployeeById(employeeId),
+        queryFn: () => fetchSupervisorById(employeeId),
     });
 }
 

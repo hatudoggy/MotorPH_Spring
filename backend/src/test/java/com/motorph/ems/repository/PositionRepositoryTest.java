@@ -104,11 +104,11 @@ class PositionRepositoryTest {
     @Transactional
     @DirtiesContext
     void PositionRepository_updatePosition_ReturnsUpdatedPosition() {
-        // Retrieve the position
+        // Retrieve the positionName
         Position existingPosition = positionRepository.findById(position1.getPositionCode()).orElse(null);
         assertNotNull(existingPosition);
 
-        // Update the position name
+        // Update the positionName name
         String newPositionName = "Senior Manager";
         existingPosition.setPositionName(newPositionName);
         Position updatedPosition = positionRepository.save(existingPosition);
@@ -122,7 +122,7 @@ class PositionRepositoryTest {
     @Transactional
     @DirtiesContext
     void PositionRepository_deletePosition() {
-        // Save a new position to delete later
+        // Save a new positionName to delete later
         Position positionToDelete = Position.builder()
                 .positionCode("P003")
                 .positionName("Consultant")
@@ -133,7 +133,7 @@ class PositionRepositoryTest {
         // Verify that it's saved
         assertNotNull(positionRepository.findById(positionToDelete.getPositionCode()));
 
-        // Delete the position
+        // Delete the positionName
         positionRepository.delete(positionToDelete);
 
         // Verify that it's deleted

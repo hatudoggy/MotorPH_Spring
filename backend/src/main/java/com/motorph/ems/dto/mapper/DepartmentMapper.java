@@ -15,22 +15,22 @@ public class DepartmentMapper {
         }
         return DepartmentDTO.builder()
                 .departmentCode(department.getDepartmentCode())
-                .department(department.getDepartmentName())
+                .departmentName(department.getDepartmentName())
                 .build();
     }
 
     public Department toEntity(DepartmentDTO departmentDTO) {
         if (departmentDTO.departmentCode() == null) {
-            throw new IllegalArgumentException("Department code cannot be null when creating a new department");
+            throw new IllegalArgumentException("Department code cannot be null when creating a new departmentName");
         }
 
-        if (departmentDTO.department() == null) {
-            throw new IllegalArgumentException("Department name cannot be null when creating a new department");
+        if (departmentDTO.departmentName() == null) {
+            throw new IllegalArgumentException("Department name cannot be null when creating a new departmentName");
         }
 
         return new Department(
                 departmentDTO.departmentCode(),
-                departmentDTO.department());
+                departmentDTO.departmentName());
     }
 
     public List<DepartmentDTO> toDTO(List<Department> departments) {

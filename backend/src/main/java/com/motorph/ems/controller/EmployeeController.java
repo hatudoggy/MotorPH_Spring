@@ -57,14 +57,15 @@ public class EmployeeController {
                 () -> new EntityNotFoundException("Employee not found")
         );
 
-//        List<BenefitDTO> benefit = benefitsService.getBenefitsByEmployeeId(employeeID);
-//        List<LeaveBalanceDTO> leaveBalance = leaveBalanceService.getLeaveBalancesByEmployeeId(employeeID);
+        List<BenefitDTO> benefit = benefitsService.getBenefitsByEmployeeId(employeeID);
+        List<LeaveBalanceDTO> leaveBalance = leaveBalanceService.getLeaveBalancesByEmployeeId(employeeID);
 
         EmployeeDTO result = EmployeeDTO.builder()
                 .employeeId(employeeID)
                 .firstName(employee.firstName())
                 .lastName(employee.lastName())
                 .dob(employee.dob())
+                .address(employee.address())
                 .hireDate(employee.hireDate())
                 .basicSalary(employee.basicSalary())
                 .semiMonthlyRate(employee.semiMonthlyRate())
@@ -75,10 +76,9 @@ public class EmployeeController {
                 .supervisor(employee.supervisor())
                 .contacts(employee.contacts())
                 .governmentId(employee.governmentId())
-//                .benefits(benefit)
-//                .leaveBalances(leaveBalance)
+                .benefits(benefit)
+                .leaveBalances(leaveBalance)
                 .build();
-
 
         return ResponseEntity.ok().body(result);
     }
