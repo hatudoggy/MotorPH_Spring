@@ -36,6 +36,20 @@ public class EmployeeMapper {
         this.statusMapper = statusMapper;
     }
 
+    public EmployeeDTO toLimitedDTO(Employee employee) {
+        if (employee == null) {
+            return null;
+        }
+
+        return EmployeeDTO.builder()
+                .employeeId(employee.getEmployeeId())
+                .lastName(employee.getLastName())
+                .firstName(employee.getFirstName())
+                .position(positionMapper.toDTO(employee.getPosition()))
+                .department(departmentMapper.toDTO(employee.getDepartment()))
+                .build();
+    }
+
     public EmployeeDTO toBasicDTO(Employee employee) {
         if (employee == null) {
             return null;

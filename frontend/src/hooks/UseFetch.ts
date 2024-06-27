@@ -16,7 +16,7 @@ import {
     fetchSupervisorById,
     fetchAttendancesByEmployeeId,
     fetchAttendancesByEmployeeIdAndDate,
-    fetchAttendancesByEmployeeIdAndDateRange
+    fetchAttendancesByEmployeeIdAndDateRange, fetchAttendancesByDate
 } from "../constants/FetchUtil";
 
 export const useFetchEmployeeById = (employeeId: number) => {
@@ -157,4 +157,16 @@ export function useFetchAttendanceByEmployeeIdAndDate(employeeId: number, date: 
         queryFn: () => fetchAttendancesByEmployeeIdAndDate(employeeId, date),
         refetchOnWindowFocus: false
     });
+}
+
+export function useFetchAttendancesByDate(dateFilter: Date){
+    return useQuery<AttendanceFull[]>({
+        queryKey: ['attendanceAll', dateFilter],
+        queryFn: () => fetchAttendancesByDate(dateFilter),
+        refetchOnWindowFocus: false,
+        initialData: () => {
+            const storedData = localStorage.getItem('attendanceData' + dateFilter);
+            return storedData ? JSON.parse(storedData) : undefined;
+        }
+    })
 }

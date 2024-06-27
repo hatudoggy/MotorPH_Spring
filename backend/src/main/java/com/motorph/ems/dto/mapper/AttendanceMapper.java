@@ -25,7 +25,7 @@ public class AttendanceMapper {
 
         return AttendanceDTO.builder()
                 .attendanceId(entity.getAttendanceId())
-                .employee(employeeMapper.toBasicDTO(entity.getEmployee()))
+                .employee(employeeMapper.toLimitedDTO(entity.getEmployee()))
                 .date(entity.getDate())
                 .timeIn(entity.getTimeIn())
                 .timeOut(entity.getTimeOut() == null ? null : entity.getTimeOut())

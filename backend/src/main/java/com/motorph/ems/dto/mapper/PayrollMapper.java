@@ -29,7 +29,7 @@ public class PayrollMapper {
         return PayrollDTO.builder()
                 .payrollId(entity.getPayrollId())
                 .payDate(entity.getPayDate())
-                .employee(employeeMapper.toBasicDTO(entity.getEmployee()))
+                .employee(employeeMapper.toLimitedDTO(entity.getEmployee()))
                 .periodStart(entity.getPeriodStart())
                 .periodEnd(entity.getPeriodEnd())
                 .workingDays(entity.getWorkingDays())

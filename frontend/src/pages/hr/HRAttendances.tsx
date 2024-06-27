@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Avatar, Container, InputAdornment, Paper, PaperProps, Stack, TextField, Typography, styled, CircularProgress } from "@mui/material";
 import Headertext from "../../components/HeaderText";
 import Table from "../../components/Table";
@@ -8,6 +9,7 @@ import { format } from "date-fns";
 import { DatePicker } from "@mui/x-date-pickers";
 import { useState, useMemo } from "react";
 import { Search } from "@mui/icons-material";
+import {useFetchAttendancesByDate} from "../../hooks/UseFetch.ts";
 
 export default function HRAttendances() {
     const [dateFilter, setDateFilter] = useState<Date | null>(new Date())
@@ -68,23 +70,15 @@ interface AttendanceTable {
     searchFilter: string
 }
 
-function AttendanceTable({dateFilter, searchFilter}: AttendanceTable) {
-    const fetchAttendanceAll = async() => {
-        const {ATTENDANCES} = API
-        const date = dateFilter && format(dateFilter, 'yyyy-MM-dd')
-        const {data} = await axios.get(BASE_API + ATTENDANCES.BASE, {
-            params: {
-                date: date || '',
-            }
-        })
-        return data
-    }
+function AttendanceTable({ dateFilter, searchFilter }: AttendanceTable) {
 
-    const {isLoading, data} = useQuery<AttendanceFull[]>({
-        queryKey: ['attendanceAll', dateFilter],
-        queryFn: fetchAttendanceAll,
-        refetchOnWindowFocus: false,
-    })
+    const { isLoading, data, refetch } = useFetchAttendancesByDate(dateFilter)
+
+    useEffect(() => {
+        if (!localStorage.getItem('attendanceData' + dateFilter)) {
+            refetch();
+        }
+    }, [refetch]);
 
     const filteredData = useMemo(() => {
         if (!data) return [];
@@ -95,9 +89,9 @@ function AttendanceTable({dateFilter, searchFilter}: AttendanceTable) {
         });
     }, [data, searchFilter]);
 
-    const tableData = filteredData.map(({attendanceId, ...rest}) => rest);
+    const tableData = filteredData.map(({ attendanceId, ...rest }) => rest);
 
-    const picURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3ZsJ_-wh-pIJV2hEL92vKyS07J3Hfp1USqA&s"
+    const picURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3ZsJ_-wh-pIJV2hEL92vKyS07J3Hfp1USqA&s";
 
     if (isLoading) {
         return (
@@ -107,7 +101,7 @@ function AttendanceTable({dateFilter, searchFilter}: AttendanceTable) {
         );
     }
 
-    return(
+    return (
         <Widget variant="outlined" sx={{ height: '100%' }}>
             <Table
                 colSizes={[3.5, true, true, true, 1.2, 1]}
@@ -122,7 +116,7 @@ function AttendanceTable({dateFilter, searchFilter}: AttendanceTable) {
                 tableData={tableData}
                 rowHeight={70}
                 renderers={{
-                    employee: (item: EmployeeBasicRes) => (
+                    employee: (item: EmployeeAttendanceInfo) => (
                         <Stack direction='row' alignItems='center' gap={1.5}>
                             <Avatar
                                 sx={{
@@ -144,10 +138,10 @@ function AttendanceTable({dateFilter, searchFilter}: AttendanceTable) {
                 }}
             />
         </Widget>
-    )
+    );
 }
 
 const Widget = styled(Paper)<PaperProps>(({}) => ({
     borderRadius: 12,
     padding: 16,
-}))
+}));

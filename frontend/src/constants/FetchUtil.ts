@@ -103,3 +103,16 @@ export const fetchAttendances = async (): Promise<AttendanceRes[]> => {
     const { ATTENDANCES } = API;
     return fetchFromApi<AttendanceRes[]>(`${BASE_API}${ATTENDANCES.BASE}`);
 };
+
+export const fetchAttendancesByDate = async (dateFilter: Date): Promise<AttendanceFull[]> => {
+    const { ATTENDANCES } = API;
+    const date = dateFilter && format(dateFilter, 'yyyy-MM-dd');
+    const { data } = await axios.get(BASE_API + ATTENDANCES.BASE, {
+        params: {
+            date: date || '',
+        }
+    });
+
+    localStorage.setItem('attendanceData', JSON.stringify(data));
+    return data;
+};

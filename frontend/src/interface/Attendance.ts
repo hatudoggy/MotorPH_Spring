@@ -20,10 +20,18 @@ interface AttendanceSummaryRes {
 
 interface AttendanceFull {
   attendanceId: number
-  employee: EmployeeBasicRes
+  employee: EmployeeAttendanceInfo
   date: string
   timeIn: string
   timeOut: string
   totalHours: number
   overtimeHours: number
+}
+
+interface EmployeeAttendanceInfo {
+  employeeId: number
+  lastName: string
+  firstName: string
+  position: PositionRes,
+  department: DepartmentRes
 }
