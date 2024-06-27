@@ -2,6 +2,7 @@ package com.motorph.ems.dto.mapper;
 
 import com.motorph.ems.dto.AttendanceDTO;
 import com.motorph.ems.model.Attendance;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -10,6 +11,13 @@ import java.util.stream.Collectors;
 @Component
 public class AttendanceMapper {
 
+    private final EmployeeMapper employeeMapper;
+
+    @Autowired
+    public AttendanceMapper(EmployeeMapper employeeMapper) {
+        this.employeeMapper = employeeMapper;
+    }
+
     public AttendanceDTO toDTO(Attendance entity) {
         if (entity == null || entity.getEmployee() == null) {
             return null;
@@ -17,7 +25,7 @@ public class AttendanceMapper {
 
         return AttendanceDTO.builder()
                 .attendanceId(entity.getAttendanceId())
-                .employeeId(entity.getEmployee().getEmployeeId())
+                .employee(employeeMapper.toDTO(entity.getEmployee()))
                 .date(entity.getDate())
                 .timeIn(entity.getTimeIn())
                 .timeOut(entity.getTimeOut() == null ? null : entity.getTimeOut())
@@ -37,12 +45,12 @@ public class AttendanceMapper {
     }
 
     public Attendance toEntity(AttendanceDTO dto) {
-        if (dto == null || dto.employeeId() == null) {
+        if (dto == null || dto.employee() == null) {
             return null;
         }
 
         return new Attendance(
-                dto.employeeId(),
+                dto.employee().employeeId(),
                 dto.date(),
                 dto.timeIn(),
                 dto.timeOut()
@@ -60,11 +68,11 @@ public class AttendanceMapper {
     }
 
     public void updateEntity(AttendanceDTO dto, Attendance entity) {
-        if (dto.employeeId() == null) {
+        if (dto.employee() == null) {
             throw new IllegalArgumentException("Employee ID cannot be null when updating attendance");
         }
 
-        if (!dto.employeeId().equals(entity.getEmployee().getEmployeeId())) {
+        if (!dto.employee().equals(entity.getEmployee().getEmployeeId())) {
             throw new IllegalArgumentException("Employee ID does not match when updating attendance");
         }
 

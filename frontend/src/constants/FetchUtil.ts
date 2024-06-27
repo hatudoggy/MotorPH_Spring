@@ -1,4 +1,6 @@
 import {API, BASE_API} from "./Api.ts";
+import {format} from "date-fns";
+import axios from "axios";
 
 export const fetchFromApi = async <T>(endpoint: string, options: RequestInit = {}): Promise<T> => {
     const response = await fetch(endpoint, options);
@@ -75,4 +77,26 @@ export const fetchPayrollsByEmployeeId = async (employeeId: number): Promise<Pay
 export const fetchPayrollById = async (payrollId: number): Promise<PayrollRes> => {
     const { PAYROLLS } = API;
     return fetchFromApi<PayrollRes>(`${BASE_API}${PAYROLLS.BASE}${payrollId}`);
+};
+
+
+
+export const fetchAttendancesByEmployeeId = async (employeeId: number): Promise<AttendanceRes[]> => {
+    const { ATTENDANCES } = API;
+    return fetchFromApi<AttendanceRes[]>(`${BASE_API}${ATTENDANCES.BASE}${employeeId}`);
+};
+
+
+export const fetchAttendancesByEmployeeIdAndDate = async (employeeId: number, date: Date): Promise<AttendanceRes[]> => {
+    const {EMPLOYEES, ATTENDANCES} = API
+    const formattedDate = format(date, 'yyyy-MM-dd')
+
+    console.log("Fetching attendance for date:", formattedDate);
+
+    return fetchFromApi<AttendanceRes[]>(`${BASE_API}${EMPLOYEES.BASE}${employeeId}${ATTENDANCES.BASE}?startDate=${formattedDate}`);
+}
+
+export const fetchAttendances = async (): Promise<AttendanceRes[]> => {
+    const { ATTENDANCES } = API;
+    return fetchFromApi<AttendanceRes[]>(`${BASE_API}${ATTENDANCES.BASE}`);
 };

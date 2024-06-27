@@ -142,7 +142,9 @@ public class EmployeeController {
     @PostMapping("/{id}/attendances/timeIn")
     public ResponseEntity<AttendanceDTO> employeeTimeIn(@PathVariable Long id) {
         AttendanceDTO attendanceToday = AttendanceDTO.builder()
-                .employeeId(id)
+                .employee(employeeService.getEmployeeById(id).orElseThrow(
+                        () -> new EntityNotFoundException("Employee not found")
+                ))
                 .date(LocalDate.now())
                 .timeIn(LocalTime.now())
                 .build();
@@ -162,7 +164,7 @@ public class EmployeeController {
 
         AttendanceDTO updatedAttendance = AttendanceDTO.builder()
                 .attendanceId(attendanceToday.attendanceId())
-                .employeeId(attendanceToday.employeeId())
+                .employee(attendanceToday.employee())
                 .timeIn(attendanceToday.timeIn())
                 .timeOut(LocalTime.now())
                 .build();

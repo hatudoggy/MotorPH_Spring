@@ -12,7 +12,7 @@ import {
     fetchPayrolls,
     fetchPayrollById,
     fetchPayrollsByEmployeeId,
-    fetchEmployeeFullById, fetchSupervisorById
+    fetchEmployeeFullById, fetchSupervisorById, fetchAttendancesByEmployeeId, fetchAttendancesByEmployeeIdAndDate
 } from "../constants/FetchUtil";
 
 export const useFetchEmployeeById = (employeeId: number) => {
@@ -115,4 +115,18 @@ export function useEmployeePayrollData(employeeId: number) {
         isLoading: employeeLoading || payrollsLoading,
         error: employeeError || payrollsError
     };
+}
+
+export function useFetchAttendancesByEmployeeId(employeeId: number) {
+    return useQuery<AttendanceRes[]>({
+        queryKey: ['attendances', employeeId],
+        queryFn: () => fetchAttendancesByEmployeeId(employeeId),
+    });
+}
+
+export function useFetchAttendanceByEmployeeIdAndDate(employeeId: number, date: Date) {
+    return useQuery<AttendanceRes[]>({
+        queryKey: ['attendances', employeeId, date],
+        queryFn: () => fetchAttendancesByEmployeeIdAndDate(employeeId, date),
+    });
 }

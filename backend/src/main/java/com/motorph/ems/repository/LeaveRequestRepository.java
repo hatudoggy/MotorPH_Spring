@@ -42,7 +42,7 @@ public interface LeaveRequestRepository extends JpaRepository<LeaveRequest, Long
             "AND ((r.startDate BETWEEN :startDate AND :endDate) " +
             "OR (r.endDate BETWEEN :startDate AND :endDate))")
     boolean existsByEmployeeIdAndDateRange(
-            @Param("employeeId") Long employeeId,
+            @Param("employee") Long employeeId,
             @Param("startDate") LocalDate startDate,
             @Param("endDate") LocalDate endDate);
 }

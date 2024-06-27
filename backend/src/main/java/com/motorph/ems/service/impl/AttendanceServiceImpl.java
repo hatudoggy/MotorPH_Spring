@@ -8,7 +8,6 @@ import com.motorph.ems.repository.AttendanceRepository;
 import com.motorph.ems.service.AttendanceService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -34,8 +33,8 @@ public class AttendanceServiceImpl implements AttendanceService {
 
     @Override
     public AttendanceDTO addNewAttendance(AttendanceDTO attendanceDTO) {
-        if (attendanceRepository.existsByEmployee_EmployeeIdAndDate(attendanceDTO.employeeId(), attendanceDTO.date())) {
-            throw new IllegalStateException("Attendance with employee status " + attendanceDTO.employeeId() + " on " + attendanceDTO.date() + " already exists");
+        if (attendanceRepository.existsByEmployee_EmployeeIdAndDate(attendanceDTO.employee().employeeId(), attendanceDTO.date())) {
+            throw new IllegalStateException("Attendance with employee status " + attendanceDTO.employee() + " on " + attendanceDTO.date() + " already exists");
         }
 
         Attendance savedAttendance = attendanceRepository.save(attendanceMapper.toEntity(attendanceDTO));
@@ -80,6 +79,12 @@ public class AttendanceServiceImpl implements AttendanceService {
     @Override
     public List<AttendanceDTO> getAttendancesAfterTimeIn(LocalTime timeIn, LocalDate date) {
         return attendanceRepository.findAllByTimeInIsAfterAndDate(timeIn, date).stream()
+                .map(attendanceMapper::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<AttendanceDTO> getAttendancesByDateAndEmployeeName(LocalDate date, String name) {
+        return attendanceRepository.findByDateAndNameContaining(date, name).stream()
                 .map(attendanceMapper::toDTO).collect(Collectors.toList());
     }
 

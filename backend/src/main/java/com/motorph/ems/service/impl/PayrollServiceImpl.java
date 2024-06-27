@@ -50,7 +50,7 @@ public class PayrollServiceImpl implements PayrollService {
     public PayrollDTO addNewPayroll(PayrollDTO payrollDTO) {
         if (payrollRepository.existsByEmployee_EmployeeIdAndPeriodStart(
                 payrollDTO.employeeId(), payrollDTO.periodStart())) {
-            throw new IllegalStateException("Payroll with employeeId " + payrollDTO.employeeId() +
+            throw new IllegalStateException("Payroll with employee " + payrollDTO.employeeId() +
                     " and period start " + payrollDTO.periodStart() + " already exists");
         }
 

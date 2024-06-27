@@ -1,6 +1,7 @@
 package com.motorph.ems.service;
 
 import com.motorph.ems.dto.AttendanceDTO;
+import com.motorph.ems.dto.EmployeeDTO;
 import com.motorph.ems.dto.mapper.AttendanceMapper;
 import com.motorph.ems.model.Attendance;
 import com.motorph.ems.model.Employee;
@@ -60,6 +61,14 @@ class AttendanceServiceTest {
                 .address("123 Main St")
                 .build();
 
+        EmployeeDTO employeeDTO1 = EmployeeDTO.builder()
+                .employeeId(2L)
+                .firstName("John")
+                .lastName("Doe")
+                .dob(LocalDate.now())
+                .address("123 Main St")
+                .build();
+
         attendance1 = Attendance.builder()
                 .attendanceId(attendanceId)
                 .employee(employee1)
@@ -70,7 +79,7 @@ class AttendanceServiceTest {
 
         attendanceDTO1 = AttendanceDTO.builder()
                 .attendanceId(attendanceId)
-                .employeeId(employee1.getEmployeeId())
+                .employee(employeeDTO1)
                 .date(date)
                 .timeIn(timeIn)
                 .timeOut(timeOut)
@@ -210,7 +219,6 @@ class AttendanceServiceTest {
 
         AttendanceDTO attendanceDTO1 = AttendanceDTO.builder()
                 .attendanceId(updated.getAttendanceId())
-                .employeeId(updated.getEmployee().getEmployeeId())
                 .date(updated.getDate())
                 .timeIn(updated.getTimeIn())
                 .timeOut(updated.getTimeOut())

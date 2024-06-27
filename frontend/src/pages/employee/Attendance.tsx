@@ -11,6 +11,7 @@ import axios from "axios";
 import { format } from "date-fns";
 import { useAuth } from "../../hooks/AuthProvider";
 import Table from "../../components/Table";
+import {useFetchAttendanceByEmployeeIdAndDate} from "../../hooks/UseFetch.ts";
 
 
 // Main Attendance component
@@ -63,23 +64,16 @@ function AttendanceToday() {
     const {authUser} = useAuth()
     const employeeId = authUser?.employeeId
 
+    // Error handling for missing employeeId
+    if (!employeeId) {
+        console.error("Employee ID not found");
+        return <Typography>Error: Employee ID not found</Typography>;
+    }
+
     const queryClient = useQueryClient()
 
     // Fetch today's attendance data
-    const fetchAttendanceToday = async() => {
-        const {EMPLOYEES, ATTENDANCES} = API
-        const dateToday = format(new Date(), 'yyyy-MM-dd')
-
-        console.log("Fetching attendance for date:", dateToday);
-
-        const { data } = await axios.get(`${BASE_API}${EMPLOYEES.BASE}${employeeId}${ATTENDANCES.BASE}?startDate=${dateToday}`);
-        return data
-    }
-
-    const {data} = useQuery<AttendanceRes[]>({
-        queryKey: ['attendanceToday'],
-        queryFn: fetchAttendanceToday,
-    })
+    const {data: attendanceData} = useFetchAttendanceByEmployeeIdAndDate(employeeId, new Date())
 
     // Time in mutation
     const useTimeIn = useMutation({
@@ -127,23 +121,23 @@ function AttendanceToday() {
                 <Stack flex={1} direction='row' py={0.5} pb={1.5}>
                     <Stack flex={1} alignItems='center' pb={1}>
                         <Typography variant="body2" color='GrayText'>Time In</Typography>
-                        <Typography variant="h4">{data && data[0]?.timeIn?.substring(0,5) || "-- : --"}</Typography>
+                        <Typography variant="h4">{attendanceData && attendanceData[0]?.timeIn?.substring(0,5) || "-- : --"}</Typography>
                     </Stack>
                     <Divider flexItem orientation="vertical" />
                     <Stack flex={1} alignItems='center' pb={1}>
                         <Typography variant="body2" color='GrayText'>Time Out</Typography>
-                        <Typography variant="h4">{data && data[0]?.timeOut?.substring(0,5) || "-- : --"}</Typography>
+                        <Typography variant="h4">{attendanceData && attendanceData[0]?.timeOut?.substring(0,5) || "-- : --"}</Typography>
                     </Stack>
                 </Stack >
                 <Stack flex={1} direction='row'>
                     {
-                        data && data[0]?.timeIn ?
+                        attendanceData && attendanceData[0]?.timeIn ?
                             <Button
                                 fullWidth
                                 variant="contained"
                                 disableElevation
                                 onClick={()=>handleClockOut()}
-                                disabled={data[0].timeOut !== null}
+                                disabled={attendanceData[0].timeOut !== null}
                             >
                                 Clock Out
                             </Button>

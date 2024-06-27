@@ -28,6 +28,8 @@ public interface AttendanceService {
 
      List<AttendanceDTO> getAttendancesAfterTimeIn(LocalTime timeIn, LocalDate date);
 
+     List<AttendanceDTO> getAttendancesByDateAndEmployeeName(LocalDate date, String name);
+
     public AttendanceSummaryDTO getAttendanceSummaryByEmployeeId(Long employeeId);
 
      List<AttendanceDTO> getAttendancesAfterTimeOut(LocalTime timeOut, LocalDate date);

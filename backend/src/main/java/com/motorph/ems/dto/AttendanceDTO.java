@@ -8,7 +8,7 @@ import java.time.LocalTime;
 @Builder
 public record AttendanceDTO (
         Long attendanceId,
-        Long employeeId,
+        EmployeeDTO employee,
         LocalDate date,
         LocalTime timeIn,
         LocalTime timeOut,
