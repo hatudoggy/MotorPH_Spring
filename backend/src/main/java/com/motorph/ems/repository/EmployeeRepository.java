@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
-
+//TODO: try paging
     Optional<Employee> findByFirstNameAndLastName(String firstName, String lastName);
 
     List<Employee> findAllByStatus_StatusName(String statusName);
