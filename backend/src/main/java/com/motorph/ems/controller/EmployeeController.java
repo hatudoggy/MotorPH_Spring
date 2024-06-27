@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 
@@ -57,9 +58,6 @@ public class EmployeeController {
                 () -> new EntityNotFoundException("Employee not found")
         );
 
-        List<BenefitDTO> benefit = benefitsService.getBenefitsByEmployeeId(employeeID);
-        List<LeaveBalanceDTO> leaveBalance = leaveBalanceService.getLeaveBalancesByEmployeeId(employeeID);
-
         EmployeeDTO result = EmployeeDTO.builder()
                 .employeeId(employeeID)
                 .firstName(employee.firstName())
@@ -76,8 +74,8 @@ public class EmployeeController {
                 .supervisor(employee.supervisor())
                 .contacts(employee.contacts())
                 .governmentId(employee.governmentId())
-                .benefits(benefit)
-                .leaveBalances(leaveBalance)
+                .benefits(employee.benefits())
+                .leaveBalances(employee.leaveBalances())
                 .build();
 
         return ResponseEntity.ok().body(result);
@@ -100,31 +98,32 @@ public class EmployeeController {
             @RequestParam(value = "startDate", required = false) String startDate,
             @RequestParam(value = "endDate", required = false) String endDate
     ) {
-        List<AttendanceDTO> attendanceList;
         try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
             if (startDate != null && endDate != null) {
-                LocalDate start = LocalDate.parse(startDate);
-                LocalDate end = LocalDate.parse(endDate);
-                attendanceList = attendanceService.getAllAttendanceByEmployeeIdAndDateRange(id, start, end);
+                LocalDate start = LocalDate.parse(startDate, formatter);
+                LocalDate end = LocalDate.parse(endDate, formatter);
+                List<AttendanceDTO> attendanceList = attendanceService.getAllAttendanceByEmployeeIdAndDateRange(id, start, end);
                 return ResponseEntity.ok(attendanceList);
             } else if (startDate != null) {
-                LocalDate start = LocalDate.parse(startDate);
+                LocalDate start = LocalDate.parse(startDate, formatter);
                 AttendanceDTO attendance = attendanceService.getAttendanceByEmployeeIdAndDate(id, start).orElse(null);
+
                 assert attendance != null;
-                attendanceList = List.of(attendance);
-                return ResponseEntity.ok(attendanceList);
+                return ResponseEntity.ok(List.of(attendance));
             }
             return ResponseEntity.ok(attendanceService.getAllByEmployeeId(id));
         } catch (DateTimeParseException e) {
-            // Handle the case where the date is not properly formatted
-            throw new IllegalArgumentException("Invalid date format: " + startDate + " " + endDate);
+            // Log the detailed error message
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(null);
         } catch (Exception e) {
             // Log the exception and return an appropriate response
             e.printStackTrace();
-            throw new IllegalArgumentException("Invalid date format: " + startDate + " " + endDate);
+            return ResponseEntity.status(500).body(null);
         }
     }
-
     @GetMapping("/{id}/attendances/summary")
     public ResponseEntity<AttendanceSummaryDTO> getEmployeeAttendanceSummary(
             @PathVariable Long id
@@ -195,3 +194,4 @@ public class EmployeeController {
         return ResponseEntity.ok(payrolls);
     }
 }
+

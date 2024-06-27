@@ -25,11 +25,11 @@ public class Payroll {
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "payroll_id")
     private List<Deductions> deductions;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "employee_id")
     private List<Benefits> benefits;
 
@@ -104,7 +104,6 @@ public class Payroll {
     public String toString() {
         return "Payroll{" +
                 "payrollId=" + payrollId +
-                ", supervisor=" + employee.getEmployeeId() +
                 ", periodStart=" + periodStart +
                 ", periodEnd=" + periodEnd +
                 ", monthlyRate=" + monthlyRate +

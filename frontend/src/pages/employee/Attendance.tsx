@@ -1,58 +1,95 @@
-import { AccessTime, Circle, EventBusy, EventBusyOutlined, NorthEast, SouthWest, Today, TodayOutlined } from "@mui/icons-material";
+import {
+    AccessTime,
+    Circle,
+    EventBusy,
+    EventBusyOutlined,
+    MoreTime,
+    NorthEast,
+    SouthWest,
+    Today,
+    TodayOutlined, WorkHistory
+} from "@mui/icons-material";
 import { Box, Button, CircularProgress, Container, Divider, Paper, PaperProps, Stack, SvgIconTypeMap, Typography, styled } from "@mui/material";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
 import { PieChart, useDrawingArea } from "@mui/x-charts";
-import { Colors } from "../../constants/Colors";
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import Headertext from "../../components/HeaderText";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { API, BASE_API } from "../../constants/Api";
 import axios from "axios";
-import { format } from "date-fns";
+import {format, subMonths} from "date-fns";
 import { useAuth } from "../../hooks/AuthProvider";
 import Table from "../../components/Table";
-import {useFetchAttendanceByEmployeeIdAndDate} from "../../hooks/UseFetch.ts";
+import {useFetchAttendanceByEmployeeIdAndDate, useFetchAttendancesByEmployeeId} from "../../hooks/UseFetch.ts";
+import {useEffect, useState} from "react";
 
-
+let employeeId: number = 0;
 // Main Attendance component
 export default function Attendance() {
-    console.log("Rendering Attendance component");
+    const { authUser } = useAuth();
+    employeeId = authUser?.employeeId || 0;
 
-    return(
-        <Container
-            sx={{
-                my: 5,
-            }}
-        >
+    const [selectedFilter, setSelectedFilter] = useState<string>("This Month");
+    const [filteredData, setFilteredData] = useState<AttendanceRes[]>([]);
+
+    if (!employeeId || employeeId === 0) {
+        console.error("Employee ID not found");
+        return <Typography>Error: Employee ID not found</Typography>;
+    }
+
+    const { data, isPending } = useFetchAttendancesByEmployeeId(employeeId);
+
+    useEffect(() => {
+        if (data) {
+            const filterData = (data: AttendanceRes[], filter: string) => {
+                const now = new Date();
+                let filteredData = data;
+
+                if (filter === "This Month") {
+                    filteredData = data.filter((attendance) =>
+                        new Date(attendance.date) >= subMonths(now, 1)
+                    );
+                } else if (filter === "3 Months") {
+                    filteredData = data.filter((attendance) =>
+                        new Date(attendance.date) >= subMonths(now, 3)
+                    );
+                } else if (filter === "6 Months") {
+                    filteredData = data.filter((attendance) =>
+                        new Date(attendance.date) >= subMonths(now, 6)
+                    );
+                } // No need for "All Time" filter, as it will display all data
+
+                return filteredData;
+            };
+
+            setFilteredData(filterData(data, selectedFilter));
+        }
+    }, [data, selectedFilter]);
+
+    return (
+        <Container sx={{ my: 5 }}>
             <Stack height='100%'>
-
                 <Headertext>Attendance</Headertext>
-
                 <Stack flex={1} gap={3}>
-                    <WidgetBar />
-
+                    <WidgetBar filteredData={filteredData} selectedFilter={selectedFilter} />
                     <Stack flex={1} gap={1}>
-                        <MonthFilter />
-                        <AttendanceTable />
+                        <MonthFilter selectedFilter={selectedFilter} setSelectedFilter={setSelectedFilter} />
+                        <AttendanceTable filteredData={filteredData} isPending={isPending} />
                     </Stack>
-
                 </Stack>
-
             </Stack>
         </Container>
-    )
+    );
 }
 
 // WidgetBar component containing AttendanceToday and AttendanceOverview
-function WidgetBar() {
+function WidgetBar({filteredData, selectedFilter}: AttendanceOverviewProps) {
     console.log("Rendering WidgetBar");
 
     return(
         <Stack direction='row' gap={2}>
 
             <AttendanceToday />
-            <AttendanceOverview />
-
+            <AttendanceOverview filteredData={filteredData} selectedFilter={selectedFilter}/>
         </Stack>
     )
 }
@@ -60,9 +97,6 @@ function WidgetBar() {
 // AttendanceToday component for displaying and managing daily attendance
 function AttendanceToday() {
     console.log("Rendering AttendanceToday");
-
-    const {authUser} = useAuth()
-    const employeeId = authUser?.employeeId
 
     // Error handling for missing employeeId
     if (!employeeId) {
@@ -73,7 +107,7 @@ function AttendanceToday() {
     const queryClient = useQueryClient()
 
     // Fetch today's attendance data
-    const {data: attendanceData} = useFetchAttendanceByEmployeeIdAndDate(employeeId, new Date())
+    const {data: attendanceData} = useFetchAttendanceByEmployeeIdAndDate(employeeId, format(new Date(), 'yyyy-MM-dd'))
 
     // Time in mutation
     const useTimeIn = useMutation({
@@ -157,43 +191,87 @@ function AttendanceToday() {
     )
 }
 
-// AttendanceOverview component for displaying monthly attendance summary
-function AttendanceOverview() {
+interface AttendanceOverviewProps {
+    filteredData: AttendanceRes[];
+    selectedFilter: string
+}
 
-    const {authUser} = useAuth()
-    const employeeId = authUser?.employeeId
+// AttendanceOverview component for displaying monthly attendance summary
+function AttendanceOverview({ filteredData, selectedFilter}: AttendanceOverviewProps) {
 
     const palette = ['#000000', '#575757', '#c4c4c4']
 
-    const fetchAttendanceSummary = async() => {
-        const {EMPLOYEES, ATTENDANCES} = API
+    const calculateSummary = (data: AttendanceRes[]) => {
+        const summary = {
+            totalCount: data.length,
+            presentCount: 0,
+            lateCount: 0,
+            absentCount: 0,
+            averageTimeIn: "",
+            averageTimeOut: "",
+            totalHours: 0,
+            totalOvertime: 0
+        };
 
-        const { data } = await axios.get(`${BASE_API}${EMPLOYEES.BASE}${employeeId}${ATTENDANCES.SUMMARY}`);
-        return data
-    }
+        let totalTimeIn = 0;
+        let totalTimeOut = 0;
+        let timeInCount = 0;
+        let timeOutCount = 0;
 
-    // Fetch attendance summary data
-    const {data} = useQuery<AttendanceSummaryRes>({
-        queryKey: ['attendanceSummary'],
-        queryFn: fetchAttendanceSummary,
-    })
+        data.forEach((attendance) => {
+            const status = statusGenerator(attendance.timeIn, attendance.timeOut);
+            if (status === "Present") summary.presentCount++;
+            if (status === "Late") summary.lateCount++;
+            if (status === "Absent") summary.absentCount++;
 
+            if (attendance.timeIn) {
+                const [hours, minutes] = attendance.timeIn.split(':').map(Number);
+                totalTimeIn += hours * 60 + minutes;
+                timeInCount++;
+            }
+            if (attendance.timeOut) {
+                const [hours, minutes] = attendance.timeOut.split(':').map(Number);
+                totalTimeOut += hours * 60 + minutes;
+                timeOutCount++;
+            }
+
+            summary.totalHours += attendance.totalHours;
+            summary.totalOvertime += attendance.overtimeHours;
+        });
+
+        if (timeInCount > 0) {
+            const averageTimeInMinutes = totalTimeIn / timeInCount;
+            const averageHours = Math.floor(averageTimeInMinutes / 60);
+            const averageMinutes = Math.floor(averageTimeInMinutes % 60);
+            summary.averageTimeIn = `${averageHours.toString().padStart(2, '0')}:${averageMinutes.toString().padStart(2, '0')}`;
+        }
+
+        if (timeOutCount > 0) {
+            const averageTimeOutMinutes = totalTimeOut / timeOutCount;
+            const averageHours = Math.floor(averageTimeOutMinutes / 60);
+            const averageMinutes = Math.floor(averageTimeOutMinutes % 60);
+            summary.averageTimeOut = `${averageHours.toString().padStart(2, '0')}:${averageMinutes.toString().padStart(2, '0')}`;
+        }
+
+        return summary;
+    };
+
+    const summary = calculateSummary(filteredData);
 
     return(
         <Widget variant="outlined">
-            <Typography variant="body2" fontWeight={600}>This Month</Typography>
+            <Typography variant="body2" fontWeight={600}>{selectedFilter}</Typography>
             <Stack direction='row' alignItems='center' gap={3}>
                 {
-                    data &&
                     <>
                         <PieChart
                             colors={palette}
                             series={[
                                 {
                                     data: [
-                                        { id: 0, value: data.presentCount, label: 'present'},
-                                        { id: 1, value: data.lateCount, label: 'late'},
-                                        { id: 2, value: data.absentCount, label: 'absent'},
+                                        { id: 0, value: summary.presentCount, label: 'present'},
+                                        { id: 1, value: summary.lateCount, label: 'late'},
+                                        { id: 2, value: summary.absentCount, label: 'absent'},
                                     ],
                                     innerRadius: 39,
                                     outerRadius: 50,
@@ -209,40 +287,42 @@ function AttendanceOverview() {
                                 legend: { hidden: true },
                             }}
                         >
-                            {/* <PieCenterLabel>
-                  Day 12
-                </PieCenterLabel> */}
+
                         </PieChart>
 
                         <Stack gap={1.5}>
-                            <Stack direction='row' alignItems='center' gap={3}>
+                            <Stack direction='row' alignItems={'center'} gap={8}>
                                 <IconLabel
                                     Icon={TodayOutlined}
-                                    value={data.presentCount.toString()}
+                                    value={summary.presentCount.toString()}
                                     label="Present"
                                 />
                                 <IconLabel
                                     Icon={AccessTime}
-                                    value={data.lateCount.toString()}
+                                    value={summary.lateCount.toString()}
                                     label="Late"
                                 />
                                 <IconLabel
-                                    Icon={EventBusyOutlined}
-                                    value={data.absentCount.toString()}
-                                    label="Absent"
+                                    Icon={WorkHistory}
+                                    value={(Math.round(summary.totalHours * 100) / 100).toString()}
+                                    label={"Rendered Hours"}
                                 />
                             </Stack>
-
-                            <Stack direction='row' alignItems='center' gap={4}>
+                            <Stack direction='row' alignItems={'center'} gap={3}>
                                 <IconLabel
                                     Icon={SouthWest}
-                                    value={data.averageTimeIn.substring(0, 5)}
+                                    value={summary.averageTimeIn.substring(0, 5)}
                                     label="Avg Check In"
                                 />
                                 <IconLabel
                                     Icon={NorthEast}
-                                    value={data.averageTimeOut.substring(0, 5)}
+                                    value={summary.averageTimeOut.substring(0, 5)}
                                     label="Avg Check Out"
+                                />
+                                <IconLabel
+                                    Icon={MoreTime}
+                                    value={(Math.round(summary.totalOvertime * 100) / 100).toString()}
+                                    label={"Total Overtime"}
                                 />
                             </Stack>
                         </Stack>
@@ -290,48 +370,30 @@ function IconLabel({Icon, value, label}: IconLabel) {
     )
 }
 
+interface MonthFilterProps {
+    selectedFilter: string;
+    setSelectedFilter: (filter: string) => void;
+}
 
-// const StyledText = styled('text')(({ theme }) => ({
-//   fill: theme.palette.text.primary,
-//   textAnchor: 'middle',
-//   dominantBaseline: 'central',
-//   fontSize: 20,
-// }));
-
-// function PieCenterLabel({ children }: { children: React.ReactNode }) {
-//   const { height, top } = useDrawingArea();
-//   return (
-//     <StyledText x={120 / 2} y={top + height / 2}>
-//       {children}
-//     </StyledText>
-//   );
-// }
-
-// MonthFilter component for filtering attendance data
-function MonthFilter() {
+function MonthFilter({ selectedFilter, setSelectedFilter }: MonthFilterProps) {
     console.log("Rendering MonthFilter");
 
-    return(
+    const filters = ["This Month", "3 Months", "6 Months", "All Time"];
+
+    return (
         <Stack direction='row' gap={1} px={1}>
-            <MonthFilterButton
-                label="This Month"
-                active={true}
-            />
-            <MonthFilterButton
-                label="3 Months"
-                active={false}
-            />
-            <MonthFilterButton
-                label="6 Months"
-                active={false}
-            />
-            <MonthFilterButton
-                label="All Time"
-                active={false}
-            />
+            {filters.map((filter) => (
+                <MonthFilterButton
+                    key={filter}
+                    label={filter}
+                    active={selectedFilter === filter}
+                    onClick={() => setSelectedFilter(filter)}
+                />
+            ))}
         </Stack>
-    )
+    );
 }
+
 
 // MonthFilterButton component for individual filter buttons
 interface MonthFilterButton {
@@ -359,51 +421,32 @@ function MonthFilterButton({label, active, onClick}: MonthFilterButton) {
     )
 }
 
+interface AttendanceTableProps {
+    filteredData: AttendanceRes[]
+    isPending: boolean
+}
+
+const statusGenerator = (timeIn: string, timeOut: string) => {
+    if(timeOut){
+        if(timeIn) {
+            if(timeIn < "08:15:00") {
+                return "Present"
+            } else {
+                return "Late"
+            }
+        } else {
+            return "Absent"
+        }
+    } else {
+        return "N/A"
+    }
+}
+
 // AttendanceTable component for displaying attendance records
-function AttendanceTable() {
+function AttendanceTable({ filteredData, isPending }: AttendanceTableProps) {
     console.log("Rendering AttendanceTable");
 
-    const {authUser} = useAuth()
-    const employeeId = authUser?.employeeId
-
-    // Fetch attendance data
-    const fetchAttendance = async() => {
-        const {EMPLOYEES, ATTENDANCES} = API
-        const res = await axios.get(`${BASE_API}${EMPLOYEES.BASE}${employeeId}${ATTENDANCES.BASE}`);
-        return res.data;
-    }
-
-    const {isPending, data} = useQuery<AttendanceRes[]>({
-        queryKey: ['attendances'],
-        queryFn: fetchAttendance
-    })
-
     // Helper functions for data processing
-    const isSameDate = (dateString: string, dateToCompare: Date) => {
-        const date = new Date(dateString)
-        return (
-            date.getFullYear() === dateToCompare.getFullYear() &&
-            date.getMonth() === dateToCompare.getMonth() &&
-            date.getDate() === dateToCompare.getDate()
-        );
-    }
-
-    const filterAttendanceByToday = (attendanceList: AttendanceRes[]) => {
-        if (attendanceList.length === 0) {
-            return attendanceList
-        }
-
-        const firstItemDate = attendanceList[0].date
-        const today = new Date()
-
-        if (isSameDate(firstItemDate, today)) {
-            return attendanceList.slice(1)
-        }
-
-        return attendanceList
-    }
-
-
     const statusColor: Record<string, string> = {
         "N/A": "#666666",
         "Present": "#67f596",
@@ -411,24 +454,8 @@ function AttendanceTable() {
         "Absent": "#f56767",
     }
 
-    const statusGenerator = (timeIn: string, timeOut: string) => {
-        if(timeOut){
-            if(timeIn) {
-                if(timeIn < "08:15:00") {
-                    return "Present"
-                } else {
-                    return "Late"
-                }
-            } else {
-                return "Absent"
-            }
-        } else {
-            return "N/A"
-        }
-    }
-
     // Process table data
-    const tableData = data && data
+    const tableData = filteredData
         .map(({attendanceId, employeeId, ...rest})=> ({
             date: rest.date,
             timeIn: rest.timeIn.substring(0,5),
@@ -469,126 +496,8 @@ function AttendanceTable() {
                 }}
                 loading={isPending}
             />
-            {/* <Stack height='100%' minHeight='min-content'>
-        <TableHeader />
-        <Stack
-          flex={1}
-          sx={{
-            overflowY: 'scroll',
-            overflowX: 'hidden',
-          }}
-        >
-          {
-            !isPending ?
-              data && filterAttendanceByToday(data)?.map((row) =>
-                <TableRow
-                  key={row.attendanceId}
-                  {...row}
-                />
-              )
-              :
-              <Stack alignItems='center'>
-                <CircularProgress />
-              </Stack>
-          }
-        </Stack>
-      </Stack> */}
+
         </Widget>
-    )
-}
-
-function TableHeader() {
-
-    return(
-        <>
-            <Grid container spacing={1} px={1} pb={1.5} pr={2.9}>
-                <Grid xs={2}>
-                    <Typography variant="body2" fontWeight={500} color="GrayText">Date</Typography>
-                </Grid>
-                <Grid xs={2}>
-                    <Typography variant="body2" fontWeight={500} color="GrayText">Time In</Typography>
-                </Grid>
-                <Grid xs={2}>
-                    <Typography variant="body2" fontWeight={500} color="GrayText">Time Out</Typography>
-                </Grid>
-                <Grid xs={2}>
-                    <Typography variant="body2" fontWeight={500} color="GrayText">Status</Typography>
-                </Grid>
-                <Grid xs={2}>
-                    <Typography variant="body2" fontWeight={500} color="GrayText">Overtime</Typography>
-                </Grid>
-                <Grid xs={2}>
-                    <Typography variant="body2" fontWeight={500} color="GrayText">Total Hours</Typography>
-                </Grid>
-            </Grid>
-            <Divider sx={{mb: 0.5}}/>
-        </>
-    )
-}
-
-interface TableRow {
-    id?: number
-    date: string
-    timeIn: string
-    timeOut: string
-    status: string
-    overtime: number
-    totalHours: number
-}
-
-function TableRow({date, timeIn, timeOut, overtime, totalHours}: AttendanceRes) {
-
-    const statusColor: Record<string, string> = {
-        "N/A": "#666666",
-        "Present": "#67f596",
-        "Late": "#e8dd8b",
-        "Absent": "#f56767",
-    }
-
-    const statusGenerator = () => {
-        if(timeOut){
-            if(timeIn) {
-                if(timeIn < "08:15:00") {
-                    return "Present"
-                } else {
-                    return "Late"
-                }
-            } else {
-                return "Absent"
-            }
-        } else {
-            return "N/A"
-        }
-    }
-
-    const status = statusGenerator()
-
-    return(
-        <Grid container spacing={1} px={1} py={1.5}>
-            <Grid xs={2}>
-                <Typography fontWeight={400}>{date}</Typography>
-            </Grid>
-            <Grid xs={2}>
-                <Typography>{timeIn.split(":").slice(0,2).join(":")}</Typography>
-            </Grid>
-            <Grid xs={2}>
-                <Typography>{timeOut.split(":").slice(0,2).join(":")}</Typography>
-            </Grid>
-            <Grid xs={2}>
-                <Stack direction='row' alignItems='center' gap={0.5}>
-                    <Circle sx={{pb: 0.4, fontSize: 16, color: statusColor[status]}} />
-                    <Typography>
-                        {status}
-                    </Typography>
-                </Stack>
-            </Grid>
-            <Grid xs={2}>
-                <Typography>{overtime} hr</Typography>
-            </Grid>
-            <Grid xs={2}>
-                <Typography>{totalHours} hr</Typography>
-            </Grid>
-        </Grid>
     )
 }
 

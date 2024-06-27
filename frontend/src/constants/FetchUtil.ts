@@ -79,21 +79,24 @@ export const fetchPayrollById = async (payrollId: number): Promise<PayrollRes> =
     return fetchFromApi<PayrollRes>(`${BASE_API}${PAYROLLS.BASE}${payrollId}`);
 };
 
-
-
 export const fetchAttendancesByEmployeeId = async (employeeId: number): Promise<AttendanceRes[]> => {
-    const { ATTENDANCES } = API;
-    return fetchFromApi<AttendanceRes[]>(`${BASE_API}${ATTENDANCES.BASE}${employeeId}`);
+    const { EMPLOYEES, ATTENDANCES } = API;
+    return fetchFromApi<AttendanceRes[]>(`${BASE_API}${EMPLOYEES.BASE}${employeeId}${ATTENDANCES.BASE}`);
 };
 
+export const fetchAttendancesByEmployeeIdAndDate = async (employeeId: number, date: string): Promise<AttendanceRes[]> => {
+    const {EMPLOYEES, ATTENDANCES} = API;
+    console.log("Fetching attendance for date:", date);
 
-export const fetchAttendancesByEmployeeIdAndDate = async (employeeId: number, date: Date): Promise<AttendanceRes[]> => {
+    return fetchFromApi(`${BASE_API}${EMPLOYEES.BASE}${employeeId}${ATTENDANCES.BASE}?startDate=${date}`);
+}
+
+export const fetchAttendancesByEmployeeIdAndDateRange = async (employeeId: number, startDate: string, endDate: string): Promise<AttendanceRes[]> => {
     const {EMPLOYEES, ATTENDANCES} = API
-    const formattedDate = format(date, 'yyyy-MM-dd')
 
-    console.log("Fetching attendance for date:", formattedDate);
+    console.log("Fetching attendance for date range:", startDate, endDate);
 
-    return fetchFromApi<AttendanceRes[]>(`${BASE_API}${EMPLOYEES.BASE}${employeeId}${ATTENDANCES.BASE}?startDate=${formattedDate}`);
+    return fetchFromApi<AttendanceRes[]>(`${BASE_API}${EMPLOYEES.BASE}${employeeId}${ATTENDANCES.BASE}?startDate=${startDate}&endDate=${endDate}`);
 }
 
 export const fetchAttendances = async (): Promise<AttendanceRes[]> => {

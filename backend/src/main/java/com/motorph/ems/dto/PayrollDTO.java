@@ -9,9 +9,7 @@ import java.util.List;
 public record PayrollDTO (
         Long payrollId,
         LocalDate payDate,
-        Long employeeId,
-        String firstName,
-        String lastName,
+        EmployeeDTO employee,
         LocalDate periodStart,
         LocalDate periodEnd,
         int workingDays,

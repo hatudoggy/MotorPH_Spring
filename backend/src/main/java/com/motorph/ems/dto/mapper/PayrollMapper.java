@@ -10,11 +10,13 @@ import java.util.stream.Collectors;
 @Component
 public class PayrollMapper {
 
+    private final EmployeeMapper employeeMapper;
     private final DeductionsMapper deductionsMapper;
     private final BenefitsMapper benefitsMapper;
 
-    public PayrollMapper(DeductionsMapper deductionsMapper,
+    public PayrollMapper(EmployeeMapper employeeMapper, DeductionsMapper deductionsMapper,
                          BenefitsMapper benefitsMapper) {
+        this.employeeMapper = employeeMapper;
         this.deductionsMapper = deductionsMapper;
         this.benefitsMapper = benefitsMapper;
     }
@@ -27,9 +29,7 @@ public class PayrollMapper {
         return PayrollDTO.builder()
                 .payrollId(entity.getPayrollId())
                 .payDate(entity.getPayDate())
-                .employeeId(entity.getEmployee().getEmployeeId())
-                .firstName(entity.getEmployee().getFirstName())
-                .lastName(entity.getEmployee().getLastName())
+                .employee(employeeMapper.toBasicDTO(entity.getEmployee()))
                 .periodStart(entity.getPeriodStart())
                 .periodEnd(entity.getPeriodEnd())
                 .workingDays(entity.getWorkingDays())
@@ -47,14 +47,14 @@ public class PayrollMapper {
                 .deductions(entity.getDeductions().stream()
                         .map(deductionsMapper::toDTO)
                         .collect(Collectors.toList()))
-                .benefits(entity.getEmployee().getBenefits().stream()
+                .benefits(entity.getBenefits().stream()
                         .map(benefitsMapper::toDTO)
                         .collect(Collectors.toList()))
                 .build();
     }
 
     public Payroll toEntity(PayrollDTO dto) {
-        if (dto == null || dto.employeeId() == null) {
+        if (dto == null || dto.employee() == null) {
             throw new IllegalArgumentException("Employee ID cannot be null when creating payroll");
         }
 
@@ -63,7 +63,7 @@ public class PayrollMapper {
         }
 
         return new Payroll(
-                dto.employeeId(),
+                dto.employee().employeeId(),
                 dto.periodStart(),
                 dto.periodEnd(),
                 dto.daysWorked(),
@@ -90,7 +90,7 @@ public class PayrollMapper {
             throw new IllegalArgumentException("Payroll ID cannot be null when updating a payroll");
         }
 
-        if (!entity.getEmployee().getEmployeeId().equals(payrollDTO.employeeId())) {
+        if (!entity.getEmployee().getEmployeeId().equals(payrollDTO.employee().employeeId())) {
             throw new IllegalArgumentException("Employee ID cannot be changed when updating a payroll");
         }
 

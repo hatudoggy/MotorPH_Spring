@@ -19,7 +19,9 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.List;
 import java.util.Optional;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Transactional
@@ -49,8 +51,8 @@ public class PayrollServiceImpl implements PayrollService {
     @Override
     public PayrollDTO addNewPayroll(PayrollDTO payrollDTO) {
         if (payrollRepository.existsByEmployee_EmployeeIdAndPeriodStart(
-                payrollDTO.employeeId(), payrollDTO.periodStart())) {
-            throw new IllegalStateException("Payroll with employee " + payrollDTO.employeeId() +
+                payrollDTO.employee().employeeId(), payrollDTO.periodStart())) {
+            throw new IllegalStateException("Payroll with employee " + payrollDTO.employee().employeeId() +
                     " and period start " + payrollDTO.periodStart() + " already exists");
         }
 
@@ -202,7 +204,7 @@ public class PayrollServiceImpl implements PayrollService {
 
             double totalDeduction = calculateTotalDeductions(List.of(sss, philhealth, pagibig, withholdingTax));
 
-            double totalBenefits = calculateTotalBenefits(employee.getBenefits().stream().map(Benefits::getAmount).toList());
+            double totalBenefits = calculateTotalBenefits(employee.getBenefits().stream().map(Benefits::getAmount).collect(Collectors.toList()));
 
             double netPay = calculateNetPay(grossIncome,totalBenefits,totalBenefits);
 

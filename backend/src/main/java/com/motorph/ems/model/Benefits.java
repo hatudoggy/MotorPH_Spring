@@ -26,7 +26,7 @@ public class Benefits {
 
     private Double amount;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "benefit_type_id", nullable = false)
     private BenefitType benefitType;
 

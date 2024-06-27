@@ -32,11 +32,5 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
     @Query("SELECT a FROM Attendance a WHERE (a.employee.firstName LIKE concat('%', :name, '%') OR a.employee.lastName LIKE concat('%', :name, '%'))  AND a.date = :date")
     List<Attendance> findByDateAndNameContaining(@Param("date") LocalDate date, @Param("name") String name);
 
-    @Query("SELECT COUNT(a) FROM Attendance a " +
-            "WHERE a.employee.employeeId = %:employeeId% " +
-            "AND a.date BETWEEN %:startDate AND %:endDate% " +
-            "AND a.timeIn IS NOT NULL " +
-            "AND a.timeOut IS NOT NULL")
-
     List<Attendance> findAllByEmployee_EmployeeId_AndDateBetween(Long employeeId, LocalDate start, LocalDate end);
 }

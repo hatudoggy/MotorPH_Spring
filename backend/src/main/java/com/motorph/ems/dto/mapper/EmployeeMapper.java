@@ -73,6 +73,8 @@ public class EmployeeMapper {
                 .governmentId(toGovernmentIdDTO(employee.getGovernmentId()))
                 .supervisor(toSupervisorDTO(employee.getSupervisor()))
                 .status(statusMapper.toDTO(employee.getStatus()))
+                .leaveBalances(leaveBalanceMapper.toDTO(employee.getLeaveBalances()))
+                .benefits(benefitsMapper.toDTO(employee.getBenefits()))
                 .build();
     }
 

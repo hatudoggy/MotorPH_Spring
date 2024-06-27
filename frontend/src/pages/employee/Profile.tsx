@@ -7,12 +7,8 @@ import { calculateAge, formatterWhole, idformatter } from "../../utils/utils";
 import { Shadows } from "../../constants/Shadows";
 import { useAuth } from "../../hooks/AuthProvider";
 import {
-  useFetchDepartmentById,
   useFetchEmployeeFullById,
-  useFetchEmploymentStatusById,
-  useFetchFullProfileData,
-  useFetchPositionById,
-  useFetchSupervisorById,
+
 } from "../../hooks/UseFetch.ts";
 import {LoadingOrError} from "../../hooks/Errors.tsx";
 import {useEffect} from "react";

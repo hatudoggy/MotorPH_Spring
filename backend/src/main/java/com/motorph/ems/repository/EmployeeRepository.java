@@ -25,7 +25,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     List<Employee> findAllByHireDateBetween(LocalDate startDate, LocalDate endDate);
 
-    List<Employee> findAllByUser_Role_RoleName(String roleName);
+//    List<Employee> findAllByUser_Role_RoleName(String roleName);
 
     boolean existsByFirstNameAndLastName(String firstName, String lastName);
 

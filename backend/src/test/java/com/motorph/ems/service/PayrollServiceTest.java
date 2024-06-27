@@ -1,5 +1,6 @@
 package com.motorph.ems.service;
 
+import com.motorph.ems.dto.EmployeeDTO;
 import com.motorph.ems.dto.PayrollDTO;
 import com.motorph.ems.dto.mapper.PayrollMapper;
 import com.motorph.ems.model.*;
@@ -15,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 import java.util.Collections;
+import java.util.List;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,6 +42,14 @@ class PayrollServiceTest {
     @BeforeEach
     void setUp() {
         Employee built_emp = Employee.builder()
+                .employeeId(2L)
+                .firstName("John")
+                .lastName("Doe")
+                .dob(LocalDate.now())
+                .address("123 Main St")
+                .build();
+
+        EmployeeDTO employeeDTO = EmployeeDTO.builder()
                 .employeeId(2L)
                 .firstName("John")
                 .lastName("Doe")
@@ -97,7 +107,7 @@ class PayrollServiceTest {
 
         payrollDTO = PayrollDTO.builder()
                 .payrollId(1L)
-                .employeeId(employee1.getEmployeeId())
+                .employee(employeeDTO)
                 .periodStart(LocalDate.now().withDayOfMonth(1))
                 .periodEnd(LocalDate.now().withDayOfMonth(30))
                 .monthlyRate(3000.00)
@@ -156,7 +166,7 @@ class PayrollServiceTest {
 
         assertFalse(result.isEmpty());
         assertEquals(1, result.size());
-        assertEquals(payrollDTO.payrollId(), result.get(0).payrollId());
+        assertEquals(payrollDTO.payrollId(), result.iterator().next().payrollId());
     }
 
     @Test
@@ -231,7 +241,7 @@ class PayrollServiceTest {
 
         assertFalse(result.isEmpty());
         assertEquals(1, result.size());
-        assertEquals(payrollDTO.payrollId(), result.get(0).payrollId());
+        assertEquals(payrollDTO.payrollId(), result.iterator().next().payrollId());
     }
 
     @Test
@@ -245,6 +255,6 @@ class PayrollServiceTest {
 
         assertFalse(result.isEmpty());
         assertEquals(1, result.size());
-        assertEquals(payrollDTO.payrollId(), result.get(0).payrollId());
+        assertEquals(payrollDTO.payrollId(), result.iterator().next().payrollId());
     }
 }

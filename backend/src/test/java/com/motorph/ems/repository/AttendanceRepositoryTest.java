@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -99,8 +100,8 @@ class AttendanceRepositoryTest {
                 findAllByEmployee_EmployeeId_OrderByDateDesc(employee1.getEmployeeId());
 
         assertThat(attendances).hasSizeGreaterThan(1);
-        assertThat(attendances.get(0)).isEqualTo(attendance2);
-        assertThat(attendances.get(1)).isEqualTo(attendance1);
+        assertThat(attendances.iterator().next()).isEqualTo(attendance2);
+        assertThat(attendances.iterator().next()).isEqualTo(attendance1);
     }
 
     @Test
@@ -136,7 +137,7 @@ class AttendanceRepositoryTest {
                 findAllByDate_OrderByDateDesc(LocalDate.now());
 
         assertThat(attendances).hasSize(1);
-        assertThat(attendances.get(0)).isEqualTo(attendance1);
+        assertThat(attendances.iterator().next()).isEqualTo(attendance1);
     }
 
     @Test
@@ -152,9 +153,9 @@ class AttendanceRepositoryTest {
                 findAllByDateBetweenOrderByDateDesc(LocalDate.now(), LocalDate.now().plusDays(2));
 
         assertThat(attendances).hasSize(3);
-        assertThat(attendances.get(0)).isEqualTo(attendance3);
-        assertThat(attendances.get(1)).isEqualTo(attendance2);
-        assertThat(attendances.get(2)).isEqualTo(attendance1);
+        assertThat(attendances.iterator().next()).isEqualTo(attendance3);
+        assertThat(attendances.iterator().next()).isEqualTo(attendance2);
+        assertThat(attendances.iterator().next()).isEqualTo(attendance1);
     }
 
     @Test
@@ -169,7 +170,7 @@ class AttendanceRepositoryTest {
                 findAllByTimeInIsAfterAndDate(LocalTime.of(7, 0), LocalDate.now());
 
         assertThat(attendances).hasSize(1);
-        assertThat(attendances.get(0)).isEqualTo(attendance1);
+        assertThat(attendances.iterator().next()).isEqualTo(attendance1);
     }
 
     @Test
@@ -184,7 +185,7 @@ class AttendanceRepositoryTest {
                 findAllByTimeOutIsAfterAndDate(LocalTime.of(16, 0), LocalDate.now());
 
         assertThat(attendances).hasSize(1);
-        assertThat(attendances.get(0)).isEqualTo(attendance1);
+        assertThat(attendances.iterator().next()).isEqualTo(attendance1);
     }
 
     @Test

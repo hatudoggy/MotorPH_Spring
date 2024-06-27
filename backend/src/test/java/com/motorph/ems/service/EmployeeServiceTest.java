@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -111,7 +112,7 @@ class EmployeeServiceTest {
                 .build();
 
 
-        // Set employment for employee1 after employment object is created
+        // List employment for employee1 after employment object is created
     }
 
     @Test

@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -69,44 +70,44 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
         return employees.stream()
-                .map(employeeMapper::toFullDTO)
-                .toList();
+                .map(employeeMapper::toBasicDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<EmployeeDTO> getEmployeesByDepartment(String departmentName) {
         return employeeRepository.findAllByDepartment_DepartmentName(departmentName)
-                .stream().map(employeeMapper::toFullDTO).collect(Collectors.toList());
+                .stream().map(employeeMapper::toBasicDTO).collect(Collectors.toList());
     }
 
     @Override
     public List<EmployeeDTO> getEmployeesByPosition(String positionName) {
         return employeeRepository.findAllByPosition_PositionName(positionName)
-                .stream().map(employeeMapper::toFullDTO).collect(Collectors.toList());
+                .stream().map(employeeMapper::toBasicDTO).collect(Collectors.toList());
     }
 
     @Override
     public List<EmployeeDTO> getEmployeesByStatus(String statusName) {
         return employeeRepository.findAllByStatus_StatusName(statusName)
-                .stream().map(employeeMapper::toFullDTO).collect(Collectors.toList());
+                .stream().map(employeeMapper::toBasicDTO).collect(Collectors.toList());
     }
 
     @Override
     public List<EmployeeDTO> getEmployeesBySupervisorId(Long supervisorId) {
         return employeeRepository.findAllBySupervisor_EmployeeId(supervisorId)
-                .stream().map(employeeMapper::toFullDTO).collect(Collectors.toList());
+                .stream().map(employeeMapper::toBasicDTO).collect(Collectors.toList());
     }
 
     @Override
     public List<EmployeeDTO> getEmployeesBySupervisorName(String firstName, String lastName) {
         return employeeRepository.findAllBySupervisor_FirstName_AndSupervisor_LastName(firstName, lastName)
-                .stream().map(employeeMapper::toFullDTO).collect(Collectors.toList());
+                .stream().map(employeeMapper::toBasicDTO).collect(Collectors.toList());
     }
 
     @Override
     public List<EmployeeDTO> getEmployeesByHiredBetween(LocalDate startDate, LocalDate endDate) {
         return employeeRepository.findAllByHireDateBetween(startDate, endDate)
-                .stream().map(employeeMapper::toFullDTO).collect(Collectors.toList());
+                .stream().map(employeeMapper::toBasicDTO).collect(Collectors.toList());
     }
 
     @Override

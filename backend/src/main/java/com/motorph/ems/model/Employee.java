@@ -38,23 +38,23 @@ public class Employee {
     @Transient
     private Double hourlyRate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "supervisor_id")
     private Employee supervisor;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "position_code")
     private Position position;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "department_code")
     private Department department;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "status_id")
     private EmploymentStatus status;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "government_id")
     private GovernmentId governmentId;
 
@@ -66,18 +66,6 @@ public class Employee {
 
     @OneToMany (mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<LeaveBalance> leaveBalances;
-
-    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<LeaveRequest> leaveRequests;
-
-    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<Payroll> payrolls;
-
-    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<Attendance> attendances;
-
-    @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private User user;
 
     public Employee(Long employeeId) {
         this.employeeId = employeeId;
