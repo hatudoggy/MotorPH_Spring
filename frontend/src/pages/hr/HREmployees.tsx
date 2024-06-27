@@ -141,7 +141,6 @@ export default function HREmployees() {
                           position={item.position.positionName}
                           department={item.department.departmentName}
                           hireDate={item.hireDate}
-                          contactNo={item.contacts.contactNumbers[0]}
                           status={item.status}
                           onClick={() => handleSelectEmployee(item.employeeId)}
                           onEdit={() => handleCUEmployee("edit", item.employeeId)}
@@ -206,7 +205,7 @@ interface EmployeeCard {
 }
 
 
-function EmployeeCard({name, position, department, hireDate, contactNo, status, onClick, onEdit}: EmployeeCard) {
+function EmployeeCard({name, position, department, hireDate, status, onClick, onEdit}: EmployeeCard) {
 
   const statusColor: Record<number, string> = {
     1: "#66bb6a", //Green
@@ -857,8 +856,6 @@ function EmploymentInfoArea({control, watch, setValue}: FormArea) {
     queryKey: ['statuses'],
     queryFn: fetchAllStatuses
   })
-
-
 
   const fetchSupervisors = async() => {
     const {EMPLOYEES} = API

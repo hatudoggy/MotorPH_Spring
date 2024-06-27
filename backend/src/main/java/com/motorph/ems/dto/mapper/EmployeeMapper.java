@@ -47,22 +47,7 @@ public class EmployeeMapper {
                 .firstName(employee.getFirstName())
                 .position(positionMapper.toDTO(employee.getPosition()))
                 .department(departmentMapper.toDTO(employee.getDepartment()))
-                .build();
-    }
-
-    public EmployeeDTO toBasicDTO(Employee employee) {
-        if (employee == null) {
-            return null;
-        }
-
-        return EmployeeDTO.builder()
-                .employeeId(employee.getEmployeeId())
-                .lastName(employee.getLastName())
-                .firstName(employee.getFirstName())
-                .position(positionMapper.toDTO(employee.getPosition()))
-                .department(departmentMapper.toDTO(employee.getDepartment()))
                 .hireDate(employee.getHireDate())
-                .contacts(toContactDTO(employee.getContacts()))
                 .status(statusMapper.toDTO(employee.getStatus()))
                 .build();
     }
