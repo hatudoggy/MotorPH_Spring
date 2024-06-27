@@ -30,28 +30,34 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     @Transactional
-    public EmployeeDTO addNewEmployee(EmployeeDTO employeeDTO) {
-        if (employeeRepository.existsByFirstNameAndLastName(employeeDTO.firstName(), employeeDTO.lastName())) {
-            throw new EntityNotFoundException("Employee with first name " + employeeDTO.firstName() + " and last name " + employeeDTO.lastName() + " already exists");
+    public EmployeeDTO addNewEmployee(EmployeeDTO employeeFullDTO) {
+        if (employeeRepository.existsByFirstNameAndLastName(employeeFullDTO.firstName(), employeeFullDTO.lastName())) {
+            throw new EntityNotFoundException("Employee with first name " + employeeFullDTO.firstName() + " and last name " + employeeFullDTO.lastName() + " already exists");
         }
 
-        Employee employee = employeeMapper.toEntity(employeeDTO);
+        Employee employee = employeeMapper.toEntity(employeeFullDTO);
 
         employee.setEmployeeId(null);
 
         Employee savedEmployee = employeeRepository.save(employee);
 
-        return employeeMapper.toDTO(savedEmployee);
+        return employeeMapper.toFullDTO(savedEmployee);
     }
 
     @Override
-    public Optional<EmployeeDTO> getEmployeeById(Long employeeID) {
-        return employeeRepository.findById(employeeID).map(employeeMapper::toDTO);
+    public Optional<EmployeeDTO> getEmployeeById(Long employeeID, boolean isFullDetails) {
+        if (isFullDetails) {
+            return employeeRepository.findById(employeeID).map(employeeMapper::toFullDTO);
+        }
+
+        else {
+            return employeeRepository.findById(employeeID).map(employeeMapper::toBasicDTO);
+        }
     }
 
     @Override
     public Optional<EmployeeDTO> getEmployeeByName(String firstName, String lastName) {
-        return employeeRepository.findByFirstNameAndLastName(firstName, lastName).map(employeeMapper::toDTO);
+        return employeeRepository.findByFirstNameAndLastName(firstName, lastName).map(employeeMapper::toFullDTO);
     }
 
     @Override
@@ -63,57 +69,57 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
         return employees.stream()
-                .map(employeeMapper::toDTO)
+                .map(employeeMapper::toFullDTO)
                 .toList();
     }
 
     @Override
     public List<EmployeeDTO> getEmployeesByDepartment(String departmentName) {
         return employeeRepository.findAllByDepartment_DepartmentName(departmentName)
-                .stream().map(employeeMapper::toDTO).collect(Collectors.toList());
+                .stream().map(employeeMapper::toFullDTO).collect(Collectors.toList());
     }
 
     @Override
     public List<EmployeeDTO> getEmployeesByPosition(String positionName) {
         return employeeRepository.findAllByPosition_PositionName(positionName)
-                .stream().map(employeeMapper::toDTO).collect(Collectors.toList());
+                .stream().map(employeeMapper::toFullDTO).collect(Collectors.toList());
     }
 
     @Override
     public List<EmployeeDTO> getEmployeesByStatus(String statusName) {
         return employeeRepository.findAllByStatus_StatusName(statusName)
-                .stream().map(employeeMapper::toDTO).collect(Collectors.toList());
+                .stream().map(employeeMapper::toFullDTO).collect(Collectors.toList());
     }
 
     @Override
     public List<EmployeeDTO> getEmployeesBySupervisorId(Long supervisorId) {
         return employeeRepository.findAllBySupervisor_EmployeeId(supervisorId)
-                .stream().map(employeeMapper::toDTO).collect(Collectors.toList());
+                .stream().map(employeeMapper::toFullDTO).collect(Collectors.toList());
     }
 
     @Override
     public List<EmployeeDTO> getEmployeesBySupervisorName(String firstName, String lastName) {
         return employeeRepository.findAllBySupervisor_FirstName_AndSupervisor_LastName(firstName, lastName)
-                .stream().map(employeeMapper::toDTO).collect(Collectors.toList());
+                .stream().map(employeeMapper::toFullDTO).collect(Collectors.toList());
     }
 
     @Override
     public List<EmployeeDTO> getEmployeesByHiredBetween(LocalDate startDate, LocalDate endDate) {
         return employeeRepository.findAllByHireDateBetween(startDate, endDate)
-                .stream().map(employeeMapper::toDTO).collect(Collectors.toList());
+                .stream().map(employeeMapper::toFullDTO).collect(Collectors.toList());
     }
 
     @Override
     @Transactional
-    public EmployeeDTO updateEmployee(Long employeeID, EmployeeDTO employeeDTO) {
+    public EmployeeDTO updateEmployee(Long employeeID, EmployeeDTO employeeFullDTO) {
         // Find the existing employee by ID
         Employee employee = employeeRepository.findById(employeeID).orElseThrow(
-                () -> new RuntimeException("Employee not found with status: " + employeeDTO.employeeId())
+                () -> new RuntimeException("Employee not found with status: " + employeeFullDTO.employeeId())
         );
 
-        employeeMapper.updateEntity(employeeDTO, employee);
+        employeeMapper.updateEntity(employeeFullDTO, employee);
 
-        return employeeMapper.toDTO(employeeRepository.save(employee));
+        return employeeMapper.toFullDTO(employeeRepository.save(employee));
     }
 
     @Override

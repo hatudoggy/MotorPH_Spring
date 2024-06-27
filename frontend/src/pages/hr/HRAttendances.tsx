@@ -1,7 +1,7 @@
-import { Avatar, Container, InputAdornment, Paper, PaperProps, Stack, TextField, Typography, styled } from "@mui/material";
+import { Avatar, Container, InputAdornment, Paper, PaperProps, Stack, TextField, Typography, styled, CircularProgress } from "@mui/material";
 import Headertext from "../../components/HeaderText";
 import Table from "../../components/Table";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { API, BASE_API } from "../../constants/Api";
 import { format } from "date-fns";
@@ -80,10 +80,10 @@ function AttendanceTable({dateFilter, searchFilter}: AttendanceTable) {
         return data
     }
 
-    const {isPending, data} = useQuery<AttendanceFull[]>({
+    const {isLoading, data} = useQuery<AttendanceFull[]>({
         queryKey: ['attendanceAll', dateFilter],
         queryFn: fetchAttendanceAll,
-        placeholderData: keepPreviousData
+        refetchOnWindowFocus: false,
     })
 
     const filteredData = useMemo(() => {
@@ -98,6 +98,14 @@ function AttendanceTable({dateFilter, searchFilter}: AttendanceTable) {
     const tableData = filteredData.map(({attendanceId, ...rest}) => rest);
 
     const picURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3ZsJ_-wh-pIJV2hEL92vKyS07J3Hfp1USqA&s"
+
+    if (isLoading) {
+        return (
+            <Widget variant="outlined" sx={{ height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <CircularProgress />
+            </Widget>
+        );
+    }
 
     return(
         <Widget variant="outlined" sx={{ height: '100%' }}>
@@ -134,7 +142,6 @@ function AttendanceTable({dateFilter, searchFilter}: AttendanceTable) {
                         </Stack>
                     )
                 }}
-                loading={isPending}
             />
         </Widget>
     )

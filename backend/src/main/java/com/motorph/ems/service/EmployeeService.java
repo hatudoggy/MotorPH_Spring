@@ -10,7 +10,7 @@ public interface EmployeeService {
 
     EmployeeDTO addNewEmployee(EmployeeDTO employee);
 
-    Optional<EmployeeDTO> getEmployeeById(Long employeeId);
+    Optional<EmployeeDTO> getEmployeeById(Long employeeId, boolean isFullDetails);
 
     Optional<EmployeeDTO> getEmployeeByName(String firstName, String lastName);
 

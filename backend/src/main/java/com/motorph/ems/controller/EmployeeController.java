@@ -53,7 +53,7 @@ public class EmployeeController {
 
     @GetMapping("/{id}")
     public ResponseEntity<EmployeeDTO> getEmployeeById(@PathVariable(value = "id") Long employeeID) {
-        EmployeeDTO employee = employeeService.getEmployeeById(employeeID).orElseThrow(
+        EmployeeDTO employee = employeeService.getEmployeeById(employeeID, true).orElseThrow(
                 () -> new EntityNotFoundException("Employee not found")
         );
 
@@ -92,14 +92,7 @@ public class EmployeeController {
         return ResponseEntity.ok(updatedEmployee);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteEmployee(@PathVariable(value = "id") Long employeeID) {
-        if (employeeService.getEmployeeById(employeeID).isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        employeeService.deleteEmployee(employeeID);
-        return ResponseEntity.noContent().build();
-    }
+
 
     @GetMapping("/{id}/attendances")
     public ResponseEntity<List<AttendanceDTO>> getEmployeeAttendance(
@@ -142,7 +135,7 @@ public class EmployeeController {
     @PostMapping("/{id}/attendances/timeIn")
     public ResponseEntity<AttendanceDTO> employeeTimeIn(@PathVariable Long id) {
         AttendanceDTO attendanceToday = AttendanceDTO.builder()
-                .employee(employeeService.getEmployeeById(id).orElseThrow(
+                .employee(employeeService.getEmployeeById(id, false).orElseThrow(
                         () -> new EntityNotFoundException("Employee not found")
                 ))
                 .date(LocalDate.now())

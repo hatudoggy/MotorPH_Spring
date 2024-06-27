@@ -39,7 +39,7 @@ class EmployeeServiceTest {
     private EmployeeServiceImpl employeeService;
 
     private Employee employee1;
-    private EmployeeDTO employeeDTO1;
+    private EmployeeDTO employeeFullDTO1;
     private final LocalDate hireDate = LocalDate.of(2022,1,1);
     private final LocalDate hireDate2 = LocalDate.now();
 
@@ -101,7 +101,7 @@ class EmployeeServiceTest {
                 .supervisor(supervisor)
                 .build();
 
-        employeeDTO1 = EmployeeDTO.builder()
+        employeeFullDTO1 = EmployeeDTO.builder()
                 .employeeId(employee.getEmployeeId())
                 .firstName(employee.getFirstName())
                 .lastName(employee.getLastName())
@@ -125,9 +125,9 @@ class EmployeeServiceTest {
 
         when(employeeRepository.save(any(Employee.class))).thenReturn(employee1);
 
-        when(employeeMapper.toDTO(any(Employee.class))).thenReturn(employeeDTO1);
+        when(employeeMapper.toFullDTO(any(Employee.class))).thenReturn(employeeFullDTO1);
 
-        EmployeeDTO savedEmployee = employeeService.addNewEmployee(employeeDTO1);
+        EmployeeDTO savedEmployee = employeeService.addNewEmployee(employeeFullDTO1);
 
 
         assertThat(savedEmployee).isNotNull();
@@ -141,10 +141,10 @@ class EmployeeServiceTest {
 
         when(employeeRepository.findById(any(Long.class))).thenReturn(employee);
 
-        when(employeeMapper.toDTO(any(Employee.class))).thenReturn(employeeDTO1);
+        when(employeeMapper.toFullDTO(any(Employee.class))).thenReturn(employeeFullDTO1);
 
 
-        Optional<EmployeeDTO> foundEmployee = employeeService.getEmployeeById(1L);
+        Optional<EmployeeDTO> foundEmployee = employeeService.getEmployeeById(1L, true);
 
         assertThat(foundEmployee).isPresent();
         assertThat(foundEmployee.get().firstName()).isEqualTo("John");
@@ -156,7 +156,7 @@ class EmployeeServiceTest {
     void EmployeeService_getEmployees_ReturnsListOfEmployeeDTO() {
         when(employeeRepository.findAll()).thenReturn(Collections.singletonList(employee1));
 
-        when(employeeMapper.toDTO(any(Employee.class))).thenReturn(employeeDTO1);
+        when(employeeMapper.toFullDTO(any(Employee.class))).thenReturn(employeeFullDTO1);
 
         List<EmployeeDTO> employees = employeeService.getEmployees();
 
@@ -180,7 +180,7 @@ class EmployeeServiceTest {
     void EmployeeService_getEmployeeByName_ReturnsEmployee() {
         when(employeeRepository.findByFirstNameAndLastName("John", "Doe")).thenReturn(Optional.of(employee1));
 
-        when(employeeMapper.toDTO(any(Employee.class))).thenReturn(employeeDTO1);
+        when(employeeMapper.toFullDTO(any(Employee.class))).thenReturn(employeeFullDTO1);
 
         Optional<EmployeeDTO> foundEmployee = employeeService.getEmployeeByName("John", "Doe");
 
@@ -195,7 +195,7 @@ class EmployeeServiceTest {
         when(employeeRepository.findAllByDepartment_DepartmentName("IT"))
                 .thenReturn(Collections.singletonList(employee1));
 
-        when(employeeMapper.toDTO(any(Employee.class))).thenReturn(employeeDTO1);
+        when(employeeMapper.toFullDTO(any(Employee.class))).thenReturn(employeeFullDTO1);
 
         List<EmployeeDTO> employees = employeeService.getEmployeesByDepartment("IT");
 
@@ -209,7 +209,7 @@ class EmployeeServiceTest {
         when(employeeRepository.findAllByPosition_PositionName("Manager"))
                 .thenReturn(Collections.singletonList(employee1));
 
-        when(employeeMapper.toDTO(any(Employee.class))).thenReturn(employeeDTO1);
+        when(employeeMapper.toFullDTO(any(Employee.class))).thenReturn(employeeFullDTO1);
 
         List<EmployeeDTO> employees = employeeService.getEmployeesByPosition("Manager");
 
@@ -223,7 +223,7 @@ class EmployeeServiceTest {
         when(employeeRepository.findAllByStatus_StatusName("Regular"))
                 .thenReturn(Collections.singletonList(employee1));
 
-        when(employeeMapper.toDTO(any(Employee.class))).thenReturn(employeeDTO1);
+        when(employeeMapper.toFullDTO(any(Employee.class))).thenReturn(employeeFullDTO1);
 
         List<EmployeeDTO> employees = employeeService.getEmployeesByStatus("Regular");
 
@@ -237,7 +237,7 @@ class EmployeeServiceTest {
         when(employeeRepository.findAllBySupervisor_EmployeeId(any(Long.class)))
                 .thenReturn(Collections.singletonList(employee1));
 
-        when(employeeMapper.toDTO(any(Employee.class))).thenReturn(employeeDTO1);
+        when(employeeMapper.toFullDTO(any(Employee.class))).thenReturn(employeeFullDTO1);
 
         List<EmployeeDTO> employees = employeeService.getEmployeesBySupervisorId(1L);
 
@@ -251,7 +251,7 @@ class EmployeeServiceTest {
         when(employeeRepository.findAllBySupervisor_FirstName_AndSupervisor_LastName("John", "Doe"))
                 .thenReturn(Collections.singletonList(employee1));
 
-        when(employeeMapper.toDTO(any(Employee.class))).thenReturn(employeeDTO1);
+        when(employeeMapper.toFullDTO(any(Employee.class))).thenReturn(employeeFullDTO1);
 
         List<EmployeeDTO> employees = employeeService.getEmployeesBySupervisorName("John", "Doe");
 
@@ -265,7 +265,7 @@ class EmployeeServiceTest {
         when(employeeRepository.findAllByHireDateBetween(hireDate, hireDate2))
                 .thenReturn(Collections.singletonList(employee1));
 
-        when(employeeMapper.toDTO(any(Employee.class))).thenReturn(employeeDTO1);
+        when(employeeMapper.toFullDTO(any(Employee.class))).thenReturn(employeeFullDTO1);
 
         List<EmployeeDTO> employees = employeeService.getEmployeesByHiredBetween(hireDate, hireDate2);
 
@@ -289,13 +289,13 @@ class EmployeeServiceTest {
                 .firstName("Alex")
                 .build();
 
-        when(employeeMapper.toDTO(any(Employee.class))).thenReturn(updatedDTO);
+        when(employeeMapper.toFullDTO(any(Employee.class))).thenReturn(updatedDTO);
 
 
-        EmployeeDTO updatedEmployeeDTO = employeeService.updateEmployee(updatedEmployee.getEmployeeId(), employeeDTO1);
+        EmployeeDTO updatedEmployeeFullDTO = employeeService.updateEmployee(updatedEmployee.getEmployeeId(), employeeFullDTO1);
 
-        assertThat(updatedEmployeeDTO).isNotNull();
-        assertThat(updatedEmployeeDTO.employeeId()).isEqualTo(employee1.getEmployeeId());
-        assertThat(updatedEmployeeDTO.firstName()).isEqualTo("Alex");
+        assertThat(updatedEmployeeFullDTO).isNotNull();
+        assertThat(updatedEmployeeFullDTO.employeeId()).isEqualTo(employee1.getEmployeeId());
+        assertThat(updatedEmployeeFullDTO.firstName()).isEqualTo("Alex");
     }
 }

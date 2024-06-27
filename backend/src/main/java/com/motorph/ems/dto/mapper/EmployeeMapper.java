@@ -36,7 +36,21 @@ public class EmployeeMapper {
         this.statusMapper = statusMapper;
     }
 
-    public EmployeeDTO toDTO(Employee employee) {
+    public EmployeeDTO toBasicDTO(Employee employee) {
+        if (employee == null) {
+            return null;
+        }
+
+        return EmployeeDTO.builder()
+                .employeeId(employee.getEmployeeId())
+                .lastName(employee.getLastName())
+                .firstName(employee.getFirstName())
+                .position(positionMapper.toDTO(employee.getPosition()))
+                .department(departmentMapper.toDTO(employee.getDepartment()))
+                .build();
+    }
+
+    public EmployeeDTO toFullDTO(Employee employee) {
         if (employee == null) {
             return null;
         }
@@ -77,46 +91,36 @@ public class EmployeeMapper {
                 .build();
     }
 
-    public Employee toEntity(EmployeeDTO employeeDTO) {
-        if (employeeDTO == null || employeeDTO.employeeId() == null) {
+    public Employee toEntity(EmployeeDTO employeeFullDTO) {
+        if (employeeFullDTO == null || employeeFullDTO.employeeId() == null) {
             return null;
         }
 
         return new Employee(
-                employeeDTO.employeeId(),
-                employeeDTO.lastName(),
-                employeeDTO.firstName(),
-                employeeDTO.dob(),
-                employeeDTO.address(),
-                employeeDTO.hireDate(),
-                employeeDTO.basicSalary(),
-                employeeDTO.supervisor().supervisorId(),
-                employeeDTO.position().positionCode(),
-                employeeDTO.department().departmentCode(),
-                employeeDTO.status().statusId(),
-                toContactEntity(employeeDTO.contacts()),
-                toGovernmentIdEntity(employeeDTO.governmentId()),
-                benefitsMapper.toEntity(employeeDTO.benefits()),
-                leaveBalanceMapper.toEntity(employeeDTO.leaveBalances())
+                employeeFullDTO.employeeId(),
+                employeeFullDTO.lastName(),
+                employeeFullDTO.firstName(),
+                employeeFullDTO.dob(),
+                employeeFullDTO.address(),
+                employeeFullDTO.hireDate(),
+                employeeFullDTO.basicSalary(),
+                employeeFullDTO.supervisor().supervisorId(),
+                employeeFullDTO.position().positionCode(),
+                employeeFullDTO.department().departmentCode(),
+                employeeFullDTO.status().statusId(),
+                toContactEntity(employeeFullDTO.contacts()),
+                toGovernmentIdEntity(employeeFullDTO.governmentId()),
+                benefitsMapper.toEntity(employeeFullDTO.benefits()),
+                leaveBalanceMapper.toEntity(employeeFullDTO.leaveBalances())
         );
     }
 
-    public List<EmployeeDTO> toDTO(List<Employee> employee) {
-        if (employee == null) {
+    public List<Employee> toEntity(List<EmployeeDTO> employeeFullDTO) {
+        if (employeeFullDTO == null) {
             return null;
         }
 
-        return employee.stream()
-                .map(this::toDTO)
-                .collect(toList());
-    }
-
-    public List<Employee> toEntity(List<EmployeeDTO> employeeDTO) {
-        if (employeeDTO == null) {
-            return null;
-        }
-
-        return employeeDTO.stream()
+        return employeeFullDTO.stream()
                 .map(this::toEntity)
                 .collect(toList());
     }
@@ -176,29 +180,29 @@ public class EmployeeMapper {
         );
     }
 
-    public void updateEntity(EmployeeDTO employeeDTO, Employee employee) {
-        if (employeeDTO == null || employee == null) {
+    public void updateEntity(EmployeeDTO employeeFullDTO, Employee employee) {
+        if (employeeFullDTO == null || employee == null) {
             throw new IllegalArgumentException("Employee DTO or employee cannot be null");
         }
 
-        if (employeeDTO.employeeId() != null && !employee.getEmployeeId().equals(employeeDTO.employeeId())) {
+        if (employeeFullDTO.employeeId() != null && !employee.getEmployeeId().equals(employeeFullDTO.employeeId())) {
             throw new IllegalArgumentException("Employee ID cannot be changed");
         }
 
-        employee.setLastName(employeeDTO.lastName());
-        employee.setFirstName(employeeDTO.firstName());
-        employee.setDob(employeeDTO.dob());
-        employee.setHireDate(employeeDTO.hireDate());
-        employee.setBasicSalary(employeeDTO.basicSalary());
-        employee.setSemiMonthlyRate(employeeDTO.semiMonthlyRate());
-        employee.setHourlyRate(employeeDTO.hourlyRate());
-        employee.setPosition(new Position(employeeDTO.position().positionCode()));
-        employee.setDepartment(new Department(employeeDTO.department().departmentCode()));
-        employee.setStatus(new EmploymentStatus(employeeDTO.status().statusId()));
-        employee.setSupervisor(new Employee(employeeDTO.supervisor().supervisorId()));
-        employee.setContacts(toContactEntity(employeeDTO.contacts()));
-        employee.setGovernmentId(toGovernmentIdEntity(employeeDTO.governmentId()));
-        employee.setBenefits(benefitsMapper.toEntity(employeeDTO.benefits()));
-        employee.setLeaveBalances(leaveBalanceMapper.toEntity(employeeDTO.leaveBalances()));
+        employee.setLastName(employeeFullDTO.lastName());
+        employee.setFirstName(employeeFullDTO.firstName());
+        employee.setDob(employeeFullDTO.dob());
+        employee.setHireDate(employeeFullDTO.hireDate());
+        employee.setBasicSalary(employeeFullDTO.basicSalary());
+        employee.setSemiMonthlyRate(employeeFullDTO.semiMonthlyRate());
+        employee.setHourlyRate(employeeFullDTO.hourlyRate());
+        employee.setPosition(new Position(employeeFullDTO.position().positionCode()));
+        employee.setDepartment(new Department(employeeFullDTO.department().departmentCode()));
+        employee.setStatus(new EmploymentStatus(employeeFullDTO.status().statusId()));
+        employee.setSupervisor(new Employee(employeeFullDTO.supervisor().supervisorId()));
+        employee.setContacts(toContactEntity(employeeFullDTO.contacts()));
+        employee.setGovernmentId(toGovernmentIdEntity(employeeFullDTO.governmentId()));
+        employee.setBenefits(benefitsMapper.toEntity(employeeFullDTO.benefits()));
+        employee.setLeaveBalances(leaveBalanceMapper.toEntity(employeeFullDTO.leaveBalances()));
     }
 }

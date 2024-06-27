@@ -61,7 +61,7 @@ class AttendanceServiceTest {
                 .address("123 Main St")
                 .build();
 
-        EmployeeDTO employeeDTO1 = EmployeeDTO.builder()
+        EmployeeDTO employeeFullDTO1 = EmployeeDTO.builder()
                 .employeeId(2L)
                 .firstName("John")
                 .lastName("Doe")
@@ -79,7 +79,7 @@ class AttendanceServiceTest {
 
         attendanceDTO1 = AttendanceDTO.builder()
                 .attendanceId(attendanceId)
-                .employee(employeeDTO1)
+                .employee(employeeFullDTO1)
                 .date(date)
                 .timeIn(timeIn)
                 .timeOut(timeOut)

@@ -1,6 +1,7 @@
 package com.motorph.ems.repository;
 
 import com.motorph.ems.model.Attendance;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,6 +15,8 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
 
     List<Attendance> findAllByEmployee_EmployeeId_OrderByDateDesc(Long employeeId);
 
+    @EntityGraph(attributePaths = {"employee", "employee.position", "employee.department"})
+    @Query("SELECT a FROM Attendance a JOIN FETCH a.employee e JOIN FETCH e.position JOIN FETCH e.department WHERE a.date = :date ORDER BY a.date DESC")
     List<Attendance> findAllByDate_OrderByDateDesc(LocalDate date);
 
     List<Attendance> findAllByDateBetweenOrderByDateDesc(LocalDate start, LocalDate end);
