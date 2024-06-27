@@ -139,9 +139,9 @@ export default function HREmployees() {
                           key={item.employeeId}
                           name={`${item.firstName} ${item.lastName}`}
                           position={item.position.positionName}
-                          department={item.department.departmentName}
-                          hireDate={item.hireDate}
+                          department={item.department.departmentCode}
                           status={item.status}
+                          hireDate={format(item.hireDate, "MMM dd, yyyy")}
                           onClick={() => handleSelectEmployee(item.employeeId)}
                           onEdit={() => handleCUEmployee("edit", item.employeeId)}
                       />
@@ -198,7 +198,6 @@ interface EmployeeCard {
   position: string
   department: string
   hireDate: string
-  contactNo: string
   status: EmploymentStatusRes
   onClick: () => void
   onEdit: () => void
@@ -322,7 +321,7 @@ function EmployeeCard({name, position, department, hireDate, status, onClick, on
                     <Typography fontWeight={500} noWrap maxWidth={100}>{department}</Typography>
                   </Labeled>
                   <Labeled label="Hire Date">
-                    <Typography fontWeight={500} noWrap>{hireDate}</Typography>
+                    <Typography fontWeight={500} noWrap>{format(hireDate, "MMM dd, yyyy")}</Typography>
                   </Labeled>
                 </Stack>
                 {/* <Stack direction='row' gap={1}>
@@ -465,7 +464,7 @@ function EmployeeDetailsDialog({ selectedEmployee, onClose }: EmployeeDetailsDia
                             <Stack direction='row' gap={3}>
                               <ReadonlyTextField
                                   label="Hire Date"
-                                  defaultValue={data.hireDate}
+                                  defaultValue={format(data.hireDate, "MMM dd, yyyy")}
                                   fullWidth
                               />
                               <ReadonlyTextField
