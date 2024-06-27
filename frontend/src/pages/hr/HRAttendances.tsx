@@ -104,7 +104,7 @@ function AttendanceTable({ dateFilter, searchFilter }: AttendanceTable) {
     return (
         <Widget variant="outlined" sx={{ height: '100%' }}>
             <Table
-                colSizes={[3.5, true, true, true, 1.2, 1]}
+                colSizes={[3.5, true, true, true, true, true]}
                 colHeader={[
                     "Employee",
                     "Date",
