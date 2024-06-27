@@ -6,7 +6,7 @@ export const BASE_API = "http://localhost:8080/api"
 export const API = {
   EMPLOYEES: {
     BASE: "/employee/",
-    ALL: "/employees",
+    ALL: "/employee/all",
   },
   ATTENDANCES: {
     BASE: "/attendances",

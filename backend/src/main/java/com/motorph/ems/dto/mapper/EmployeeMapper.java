@@ -47,6 +47,9 @@ public class EmployeeMapper {
                 .firstName(employee.getFirstName())
                 .position(positionMapper.toDTO(employee.getPosition()))
                 .department(departmentMapper.toDTO(employee.getDepartment()))
+                .hireDate(employee.getHireDate())
+                .contacts(toContactDTO(employee.getContacts()))
+                .status(statusMapper.toDTO(employee.getStatus()))
                 .build();
     }
 

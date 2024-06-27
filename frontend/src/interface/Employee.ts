@@ -5,6 +5,10 @@ interface EmployeeBasicRes {
   firstName: string;
   position: PositionRes;
   department: DepartmentRes;
+  hireDate: string;
+  contacts: ContactRes;
+  status: EmploymentStatusRes;
+
 }
 
 interface EmployeeFullRes {
@@ -109,7 +113,7 @@ interface EmployeeReq {
 
 interface LeaveBalanceReq {
   id?: number;
-  employeeId: number;
+  employeeId?: number;
   leaveTypeId: number;
   balance: number;
 }
@@ -122,56 +126,47 @@ interface LeaveRequestReq {
   endDate: string; // Use string for dates to simplify JSON handling
   daysRequested: number;
   statusId: number;
-  reason: string;
+  reason?: string;
 }
 
 interface EmploymentStatusReq {
   statusId: number;
-  statusName: string;
+  statusName?: string;
 }
 
 interface ContactReq {
-  employeeId: number;
   contactNumbers: string[];
 }
 
 interface BenefitReq {
   benefitId?: number;
-  employeeId: number;
-  benefitTypeId: number;
+  benefitType: BenefitTypeReq;
   amount: number;
 }
 
 interface BenefitTypeReq {
   benefitTypeId: number;
-  benefit: string;
 }
-
 
 interface DepartmentReq {
   departmentCode: string;
-  department: string;
+  department?: string;
 }
 
 
 interface PositionReq {
   positionCode: string;
-  departmentCode: string;
-  position: string;
+  departmentCode?: string;
+  position?: string;
 }
 
 interface SupervisorReq {
-  supervisorId?: number;
-  lastName: string;
-  firstName: string;
-  address: string;
-  positionCode: string;
-  contacts: ContactReq;
+  supervisorId: number;
 }
 
 interface GovernmentIdReq {
   id?: number;
-  employeeId: number;
+  employeeId?: number;
   sssNo: string;
   philHealthNo: string;
   pagIbigNo: string;

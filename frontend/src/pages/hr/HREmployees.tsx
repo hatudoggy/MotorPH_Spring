@@ -16,27 +16,15 @@ import { useForm, SubmitHandler, UseFormRegister, FieldValues, Controller, Contr
 import { OverridableComponent } from "@mui/material/OverridableComponent";
 import { DatePicker } from "@mui/x-date-pickers";
 import { format } from "date-fns";
+import {useFetchEmployees} from "../../hooks/UseFetch.ts";
 
 export default function HREmployees() {
 
   const [search, setSearch] = useState('')
   const debouncedSearch = useDebounce(search, 300)
 
-  const fetchAllEmployees = async() => {
-    const {EMPLOYEES} = API
-    const res = await axios.get(BASE_API + EMPLOYEES.ALL, {
-      params: {
-        name: debouncedSearch || ''
-      }
-    })
-    return res.data;
-  }
 
-  const {isPending, data} = useQuery<EmployeeBasicRes[]>({
-    queryKey: ['employeesAll', debouncedSearch],
-    queryFn: fetchAllEmployees,
-    placeholderData: keepPreviousData
-  })
+  const {isPending, data} = useFetchEmployees();
 
   const [openSelectDialog, setOpenSelectDialog] = useState(false)
   const [openCUDialog, setOpenCUDialog] = useState<null | 'add' | 'edit'>(null)
@@ -114,7 +102,7 @@ export default function HREmployees() {
                     position={item.position.positionName}
                     department={item.department.departmentName}
                     hireDate={item.hireDate}
-                    contactNo={item.contacts[0].contactNo}
+                    contactNo={item.contacts.contactNumbers[0]}
                     status={item.status}
                     onClick={()=>handleSelectEmployee(item.employeeId)}
                     onEdit={()=>handleCUEmployee("edit", item.employeeId)}
@@ -174,7 +162,7 @@ interface EmployeeCard {
   department: string
   hireDate: string
   contactNo: string
-  status: Status
+  status: EmploymentStatusRes
   onClick: () => void
   onEdit: () => void
 }
@@ -260,7 +248,7 @@ function EmployeeCard({name, position, department, hireDate, contactNo, status, 
           >
             <Chip 
               size="small" 
-              label={status.status}
+              label={status.statusName}
               sx={{
                 color: 'white',
                 bgcolor: statusColor[status.statusId],
@@ -322,187 +310,180 @@ interface EmployeeDetailsDialog {
   onClose: () => void
 }
 
-function EmployeeDetailsDialog({selectedEmployee, onClose}: EmployeeDetailsDialog) {
+function EmployeeDetailsDialog({ selectedEmployee, onClose }: EmployeeDetailsDialog) {
+  const [value, setValue] = useState("1");
 
-  const [value, setValue] = useState("1")
-
-  const fetchEmployee = async() => {
-    const {EMPLOYEES} = API
-    const res = await axios.get(BASE_API + EMPLOYEES.BASE + selectedEmployee)
+  const fetchEmployee = async () => {
+    const { EMPLOYEES } = API;
+    const res = await axios.get(BASE_API + EMPLOYEES.BASE + selectedEmployee);
     return res.data;
-  }
+  };
 
-  const {isPending, data} = useQuery<EmployeeBasicRes>({
-    queryKey: ['employee'],
+  const { isPending, data } = useQuery<EmployeeFullRes>({
+    queryKey: ['employee', selectedEmployee],
     queryFn: fetchEmployee,
-    placeholderData: keepPreviousData
-  })
+    placeholderData: keepPreviousData,
+  });
 
-  const picURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3ZsJ_-wh-pIJV2hEL92vKyS07J3Hfp1USqA&s"
+  const picURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3ZsJ_-wh-pIJV2hEL92vKyS07J3Hfp1USqA&s";
 
+  return (
+      <>
+        <DialogContent>
+          <Stack direction="row" position='absolute' left={10} top={10}>
+            <IconButton onClick={onClose}>
+              <ArrowBack />
+            </IconButton>
+          </Stack>
+          {!isPending ? (
+              data && (
+                  <Stack alignItems='center' gap={1}>
+                    <Avatar
+                        sx={{
+                          width: 130,
+                          height: 130,
+                        }}
+                        src={picURL}
+                    />
+                    <Stack alignItems='center'>
+                      <Typography variant="body2" fontSize={24} fontWeight={500} noWrap>{`${data.firstName} ${data.lastName}`}</Typography>
+                      <Typography variant="body2" fontSize={17} color='GrayText' noWrap>{data.position.positionName}</Typography>
+                    </Stack>
 
-  return(
-    <>
-      <DialogContent>
-        <Stack direction="row" position='absolute' left={10} top={10}>
-          <IconButton onClick={onClose}>
-            <ArrowBack />
-          </IconButton>
-        </Stack>
-        {
-          !isPending ?
-            data && 
-              <Stack alignItems='center' gap={1}>
-                <Avatar 
-                  sx={{
-                    width: 130,
-                    height: 130,
-                  }}
-                  src={picURL}
-                />
-                <Stack alignItems='center'>
-                  <Typography variant="body2" fontSize={24} fontWeight={500} noWrap>{`${data.firstName} ${data.lastName}`}</Typography>
-                  <Typography variant="body2" fontSize={17} color='GrayText' noWrap>{data.employment.position.positionName}</Typography>
-                </Stack>
-                
-                <TabContext value={value}>
-                  <Box sx={{ width: '100%', borderBottom: 1, borderColor: 'divider' }}>
-                    <TabList 
-                      onChange={(_e, val)=>setValue(val)}
-
-                    >
-                      <Tab label="Info" value="1"/>
-                      <Tab label="Employment" value="2"/>
-                      <Tab label="Contribution" value="3"/>
-                      <Tab label="Salary" value="4"/>
-                    </TabList>
-                  </Box>
-                  <Box width='100%' mb={3}>
-                    <TabPanel value="1">
-                      <Stack gap={3}>
-                        <Stack direction='row' gap={3}>
-                          <ReadonlyTextField
-                            label="First Name"
-                            defaultValue={data.firstName}
-                            fullWidth
-                          />
-                          <ReadonlyTextField
-                            label="Last Name"
-                            defaultValue={data.lastName}
-                            fullWidth
-                          />
-                        </Stack>
-                        <Stack direction='row' gap={3}>
-                          <ReadonlyTextField
-                            label="Age"
-                            defaultValue={calculateAge(data.dob)}
-                            fullWidth
-                          />
-                          <ReadonlyTextField
-                            label="Birthdate"
-                            defaultValue={data.dob}
-                            fullWidth
-                          />
-                        </Stack>
-                        <ReadonlyTextField
-                          label="Address"
-                          defaultValue={data.address}
-                          fullWidth
-                        />
-                      </Stack>
-                    </TabPanel>
-
-                    <TabPanel value="2">
-                      <Stack gap={3}>
-                        <Stack direction='row' gap={3}>
-                          <ReadonlyTextField
-                            label="Position"
-                            defaultValue={data.employment.position.positionName}
-                            fullWidth
-                          />
-                          <ReadonlyTextField
-                            label="Department"
-                            defaultValue={data.employment.department.departmentName}
-                            fullWidth
-                          />
-                        </Stack>
-                        <ReadonlyTextField
-                          label="Supervisor"
-                          defaultValue={`${data.employment.supervisor.firstName} ${data.employment.supervisor.lastName}`}
-                          fullWidth
-                        />
-                        <Stack direction='row' gap={3}>
-                          <ReadonlyTextField
-                            label="Hire Date"
-                            defaultValue={data.employment.hireDate}
-                            fullWidth
-                          />
-                          <ReadonlyTextField
-                            label="Employment Status"
-                            defaultValue={data.employment.status.status}
-                            fullWidth
-                          />
-                        </Stack>
-                      </Stack>
-                    </TabPanel>
-
-                    <TabPanel value="3">
-                      <Stack gap={3}>
-                        <ReadonlyTextField
-                          label="Tin Number"
-                          defaultValue={idformatter(data.governmentId.tinNo, 'tin')}
-                          fullWidth
-                        />
-                        <ReadonlyTextField
-                          label="SSS Number"
-                          defaultValue={idformatter(data.governmentId.sssNo, 'sss')}
-                          fullWidth
-                        />
-                        <ReadonlyTextField
-                          label="Philhealth Number"
-                          defaultValue={idformatter(data.governmentId.philHealthNo, 'philhealth')}
-                          fullWidth
-                        />
-                        <ReadonlyTextField
-                          label="Pagibig Number"
-                          defaultValue={idformatter(data.governmentId.pagIbigNo, 'pagibig')}
-                          fullWidth
-                        />
-                      </Stack>
-                    </TabPanel>
-
-                    <TabPanel value="4">
-                      <Stack gap={3}>
-                        <ReadonlyTextField
-                          label="Base Salary"
-                          defaultValue={formatterWhole.format(data.employment.basicSalary)}
-                          fullWidth
-                        />
-                        {
-                          data.benefits.map((item)=>
+                    <TabContext value={value}>
+                      <Box sx={{ width: '100%', borderBottom: 1, borderColor: 'divider' }}>
+                        <TabList
+                            onChange={(_e, val) => setValue(val)}
+                        >
+                          <Tab label="Info" value="1" />
+                          <Tab label="Employment" value="2" />
+                          <Tab label="Contribution" value="3" />
+                          <Tab label="Salary" value="4" />
+                        </TabList>
+                      </Box>
+                      <Box width='100%' mb={3}>
+                        <TabPanel value="1">
+                          <Stack gap={3}>
+                            <Stack direction='row' gap={3}>
+                              <ReadonlyTextField
+                                  label="First Name"
+                                  defaultValue={data.firstName}
+                                  fullWidth
+                              />
+                              <ReadonlyTextField
+                                  label="Last Name"
+                                  defaultValue={data.lastName}
+                                  fullWidth
+                              />
+                            </Stack>
+                            <Stack direction='row' gap={3}>
+                              <ReadonlyTextField
+                                  label="Age"
+                                  defaultValue={calculateAge(data.dob)}
+                                  fullWidth
+                              />
+                              <ReadonlyTextField
+                                  label="Birthdate"
+                                  defaultValue={data.dob}
+                                  fullWidth
+                              />
+                            </Stack>
                             <ReadonlyTextField
-                              key={item.benefitId}
-                              label={item.benefitType.benefit}
-                              defaultValue={formatterWhole.format(item.amount)}
-                              fullWidth
+                                label="Address"
+                                defaultValue={data.address}
+                                fullWidth
                             />
-                          )
-                        }
+                          </Stack>
+                        </TabPanel>
 
-                      </Stack>
-                    </TabPanel>
-                  </Box>
+                        <TabPanel value="2">
+                          <Stack gap={3}>
+                            <Stack direction='row' gap={3}>
+                              <ReadonlyTextField
+                                  label="Position"
+                                  defaultValue={data.position.positionName}
+                                  fullWidth
+                              />
+                              <ReadonlyTextField
+                                  label="Department"
+                                  defaultValue={data.department.departmentName}
+                                  fullWidth
+                              />
+                            </Stack>
+                            <ReadonlyTextField
+                                label="Supervisor"
+                                defaultValue={`${data.supervisor.firstName} ${data.supervisor.lastName}`}
+                                fullWidth
+                            />
+                            <Stack direction='row' gap={3}>
+                              <ReadonlyTextField
+                                  label="Hire Date"
+                                  defaultValue={data.hireDate}
+                                  fullWidth
+                              />
+                              <ReadonlyTextField
+                                  label="Employment Status"
+                                  defaultValue={data.status.statusName}
+                                  fullWidth
+                              />
+                            </Stack>
+                          </Stack>
+                        </TabPanel>
 
-                </TabContext>
-              </Stack>
-              :
-              <Stack alignItems='center' minHeight={300}>
+                        <TabPanel value="3">
+                          <Stack gap={3}>
+                            <ReadonlyTextField
+                                label="Tin Number"
+                                defaultValue={idformatter(data.governmentId.tinNo, 'tin')}
+                                fullWidth
+                            />
+                            <ReadonlyTextField
+                                label="SSS Number"
+                                defaultValue={idformatter(data.governmentId.sssNo, 'sss')}
+                                fullWidth
+                            />
+                            <ReadonlyTextField
+                                label="Philhealth Number"
+                                defaultValue={idformatter(data.governmentId.philHealthNo, 'philhealth')}
+                                fullWidth
+                            />
+                            <ReadonlyTextField
+                                label="Pagibig Number"
+                                defaultValue={idformatter(data.governmentId.pagIbigNo, 'pagibig')}
+                                fullWidth
+                            />
+                          </Stack>
+                        </TabPanel>
+
+                        <TabPanel value="4">
+                          <Stack gap={3}>
+                            <ReadonlyTextField
+                                label="Base Salary"
+                                defaultValue={formatterWhole.format(data.basicSalary)}
+                                fullWidth
+                            />
+                            {data.benefits.map((item) =>
+                                <ReadonlyTextField
+                                    key={item.benefitId}
+                                    label={item.benefitType.benefit}
+                                    defaultValue={formatterWhole.format(item.amount)}
+                                    fullWidth
+                                />
+                            )}
+                          </Stack>
+                        </TabPanel>
+                      </Box>
+                    </TabContext>
+                  </Stack>
+              )
+          ) : (
+              <Stack alignItems='center' justifyContent='center' minHeight={300}>
                 <CircularProgress />
               </Stack>
-        }
-      </DialogContent>
-    </>
-  )
+          )}
+        </DialogContent>
+      </>
+  );
 }
 
 
@@ -556,15 +537,15 @@ function EmployeeFormDialog({type, selectedId, onClose}: EmployeeFormDialog) {
     }
   }
 
-  const {isPending, data} = useQuery<EmployeeBasicRes>({
+  const {isPending, data} = useQuery<EmployeeFullRes>({
     queryKey: ['employeeEdit', selectedId],
     queryFn: fetchEmployee,
     enabled: !!selectedId
   })
 
   const supervisorData = data ? {
-    value: data?.employment.supervisor.id,
-    label: `${data?.employment.supervisor.firstName} ${data?.employment.supervisor.lastName}`
+    value: data?.supervisor.supervisorId,
+    label: `${data?.supervisor.firstName} ${data?.supervisor.lastName}`
   } : null
 
   const {
@@ -584,20 +565,20 @@ function EmployeeFormDialog({type, selectedId, onClose}: EmployeeFormDialog) {
       contacts: [],
       benefits: data?.benefits || [],
     
-      departmentCode: data?.employment.department.departmentCode || "",
-      positionCode: data?.employment.position.positionCode || "",
-      statusId: data?.employment.status.statusId.toString() || "",
+      departmentCode: data?.department.departmentCode || "",
+      positionCode: data?.position.positionCode || "",
+      statusId: data?.status.statusId.toString() || "",
       supervisor: supervisorData || null,
-      hireDate: data?.dob ? new Date(data.employment.hireDate) : null,
+      hireDate: data?.dob ? new Date(data.hireDate) : null,
       
       sssNo: data?.governmentId.sssNo || "",
       philHealthNo: data?.governmentId.philHealthNo || "",
       pagIbigNo: data?.governmentId.pagIbigNo || "",
       tinNo: data?.governmentId.tinNo || "",
     
-      basicSalary: data?.employment.basicSalary || 0,
-      semiMonthlyRate: data?.employment.semiMonthlyRate || 0,
-      hourlyRate: data?.employment.hourlyRate || 0,
+      basicSalary: data?.basicSalary || 0,
+      semiMonthlyRate: data?.semiMonthlyRate || 0,
+      hourlyRate: data?.hourlyRate || 0,
     }
   })
 
@@ -612,20 +593,20 @@ function EmployeeFormDialog({type, selectedId, onClose}: EmployeeFormDialog) {
         contacts: [],
         benefits: data.benefits || [],
       
-        departmentCode: data.employment.department.departmentCode || "",
-        positionCode: data.employment.position.positionCode || "",
-        statusId: data.employment.status.statusId.toString() || "",
+        departmentCode: data.department.departmentCode || "",
+        positionCode: data.position.positionCode || "",
+        statusId: data.status.statusId.toString() || "",
         supervisor: supervisorData || null,
-        hireDate: data.dob ? new Date(data.employment.hireDate) : null,
+        hireDate: data.dob ? new Date(data.hireDate) : null,
         
         sssNo: data.governmentId.sssNo || "",
         philHealthNo: data.governmentId.philHealthNo || "",
         pagIbigNo: data.governmentId.pagIbigNo || "",
         tinNo: data.governmentId.tinNo || "",
       
-        basicSalary: data.employment.basicSalary || 0,
-        semiMonthlyRate: data.employment.semiMonthlyRate || 0,
-        hourlyRate: data.employment.hourlyRate || 0,
+        basicSalary: data.basicSalary || 0,
+        semiMonthlyRate: data.semiMonthlyRate || 0,
+        hourlyRate: data.hourlyRate || 0,
       })
     }
   }, [data, isPending])
@@ -665,7 +646,7 @@ function EmployeeFormDialog({type, selectedId, onClose}: EmployeeFormDialog) {
       address: data.address,
         contacts: [
         {
-          contactNo: "1234567890"
+          contactNumbers: "1234567890"
         }
       ],
       benefits: [
@@ -809,7 +790,7 @@ function EmploymentInfoArea({control, watch, setValue}: FormArea) {
     const res = await axios.get(BASE_API + COMPANY.DEPARTMENTS)
     return res.data;
   }
-  const departments = useQuery<Department[]>({
+  const departments = useQuery<DepartmentRes[]>({
     queryKey: ['departments'],
     queryFn: fetchAllDepartments
   })
@@ -823,7 +804,7 @@ function EmploymentInfoArea({control, watch, setValue}: FormArea) {
     })
     return res.data;
   }
-  const positions = useQuery<(Position & {departmentCode: string})[]>({
+  const positions = useQuery<(PositionRes & {departmentCode: string})[]>({
     queryKey: ['positions', departmentCode],
     queryFn: fetchAllPositions,
     enabled: !!departmentCode
@@ -834,7 +815,7 @@ function EmploymentInfoArea({control, watch, setValue}: FormArea) {
     const res = await axios.get(BASE_API + COMPANY.STATUSES)
     return res.data;
   }
-  const statuses = useQuery<Status[]>({
+  const statuses = useQuery<EmploymentStatusRes[]>({
     queryKey: ['statuses'],
     queryFn: fetchAllStatuses
   })
@@ -847,7 +828,7 @@ function EmploymentInfoArea({control, watch, setValue}: FormArea) {
     return res.data;
   }
 
-  const supervisors = useQuery<EmployeeBasicRes[]>({
+  const supervisors = useQuery<SupervisorRes[]>({
     queryKey: ['supervisors'],
     queryFn: fetchSupervisors,
     placeholderData: keepPreviousData
@@ -860,10 +841,10 @@ function EmploymentInfoArea({control, watch, setValue}: FormArea) {
     && positions.data.map(({positionCode, positionName})=>({value: positionCode, label: positionName}))
 
   const statusOptions = statuses.data 
-    && statuses.data.map(({statusId, status})=>({value: statusId, label: status}))
+    && statuses.data.map(({statusId, statusName})=>({value: statusId, label: statusName}))
 
   const supervisorOptions = supervisors.data
-    && supervisors.data.map(({employeeId, firstName, lastName}) => ({value: employeeId, label:`${firstName} ${lastName}`}))
+    && supervisors.data.map(({supervisorId, firstName, lastName}) => ({value: supervisorId, label:`${firstName} ${lastName}`}))
 
   return(
     <Box>

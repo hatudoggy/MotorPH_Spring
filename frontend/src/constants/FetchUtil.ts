@@ -12,7 +12,7 @@ export const fetchFromApi = async <T>(endpoint: string, options: RequestInit = {
 
 export const fetchEmployees = async (): Promise<EmployeeBasicRes[]> => {
     const { EMPLOYEES } = API;
-    return fetchFromApi<EmployeeBasicRes[]>(`${BASE_API}${EMPLOYEES.BASE}`);
+    return fetchFromApi<EmployeeBasicRes[]>(`${BASE_API}${EMPLOYEES.ALL}`);
 };
 
 export const fetchEmployeeById = async (employeeId: number): Promise<EmployeeBasicRes> => {
