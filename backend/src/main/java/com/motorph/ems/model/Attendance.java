@@ -62,11 +62,17 @@ public class Attendance {
     //May add new field for boolean paid overtime
 
     public double calculateTotalHours() {
-        long secondsDifference = timeOut.toSecondOfDay() - timeIn.toSecondOfDay();
-        return secondsToHours(secondsDifference);
+        if (timeIn == null || timeOut == null) {
+            return 0;
+        }
+        return secondsToHours(timeOut.toSecondOfDay() - timeIn.toSecondOfDay());
     }
 
     public double calculateOvertime() {
+        if (timeIn == null || timeOut == null) {
+            return 0;
+        }
+
         long outCutOff = LocalTime.of(17, 0).toSecondOfDay(); // Assuming 17:00 (5 PM) as the cutoff for overtime
 
         if (timeOut.toSecondOfDay() < outCutOff) {

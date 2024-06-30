@@ -2,9 +2,7 @@
 interface PayrollRes {
   payrollId: number
   payDate: string
-  employeeId: number
-  firstName: string
-  lastName: string
+  employee: EmployeeBasicRes
   periodStart: string
   periodEnd: string
   workingDays:number

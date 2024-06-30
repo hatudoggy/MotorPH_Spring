@@ -45,10 +45,10 @@ public class EmployeeMapper {
                 .employeeId(employee.getEmployeeId())
                 .lastName(employee.getLastName())
                 .firstName(employee.getFirstName())
-                .position(positionMapper.toDTO(employee.getPosition()))
-                .department(departmentMapper.toDTO(employee.getDepartment()))
+                .position(positionMapper.toDTO(employee.getPosition() == null ? null : employee.getPosition()))
+                .department(departmentMapper.toDTO(employee.getDepartment() == null ? null : employee.getDepartment()))
                 .hireDate(employee.getHireDate())
-                .status(statusMapper.toDTO(employee.getStatus()))
+                .status(statusMapper.toDTO(employee.getStatus() == null ? null : employee.getStatus()))
                 .build();
     }
 

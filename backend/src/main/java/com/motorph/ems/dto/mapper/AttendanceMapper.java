@@ -48,7 +48,6 @@ public class AttendanceMapper {
         if (dto == null || dto.employee() == null) {
             return null;
         }
-
         return new Attendance(
                 dto.employee().employeeId(),
                 dto.date(),
@@ -68,11 +67,7 @@ public class AttendanceMapper {
     }
 
     public void updateEntity(AttendanceDTO dto, Attendance entity) {
-        if (dto.employee() == null) {
-            throw new IllegalArgumentException("Employee ID cannot be null when updating attendance");
-        }
-
-        if (!dto.employee().equals(entity.getEmployee().getEmployeeId())) {
+        if (dto.employee() != null && !dto.employee().employeeId().equals(entity.getEmployee().getEmployeeId())) {
             throw new IllegalArgumentException("Employee ID does not match when updating attendance");
         }
 

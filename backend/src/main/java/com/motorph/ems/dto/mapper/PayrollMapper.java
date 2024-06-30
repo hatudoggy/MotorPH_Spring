@@ -21,6 +21,22 @@ public class PayrollMapper {
         this.benefitsMapper = benefitsMapper;
     }
 
+    public PayrollDTO toLimitedDTO(Payroll entity) {
+        if (entity == null) {
+            return null;
+        }
+
+        return PayrollDTO.builder()
+                .payrollId(entity.getPayrollId())
+                .employee(employeeMapper.toLimitedDTO(entity.getEmployee()))
+                .monthlyRate(entity.getMonthlyRate())
+                .grossIncome(entity.getGrossIncome())
+                .totalBenefits(entity.getTotalBenefits())
+                .totalDeductions(entity.getTotalDeductions())
+                .netPay(entity.getNetPay())
+                .build();
+    }
+
     public PayrollDTO toDTO(Payroll entity) {
         if (entity == null) {
             return null;

@@ -1,27 +1,30 @@
-import { useState, useEffect } from 'react';
+import {useState, useEffect} from 'react';
 import {
     Box, Button, Card, CardActionArea, CardContent, Container, Divider, IconButton, MenuItem, Paper, Select, Stack,
-    Typography, styled
+    Typography, styled, CircularProgress
 } from "@mui/material";
-import { ArrowBack, East, Download } from "@mui/icons-material";
-import { PieChart, useDrawingArea } from "@mui/x-charts";
+import {ArrowBack, East, Download} from "@mui/icons-material";
+import {PieChart, useDrawingArea} from "@mui/x-charts";
 import Headertext from "../../components/HeaderText";
-import { useAuth } from "../../hooks/AuthProvider";
-import { formatterWhole } from "../../utils/utils";
-import {useEmployeePayrollData, useFetchPayrollById} from "../../hooks/UseFetch.ts";
-import {LoadingOrError} from "../../hooks/Errors.tsx";
+import {useAuth} from "../../hooks/AuthProvider";
+import {formatterWhole} from "../../utils/utils";
+import {
+    useFetchEmployeeById,
+    useFetchPayrollById,
+    useFetchPayrollsByEmployeeId
+} from "../../api/query/UseFetch.ts";
 
 // Constants
 const CHART_PALETTE = ['#000000', '#575757', '#c4c4c4'];
-const CHART_DIMENSIONS = { width: 180, height: 180 };
+const CHART_DIMENSIONS = {width: 180, height: 180};
 const YEARS = ["2024", "2023", "2022"];
 
 // Utility functions
-const formatMonth = (date) => new Date(date).toLocaleString('default', { month: 'long' });
+const formatMonth = (date) => new Date(date).toLocaleString('default', {month: 'long'});
 const formatDate = (date) => new Date(date).toLocaleDateString();
 
 // Styled components
-const StyledText = styled('text')(({ theme }) => ({
+const StyledText = styled('text')(({theme}) => ({
     fill: theme.palette.text.primary,
     textAnchor: 'middle',
     dominantBaseline: 'central',
@@ -29,8 +32,8 @@ const StyledText = styled('text')(({ theme }) => ({
     fontWeight: 500
 }));
 
-const PieCenterLabel = ({ children }) => {
-    const { height, top } = useDrawingArea();
+const PieCenterLabel = ({children}) => {
+    const {height, top} = useDrawingArea();
     return (
         <StyledText x={CHART_DIMENSIONS.width / 2} y={top + height / 2}>
             {children}
@@ -41,10 +44,10 @@ const PieCenterLabel = ({ children }) => {
 // Main Payroll component
 export default function Payroll() {
     return (
-        <Container sx={{ my: 5 }}>
+        <Container sx={{my: 5}}>
             <Stack height='100%'>
                 <Headertext>Payroll</Headertext>
-                <PayrollMonthList />
+                <PayrollMonthList/>
             </Stack>
         </Container>
     );
@@ -52,7 +55,7 @@ export default function Payroll() {
 
 // PayrollMonthList component
 function PayrollMonthList() {
-    const { authUser } = useAuth();
+    const {authUser} = useAuth();
     const employeeId = authUser?.employeeId;
     const [selectedPayroll, setSelectedPayroll] = useState(null);
     const [selectedYear, setSelectedYear] = useState(YEARS[0]);
@@ -62,7 +65,11 @@ function PayrollMonthList() {
         return <Typography>Error: Employee ID not found</Typography>;
     }
 
-    const { employee, payrolls, isLoading, error } = useEmployeePayrollData(employeeId);
+    const {data: employee, isLoading: employeeLoading, error: employeeError} = useFetchEmployeeById(employeeId);
+    const {data: payrolls, isLoading: payrollsLoading, error: payrollsError} = useFetchPayrollsByEmployeeId(employeeId);
+
+    const isLoading = employeeLoading || payrollsLoading;
+    const error = employeeError || payrollsError;
 
     useEffect(() => {
         console.log('Employee Payroll Data:', {
@@ -82,13 +89,12 @@ function PayrollMonthList() {
 
     return (
         <Stack flex={1} gap={2}>
-            <LoadingOrError
-                isLoading={isLoading}
-                error={error}
-                errorMessage="Error occurred while fetching data"
-            />
 
-            {!isLoading && !error && (
+            {isLoading ? (
+                <Stack alignItems='center' justifyContent='center' height='100%'>
+                    <CircularProgress/>
+                </Stack>
+            ) : (
                 <>
                     <Select
                         value={selectedYear}
@@ -128,15 +134,12 @@ function PayrollMonthList() {
                     </Stack>
                 </>
             )}
-
-
-
         </Stack>
     );
 }
 
 // PayrollCard component
-function PayrollCard({ periodEnd, grossIncome, onClick }) {
+function PayrollCard({periodEnd, grossIncome, onClick}) {
     const month = formatMonth(periodEnd);
     const endDate = formatDate(periodEnd);
 
@@ -177,16 +180,16 @@ function PayrollCard({ periodEnd, grossIncome, onClick }) {
 }
 
 // PayrollSelect component
-function PayrollSelect({ selectedPayroll, goBack }) {
-    if(selectedPayroll != null){
-        const { data: selectedPayrollData, error, isLoading } = useFetchPayrollById(selectedPayroll);
+function PayrollSelect({selectedPayroll, goBack}) {
+    if (selectedPayroll != null) {
+        const {data: selectedPayrollData, error, isLoading} = useFetchPayrollById(selectedPayroll);
 
         useEffect(() => {
             console.log('Fetching data for selected payroll ID:', selectedPayroll);
         }, [selectedPayroll]);
 
         useEffect(() => {
-            console.log('Payroll data for payroll ID:', selectedPayroll, { selectedPayrollData, error, isLoading });
+            console.log('Payroll data for payroll ID:', selectedPayroll, {selectedPayrollData, error, isLoading});
         }, [selectedPayrollData, error, isLoading]);
 
         if (!selectedPayroll) return null;
@@ -202,47 +205,47 @@ function PayrollSelect({ selectedPayroll, goBack }) {
                     height: 'min-content'
                 }}
             >
-                <LoadingOrError
-                    isLoading={isLoading}
-                    error={error}
-                    errorMessage="Error occurred while fetching payroll data"
-                />
 
-                {!isLoading && !error && selectedPayrollData && (
-                    <>
-                        <Stack pt={1.5} pl={1} direction='row' alignItems='center' gap={0.5}>
-                            <IconButton onClick={goBack}>
-                                <ArrowBack />
-                            </IconButton>
-                            <Stack direction='row' flex={1} pr={2} alignItems='center' justifyContent='space-between'>
-                                <Typography variant="h6">Payslip Summary</Typography>
-                                <Typography color='GrayText'>{formatMonth(selectedPayrollData.periodEnd)}</Typography>
+                { isLoading?
+                    (
+                        <Stack alignItems='center' justifyContent='center' height='100%'>
+                            <CircularProgress/>
+                        </Stack>
+                    ) : (
+                        <>
+                            <Stack pt={1.5} pl={1} direction='row' alignItems='center' gap={0.5}>
+                                <IconButton onClick={goBack}>
+                                    <ArrowBack/>
+                                </IconButton>
+                                <Stack direction='row' flex={1} pr={2} alignItems='center' justifyContent='space-between'>
+                                    <Typography variant="h6">Payslip Summary</Typography>
+                                    <Typography color='GrayText'>{formatMonth(selectedPayrollData.periodEnd)}</Typography>
+                                </Stack>
+
                             </Stack>
-
-                        </Stack>
-                        <PayrollDetails payrollData={selectedPayrollData} />
-                        <Stack px={3} pb={3} gap={1.5}>
-                        <Button
-                            variant="contained"
-                            sx={{
-                                borderRadius: 2,
-                                mt: 1,
-                            }}
-                            startIcon={<Download />}
-                            disableElevation
-                        >
-                            Save Receipt
-                        </Button>
-                        </Stack>
-                    </>
-                )}
+                            <PayrollDetails payrollData={selectedPayrollData}/>
+                            <Stack px={3} pb={3} gap={1.5}>
+                                <Button
+                                    variant="contained"
+                                    sx={{
+                                        borderRadius: 2,
+                                        mt: 1,
+                                    }}
+                                    startIcon={<Download/>}
+                                    disableElevation
+                                >
+                                    Save Receipt
+                                </Button>
+                            </Stack>
+                        </>
+                    )}
             </Paper>
         );
     }
 }
 
 // PayrollDetails component
-function PayrollDetails({ payrollData }) {
+function PayrollDetails({payrollData}) {
     return (
         <Stack px={3} pb={3} gap={1.5}>
             <Stack alignItems='center'>
@@ -251,9 +254,9 @@ function PayrollDetails({ payrollData }) {
                     series={[
                         {
                             data: [
-                                { id: 0, value: payrollData.grossIncome, label: 'gross' },
-                                { id: 1, value: payrollData.totalBenefits, label: 'benefits' },
-                                { id: 2, value: payrollData.totalDeductions, label: 'deductions' },
+                                {id: 0, value: payrollData.grossIncome, label: 'gross'},
+                                {id: 1, value: payrollData.totalBenefits, label: 'benefits'},
+                                {id: 2, value: payrollData.totalDeductions, label: 'deductions'},
                             ],
                             innerRadius: 59,
                             outerRadius: 70,
@@ -266,7 +269,7 @@ function PayrollDetails({ payrollData }) {
                     width={CHART_DIMENSIONS.width}
                     height={CHART_DIMENSIONS.height}
                     slotProps={{
-                        legend: { hidden: true },
+                        legend: {hidden: true},
                     }}
                 >
                     <PieCenterLabel>
@@ -318,10 +321,11 @@ function PayrollDetails({ payrollData }) {
                 <Typography fontWeight={600}>Benefits</Typography>
 
                 <Stack px={1}>
-                {
-                        payrollData.benefits.map((item)=>
+                    {
+                        payrollData.benefits.map((item) =>
                             <Stack key={item.benefitId} direction='row' justifyContent='space-between'>
-                                <Typography color="GrayText" noWrap maxWidth={160}>{item.benefitType.benefit}</Typography>
+                                <Typography color="GrayText" noWrap
+                                            maxWidth={160}>{item.benefitType.benefit}</Typography>
                                 <Typography> {formatterWhole.format(item.amount)}</Typography>
                             </Stack>
                         )
@@ -331,10 +335,11 @@ function PayrollDetails({ payrollData }) {
                 <Typography fontWeight={600}>Deductions</Typography>
 
                 <Stack px={1}>
-                {
-                        payrollData.deductions.map((item)=>
+                    {
+                        payrollData.deductions.map((item) =>
                             <Stack key={item.deductionId} direction='row' justifyContent='space-between'>
-                                <Typography color="GrayText" noWrap maxWidth={160}>{item.deductionType.deductionCode}</Typography>
+                                <Typography color="GrayText" noWrap
+                                            maxWidth={160}>{item.deductionType.deductionCode}</Typography>
                                 <Typography>- {formatterWhole.format(item.amount)}</Typography>
                             </Stack>
                         )

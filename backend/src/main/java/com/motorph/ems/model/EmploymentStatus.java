@@ -23,14 +23,7 @@ public class EmploymentStatus {
         this.statusName = statusName;
     }
 
-    public EmploymentStatus(int id) {}
-
-    public EmploymentStatusDTO toDTO() {
-        return new EmploymentStatusDTO(statusId, statusName);
-    }
-
-    public static EmploymentStatus fromDTO(EmploymentStatusDTO statusDTO) {
-        return new EmploymentStatus(statusDTO.statusId(), statusDTO.statusName());
+    public EmploymentStatus(int id) {
     }
 
     @Override

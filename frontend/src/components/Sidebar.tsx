@@ -35,7 +35,7 @@ import { Colors } from "../constants/Colors";
 import PopupState, { bindMenu, bindTrigger } from "material-ui-popup-state";
 import { useEffect, useState } from "react";
 import { useAuth } from "../hooks/AuthProvider";
-import { useFetchEmployeeById } from "../hooks/UseFetch.ts";
+import { useFetchEmployeeById } from "../api/query/UseFetch.ts";
 
 interface Props {
     role: UserRole;

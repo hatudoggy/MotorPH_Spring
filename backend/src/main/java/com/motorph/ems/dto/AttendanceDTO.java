@@ -15,4 +15,16 @@ public record AttendanceDTO (
         double totalHours,
         double overtimeHours
 ) {
+
+    public AttendanceDTO withTimeOut(LocalTime timeOut) {
+        return AttendanceDTO.builder()
+                .attendanceId(attendanceId)
+                .employee(employee)
+                .date(date)
+                .timeIn(timeIn)
+                .timeOut(timeOut)
+                .totalHours(totalHours)
+                .overtimeHours(overtimeHours)
+                .build();
+    }
 }

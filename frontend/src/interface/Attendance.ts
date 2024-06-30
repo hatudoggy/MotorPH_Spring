@@ -9,13 +9,11 @@ interface AttendanceRes {
   overtimeHours: number
 }
 
-interface AttendanceSummaryRes {
-  totalCount: number
-  presentCount: number
-  lateCount: number
-  absentCount: number
-  averageTimeIn: string
-  averageTimeOut: string
+interface TimeInOut {
+  attendanceId: number
+  employeeId: number
+  timeIn: string
+  timeOut: string
 }
 
 interface AttendanceFull {
@@ -35,3 +33,4 @@ interface EmployeeAttendanceInfo {
   position: PositionRes,
   department: DepartmentRes
 }
+

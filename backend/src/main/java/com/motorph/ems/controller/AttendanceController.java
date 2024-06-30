@@ -1,6 +1,7 @@
 package com.motorph.ems.controller;
 
 import com.motorph.ems.dto.AttendanceDTO;
+import com.motorph.ems.model.Attendance;
 import com.motorph.ems.service.AttendanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -74,7 +75,7 @@ public class AttendanceController {
     }
 
     @PostMapping
-    public ResponseEntity<AttendanceDTO> addAttendance(@RequestBody AttendanceDTO attendance) {
+    public ResponseEntity<AttendanceDTO> addAttendance(@RequestBody Attendance attendance) {
         AttendanceDTO attendanceDTO = attendanceService.addNewAttendance(attendance);
 
         return ResponseEntity.ok(attendanceDTO);

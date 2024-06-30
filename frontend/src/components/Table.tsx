@@ -19,53 +19,52 @@ interface Props<RowData extends TableData> {
   renderers?: { [K in keyof RowData]?: (data: RowData[K]) => React.ReactNode }
 }
 
-export default function Table<RowData extends TableData>({colSizes, tableData, colHeader, rowHeight = 40,  loading, sx, renderers}: Props<RowData>) {
+export default function Table<RowData extends TableData>({ colSizes, tableData, colHeader, rowHeight = 40, loading, sx, renderers }: Props<RowData>) {
+    const colHeaders = tableData.length > 0 ? Object.keys(tableData[0]) : [];
 
-  const colHeaders = tableData.length > 0 ? Object.keys(tableData[0]) : [];
-
-  return(
-    <Stack height='100%' overflow='hidden' sx={sx}>
-      <TableHeader colSizes={colSizes}  colHeaders={colHeader ? colHeader : colHeaders }/>
-      <Stack
-        flex='1 1 auto'
-        sx={{
-          height: 0,
-          minHeight: 0,
-        }}
-      >
-        {
-          !loading ?
-            <AutoSizer>
-              {({height, width}) => (
-                <List 
-                  height={height}
-                  width={width}
-                  itemCount={tableData.length}
-                  itemSize={rowHeight}
-                  style={{overflowX: 'hidden'}}
-                >
-                  {({ index, style }) => (
-                    <div style={style}>
-                      <TableRow
-                        key={index}
-                        rowData={tableData[index]}
-                        colSizes={colSizes}
-                        colHeaders={colHeaders}
-                        renderers={renderers}
-                      />
-                    </div>
-                  )}
-                </List>
-              )}
-            </AutoSizer>
-            :
-            <Stack alignItems='center'>
-              <CircularProgress />
+    return (
+        <Stack height='100%' overflow='hidden' sx={sx}>
+            <TableHeader colSizes={colSizes} colHeaders={colHeader ? colHeader : colHeaders} />
+            <Stack
+                flex='1 1 auto'
+                sx={{
+                    height: 0,
+                    minHeight: 0,
+                }}
+            >
+                {
+                    !loading ?
+                        <AutoSizer>
+                            {({ height, width }) => (
+                                <List
+                                    height={height}
+                                    width={width}
+                                    itemCount={tableData.length}
+                                    itemSize={rowHeight}
+                                    style={{ overflowX: 'hidden' }}
+                                >
+                                    {({ index, style }) => (
+                                        <div style={style}>
+                                            <TableRow
+                                                key={index}
+                                                rowData={tableData[index]}
+                                                colSizes={colSizes}
+                                                colHeaders={colHeaders}
+                                                renderers={renderers}
+                                            />
+                                        </div>
+                                    )}
+                                </List>
+                            )}
+                        </AutoSizer>
+                        :
+                        <Stack alignItems={'center'} justifyContent={'center'} height={'100%'}>
+                            <CircularProgress />
+                        </Stack>
+                }
             </Stack>
-        }
-      </Stack>
-    </Stack>
-  )
+        </Stack>
+    );
 }
 
 interface TableHeader {
@@ -107,26 +106,23 @@ interface TableRow<RowData extends TableData> {
   renderers?: { [K in keyof RowData]?: (data: RowData[K]) => React.ReactNode }
 }
 
-function TableRow<RowData extends TableData>({rowData, colSizes, colHeaders, renderers}: TableRow<RowData>) {
-
-  return(
-    <Grid container spacing={1} px={1} py={1.5}>
-      {
-        colHeaders.map((header, idx)=>
-          <Grid key={idx} xs={colSizes ? colSizes[idx] : true}>
-            {
-              renderers && renderers[header as keyof RowData] ?
-                renderers[header as keyof RowData]!(rowData[header as keyof RowData])
-                :
-                <Typography 
-                  fontWeight={400}
-                >
-                  {rowData[header]}
-                </Typography>
-            }
-          </Grid>
-        )
-      }
-    </Grid>
-  )
+function TableRow<RowData extends TableData>({ rowData, colSizes, colHeaders, renderers }: TableRow<RowData>) {
+    return (
+        <Grid container spacing={1} px={1} py={1.5}>
+            {colHeaders.map((header, idx) =>
+                <Grid key={idx} xs={colSizes ? colSizes[idx] : true}>
+                    {
+                        renderers && renderers[header as keyof RowData] ?
+                            renderers[header as keyof RowData]!(rowData[header as keyof RowData])
+                            :
+                            <Typography fontWeight={400}>
+                                {typeof rowData[header as keyof RowData] === 'object'
+                                    ? JSON.stringify(rowData[header as keyof RowData])
+                                    : rowData[header as keyof RowData]}
+                            </Typography>
+                    }
+                </Grid>
+            )}
+        </Grid>
+    );
 }

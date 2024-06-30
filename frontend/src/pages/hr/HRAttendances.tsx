@@ -4,12 +4,12 @@ import Headertext from "../../components/HeaderText";
 import Table from "../../components/Table";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { API, BASE_API } from "../../constants/Api";
+import { API, BASE_API } from "../../api/Api.ts";
 import { format } from "date-fns";
 import { DatePicker } from "@mui/x-date-pickers";
 import { useState, useMemo } from "react";
 import { Search } from "@mui/icons-material";
-import {useFetchAttendancesByDate} from "../../hooks/UseFetch.ts";
+import {useFetchAttendancesByDate} from "../../api/query/UseFetch.ts";
 
 export default function HRAttendances() {
     const [dateFilter, setDateFilter] = useState<Date | null>(new Date())

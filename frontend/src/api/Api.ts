@@ -10,7 +10,8 @@ export const API = {
   },
   ATTENDANCES: {
     BASE: "/attendances",
-    SUMMARY: "/attendances/summary",
+    DATE: "/attendances/date",
+    RANGE: "/attendances/dateRange",
     TIME_IN: "/attendances/timeIn",
     TIME_OUT: "/attendances/timeOut",
   },

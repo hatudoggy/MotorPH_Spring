@@ -1,28 +1,25 @@
 import {
     AccessTime,
     Circle,
-    EventBusy,
-    EventBusyOutlined,
     MoreTime,
     NorthEast,
     SouthWest,
-    Today,
     TodayOutlined, WorkHistory
 } from "@mui/icons-material";
-import { Box, Button, CircularProgress, Container, Divider, Paper, PaperProps, Stack, SvgIconTypeMap, Typography, styled } from "@mui/material";
+import { Box, Button, Container, Divider, Paper, PaperProps, Stack, SvgIconTypeMap, Typography, styled } from "@mui/material";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
-import { PieChart, useDrawingArea } from "@mui/x-charts";
+import { PieChart } from "@mui/x-charts";
 import Headertext from "../../components/HeaderText";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { API, BASE_API } from "../../constants/Api";
-import axios from "axios";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {format, subMonths} from "date-fns";
 import { useAuth } from "../../hooks/AuthProvider";
 import Table from "../../components/Table";
-import {useFetchAttendanceByEmployeeIdAndDate, useFetchAttendancesByEmployeeId} from "../../hooks/UseFetch.ts";
+import {useFetchAttendanceByEmployeeIdAndDate, useFetchAttendancesByEmployeeId} from "../../api/query/UseFetch.ts";
 import {useEffect, useState} from "react";
+import {postTimeIn, putTimeOut} from "../../api/post/PostService.ts";
 
 let employeeId: number = 0;
+
 // Main Attendance component
 export default function Attendance() {
     const { authUser } = useAuth();
@@ -98,52 +95,64 @@ function WidgetBar({filteredData, selectedFilter}: AttendanceOverviewProps) {
 function AttendanceToday() {
     console.log("Rendering AttendanceToday");
 
-    // Error handling for missing employeeId
-    if (!employeeId) {
-        console.error("Employee ID not found");
-        return <Typography>Error: Employee ID not found</Typography>;
-    }
+    const queryClient = useQueryClient();
+    const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+    const [loadingTimeIn, setLoadingTimeIn] = useState(false);
+    const [loadingTimeOut, setLoadingTimeOut] = useState(false);
+    const [clockedIn, setClockedIn] = useState(false);
 
-    const queryClient = useQueryClient()
+    const todayDate = format(new Date().setDate(29), 'yyyy-MM-dd');
 
-    // Fetch today's attendance data
-    const {data: attendanceData} = useFetchAttendanceByEmployeeIdAndDate(employeeId, format(new Date(), 'yyyy-MM-dd'))
+    const { data: attendanceData, refetch: refetchAttendanceData } = useFetchAttendanceByEmployeeIdAndDate(employeeId, todayDate);
 
-    // Time in mutation
     const useTimeIn = useMutation({
         mutationFn: async () => {
-            const { EMPLOYEES, ATTENDANCES } = API;
-            const res = await axios.post(`${BASE_API}${EMPLOYEES.BASE}${employeeId}${ATTENDANCES.TIME_IN}`);
-            return res.data;
+            setLoadingTimeIn(true);
+            await postTimeIn(employeeId);
+        },
+        onError: () => {
+            setClockedIn(false);
+            setLoadingTimeIn(false);
+            setIsButtonDisabled(false);
         },
         onSettled: async () => {
-            return await queryClient.invalidateQueries({ queryKey: ['attendanceToday'] });
+            setLoadingTimeIn(false);
+            setIsButtonDisabled(false);
+            await refetchAttendanceData();
+            await queryClient.invalidateQueries(['attendancesByEmployeeId']);
         }
     });
 
-    // Time out mutation
     const useTimeOut = useMutation({
         mutationFn: async () => {
-            const { EMPLOYEES, ATTENDANCES } = API;
-            const res = await axios.post(`${BASE_API}${EMPLOYEES.BASE}${employeeId}${ATTENDANCES.TIME_OUT}`);
-            return res.data;
+            setLoadingTimeOut(true);
+            await putTimeOut(employeeId);
+        },
+        onError: () => {
+            setLoadingTimeOut(false);
+            setIsButtonDisabled(false);
         },
         onSettled: async () => {
-            return await queryClient.invalidateQueries({ queryKey: ['attendanceToday'] });
+            setLoadingTimeOut(false);
+            await refetchAttendanceData();
+            await queryClient.invalidateQueries(['attendancesByEmployeeId']);
         }
     });
 
     const handleClockIn = () => {
         console.log("Clocking in");
+        setClockedIn(true);
+        setIsButtonDisabled(true);
         useTimeIn.mutate();
     };
 
     const handleClockOut = () => {
         console.log("Clocking out");
+        setIsButtonDisabled(true);
         useTimeOut.mutate();
     };
 
-    return(
+    return (
         <Widget
             variant="outlined"
             sx={{
@@ -155,41 +164,46 @@ function AttendanceToday() {
                 <Stack flex={1} direction='row' py={0.5} pb={1.5}>
                     <Stack flex={1} alignItems='center' pb={1}>
                         <Typography variant="body2" color='GrayText'>Time In</Typography>
-                        <Typography variant="h4">{attendanceData && attendanceData[0]?.timeIn?.substring(0,5) || "-- : --"}</Typography>
-                    </Stack>
-                    <Divider flexItem orientation="vertical" />
-                    <Stack flex={1} alignItems='center' pb={1}>
-                        <Typography variant="body2" color='GrayText'>Time Out</Typography>
-                        <Typography variant="h4">{attendanceData && attendanceData[0]?.timeOut?.substring(0,5) || "-- : --"}</Typography>
-                    </Stack>
-                </Stack >
-                <Stack flex={1} direction='row'>
-                    {
-                        attendanceData && attendanceData[0]?.timeIn ?
-                            <Button
-                                fullWidth
-                                variant="contained"
-                                disableElevation
-                                onClick={()=>handleClockOut()}
-                                disabled={attendanceData[0].timeOut !== null}
-                            >
-                                Clock Out
-                            </Button>
-                            :
-                            <Button
-                                fullWidth
-                                variant="contained"
-                                disableElevation
-                                onClick={()=>handleClockIn()}
-                            >
-                                Clock In
-                            </Button>
-                    }
+                        <Typography variant="h4">
+                        {loadingTimeIn ? "..." : attendanceData?.timeIn?.substring(0, 5) || "-- : --"}
+                    </Typography>
+                </Stack>
+                <Divider flexItem orientation="vertical" />
+                <Stack flex={1} alignItems='center' pb={1}>
+                    <Typography variant="body2" color='GrayText'>Time Out</Typography>
+                    <Typography variant="h4">
+                        {loadingTimeOut ? "..." : attendanceData?.timeOut?.substring(0, 5) || "-- : --"}
+                    </Typography>
                 </Stack>
             </Stack>
+            <Stack flex={1} direction='row'>
+                {attendanceData?.timeIn ? (
+                    <Button
+                        fullWidth
+                        variant="contained"
+                        disableElevation
+                        disabled={isButtonDisabled}
+                        onClick={handleClockOut}
+                    >
+                        Clock Out
+                    </Button>
+                ) : (
+                    <Button
+                        fullWidth
+                        variant="contained"
+                        disableElevation
+                        disabled={isButtonDisabled || clockedIn}
+                        onClick={handleClockIn}
+                    >
+                        Clock In
+                    </Button>
+                )}
+            </Stack>
+            </Stack>
         </Widget>
-    )
+    );
 }
+
 
 interface AttendanceOverviewProps {
     filteredData: AttendanceRes[];
@@ -459,7 +473,7 @@ function AttendanceTable({ filteredData, isPending }: AttendanceTableProps) {
         .map(({attendanceId, employeeId, ...rest})=> ({
             date: rest.date,
             timeIn: rest.timeIn.substring(0,5),
-            timeOut: rest.timeOut.substring(0,5),
+            timeOut: rest.timeOut?.substring(0,5) || "-- : --",
             status: statusGenerator(rest.timeIn, rest.timeOut),
             overtime: Math.round(rest.overtimeHours * 100) / 100,
             totalHours: Math.round(rest.totalHours * 100) / 100

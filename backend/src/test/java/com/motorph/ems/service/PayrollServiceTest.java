@@ -162,7 +162,7 @@ class PayrollServiceTest {
 
         when(payrollMapper.toDTO(any(Payroll.class))).thenReturn(payrollDTO);
 
-        List<PayrollDTO> result = payrollService.getAllPayrolls();
+        List<PayrollDTO> result = payrollService.getAllPayrolls(false);
 
         assertFalse(result.isEmpty());
         assertEquals(1, result.size());
@@ -251,7 +251,7 @@ class PayrollServiceTest {
 
         when(payrollMapper.toDTO(any(Payroll.class))).thenReturn(payrollDTO);
 
-        List<PayrollDTO> result = payrollService.getPayrollsForPeriod(LocalDate.now().withDayOfMonth(1), LocalDate.now().withDayOfMonth(30));
+        List<PayrollDTO> result = payrollService.getPayrollsForPeriod(false, LocalDate.now().withDayOfMonth(1), LocalDate.now().withDayOfMonth(30));
 
         assertFalse(result.isEmpty());
         assertEquals(1, result.size());

@@ -2,12 +2,13 @@ import { Box, Button, Card, CardActionArea, CardContent, Container, MenuItem, Pa
 import Headertext from "../../components/HeaderText";
 import Table from "../../components/Table";
 import { ChevronRight, PointOfSale } from "@mui/icons-material";
-import { API, BASE_API } from "../../constants/Api";
+import { API, BASE_API } from "../../api/Api.ts";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { LineChart, areaElementClasses } from "@mui/x-charts";
 
+//TODO: implement this
 
 export default function HRPayrolls() {
 
@@ -215,7 +216,7 @@ function PayrollTable({filterMonth}: PayrollTable) {
     if(filterMonth){
       const res = await axios.get(BASE_API + PAYROLLS.ALL, {
         params: {
-          date: filterMonth || ''
+          end_date: filterMonth || ''
         }
       })
       return res.data;
@@ -228,9 +229,7 @@ function PayrollTable({filterMonth}: PayrollTable) {
     enabled: !!filterMonth
   })
 
-  const tableData = data && data.map(({
-    monthlyRate, dailyRate, periodStart, periodEnd, deductions, employeeFirstName, employeeLastName, ...rest
-  })=> rest )
+  const payrollData = flattenPayrollData(data || []);
 
   return(
     <Widget 
@@ -240,17 +239,20 @@ function PayrollTable({filterMonth}: PayrollTable) {
       }}
     >
       {
-        tableData &&
-          <Table 
-            colSizes={[1.5, true, true, true, true]}
-            colHeader={[
-              "Payroll Id", 
-              "Employee",
-              "Overtime Pay",
-              "Gross Income",
-              "Net Income"
-            ]}
-            tableData={tableData}
+          payrollData &&
+          <Table
+              colSizes={[1, 1, 2.5, true, true, true, true, true,true, true,true]}
+              tableData={payrollData}
+              colHeader={[
+                "PID",
+                "EID",
+                "Name",
+                "Monthly Rate",
+                "Gross Income",
+                "Benefits",
+                "Deductions",
+                "Net Pay"
+              ]}
           />
       }
 
@@ -263,3 +265,26 @@ const Widget = styled(Paper)<PaperProps>(({}) => ({
   borderRadius: 12,
   padding: 16,
 }))
+
+const flattenPayrollData = (data: PayrollRes[]) => {
+  return data.map((item) => {
+    const { employeeId, firstName, lastName } = item.employee;
+    const { payrollId, monthlyRate, grossIncome, totalBenefits, totalDeductions, netPay } = item;
+
+    return {
+      PID: payrollId,
+      EID: employeeId,
+      Name: `${firstName}, ${lastName}`,
+      'Monthly Rate': formatToPeso(monthlyRate),
+      Gross: formatToPeso(grossIncome),
+      Benefits: formatToPeso(totalBenefits),
+      Deductions: formatToPeso(totalDeductions),
+      'Net Pay': formatToPeso(netPay),
+    };
+  });
+};
+
+
+const formatToPeso = (value) => {
+  return `₱${value.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`;
+};

@@ -50,7 +50,7 @@ public class Employee {
     @JoinColumn(name = "department_code")
     private Department department;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "status_id")
     private EmploymentStatus status;
 

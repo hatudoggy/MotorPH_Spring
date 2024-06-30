@@ -8,6 +8,10 @@ import org.springframework.stereotype.Component;
 public class EmploymentStatusMapper {
 
     public EmploymentStatusDTO toDTO(EmploymentStatus entity) {
+        if (entity == null) {
+            return null;
+        }
+
         return EmploymentStatusDTO.builder()
                 .statusId(entity.getStatusId())
                 .statusName(entity.getStatusName())

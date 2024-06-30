@@ -115,8 +115,8 @@ class PayrollRepositoryTest {
     void PayrollRepository_findAllByEmployee_EmployeeId_Found() {
         List<Payroll> payrollsForEmployee1 = payrollRepository.findAllByEmployee_EmployeeId(employee1.getEmployeeId());
         assertThat(payrollsForEmployee1).hasSize(2);
-        assertThat(payrollsForEmployee1.iterator().next().getGrossIncome()).isEqualTo(2500.00);
-        assertThat(payrollsForEmployee1.iterator().next().getGrossIncome()).isEqualTo(2600.00);
+        assertThat(payrollsForEmployee1.get(0).getGrossIncome()).isEqualTo(2500.00);
+        assertThat(payrollsForEmployee1.get(1).getGrossIncome()).isEqualTo(2600.00);
     }
 
     @Test
@@ -125,8 +125,8 @@ class PayrollRepositoryTest {
     void PayrollRepository_findAllByPeriodStartAndPeriodEnd_Found() {
         List<Payroll> payrollsForPeriod = payrollRepository.findAllByPeriodStartAndPeriodEnd(LocalDate.of(2023, 6, 1), LocalDate.of(2023, 6, 15));
         assertThat(payrollsForPeriod).hasSize(2);
-        assertThat(payrollsForPeriod.iterator().next().getGrossIncome()).isEqualTo(2500.00);
-        assertThat(payrollsForPeriod.iterator().next().getGrossIncome()).isEqualTo(2000.00);
+        assertThat(payrollsForPeriod.get(0).getGrossIncome()).isEqualTo(2500.00);
+        assertThat(payrollsForPeriod.get(1).getGrossIncome()).isEqualTo(2000.00);
     }
 
     @Test

@@ -30,9 +30,11 @@ public class PayrollController {
         List<PayrollDTO> payrolls;
 
         if(start_date != null && !start_date.isEmpty() && end_date != null && !end_date.isEmpty()) {
-            payrolls = payrollService.getPayrollsForPeriod(LocalDate.parse(start_date), LocalDate.parse(end_date));
+            payrolls = payrollService.getPayrollsForPeriod(false, LocalDate.parse(start_date), LocalDate.parse(end_date));
+        } else if (end_date != null) {
+            payrolls = payrollService.getPayrollsByDate(false, false,LocalDate.parse(end_date));
         } else {
-            payrolls = payrollService.getAllPayrolls();
+            payrolls = payrollService.getAllPayrolls(false);
         }
 
         return ResponseEntity.ok(payrolls);

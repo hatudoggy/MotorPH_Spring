@@ -45,6 +45,7 @@ class BenefitsServiceTest {
     private Long benefitId;
     private BenefitDTO benefitDTO1;
     private BenefitType benefitType1;
+    private BenefitTypeDTO benefitTypeDTO1;
 
     @BeforeEach
     void setUp() {
@@ -53,7 +54,7 @@ class BenefitsServiceTest {
                 .benefit("Health Insurance")
                 .build();
 
-        BenefitTypeDTO benefitTypeDTO = BenefitTypeDTO.builder()
+        benefitTypeDTO1 = BenefitTypeDTO.builder()
                 .benefitTypeId(1)
                 .benefit("Health Insurance")
                 .build();
@@ -68,7 +69,7 @@ class BenefitsServiceTest {
 
         benefitDTO1 = BenefitDTO.builder()
                 .benefitId(benefitId)
-                .benefitType(benefitTypeDTO)
+                .benefitType(benefitTypeDTO1)
                 .amount(500.0)
                 .build();
     }
@@ -130,7 +131,7 @@ class BenefitsServiceTest {
     @Transactional
     @DirtiesContext
     void BenefitsService_getBenefitsByEmployeeId_ReturnsListOfBenefitDTO() {
-        when(benefitsRepository.findAllById(Collections.singleton(1L))).thenReturn(Collections.singletonList(benefit1));
+        when(benefitsRepository.findByEmployee_EmployeeId(1L)).thenReturn(Collections.singletonList(benefit1));
 
         when(benefitsMapper.toDTO(any(Benefits.class))).thenReturn(benefitDTO1);
 
@@ -187,6 +188,8 @@ class BenefitsServiceTest {
     @DirtiesContext
     void BenefitsService_getBenefitTypeByBenefitId_ReturnsBenefitType() {
         when(typeRepository.findById(1)).thenReturn(Optional.of(benefitType1));
+
+        when(benefitsMapper.toDTO(any(BenefitType.class))).thenReturn(benefitTypeDTO1);
 
         Optional<BenefitTypeDTO> foundBenefitType = benefitsService.getBenefitTypeByBenefitId(1);
 

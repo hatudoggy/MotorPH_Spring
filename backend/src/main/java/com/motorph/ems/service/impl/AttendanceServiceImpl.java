@@ -7,19 +7,22 @@ import com.motorph.ems.model.Attendance;
 import com.motorph.ems.repository.AttendanceRepository;
 import com.motorph.ems.service.AttendanceService;
 import jakarta.persistence.EntityNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class AttendanceServiceImpl implements AttendanceService {
 
+    private static final Logger log = LoggerFactory.getLogger(AttendanceServiceImpl.class);
     private final AttendanceRepository attendanceRepository;
     private final AttendanceMapper attendanceMapper;
 
@@ -33,12 +36,12 @@ public class AttendanceServiceImpl implements AttendanceService {
     }
 
     @Override
-    public AttendanceDTO addNewAttendance(AttendanceDTO attendanceDTO) {
-        if (attendanceRepository.existsByEmployee_EmployeeIdAndDate(attendanceDTO.employee().employeeId(), attendanceDTO.date())) {
-            throw new IllegalStateException("Attendance with employee status " + attendanceDTO.employee() + " on " + attendanceDTO.date() + " already exists");
+    public AttendanceDTO addNewAttendance(Attendance attendance) {
+        if (attendanceRepository.existsByEmployee_EmployeeIdAndDate(attendance.getEmployee().getEmployeeId(), attendance.getDate())) {
+            throw new IllegalStateException("Attendance for employee " + attendance.getEmployee().getEmployeeId() + " on " + attendance.getDate() + " already exists");
         }
 
-        Attendance savedAttendance = attendanceRepository.save(attendanceMapper.toEntity(attendanceDTO));
+        Attendance savedAttendance = attendanceRepository.save(attendance);
 
         return attendanceMapper.toDTO(savedAttendance);
     }
@@ -96,10 +99,11 @@ public class AttendanceServiceImpl implements AttendanceService {
                 .map(attendanceMapper::toDTO).collect(Collectors.toList());
     }
 
+    @Transactional
     @Override
-    public AttendanceDTO updateAttendance(Long attendanceId, AttendanceDTO attendance) {
-        Attendance existingAttendance = attendanceRepository.findById(attendanceId).orElseThrow(
-                ()-> new EntityNotFoundException("Attendance with attendance ID " + attendanceId + " not found")
+    public AttendanceDTO updateAttendance(Long employeeId, AttendanceDTO attendance) {
+        Attendance existingAttendance = attendanceRepository.findByEmployee_EmployeeIdAndDate(employeeId, attendance.date()).orElseThrow(
+                ()-> new EntityNotFoundException("Attendance for employee " + employeeId + " at " + attendance.date() + " not found")
         );
 
         attendanceMapper.updateEntity(attendance, existingAttendance);

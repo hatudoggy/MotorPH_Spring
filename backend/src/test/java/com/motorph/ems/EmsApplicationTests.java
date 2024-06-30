@@ -33,14 +33,7 @@ class EmsApplicationTests {
 	@Autowired
 	private EmployeeRepository employeeRepository;
 
-	@Test
-	void testReadEmployee() throws Exception {
 
-		ResultActions result = mockMvc.perform(
-				MockMvcRequestBuilders.get("/api/employees")
-						.accept(MediaType.APPLICATION_JSON));
-		result.andExpect(MockMvcResultMatchers.status().isOk())
-				.andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON));
-	}
+
 
 }

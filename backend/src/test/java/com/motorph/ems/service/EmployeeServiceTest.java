@@ -157,7 +157,7 @@ class EmployeeServiceTest {
     void EmployeeService_getEmployees_ReturnsListOfEmployeeDTO() {
         when(employeeRepository.findAll()).thenReturn(Collections.singletonList(employee1));
 
-        when(employeeMapper.toFullDTO(any(Employee.class))).thenReturn(employeeFullDTO1);
+        when(employeeMapper.toLimitedDTO(any(Employee.class))).thenReturn(employeeFullDTO1);
 
         List<EmployeeDTO> employees = employeeService.getEmployees();
 
@@ -196,7 +196,7 @@ class EmployeeServiceTest {
         when(employeeRepository.findAllByDepartment_DepartmentName("IT"))
                 .thenReturn(Collections.singletonList(employee1));
 
-        when(employeeMapper.toFullDTO(any(Employee.class))).thenReturn(employeeFullDTO1);
+        when(employeeMapper.toLimitedDTO(any(Employee.class))).thenReturn(employeeFullDTO1);
 
         List<EmployeeDTO> employees = employeeService.getEmployeesByDepartment("IT");
 
@@ -210,7 +210,7 @@ class EmployeeServiceTest {
         when(employeeRepository.findAllByPosition_PositionName("Manager"))
                 .thenReturn(Collections.singletonList(employee1));
 
-        when(employeeMapper.toFullDTO(any(Employee.class))).thenReturn(employeeFullDTO1);
+        when(employeeMapper.toLimitedDTO(any(Employee.class))).thenReturn(employeeFullDTO1);
 
         List<EmployeeDTO> employees = employeeService.getEmployeesByPosition("Manager");
 
@@ -224,7 +224,7 @@ class EmployeeServiceTest {
         when(employeeRepository.findAllByStatus_StatusName("Regular"))
                 .thenReturn(Collections.singletonList(employee1));
 
-        when(employeeMapper.toFullDTO(any(Employee.class))).thenReturn(employeeFullDTO1);
+        when(employeeMapper.toLimitedDTO(any(Employee.class))).thenReturn(employeeFullDTO1);
 
         List<EmployeeDTO> employees = employeeService.getEmployeesByStatus("Regular");
 
@@ -238,7 +238,7 @@ class EmployeeServiceTest {
         when(employeeRepository.findAllBySupervisor_EmployeeId(any(Long.class)))
                 .thenReturn(Collections.singletonList(employee1));
 
-        when(employeeMapper.toFullDTO(any(Employee.class))).thenReturn(employeeFullDTO1);
+        when(employeeMapper.toLimitedDTO(any(Employee.class))).thenReturn(employeeFullDTO1);
 
         List<EmployeeDTO> employees = employeeService.getEmployeesBySupervisorId(1L);
 
@@ -252,7 +252,7 @@ class EmployeeServiceTest {
         when(employeeRepository.findAllBySupervisor_FirstName_AndSupervisor_LastName("John", "Doe"))
                 .thenReturn(Collections.singletonList(employee1));
 
-        when(employeeMapper.toFullDTO(any(Employee.class))).thenReturn(employeeFullDTO1);
+        when(employeeMapper.toLimitedDTO(any(Employee.class))).thenReturn(employeeFullDTO1);
 
         List<EmployeeDTO> employees = employeeService.getEmployeesBySupervisorName("John", "Doe");
 
@@ -266,7 +266,7 @@ class EmployeeServiceTest {
         when(employeeRepository.findAllByHireDateBetween(hireDate, hireDate2))
                 .thenReturn(Collections.singletonList(employee1));
 
-        when(employeeMapper.toFullDTO(any(Employee.class))).thenReturn(employeeFullDTO1);
+        when(employeeMapper.toLimitedDTO(any(Employee.class))).thenReturn(employeeFullDTO1);
 
         List<EmployeeDTO> employees = employeeService.getEmployeesByHiredBetween(hireDate, hireDate2);
 

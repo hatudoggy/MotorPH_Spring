@@ -2,6 +2,7 @@ package com.motorph.ems.service;
 
 import com.motorph.ems.dto.AttendanceDTO;
 import com.motorph.ems.dto.AttendanceSummaryDTO;
+import com.motorph.ems.model.Attendance;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -12,7 +13,7 @@ import java.util.Optional;
  *
  */
 public interface AttendanceService {
-     AttendanceDTO addNewAttendance(AttendanceDTO attendance);
+     AttendanceDTO addNewAttendance(Attendance attendance);
 
      List<AttendanceDTO> getAllAttendances();
 
@@ -34,7 +35,7 @@ public interface AttendanceService {
 
      List<AttendanceDTO> getAttendancesAfterTimeOut(LocalTime timeOut, LocalDate date);
 
-     AttendanceDTO updateAttendance(Long attendanceId, AttendanceDTO attendance);
+     AttendanceDTO updateAttendance(Long employeeId, AttendanceDTO attendance);
 
      void deleteAttendanceById(Long attendanceId);
 

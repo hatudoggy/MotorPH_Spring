@@ -11,7 +11,6 @@ import com.motorph.ems.repository.PayrollRepository;
 import com.motorph.ems.service.MatrixService;
 import com.motorph.ems.service.PayrollService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -61,10 +60,19 @@ public class PayrollServiceImpl implements PayrollService {
     }
 
     @Override
-    public List<PayrollDTO> getAllPayrolls() {
-        return payrollRepository.findAll().stream()
-                .map(payrollMapper::toDTO)
-                .collect(Collectors.toList());
+    public List<PayrollDTO> getAllPayrolls(boolean isFullDetails) {
+        List<Payroll> payrolls = payrollRepository.findAll();
+
+        if (isFullDetails){
+            return payrolls.stream()
+                    .map(payrollMapper::toDTO)
+                    .collect(Collectors.toList());
+        }
+        else {
+            return payrolls.stream()
+                    .map(payrollMapper::toLimitedDTO)
+                    .collect(Collectors.toList());
+        }
     }
 
     @Override
@@ -76,11 +84,19 @@ public class PayrollServiceImpl implements PayrollService {
     }
 
     @Override
-    public List<PayrollDTO> getPayrollsForPeriod(LocalDate periodStart, LocalDate periodEnd) {
-        return payrollRepository.findAllByPeriodStartAndPeriodEnd(periodStart, periodEnd)
-                .stream()
-                .map(payrollMapper::toDTO)
-                .collect(Collectors.toList());
+    public List<PayrollDTO> getPayrollsForPeriod(boolean isFullDetails, LocalDate periodStart, LocalDate periodEnd) {
+        List<Payroll> payrolls = payrollRepository.findAllByPeriodStartAndPeriodEnd(periodStart, periodEnd);
+
+        if (isFullDetails){
+            return payrolls.stream()
+                    .map(payrollMapper::toDTO)
+                    .collect(Collectors.toList());
+        }
+        else {
+            return payrolls.stream()
+                    .map(payrollMapper::toLimitedDTO)
+                    .collect(Collectors.toList());
+        }
     }
 
     @Override
@@ -91,13 +107,34 @@ public class PayrollServiceImpl implements PayrollService {
                 .collect(Collectors.toList());
     }
 
-    @Cacheable(value = "payroll", key = "#payrollId")
+    @Override
+    public List<PayrollDTO> getPayrollsByDate(boolean isFullDetails, boolean isStartDate, LocalDate date) {
+        List<Payroll> payrolls;
+
+        if (isStartDate){
+            payrolls = payrollRepository.findAllByPeriodStart(date);
+        }
+        else {
+            payrolls = payrollRepository.findAllByPeriodEnd(date);
+        }
+
+        if (isFullDetails){
+            return payrolls.stream()
+                    .map(payrollMapper::toDTO)
+                    .collect(Collectors.toList());
+        }
+        else {
+            return payrolls.stream()
+                    .map(payrollMapper::toLimitedDTO)
+                    .collect(Collectors.toList());
+        }
+    }
+
     @Override
     public Optional<PayrollDTO> getPayrollById(Long payrollId) {
         return payrollRepository.findById(payrollId).map(payrollMapper::toDTO);
     }
 
-    @Cacheable(value = "payroll", key = "#employeeId + '_' + #periodStart")
     @Override
     public Optional<PayrollDTO> getPayrollByEmployeeIdAndPeriodStart(Long employeeId, LocalDate periodStart) {
         return payrollRepository.findByEmployee_EmployeeIdAndPeriodStart(employeeId, periodStart)

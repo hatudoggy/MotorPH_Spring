@@ -16,11 +16,11 @@ public interface PayrollService {
 
     Optional<PayrollDTO> getPayrollByEmployeeIdAndPeriodStart(Long employeeId, LocalDate periodStart);
 
-    List<PayrollDTO> getAllPayrolls();
+    List<PayrollDTO> getAllPayrolls(boolean isFullDetails);
 
     List<PayrollDTO> getPayrollsByEmployeeId(Long employeeId);
 
-    List<PayrollDTO> getPayrollsForPeriod(LocalDate periodStart, LocalDate periodEnd);
+    List<PayrollDTO> getPayrollsForPeriod(boolean isFullDetails, LocalDate periodStart, LocalDate periodEnd);
 
     PayrollDTO updatePayroll(Long payrollId, PayrollDTO payroll);
 
@@ -35,4 +35,6 @@ public interface PayrollService {
     void batchGeneratePayroll(LocalDate periodStart, LocalDate periodEnd);
 
     List<PayrollDTO> getPayrollByEmployeeIdAndPeriodRange(long id, LocalDate start, LocalDate end);
+
+    List<PayrollDTO> getPayrollsByDate(boolean isFullDetails, boolean isStartDate, LocalDate date);
 }

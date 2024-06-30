@@ -96,7 +96,7 @@ class AttendanceServiceTest {
 
         when(attendanceMapper.toDTO(any(Attendance.class))).thenReturn(attendanceDTO1);
 
-        AttendanceDTO savedAttendance = attendanceService.addNewAttendance(attendanceDTO1);
+        AttendanceDTO savedAttendance = attendanceService.addNewAttendance(attendance1);
 
         assertThat(savedAttendance).isNotNull();
     }

@@ -37,4 +37,8 @@ public interface PayrollRepository extends JpaRepository<Payroll, Long> {
     List<Payroll> findAllByPeriodStartAndPeriodEnd(LocalDate periodStart, LocalDate periodEnd);
 
     List<Payroll> findAllByEmployeeEmployeeIdAndPeriodStartAndPeriodEnd(long id, LocalDate start, LocalDate end);
+
+    List<Payroll> findAllByPeriodStart(LocalDate date);
+
+    List<Payroll> findAllByPeriodEnd(LocalDate date);
 }

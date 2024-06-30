@@ -2,10 +2,12 @@ package com.motorph.ems.controller;
 
 
 import com.motorph.ems.dto.*;
+import com.motorph.ems.model.Attendance;
 import com.motorph.ems.service.*;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -14,8 +16,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 
-@CrossOrigin
 @RestController
+@CrossOrigin()
 @RequestMapping(path = "api/employee")
 public class EmployeeController {
 
@@ -91,77 +93,94 @@ public class EmployeeController {
     }
 
 
-
     @GetMapping("/{id}/attendances")
-    public ResponseEntity<List<AttendanceDTO>> getEmployeeAttendance(
-            @PathVariable Long id,
-            @RequestParam(value = "startDate", required = false) String startDate,
-            @RequestParam(value = "endDate", required = false) String endDate
-    ) {
+    public ResponseEntity<List<AttendanceDTO>> getEmployeeAttendances(@PathVariable Long id) {
         try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-            if (startDate != null && endDate != null) {
-                LocalDate start = LocalDate.parse(startDate, formatter);
-                LocalDate end = LocalDate.parse(endDate, formatter);
-                List<AttendanceDTO> attendanceList = attendanceService.getAllAttendanceByEmployeeIdAndDateRange(id, start, end);
-                return ResponseEntity.ok(attendanceList);
-            } else if (startDate != null) {
-                LocalDate start = LocalDate.parse(startDate, formatter);
-                AttendanceDTO attendance = attendanceService.getAttendanceByEmployeeIdAndDate(id, start).orElse(null);
-
-                assert attendance != null;
-                return ResponseEntity.ok(List.of(attendance));
-            }
             return ResponseEntity.ok(attendanceService.getAllByEmployeeId(id));
         } catch (DateTimeParseException e) {
-            // Log the detailed error message
             e.printStackTrace();
             return ResponseEntity.badRequest().body(null);
         } catch (Exception e) {
-            // Log the exception and return an appropriate response
             e.printStackTrace();
             return ResponseEntity.status(500).body(null);
         }
     }
-    @GetMapping("/{id}/attendances/summary")
-    public ResponseEntity<AttendanceSummaryDTO> getEmployeeAttendanceSummary(
-            @PathVariable Long id
+
+    @GetMapping("/{id}/attendances/dateRange")
+    private ResponseEntity<List<AttendanceDTO>> getAttendancesByDateRange(
+            @PathVariable Long id,
+            @RequestParam("startDate") String startDate,
+            @RequestParam("endDate") String endDate
     ) {
-        return ResponseEntity.ok(attendanceService.getAttendanceSummaryByEmployeeId(id));
+        try {
+            LocalDate start = parseDate(startDate);
+            LocalDate end = parseDate(endDate);
+
+            List<AttendanceDTO> attendanceList = attendanceService.getAllAttendanceByEmployeeIdAndDateRange(id, start, end);
+
+            return ResponseEntity.ok(attendanceList);
+        } catch (DateTimeParseException e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(null);
+        }
     }
 
-    @PostMapping("/{id}/attendances/timeIn")
-    public ResponseEntity<AttendanceDTO> employeeTimeIn(@PathVariable Long id) {
-        AttendanceDTO attendanceToday = AttendanceDTO.builder()
-                .employee(employeeService.getEmployeeById(id, false).orElseThrow(
-                        () -> new EntityNotFoundException("Employee not found")
-                ))
-                .date(LocalDate.now())
-                .timeIn(LocalTime.now())
-                .build();
+    @GetMapping("/{id}/attendances/date")
+    private ResponseEntity<AttendanceDTO> getAttendanceByDate(
+            @PathVariable Long id,
+            @RequestParam("date") String date
+    ) {
+        try {
+            LocalDate localDate = parseDate(date);
+            AttendanceDTO attendance = attendanceService.getAttendanceByEmployeeIdAndDate(id, localDate).orElse(null);
+
+            if (attendance == null) {
+                return ResponseEntity.notFound().build();
+            }
+
+            return ResponseEntity.ok(attendance);
+        } catch (DateTimeParseException e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(null);
+        }
+    }
+
+    private LocalDate parseDate(String date) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return LocalDate.parse(date, formatter);
+    }
+
+    @PostMapping("/{employeeId}/attendances/timeIn")
+    public ResponseEntity<AttendanceDTO> employeeTimeIn(@PathVariable Long employeeId) {
+        Attendance attendanceToday = new Attendance(
+                employeeId,
+                LocalDate.now().minusDays(1),
+                LocalTime.now()
+        );
 
         return ResponseEntity.ok(attendanceService.addNewAttendance(attendanceToday));
     }
 
-    @PostMapping("/{id}/attendances/timeOut")
-    public ResponseEntity<AttendanceDTO> employeeTimeOut(@PathVariable Long id) {
-        AttendanceDTO attendanceToday = attendanceService.getAttendanceByEmployeeIdAndDate(id, LocalDate.now()).orElseThrow(
-                () -> new EntityNotFoundException("You haven't clocked in yet")
-        );
+    @PutMapping("/{employeeId}/attendances/timeOut")
+    public ResponseEntity<AttendanceDTO> employeeTimeOut(@PathVariable Long employeeId) {
+        LocalTime timeOut = LocalTime.now();
+        LocalDate date = LocalDate.now();
 
-        if (attendanceToday.timeOut() != null) {
-            throw new IllegalArgumentException("You have already clocked out");
+        if(timeOut.isAfter(LocalTime.of(0,0)) && timeOut.isBefore(LocalTime.of(8,0))){
+            date = date.minusDays(1);
         }
-
         AttendanceDTO updatedAttendance = AttendanceDTO.builder()
-                .attendanceId(attendanceToday.attendanceId())
-                .employee(attendanceToday.employee())
-                .timeIn(attendanceToday.timeIn())
-                .timeOut(LocalTime.now())
+                .date(date)
+                .timeOut(timeOut)
                 .build();
 
-        return ResponseEntity.ok(attendanceService.updateAttendance(attendanceToday.attendanceId(), updatedAttendance));
+        return ResponseEntity.ok(attendanceService.updateAttendance(employeeId, updatedAttendance));
     }
 
 
