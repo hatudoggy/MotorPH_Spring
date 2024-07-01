@@ -6,7 +6,7 @@ interface EmployeeBasicRes {
   position: PositionRes;
   department: DepartmentRes;
   hireDate: string;
-  contacts: ContactRes;
+  contacts: ContactRes[];
   status: EmploymentStatusRes;
 
 }
@@ -17,7 +17,7 @@ interface EmployeeFullRes {
   firstName: string;
   dob: string;
   address: string;
-  contacts: ContactRes;
+  contacts: ContactRes[];
   position: PositionRes;
   department: DepartmentRes;
   governmentId: GovernmentIdRes;
@@ -66,8 +66,8 @@ interface EmploymentStatusRes {
 }
 
 interface ContactRes {
-  employeeId: number;
-  contactNumbers: string[];
+  contactId: number;
+  contactNo: string;
 }
 
 interface DepartmentRes {
@@ -77,6 +77,7 @@ interface DepartmentRes {
 
 interface PositionRes {
   positionCode: string;
+  departmentCode: string;
   positionName: string;
 }
 
@@ -85,8 +86,8 @@ interface SupervisorRes {
   lastName: string;
   firstName: string;
   address: string;
-  positionCode: string;
-  contacts: ContactRes;
+  position: PositionRes;
+  contacts: ContactRes[];
 }
 
 
@@ -97,18 +98,16 @@ interface EmployeeReq {
   firstName: string;
   dob: string; // Use string for dates to simplify JSON handling
   address: string;
-  contacts: ContactReq;
-  positionCode: string;
-  departmentCode: string;
+  contacts: ContactReq[];
+  position: PositionReq;
+  department: DepartmentReq;
   governmentId: GovernmentIdReq;
-  supervisorId: number;
-  statusId: number;
+  supervisor: SupervisorReq;
+  status: EmploymentStatusReq;
   hireDate: string; // Use string for dates to simplify JSON handling
   basicSalary: number;
-  semiMonthlyRate: number;
-  hourlyRate: number;
   benefits: BenefitReq[];
-  leaveBalances: LeaveBalanceReq[];
+  // leaveBalances: LeaveBalanceReq[];
 }
 
 interface LeaveBalanceReq {
@@ -135,7 +134,8 @@ interface EmploymentStatusReq {
 }
 
 interface ContactReq {
-  contactNumbers: string[];
+  contactId?: number;
+  contactNo: string;
 }
 
 interface BenefitReq {
@@ -158,6 +158,7 @@ interface PositionReq {
   positionCode: string;
   departmentCode?: string;
   position?: string;
+  isLeader?: boolean;
 }
 
 interface SupervisorReq {

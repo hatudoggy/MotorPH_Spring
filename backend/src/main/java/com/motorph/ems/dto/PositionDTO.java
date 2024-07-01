@@ -6,5 +6,7 @@ import lombok.Builder;
 public record PositionDTO (
         String positionCode,
         String departmentCode,
+        boolean isLeader,
         String positionName
-) {}
+) {
+}

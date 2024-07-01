@@ -24,6 +24,7 @@ public class EmploymentStatus {
     }
 
     public EmploymentStatus(int id) {
+        this.statusId = id;
     }
 
     @Override

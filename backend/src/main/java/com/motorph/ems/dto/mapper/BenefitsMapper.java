@@ -68,6 +68,10 @@ import java.util.List;
     }
 
     public List<BenefitDTO> toDTO(List<Benefits> benefits) {
+        if (benefits == null) {
+            return null;
+        }
+
         return benefits.stream().map(this::toDTO).toList();
     }
 

@@ -1,11 +1,18 @@
 import {Control, UseFormRegister, UseFormSetValue, UseFormWatch} from "react-hook-form";
-import {Box, InputAdornment, TextField, Typography} from "@mui/material";
-import {Badge, Payments, Person, Phone, Work} from "@mui/icons-material";
+import {Box, IconButton, InputAdornment, TextField, Typography} from "@mui/material";
+import {AddCircle, Badge, Circle, Payments, Person, Phone, TripOrigin, Work} from "@mui/icons-material";
 import {API, BASE_API} from "../../../../../api/Api.ts";
 import axios from "axios";
 import {keepPreviousData, useQuery} from "@tanstack/react-query";
 import Dropdown, {DateSelect, FormWidget, HeadIcon, TextComplete} from "./EmployeeFormUtils.tsx";
 import {Inputs} from "../EmployeeForm.tsx";
+import {
+    useFetchDepartments,
+    useFetchEmployees,
+    useFetchEmploymentStatuses,
+    useFetchPositions, useFetchSupervisors
+} from "../../../../../api/query/UseFetch.ts";
+import {useState} from "react";
 
 interface FormArea {
     register: UseFormRegister<Inputs>
@@ -85,59 +92,92 @@ export default function BasicInfoArea({
  */
 export function ContactNumbersArea({ register }: FormArea) {
     // Render the component
+    const [numFields, setNumFields] = useState<number>(1); // Start with 1 field initially
+
+    const handleAddField = () => {
+        setNumFields(numFields + 1);
+    };
+
     return (
         <Box>
-            {/* Display the "Contact Numbers" icon */}
             <HeadIcon Icon={Phone}>Contact Numbers</HeadIcon>
-
-            {/* Form widget for contact numbers */}
             <FormWidget>
-                {/* Add contact number input fields here */}
+                {/* Render initial field */}
+                <TextField
+                    {...register(`contacts.${0}.contactNumber`)}
+                    label="Contact Number 1"
+                    variant="standard"
+                    fullWidth
+                    InputLabelProps={{ shrink: true }}
+                />
+
+                {/* Render additional fields dynamically */}
+                {[...Array(numFields - 1)].map((_, index) => (
+                    <TextField
+                        key={index + 1}
+                        {...register(`contacts.${index + 1}`)}
+                        label={`Contact Number ${index + 2}`}
+                        variant="standard"
+                        fullWidth
+                        InputLabelProps={{ shrink: true }}
+                    />
+                ))}
+
+                {/* Button to add more fields */}
+                {numFields < 3 && (  // Limit to 3 fields, adjust as needed
+                    <TextField
+                        onClick={handleAddField}
+                        label="Add Contact Number"
+                        variant="standard"
+                        fullWidth
+                        InputLabelProps={{ shrink: true }}
+                        InputProps={{
+                            endAdornment: numFields < 3 && (  // Limit to 3 fields, adjust as needed
+                                <IconButton onClick={handleAddField}>
+                                    <AddCircle />
+                                </IconButton>
+                            ),
+                        }}
+                    />
+                )}
             </FormWidget>
         </Box>
     );
 }
 
-export function EmploymentInfoArea({control, watch, setValue}: FormArea) {
+export function EmploymentInfoArea({ control, watch, setValue }: FormArea) {
+    const departmentCode = watch && watch("departmentCode");
 
-    const departmentCode = watch && watch("departmentCode")
+    const { data: departmentsData } = useFetchDepartments();
+    const { data: positionsData } = useFetchPositions();
+    const { data: supervisorsData } = useFetchSupervisors();
+    const { data: statusesData } = useFetchEmploymentStatuses();
 
+    const departmentOptions = departmentsData?.map(({ departmentCode, departmentName }) => ({
+        value: departmentCode,
+        label: departmentName,
+    }));
 
-    const departments = useQuery<DepartmentRes[]>({
-        queryKey: ['departments'],
-        queryFn: fetchAllDepartments
-    })
+    const filteredPositionOptions = positionsData
+        ?.filter(({ departmentCode: posDeptCode }) => posDeptCode === departmentCode)
+        .map(({ positionCode, positionName }) => ({
+            value: positionCode,
+            label: positionName,
+        }));
 
-    const positions = useQuery<(PositionRes & {departmentCode: string})[]>({
-        queryKey: ['positions', departmentCode],
-        queryFn: fetchAllPositions,
-        enabled: !!departmentCode
-    })
+    const filteredSupervisorOptions = supervisorsData
+        ?.filter(({position: { departmentCode: supDeptCode } }) => supDeptCode === departmentCode)
+        .map(({ supervisorId, firstName, lastName }) => ({
+            value: supervisorId,
+            label: `${firstName} ${lastName}`,
+        }));
 
-    const statuses = useQuery<EmploymentStatusRes[]>({
-        queryKey: ['statuses'],
-        queryFn: fetchAllStatuses
-    })
+    const statusOptions = statusesData?.map(({ statusId, statusName }) => ({
+        value: statusId,
+        label: statusName,
+    }));
 
-    const supervisors = useQuery<SupervisorRes[]>({
-        queryKey: ['supervisors'],
-        queryFn: fetchSupervisors,
-        placeholderData: keepPreviousData
-    })
-
-    const departmentOptions = departments.data
-        && departments.data.map(({departmentCode, departmentName})=>({value: departmentCode, label: departmentName}))
-
-    const positionOptions = positions.data
-        && positions.data.map(({positionCode, positionName})=>({value: positionCode, label: positionName}))
-
-    const statusOptions = statuses.data
-        && statuses.data.map(({statusId, statusName})=>({value: statusId, label: statusName}))
-
-    const supervisorOptions = supervisors.data
-        && supervisors.data.map(({supervisorId, firstName, lastName}) => ({value: supervisorId, label:`${firstName} ${lastName}`}))
-
-    return(
+    return (
         <Box>
             <HeadIcon Icon={Work}>Employment Info</HeadIcon>
             <FormWidget>
@@ -145,14 +185,17 @@ export function EmploymentInfoArea({control, watch, setValue}: FormArea) {
                     variant="standard"
                     label="Department"
                     options={departmentOptions || []}
-                    changeTrigger={()=>{setValue && setValue('positionCode', '')}}
+                    changeTrigger={() => {
+                        setValue && setValue("positionCode", "");
+                        setValue && setValue("supervisor", null);
+                    }}
                     control={control}
                     name="departmentCode"
                 />
                 <Dropdown
                     variant="standard"
                     label="Position"
-                    options={positionOptions || []}
+                    options={filteredPositionOptions || []}
                     disabled={!departmentCode}
                     control={control}
                     name="positionCode"
@@ -161,13 +204,10 @@ export function EmploymentInfoArea({control, watch, setValue}: FormArea) {
                     name="supervisor"
                     control={control}
                     label="Supervisor"
-                    options={supervisorOptions || []}
+                    options={filteredSupervisorOptions || []}
+                    disabled={!departmentCode}
                 />
-                <DateSelect
-                    label="Hire Date"
-                    control={control}
-                    name="hireDate"
-                />
+                <DateSelect label="Hire Date" control={control} name="hireDate" />
                 <Dropdown
                     variant="standard"
                     label="Employment Status"
@@ -177,8 +217,9 @@ export function EmploymentInfoArea({control, watch, setValue}: FormArea) {
                 />
             </FormWidget>
         </Box>
-    )
+    );
 }
+
 
 export function ContributionIdsArea({register, selectedId}: FormArea) {
 

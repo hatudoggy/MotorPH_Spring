@@ -21,7 +21,6 @@ public class Benefits {
 
     @ManyToOne
     @JoinColumn(name = "employee_id", nullable = false)
-    @JsonManagedReference
     private Employee employee;
 
     private Double amount;

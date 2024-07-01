@@ -27,9 +27,15 @@ type Dropdown<T extends FieldValues> = {
 } & SelectProps;
 
 
-export default function Dropdown<T extends FieldValues>({options, control, name, changeTrigger, ...props}: Dropdown<T>) {
+export default function Dropdown<T extends FieldValues>({
+                                                            options,
+                                                            control,
+                                                            name,
+                                                            changeTrigger,
+                                                            ...props
+                                                        }: Dropdown<T>) {
 
-    return(
+    return (
         <FormControl>
             <InputLabel variant={props.variant} shrink={true}>{props.label}</InputLabel>
             <Controller
@@ -41,9 +47,9 @@ export default function Dropdown<T extends FieldValues>({options, control, name,
                         {...field}
 
                         value={field.value || ''}
-                        onChange={(e)=> {
+                        onChange={(e) => {
                             field.onChange(e)
-                            if(changeTrigger){
+                            if (changeTrigger) {
                                 changeTrigger()
                             }
                         }}
@@ -55,7 +61,7 @@ export default function Dropdown<T extends FieldValues>({options, control, name,
                         }}
                     >
                         {
-                            options.map((item, idx)=>
+                            options.map((item, idx) =>
                                 <MenuItem key={idx} value={item.value}>
                                     {item.label}
                                 </MenuItem>
@@ -75,23 +81,25 @@ export interface TextCompleteOption {
 }
 
 interface TextCompleteProps<T extends FieldValues> {
-    name: Path<T>;
-    control: Control<T>;
-    label: string;
-    options: TextCompleteOption[];
+    name: Path<T>,
+    control: Control<T>,
+    label: string,
+    options: TextCompleteOption[],
+    disabled?: boolean
 }
 
 export function TextComplete<T extends FieldValues>({
-                                                 name,
-                                                 control,
-                                                 label,
-                                                 options,
-                                             }: TextCompleteProps<T>) {
+                                                        name,
+                                                        control,
+                                                        label,
+                                                        options,
+                                                        disabled
+                                                    }: TextCompleteProps<T>) {
     return (
         <Controller
             name={name}
             control={control}
-            render={({ field: { onChange, value, ref } }) => (
+            render={({field: {onChange, value, ref}}) => (
                 <Autocomplete
                     options={options}
                     getOptionLabel={(option) => option.label}
@@ -104,7 +112,7 @@ export function TextComplete<T extends FieldValues>({
                             label={label}
                             variant="standard"
                             inputRef={ref}
-                            InputLabelProps={{ shrink: true }}
+                            InputLabelProps={{shrink: true}}
                         />
                     )}
                 />
@@ -122,16 +130,16 @@ interface DateSelectProps<T extends FieldValues> {
 }
 
 export function DateSelect<T extends FieldValues>({
-                                               name,
-                                               control,
-                                               label,
-                                               datePickerProps,
-                                           }: DateSelectProps<T>) {
+                                                      name,
+                                                      control,
+                                                      label,
+                                                      datePickerProps,
+                                                  }: DateSelectProps<T>) {
     return (
         <Controller
             name={name}
             control={control}
-            render={({ field: { onChange, value }}) => (
+            render={({field: {onChange, value}}) => (
                 <DatePicker
                     {...datePickerProps}
                     value={value || null}
@@ -140,7 +148,7 @@ export function DateSelect<T extends FieldValues>({
                     slotProps={{
                         textField: {
                             variant: 'standard',
-                            InputLabelProps: { shrink: true }
+                            InputLabelProps: {shrink: true}
                         },
                     }}
                 />
@@ -151,12 +159,12 @@ export function DateSelect<T extends FieldValues>({
 
 interface HeadIcon {
     children: ReactNode
-    Icon: OverridableComponent<SvgIconTypeMap<{}, "svg">> & {muiName: string;}
+    Icon: OverridableComponent<SvgIconTypeMap<{}, "svg">> & { muiName: string; }
 }
 
 export function HeadIcon({children, Icon}: HeadIcon) {
 
-    return(
+    return (
         <Stack direction='row' alignItems='center' gap={0.8} mb={0.5}>
             <Icon fontSize="small"/>
             <Typography fontWeight={500}>{children}</Typography>

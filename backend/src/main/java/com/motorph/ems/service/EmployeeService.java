@@ -1,6 +1,7 @@
 package com.motorph.ems.service;
 
 import com.motorph.ems.dto.EmployeeDTO;
+import com.motorph.ems.dto.SupervisorDTO;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -33,4 +34,6 @@ public interface EmployeeService {
     void deleteEmployee(Long employeeId);
 
     void addNewEmployeesFromCSV(String employeeCSVPath);
+
+    List<SupervisorDTO> getSupervisors();
 }

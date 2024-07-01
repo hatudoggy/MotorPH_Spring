@@ -14,6 +14,7 @@ import java.util.List;
 @RequestMapping(path = "api/company")
 public class CompanyController {
 
+    private final EmployeeService employeeService;
     private final PositionService positionService;
     private final DepartmentService departmentService;
     private final EmploymentStatusService employmentStatusService;
@@ -23,12 +24,14 @@ public class CompanyController {
 
     @Autowired
     public CompanyController(
+            EmployeeService employeeService,
             PositionService positionService,
             DepartmentService departmentService,
             EmploymentStatusService employmentStatusService,
             LeaveBalanceService leaveTypeService,
             LeaveRequestService leaveStatusService,
             BenefitsService benefitsService) {
+        this.employeeService = employeeService;
         this.positionService = positionService;
         this.departmentService = departmentService;
         this.employmentStatusService = employmentStatusService;
@@ -37,7 +40,12 @@ public class CompanyController {
         this.benefitsService = benefitsService;
     }
 
-    @GetMapping("/positions")
+    @GetMapping("/supervisors/all")
+    public ResponseEntity<List<SupervisorDTO>> getSupervisorList() {
+        return ResponseEntity.ok(employeeService.getSupervisors());
+    }
+
+    @GetMapping("/positions/all")
     public ResponseEntity<List<PositionDTO>> getPositionList(@RequestParam(value = "department", required = false) String department) {
         List<PositionDTO> positions;
         if(department != null){
@@ -56,7 +64,7 @@ public class CompanyController {
         ));
     }
 
-    @GetMapping("/departments")
+    @GetMapping("/departments/all")
     public ResponseEntity<List<DepartmentDTO>> getDepartmentList() {
         return ResponseEntity.ok(departmentService.getDepartments());
     }
@@ -68,7 +76,7 @@ public class CompanyController {
         ));
     }
 
-    @GetMapping("/statuses")
+    @GetMapping("/statuses/all")
     public ResponseEntity<List<EmploymentStatusDTO>> getStatusList() {
         return ResponseEntity.ok(employmentStatusService.getEmploymentStatuses());
     }
@@ -80,7 +88,7 @@ public class CompanyController {
         ));
     }
 
-    @GetMapping("/leave/types")
+    @GetMapping("/leave/types/all")
     public ResponseEntity<List<LeaveTypeDTO>> getLeaveTypeList() {
         return ResponseEntity.ok(leaveTypeService.getAllLeaveTypes());
     }
@@ -92,7 +100,7 @@ public class CompanyController {
         ));
     }
 
-    @GetMapping("/leave/status")
+    @GetMapping("/leave/status/all")
     public ResponseEntity<List<LeaveStatusDTO>> getLeaveStatusList() {
         return ResponseEntity.ok(leaveStatusService.getAllLeaveStatus());
     }
@@ -104,7 +112,7 @@ public class CompanyController {
         ));
     }
 
-    @GetMapping("/benefit/types")
+    @GetMapping("/benefit/types/all")
     public ResponseEntity<List<BenefitTypeDTO>> getBenefitTypesList(){
         return ResponseEntity.ok(benefitsService.getAllBenefitTypes());
     }

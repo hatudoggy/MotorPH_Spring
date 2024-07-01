@@ -12,7 +12,7 @@ public record EmployeeDTO(
         String firstName,
         LocalDate dob,
         String address,
-        ContactDTO contacts,
+        List<ContactDTO> contacts,
         PositionDTO position,
         DepartmentDTO department,
         GovernmentIdDTO governmentId,

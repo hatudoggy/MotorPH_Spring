@@ -9,6 +9,7 @@ export const useFetch = <T>(key: string, params?: Record<string, any>): UseQuery
     });
 };
 
+//EMPLOYEES ------------------------------------------------------------------------
 export const useFetchEmployeeById = (employeeId: number) => {
     return useFetch<EmployeeBasicRes>('employee', { id: employeeId });
 };
@@ -21,10 +22,16 @@ export const useFetchEmployeeFullById = (employeeId: number) => {
     return useFetch<EmployeeFullRes>('employee', { id: employeeId });
 };
 
+//SUPERVISORS -----------------------------------------------------------------------
 export const useFetchSupervisorById = (employeeId: number) => {
     return useFetch<SupervisorRes>('employee', { id: employeeId });
 };
 
+export const useFetchSupervisors = () => {
+    return useFetch<SupervisorRes[]>('supervisors');
+};
+
+//POSITIONS -----------------------------------------------------------------------
 export const useFetchPositions = () => {
     return useFetch<PositionRes[]>('positions');
 };
@@ -33,6 +40,7 @@ export const useFetchPositionById = (positionCode: string) => {
     return useFetch<PositionRes>('position', { id: positionCode });
 };
 
+//DEPARTMENTS ---------------------------------------------------------------------
 export const useFetchDepartments = () => {
     return useFetch<DepartmentRes[]>('departments');
 };
@@ -41,6 +49,7 @@ export const useFetchDepartmentById = (departmentCode: string) => {
     return useFetch<DepartmentRes>('department', { id: departmentCode });
 };
 
+//STATUSES -----------------------------------------------------------------------
 export const useFetchEmploymentStatuses = () => {
     return useFetch<EmploymentStatusRes[]>('employmentStatuses');
 };
@@ -49,6 +58,7 @@ export const useFetchEmploymentStatusById = (statusId: number) => {
     return useFetch<EmploymentStatusRes>('employmentStatus', { id: statusId });
 };
 
+//PAYROLL -----------------------------------------------------------------------
 export const useFetchPayroll = () => {
     return useFetch<PayrollRes[]>('payrolls');
 };
@@ -61,6 +71,7 @@ export const useFetchPayrollById = (payrollId: number) => {
     return useFetch<PayrollRes>('payroll', { id: payrollId });
 };
 
+//ATTENDANCE -----------------------------------------------------------------------
 export const useFetchAttendancesByEmployeeId = (employeeId: number) => {
     return useFetch<AttendanceRes[]>('attendancesByEmployeeId', { id: employeeId });
 };

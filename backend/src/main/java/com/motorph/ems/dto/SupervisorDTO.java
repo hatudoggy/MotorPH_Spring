@@ -2,6 +2,8 @@ package com.motorph.ems.dto;
 
 import lombok.Builder;
 
+import java.util.List;
+
 @Builder
 public record SupervisorDTO (
     Long supervisorId,
@@ -9,5 +11,5 @@ public record SupervisorDTO (
     String firstName,
     String address,
     PositionDTO position,
-    ContactDTO contacts
+    List<ContactDTO> contacts
 ){}

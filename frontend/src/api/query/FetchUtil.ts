@@ -19,20 +19,23 @@ export const fetchData = async <T>(key: string, params?: Record<string, any>): P
         case 'employee':
             endpoint += API.EMPLOYEES.BASE + params?.id;
             break;
+        case 'supervisors':
+            endpoint += API.COMPANY.SUPERVISORS + "all";
+            break;
         case 'positions':
-            endpoint += API.COMPANY.POSITIONS;
+            endpoint += API.COMPANY.POSITIONS + "all";
             break;
         case 'position':
             endpoint += API.COMPANY.POSITIONS + params?.id;
             break;
         case 'departments':
-            endpoint += API.COMPANY.DEPARTMENTS;
+            endpoint += API.COMPANY.DEPARTMENTS + "all";
             break;
         case 'department':
             endpoint += API.COMPANY.DEPARTMENTS + params?.id;
             break;
         case 'employmentStatuses':
-            endpoint += API.COMPANY.STATUSES;
+            endpoint += API.COMPANY.STATUSES + "all";
             break;
         case 'employmentStatus':
             endpoint += API.COMPANY.STATUSES + params?.id;

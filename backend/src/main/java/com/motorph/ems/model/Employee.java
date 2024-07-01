@@ -58,13 +58,13 @@ public class Employee {
     @JoinColumn(name = "government_id")
     private GovernmentId governmentId;
 
-    @OneToMany (mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany (mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Contact> contacts;
 
-    @OneToMany (mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany (mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Benefits> benefits;
 
-    @OneToMany (mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany (mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<LeaveBalance> leaveBalances;
 
     public Employee(Long employeeId) {
@@ -121,15 +121,17 @@ public class Employee {
     @Override
     public String toString() {
         return "Employee{" +
-                "employee=" + employeeId +
+                "employeeId=" + employeeId +
                 ", lastName='" + lastName + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", dob=" + dob +
                 ", address='" + address + '\'' +
                 ", hireDate=" + hireDate +
                 ", basicSalary=" + basicSalary +
-                ", semiMonthlyRate=" + semiMonthlyRate +
-                ", hourlyRate=" + hourlyRate +
+                ", supervisor=" + supervisor +
+                ", position=" + position +
+                ", department=" + department +
+                ", status=" + status +
                 '}';
     }
 
@@ -143,7 +145,7 @@ public class Employee {
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long contact_id;
+        private Long contactId;
 
         @ManyToOne
         @JoinColumn(name = "employee_id", nullable = false)
@@ -166,7 +168,7 @@ public class Employee {
         @Override
         public String toString() {
             return "Contact{" +
-                    "contact_id=" + contact_id +
+                    "contact_id=" + contactId +
                     ", employeeID=" + employee.getEmployeeId() +
                     ", contactNo='" + contactNo + '\'' +
                     '}';

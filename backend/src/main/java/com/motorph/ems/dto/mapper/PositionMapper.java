@@ -20,6 +20,7 @@ public class PositionMapper {
                 positionCode(position.getPositionCode()).
                 departmentCode(position.getDepartment().getDepartmentCode()).
                 positionName(position.getPositionName()).
+                isLeader(position.isLeader()).
                 build();
     }
 
@@ -31,6 +32,7 @@ public class PositionMapper {
         return new Position(
                 positionDTO.positionCode(),
                 positionDTO.positionName(),
+                positionDTO.isLeader(),
                 new Department(positionDTO.departmentCode()));
     }
 

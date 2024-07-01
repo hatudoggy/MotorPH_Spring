@@ -65,7 +65,7 @@ class EmployeeServiceTest {
                 .build();
 
         Contact contact = Contact.builder()
-                .contact_id(2L)
+                .contactId(2L)
                 .employee(employee)
                 .contactNo("1234567890").build();
 

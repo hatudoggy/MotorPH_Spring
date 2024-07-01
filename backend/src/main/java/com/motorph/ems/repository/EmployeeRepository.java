@@ -30,4 +30,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     boolean existsByFirstNameAndLastName(String firstName, String lastName);
 
     List<Employee> findAllExceptByStatus_StatusId(int status_statusId);
+
+    List<Employee> findAllByPosition_isLeader(boolean isLeader);
 }

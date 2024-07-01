@@ -88,7 +88,7 @@ public class EmployeeController {
             @PathVariable(value = "employeeID") Long employeeID,
             @RequestBody EmployeeDTO employeeDetails
     ) {
-        EmployeeDTO updatedEmployee = employeeService.updateEmployee(employeeID,employeeDetails);
+        EmployeeDTO updatedEmployee = employeeService.updateEmployee(employeeID, employeeDetails);
         return ResponseEntity.ok(updatedEmployee);
     }
 

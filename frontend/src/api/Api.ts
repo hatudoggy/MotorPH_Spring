@@ -7,6 +7,7 @@ export const API = {
   EMPLOYEES: {
     BASE: "/employee/",
     ALL: "/employee/all",
+    UPDATE: "/employee/update/",
   },
   ATTENDANCES: {
     BASE: "/attendances",
@@ -31,6 +32,7 @@ export const API = {
   },
   COMPANY: {
     BASE: "/company",
+    SUPERVISORS: "/company/supervisors/",
     POSITIONS: "/company/positions/",
     DEPARTMENTS: "/company/departments/",
     STATUSES: "/company/statuses/",

@@ -68,7 +68,7 @@ class PayrollServiceTest {
                 .build();
 
         Employee.Contact contact = Employee.Contact.builder()
-                .contact_id(2L)
+                .contactId(2L)
                 .employee(built_emp)
                 .contactNo("1234567890").build();
 

@@ -16,6 +16,7 @@ public class Position {
     @Id
     private String positionCode;
     private String positionName;
+    private boolean isLeader;
 
     @ManyToOne
     @JoinColumn(name = "department_code")

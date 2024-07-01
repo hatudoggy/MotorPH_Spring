@@ -74,7 +74,7 @@ export default function Profile() {
                                         src={picURL}
                                     />
                                     <Stack>
-                                        <Typography variant="h5" fontWeight={500}>{`${employee.firstName} ${employee.lastName}`}</Typography>
+                                        <Typography variant="h5" fontWeight={500}>{`${employee?.firstName || ''} ${employee?.lastName || ''}`}</Typography>
                                         <Typography>{employee?.position.positionName}</Typography>
                                     </Stack>
                                 </Stack>
@@ -103,22 +103,24 @@ export default function Profile() {
                                                 <Grid container>
                                                     <Grid xs>
                                                         <Labeled label="Birthdate">
-                                                            <Typography>{new Date(employee.dob).toLocaleDateString()}</Typography>
+                                                            <Typography>{new Date(employee?.dob).toLocaleDateString() || ''}</Typography>
                                                         </Labeled>
                                                     </Grid>
                                                     <Grid xs>
                                                         <Labeled label="Age">
-                                                            <Typography>{calculateAge(employee.dob)} yrs. old</Typography>
+                                                            <Typography>{calculateAge(employee?.dob)} yrs. old</Typography>
                                                         </Labeled>
                                                     </Grid>
                                                     <Grid xs={5}>
                                                         <Labeled label="Phone No.">
-                                                            <Typography>{employee.contacts.contactNumbers[0]}</Typography>
+                                                            {employee?.contacts.map((contact, index) => (
+                                                                <Typography key={index}>{contact.contactNo}</Typography>
+                                                            ))}
                                                         </Labeled>
                                                     </Grid>
                                                 </Grid>
                                                 <Labeled label="Address">
-                                                    <Typography>{employee.address}</Typography>
+                                                    <Typography>{employee?.address || ''}</Typography>
                                                 </Labeled>
                                             </Stack>
                                         </Stack>

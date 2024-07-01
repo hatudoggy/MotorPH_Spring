@@ -94,7 +94,7 @@ export default function EmployeeDetailsDialog({ selectedEmployee, onClose }: Emp
                                             </Stack>
                                             <ReadonlyTextField
                                                 label="Contact Number"
-                                                defaultValue={data.contacts.contactNumbers[0]}
+                                                defaultValue={data.contacts[0].contactNo}
                                                 fullWidth
                                             />
                                             <ReadonlyTextField

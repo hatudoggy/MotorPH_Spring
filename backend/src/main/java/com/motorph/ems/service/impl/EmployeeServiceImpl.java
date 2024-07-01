@@ -1,6 +1,7 @@
 package com.motorph.ems.service.impl;
 
 import com.motorph.ems.dto.EmployeeDTO;
+import com.motorph.ems.dto.SupervisorDTO;
 import com.motorph.ems.dto.mapper.EmployeeMapper;
 import com.motorph.ems.model.Employee;
 import com.motorph.ems.repository.EmployeeRepository;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -66,7 +67,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         List<Employee> employees = employeeRepository.findAll();
 
         if (employees.isEmpty()) {
-            return null;
+            return Collections.emptyList();
         }
 
         return employees.stream()
@@ -115,7 +116,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public EmployeeDTO updateEmployee(Long employeeID, EmployeeDTO employeeFullDTO) {
         // Find the existing employee by ID
         Employee employee = employeeRepository.findById(employeeID).orElseThrow(
-                () -> new RuntimeException("Employee not found with status: " + employeeFullDTO.employeeId())
+                () -> new RuntimeException("Employee: " + employeeFullDTO.employeeId() + " not found")
         );
 
         employeeMapper.updateEntity(employeeFullDTO, employee);
@@ -136,5 +137,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public void addNewEmployeesFromCSV(String employeeCSVPath) {
         //TODO: implement adding employees from CSV
+    }
+
+    @Override
+    public List<SupervisorDTO> getSupervisors() {
+        return employeeRepository.findAllByPosition_isLeader(true).stream()
+                .map(employeeMapper::toSupervisorDTO).toList();
     }
 }

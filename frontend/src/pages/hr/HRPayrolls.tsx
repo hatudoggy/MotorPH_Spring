@@ -285,6 +285,6 @@ const flattenPayrollData = (data: PayrollRes[]) => {
 };
 
 
-const formatToPeso = (value) => {
+const formatToPeso = (value: number) => {
   return `₱${value.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`;
 };

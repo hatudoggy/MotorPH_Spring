@@ -17,6 +17,10 @@ export const formatterDecimal = new Intl.NumberFormat('en-US', {
 
 
 export const calculateAge = (birthdateString: string) => {
+  if (!birthdateString) {
+    return 0;
+  }
+
   const birthdate = new Date(birthdateString);
 
   const today = new Date();
