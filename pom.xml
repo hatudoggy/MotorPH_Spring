@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.mmdc.aoop</groupId>
-    <artifactId>MotorPH_Spring</artifactId>
+    <artifactId>Terminal-Assessment</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>

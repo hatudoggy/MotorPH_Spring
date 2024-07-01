@@ -5,17 +5,23 @@ import com.motorph.ems.dto.*;
 import com.motorph.ems.model.*;
 import com.motorph.ems.model.Employee.Contact;
 import com.motorph.ems.model.Employee.GovernmentId;
+import lombok.extern.java.Log;
+import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
+
 @Component
 public class EmployeeMapper {
-
     private final BenefitsMapper benefitsMapper;
     private final LeaveBalanceMapper leaveBalanceMapper;
     private final PositionMapper positionMapper;
@@ -86,36 +92,28 @@ public class EmployeeMapper {
 
         return SupervisorDTO.builder()
                 .supervisorId(employee.getEmployeeId())
-                .lastName(employee.getLastName())
-                .firstName(employee.getFirstName())
-                .address(employee.getAddress())
-                .position(positionMapper.toDTO(employee.getPosition()))
-                .contacts(toContactDTO(employee.getContacts()))
+                .lastName(employee.getLastName() == null ? null : employee.getLastName())
+                .firstName(employee.getFirstName() == null ? null : employee.getFirstName())
+                .address(employee.getAddress() == null ? null : employee.getAddress())
+                .position(positionMapper.toDTO(employee.getPosition() == null ? null : employee.getPosition()))
+                .contacts(toContactDTO(employee.getContacts() == null ? null : employee.getContacts()))
                 .build();
     }
 
     public Employee toEntity(EmployeeDTO employeeFullDTO) {
-        if (employeeFullDTO == null || employeeFullDTO.employeeId() == null) {
-            return null;
+        if (employeeFullDTO == null) {
+            throw new IllegalArgumentException("Invalid Employee DTO");
         }
 
-        return new Employee(
-                employeeFullDTO.employeeId(),
-                employeeFullDTO.lastName(),
-                employeeFullDTO.firstName(),
-                employeeFullDTO.dob(),
-                employeeFullDTO.address(),
-                employeeFullDTO.hireDate(),
-                employeeFullDTO.basicSalary(),
-                employeeFullDTO.supervisor().supervisorId(),
-                employeeFullDTO.position().positionCode(),
-                employeeFullDTO.department().departmentCode(),
-                employeeFullDTO.status().statusId(),
-                toContactEntity(employeeFullDTO.contacts()),
-                toGovernmentIdEntity(employeeFullDTO.governmentId()),
-                benefitsMapper.toEntity(employeeFullDTO.benefits()),
-                leaveBalanceMapper.toEntity(employeeFullDTO.leaveBalances())
-        );
+        if (employeeFullDTO.employeeId() != null) {
+            throw new IllegalArgumentException("Employee ID cannot be provided in Employee DTO");
+        }
+
+        Employee employee = new Employee();
+
+        updateEntity(employeeFullDTO,employee);
+
+        return employee;
     }
 
     public List<Employee> toEntity(List<EmployeeDTO> employeeFullDTO) {
@@ -157,7 +155,6 @@ public class EmployeeMapper {
 
         return GovernmentIdDTO.builder()
                 .id(governmentId.getId())
-                .employeeId(governmentId.getEmployee().getEmployeeId())
                 .sssNo(governmentId.getSssNo())
                 .philHealthNo(governmentId.getPhilHealthNo())
                 .pagIbigNo(governmentId.getPagIbigNo())
@@ -166,12 +163,11 @@ public class EmployeeMapper {
     }
 
     public GovernmentId toGovernmentIdEntity(GovernmentIdDTO governmentIdDTO) {
-        if (governmentIdDTO == null || governmentIdDTO.employeeId() == null) {
+        if (governmentIdDTO == null) {
             return null;
         }
 
         return new GovernmentId(
-                governmentIdDTO.employeeId(),
                 governmentIdDTO.sssNo(),
                 governmentIdDTO.philHealthNo(),
                 governmentIdDTO.pagIbigNo(),
@@ -180,54 +176,85 @@ public class EmployeeMapper {
     }
 
     public void updateEntity(EmployeeDTO employeeFullDTO, Employee employee) {
+        System.out.println("Entering updateEntity method");
         validateArguments(employeeFullDTO,employee);
         validateEmployeeId(employeeFullDTO,employee);
 
         // Update simple properties
-        if (employeeFullDTO.lastName() != null) employee.setLastName(employeeFullDTO.lastName());
-        if (employeeFullDTO.firstName() != null) employee.setFirstName(employeeFullDTO.firstName());
-        if (employeeFullDTO.dob() != null) employee.setDob(employeeFullDTO.dob());
-        if (employeeFullDTO.address() != null) employee.setAddress(employeeFullDTO.address());
-        if (employeeFullDTO.hireDate() != null) employee.setHireDate(employeeFullDTO.hireDate());
-        if (employeeFullDTO.basicSalary() != null) employee.setBasicSalary(employeeFullDTO.basicSalary());
+        if (employeeFullDTO.firstName() != null) {
+            System.out.println("Updating first name from: " + employee.getFirstName() + " to: " + employeeFullDTO.firstName());
+            employee.setFirstName(employeeFullDTO.firstName());
+        }
+        if (employeeFullDTO.lastName() != null) {
+            System.out.println("Updating last name from: " + employee.getLastName() + " to: " + employeeFullDTO.lastName());
+            employee.setLastName(employeeFullDTO.lastName());
+        }
+        if (employeeFullDTO.dob() != null) {
+            System.out.println("Updating date of birth from: " + employee.getDob() + " to: " + employeeFullDTO.dob());
+            employee.setDob(employeeFullDTO.dob());
+        }
+        if (employeeFullDTO.address() != null) {
+            System.out.println("Updating address from: " + employee.getAddress() + " to: " + employeeFullDTO.address());
+            employee.setAddress(employeeFullDTO.address());
+        }
+        if (employeeFullDTO.hireDate() != null) {
+            System.out.println("Updating hire date from: " + employee.getHireDate() + " to: " + employeeFullDTO.hireDate());
+            employee.setHireDate(employeeFullDTO.hireDate());
+        }
+        if (employeeFullDTO.basicSalary() != null) {
+            System.out.println("Updating basic salary from: " + employee.getBasicSalary() + " to: " + employeeFullDTO.basicSalary());
+            employee.setBasicSalary(employeeFullDTO.basicSalary());
+            employee.setSemiMonthlyRate(employee.getSemiMonthlyRate());
+            employee.setHourlyRate(employee.getHourlyRate());
+        }
 
         // Manually update foreign key relationships if provided
         if (employeeFullDTO.supervisor() != null) {
+            System.out.println("Updating supervisor");
             Employee supervisor = new Employee(employeeFullDTO.supervisor().supervisorId());
             employee.setSupervisor(supervisor);
         }
 
         if (employeeFullDTO.position() != null) {
+            System.out.println("Updating position");
             Position position = new Position(employeeFullDTO.position().positionCode());
             employee.setPosition(position);
         }
 
         if (employeeFullDTO.department() != null) {
+            System.out.println("Updating department");
             Department department = new Department(employeeFullDTO.department().departmentCode());
             employee.setDepartment(department);
         }
 
         if (employeeFullDTO.status() != null) {
+            System.out.println("Updating status");
             EmploymentStatus status = new EmploymentStatus(employeeFullDTO.status().statusId());
             employee.setStatus(status);
         }
 
         if (employeeFullDTO.governmentId() != null) {
+            System.out.println("Updating governmentId");
             GovernmentId governmentId = toGovernmentIdEntity(employeeFullDTO.governmentId());
             employee.setGovernmentId(governmentId);
         }
 
         if (employeeFullDTO.contacts() != null) {
+            System.out.println("Updating contacts");
             updateContacts(employeeFullDTO.contacts(), employee);
         }
 
         if (employeeFullDTO.benefits() != null) {
+            System.out.println("Updating benefits");
             updateBenefits(employeeFullDTO.benefits(), employee);
         }
 
         if (employeeFullDTO.leaveBalances() != null) {
+            System.out.println("Updating leave balances");
             updateLeaveBalances(employeeFullDTO.leaveBalances(), employee);
         }
+
+        System.out.println("Exiting updateEntity method");
     }
 
     private void validateArguments(EmployeeDTO employeeFullDTO, Employee employee) {
@@ -247,6 +274,10 @@ public class EmployeeMapper {
     private void updateContacts(List<ContactDTO> contactDTOs, Employee employee) {
         // Get the existing contacts of the employee
         List<Contact> existingContacts = employee.getContacts();
+
+        if (existingContacts == null) {
+            existingContacts = new ArrayList<>();
+        }
 
         // Create a map to easily look up existing contacts by ID
         Map<Long, Contact> existingContactsMap = existingContacts.stream()
@@ -285,6 +316,10 @@ public class EmployeeMapper {
         // Get the existing benefits of the employee
         List<Benefits> existingBenefits = employee.getBenefits();
 
+        if (existingBenefits == null) {
+            existingBenefits = new ArrayList<>();
+        }
+
         // Create a map of existing benefits for efficient lookup
         Map<Long, Benefits> existingBenefitsMap = existingBenefits.stream()
                 .collect(Collectors.toMap(Benefits::getBenefitId, benefit -> benefit));
@@ -321,6 +356,10 @@ public class EmployeeMapper {
     private void updateLeaveBalances(List<LeaveBalanceDTO> leaveBalanceDTOs, Employee employee) {
         // Get the existing leave balances of the employee
         List<LeaveBalance> existingLeaveBalances = employee.getLeaveBalances();
+
+        if (existingLeaveBalances == null) {
+            existingLeaveBalances = new ArrayList<>();
+        }
 
         // Create a map of existing leave balances for efficient lookup
         Map<Long, LeaveBalance> existingLeaveBalancesMap = existingLeaveBalances.stream()

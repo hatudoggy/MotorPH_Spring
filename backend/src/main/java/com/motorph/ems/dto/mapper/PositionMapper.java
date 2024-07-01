@@ -16,12 +16,15 @@ public class PositionMapper {
             return null;
         }
 
-        return PositionDTO.builder().
-                positionCode(position.getPositionCode()).
-                departmentCode(position.getDepartment().getDepartmentCode()).
-                positionName(position.getPositionName()).
-                isLeader(position.isLeader()).
-                build();
+        Department department = position.getDepartment();
+        String departmentCode = (department != null) ? department.getDepartmentCode() : null;
+
+        return PositionDTO.builder()
+                .positionCode(position.getPositionCode())
+                .departmentCode(departmentCode)
+                .positionName(position.getPositionName())
+                .isLeader(position.isLeader())
+                .build();
     }
 
     public Position toEntity(PositionDTO positionDTO) {

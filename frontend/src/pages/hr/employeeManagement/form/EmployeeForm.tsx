@@ -1,17 +1,17 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { API, BASE_API } from "../../../../api/Api.ts";
-import axios from "axios";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import { Button, DialogActions, DialogContent, DialogTitle, Stack } from "@mui/material";
 import BasicInfoArea, { ContactNumbersArea, ContributionIdsArea, EmploymentInfoArea, SalaryBenefitsArea } from "./components/EmployeeFormArea.tsx";
 import { TextCompleteOption } from "./components/EmployeeFormUtils.tsx";
+import axios from "axios";
 
 interface Inputs {
     firstName: string;
     lastName: string;
-    dob: Date | null;
+    dob: Date;
     address: string;
     contacts: ContactInput[];
     benefits: BenefitInput[];
@@ -19,7 +19,7 @@ interface Inputs {
     positionCode: string;
     statusId: string;
     supervisor: TextCompleteOption | null;
-    hireDate: Date | null;
+    hireDate: Date;
     sssNo: string;
     philHealthNo: string;
     pagIbigNo: string;
@@ -28,7 +28,6 @@ interface Inputs {
 }
 
 interface ContactInput {
-    contactId: number;
     contactNumber: string;
 }
 
@@ -60,7 +59,6 @@ const EmployeeFormDialog = ({ type, selectedId, onClose }: EmployeeFormDialogPro
     const { isPending, data } = useQuery<EmployeeFullRes>({
         queryKey: ['employeeEdit', selectedId],
         queryFn: fetchEmployee,
-        enabled: !!selectedId
     });
 
     const supervisorData = data ? {
@@ -79,7 +77,7 @@ const EmployeeFormDialog = ({ type, selectedId, onClose }: EmployeeFormDialogPro
         defaultValues: {
             firstName: "",
             lastName: "",
-            dob: null,
+            dob: undefined,
             address: "",
             contacts: [],
             benefits: [],
@@ -87,7 +85,7 @@ const EmployeeFormDialog = ({ type, selectedId, onClose }: EmployeeFormDialogPro
             positionCode: "",
             statusId: "",
             supervisor: null,
-            hireDate: null,
+            hireDate: undefined,
             sssNo: "",
             philHealthNo: "",
             pagIbigNo: "",
@@ -101,10 +99,9 @@ const EmployeeFormDialog = ({ type, selectedId, onClose }: EmployeeFormDialogPro
             reset({
                 firstName: data.firstName,
                 lastName: data.lastName,
-                dob: data.dob ? new Date(data.dob) : null,
+                dob: new Date(data.dob),
                 address: data.address,
                 contacts: data.contacts.map(contact => ({
-                    contactId: contact.contactId,
                     contactNumber: contact.contactNo
                 })),
                 benefits: data.benefits.map(benefit => ({
@@ -115,27 +112,28 @@ const EmployeeFormDialog = ({ type, selectedId, onClose }: EmployeeFormDialogPro
                 positionCode: data.position.positionCode,
                 statusId: data.status.statusId.toString(),
                 supervisor: supervisorData,
-                hireDate: data.hireDate ? new Date(data.hireDate) : null,
+                hireDate: new Date(data.hireDate),
                 sssNo: data.governmentId.sssNo,
                 philHealthNo: data.governmentId.philHealthNo,
                 pagIbigNo: data.governmentId.pagIbigNo,
                 tinNo: data.governmentId.tinNo,
                 basicSalary: data.basicSalary
             });
-            setIsFormInitialized(true); // Mark form as initialized to prevent further resets
+            setIsFormInitialized(true);
         }
     }, [data, isPending, reset, selectedId, supervisorData, isFormInitialized]);
 
-    const addEmployee = async (employee: EmployeeReq) => {
+    const addEmployee = async (employee : EmployeeReq)  => {
         const { EMPLOYEES } = API;
-        const res = await axios.post(`${BASE_API}${EMPLOYEES.ALL}`, employee);
+        const res = await axios.post(`${BASE_API}${EMPLOYEES.REGISTER}`, employee);
         return res.data;
     };
 
     const useAddEmployee = useMutation({
         mutationFn: addEmployee,
         onSettled: async () => {
-            await queryClient.invalidateQueries({ queryKey: ['employeesAll'] });
+            await queryClient.invalidateQueries({queryKey: ['employees']});
+            await queryClient.invalidateQueries({queryKey: ['employeeEdit']});
         }
     });
 
@@ -148,53 +146,48 @@ const EmployeeFormDialog = ({ type, selectedId, onClose }: EmployeeFormDialogPro
     const useEditEmployee = useMutation({
         mutationFn: editEmployee,
         onSettled: async () => {
-            await queryClient.invalidateQueries({ queryKey: ['employeesAll'] });
+            await queryClient.invalidateQueries({queryKey: ['employees']});
+            await queryClient.invalidateQueries({queryKey: ['employeeEdit']});
         }
     });
 
     const onSubmit: SubmitHandler<Inputs> = (formData) => {
         if (selectedId && data) {
-            const originalData = data;
             const changedData: Partial<EmployeeReq> = {};
+            if (formData.firstName !== data.firstName) changedData.firstName = formData.firstName;
+            if (formData.lastName !== data.lastName) changedData.lastName = formData.lastName;
+            if (formData.dob && format(formData.dob, 'yyyy-MM-dd') !== data.dob) changedData.dob = format(formData.dob, 'yyyy-MM-dd');
+            if (formData.address !== data.address) changedData.address = formData.address;
 
-            // Check and add only changed fields
-            if (formData.firstName !== originalData.firstName) changedData.firstName = formData.firstName;
-            if (formData.lastName !== originalData.lastName) changedData.lastName = formData.lastName;
-            if (formData.dob && format(formData.dob, 'yyyy-MM-dd') !== originalData.dob) {
-                changedData.dob = format(formData.dob, 'yyyy-MM-dd');
-            }
-            if (formData.address !== originalData.address) changedData.address = formData.address;
+            const changedContacts = formData.contacts.filter((contact, index) => {
+                const originalContact = data.contacts[index];
+                return !originalContact || contact.contactNumber !== originalContact.contactNo;
+            });
 
-            // Check for changes in contacts
-            if (JSON.stringify(formData.contacts) !== JSON.stringify(originalData.contacts)) {
-                changedData.contacts = formData.contacts.map(contact => ({
-                    contactNo: contact.contactNumber
-                }));
+            if (changedContacts.length > 0) {
+                changedData.contacts = changedContacts.map(contact => ({ contactNo: contact.contactNumber }));
             }
 
-            // Check for changes in benefits
-            if (JSON.stringify(formData.benefits) !== JSON.stringify(originalData.benefits)) {
-                changedData.benefits = formData.benefits.map(benefit => ({
+            const changedBenefits = formData.benefits.filter((benefit, index) => {
+                const originalBenefit = data.benefits[index];
+                return !originalBenefit || benefit.amount !== originalBenefit.amount || benefit.benefitTypeId !== originalBenefit.benefitType.benefitTypeId;
+            });
+
+            if (changedBenefits.length > 0) {
+                changedData.benefits = changedBenefits.map(benefit => ({
                     amount: benefit.amount,
-                    benefitType: {
-                        benefitTypeId: benefit.benefitTypeId
-                    }
+                    benefitType: { benefitTypeId: benefit.benefitTypeId }
                 }));
             }
 
-            if (formData.departmentCode !== originalData.department.departmentCode) {
-                changedData.department = { departmentCode: formData.departmentCode };
-            }
-            if (formData.positionCode !== originalData.position.positionCode) {
-                changedData.position = { positionCode: formData.positionCode };
-            }
+            if (formData.departmentCode !== data.department.departmentCode) changedData.department = { departmentCode: formData.departmentCode };
+            if (formData.positionCode !== data.position.positionCode) changedData.position = { positionCode: formData.positionCode };
 
-            // Check for changes in government IDs
             const governmentIdChanged =
-                formData.sssNo !== originalData.governmentId.sssNo ||
-                formData.philHealthNo !== originalData.governmentId.philHealthNo ||
-                formData.pagIbigNo !== originalData.governmentId.pagIbigNo ||
-                formData.tinNo !== originalData.governmentId.tinNo;
+                formData.sssNo !== data.governmentId.sssNo ||
+                formData.philHealthNo !== data.governmentId.philHealthNo ||
+                formData.pagIbigNo !== data.governmentId.pagIbigNo ||
+                formData.tinNo !== data.governmentId.tinNo;
 
             if (governmentIdChanged) {
                 changedData.governmentId = {
@@ -205,43 +198,39 @@ const EmployeeFormDialog = ({ type, selectedId, onClose }: EmployeeFormDialogPro
                 };
             }
 
-            if (formData.supervisor && formData.supervisor.value !== originalData.supervisor.supervisorId.toString()) {
+            if (formData.supervisor && formData.supervisor.value !== data.supervisor.supervisorId) {
                 changedData.supervisor = { supervisorId: Number(formData.supervisor.value) };
             }
-            if (formData.statusId !== originalData.status.statusId.toString()) {
+
+            if (formData.statusId !== data.status.statusId.toString()) {
                 changedData.status = { statusId: Number(formData.statusId) };
             }
-            if (formData.hireDate && format(formData.hireDate, 'yyyy-MM-dd') !== originalData.hireDate) {
+
+            if (formData.hireDate && format(formData.hireDate, 'yyyy-MM-dd') !== data.hireDate) {
                 changedData.hireDate = format(formData.hireDate, 'yyyy-MM-dd');
             }
-            if (formData.basicSalary !== originalData.basicSalary) changedData.basicSalary = formData.basicSalary;
+
+            if (formData.basicSalary !== data.basicSalary) changedData.basicSalary = formData.basicSalary;
 
             if (Object.keys(changedData).length > 0) {
-                const formDataWithId = {
-                    employeeId: selectedId,
-                    ...changedData
-                };
+                const formDataWithId = { employeeId: selectedId, ...changedData };
                 useEditEmployee.mutate(formDataWithId);
+                console.log("Updated employee data: " + JSON.stringify(formDataWithId));
             } else {
                 console.log("No changes detected");
             }
         } else {
-            // For new employee, send all data
             const newEmployeeData: EmployeeReq = {
                 firstName: formData.firstName,
                 lastName: formData.lastName,
                 dob: format(formData.dob, 'yyyy-MM-dd'),
                 address: formData.address,
-                contacts: formData.contacts.map(contact => ({
-                    contactNo: contact.contactNumber
-                })),
+                contacts: formData.contacts.map(contact => ({ contactNo: contact.contactNumber })),
                 benefits: formData.benefits.map(benefit => ({
                     amount: benefit.amount,
-                    benefitType: {
-                        benefitTypeId: benefit.benefitTypeId
-                    }
+                    benefitType: { benefitTypeId: benefit.benefitTypeId }
                 })),
-                department:  { departmentCode: formData.departmentCode },
+                department: { departmentCode: formData.departmentCode },
                 position: { positionCode: formData.positionCode },
                 governmentId: {
                     sssNo: formData.sssNo,
@@ -249,16 +238,18 @@ const EmployeeFormDialog = ({ type, selectedId, onClose }: EmployeeFormDialogPro
                     pagIbigNo: formData.pagIbigNo,
                     tinNo: formData.tinNo
                 },
-                supervisor: { supervisorId: Number(formData.supervisor.value) } ,
-                status:  { statusId: Number(formData.statusId) },
+                supervisor: formData.supervisor ? { supervisorId: Number(formData.supervisor.value) } : undefined,
+                status: { statusId: Number(formData.statusId) },
                 hireDate: format(formData.hireDate, 'yyyy-MM-dd'),
                 basicSalary: formData.basicSalary
             };
             useAddEmployee.mutate(newEmployeeData);
+            console.log("New employee data: " + JSON.stringify(newEmployeeData));
         }
 
         onClose();
     };
+
 
     return (
         <>

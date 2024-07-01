@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 @Service
 public class AttendanceServiceImpl implements AttendanceService {
 
-    private static final Logger log = LoggerFactory.getLogger(AttendanceServiceImpl.class);
     private final AttendanceRepository attendanceRepository;
     private final AttendanceMapper attendanceMapper;
 

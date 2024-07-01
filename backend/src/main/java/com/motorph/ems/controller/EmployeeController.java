@@ -160,7 +160,7 @@ public class EmployeeController {
     public ResponseEntity<AttendanceDTO> employeeTimeIn(@PathVariable Long employeeId) {
         Attendance attendanceToday = new Attendance(
                 employeeId,
-                LocalDate.now().minusDays(1),
+                LocalDate.now(),
                 LocalTime.now()
         );
 

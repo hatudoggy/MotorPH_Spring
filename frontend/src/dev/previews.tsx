@@ -5,6 +5,8 @@ import Main from "../pages/Main.tsx";
 import HREmployees from "../pages/hr/HREmployees.tsx";
 import Attendance from "../pages/employee/Attendance.tsx";
 import HRPayrolls from "../pages/hr/HRPayrolls.tsx";
+import EmployeeCard from "../pages/hr/employeeManagement/EmployeeCard.tsx";
+import BasicInfoArea from "../pages/hr/employeeManagement/form/components/EmployeeFormArea.tsx";
 
 const ComponentPreviews = () => {
     return (
@@ -23,6 +25,12 @@ const ComponentPreviews = () => {
             </ComponentPreview>
             <ComponentPreview path="/HRPayrolls">
                 <HRPayrolls/>
+            </ComponentPreview>
+            <ComponentPreview path="/EmployeeCard">
+                <EmployeeCard/>
+            </ComponentPreview>
+            <ComponentPreview path="/BasicInfoArea">
+                <BasicInfoArea/>
             </ComponentPreview>
         </Previews>
     );

@@ -28,8 +28,11 @@ import java.util.List;
             return null;
         }
 
+        if (benefitDTO.benefitType() == null) {
+            throw new IllegalArgumentException("Benefit type cannot be null when creating benefit");
+        }
+
         return new Benefits(
-                benefitDTO.employeeId(),
                 benefitDTO.benefitType().benefitTypeId(),
                 benefitDTO.amount());
     }

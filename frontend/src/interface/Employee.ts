@@ -94,19 +94,19 @@ interface SupervisorRes {
 //POST
 interface EmployeeReq {
   employeeId?: number;
-  lastName: string;
-  firstName: string;
-  dob: string; // Use string for dates to simplify JSON handling
-  address: string;
-  contacts: ContactReq[];
-  position: PositionReq;
-  department: DepartmentReq;
-  governmentId: GovernmentIdReq;
-  supervisor: SupervisorReq;
-  status: EmploymentStatusReq;
-  hireDate: string; // Use string for dates to simplify JSON handling
-  basicSalary: number;
-  benefits: BenefitReq[];
+  lastName?: string;
+  firstName?: string;
+  dob?: string; // Use string for dates to simplify JSON handling
+  address?: string;
+  contacts?: ContactReq[];
+  position?: PositionReq;
+  department?: DepartmentReq;
+  governmentId?: GovernmentIdReq;
+  supervisor?: SupervisorReq;
+  status?: EmploymentStatusReq;
+  hireDate?: string; // Use string for dates to simplify JSON handling
+  basicSalary?: number;
+  benefits?: BenefitReq[];
   // leaveBalances: LeaveBalanceReq[];
 }
 
@@ -167,7 +167,6 @@ interface SupervisorReq {
 
 interface GovernmentIdReq {
   id?: number;
-  employeeId?: number;
   sssNo: string;
   philHealthNo: string;
   pagIbigNo: string;

@@ -182,7 +182,7 @@ function AttendanceToday() {
                         fullWidth
                         variant="contained"
                         disableElevation
-                        disabled={isButtonDisabled}
+                        disabled={isButtonDisabled || attendanceData.timeOut !== null}
                         onClick={handleClockOut}
                     >
                         Clock Out

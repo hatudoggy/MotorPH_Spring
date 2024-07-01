@@ -23,7 +23,7 @@ export default function EmployeeDetailsDialog({ selectedEmployee, onClose }: Emp
         return res.data;
     };
 
-    const { isPending, data } = useQuery<EmployeeFullRes>({
+    const { isPending, isFetching, data, refetch } = useQuery<EmployeeFullRes>({
         queryKey: ['employee', selectedEmployee],
         queryFn: fetchEmployee,
         placeholderData: keepPreviousData,

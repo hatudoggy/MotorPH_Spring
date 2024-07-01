@@ -5,7 +5,6 @@ import lombok.Builder;
 @Builder
 public record GovernmentIdDTO (
          Long id,
-         Long employeeId,
          String sssNo,
          String philHealthNo,
          String pagIbigNo,

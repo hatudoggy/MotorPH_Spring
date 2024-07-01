@@ -38,23 +38,23 @@ public class Employee {
     @Transient
     private Double hourlyRate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "supervisor_id")
     private Employee supervisor;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "position_code")
     private Position position;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "department_code")
     private Department department;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "status_id")
     private EmploymentStatus status;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "government_id")
     private GovernmentId governmentId;
 
@@ -157,13 +157,6 @@ public class Employee {
             this.contactNo = contactNo;
         }
 
-        public Contact(
-                Long employeeId,
-                String number) {
-
-            this.employee = new Employee(employeeId);
-            this.contactNo = number;
-        }
 
         @Override
         public String toString() {
@@ -187,22 +180,16 @@ public class Employee {
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
 
-        @OneToOne
-        @JoinColumn(name = "id", nullable = false)
-        private Employee employee;
-
         private String sssNo;
         private String philHealthNo;
         private String pagIbigNo;
         private String tinNo;
 
         public GovernmentId(
-                Long employeeId,
                 String sssNo,
                 String philHealthNo,
                 String pagIbigNo,
                 String tinNo) {
-            this.employee = new Employee(employeeId);
             this.sssNo = sssNo;
             this.philHealthNo = philHealthNo;
             this.pagIbigNo = pagIbigNo;

@@ -221,7 +221,7 @@ export function EmploymentInfoArea({ control, watch, setValue }: FormArea) {
 }
 
 
-export function ContributionIdsArea({register, selectedId}: FormArea) {
+export function ContributionIdsArea({register}: FormArea) {
 
     return(
         <Box>
@@ -260,9 +260,14 @@ export function ContributionIdsArea({register, selectedId}: FormArea) {
     )
 }
 
-export function SalaryBenefitsArea({register}: FormArea) {
+export function SalaryBenefitsArea({ register }: FormArea) {
+    const benefits = [
+        { label: "Rice Subsidy", benefitTypeId: 1 },
+        { label: "Phone Allowance", benefitTypeId: 2 },
+        { label: "Clothing Allowance", benefitTypeId: 3 }
+    ];
 
-    return(
+    return (
         <Box>
             <HeadIcon Icon={Payments}>Salary & Benefits</HeadIcon>
             <FormWidget>
@@ -280,7 +285,30 @@ export function SalaryBenefitsArea({register}: FormArea) {
                         )
                     }}
                 />
+                {benefits.map((benefit, index) => (
+                    <Box key={index}>
+                        <TextField
+                            {...register(`benefits.${index}.amount`)}
+                            label={benefit.label}
+                            variant="standard"
+                            fullWidth
+                            InputLabelProps={{ shrink: true }}
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <Typography>₱</Typography>
+                                    </InputAdornment>
+                                )
+                            }}
+                        />
+                        <input
+                            type="hidden"
+                            {...register(`benefits.${index}.benefitTypeId`)}
+                            value={benefit.benefitTypeId}
+                        />
+                    </Box>
+                ))}
             </FormWidget>
         </Box>
-    )
+    );
 }

@@ -29,8 +29,7 @@ public class Benefits {
     @JoinColumn(name = "benefit_type_id", nullable = false)
     private BenefitType benefitType;
 
-    public Benefits(Long employeeId, int benefitTypeId, Double amount) {
-        this.employee = new Employee(employeeId);
+    public Benefits(int benefitTypeId, Double amount) {
         this.amount = amount;
         this.benefitType = new BenefitType(benefitTypeId);
     }
@@ -52,7 +51,9 @@ public class Benefits {
             this.benefit = benefit;
         }
 
-        public BenefitType(int benefitTypeId) {}
+        public BenefitType(int benefitTypeId) {
+            this.benefitTypeId = benefitTypeId;
+        }
 
         @Override
         public String toString() {

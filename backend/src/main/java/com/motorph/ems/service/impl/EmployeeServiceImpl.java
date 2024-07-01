@@ -25,7 +25,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeMapper employeeMapper;
 
     @Autowired
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository, EmployeeMapper employeeMapper) {
+    public EmployeeServiceImpl(
+            EmployeeRepository employeeRepository,
+            EmployeeMapper employeeMapper) {
         this.employeeRepository = employeeRepository;
         this.employeeMapper = employeeMapper;
     }
@@ -38,8 +40,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
         Employee employee = employeeMapper.toEntity(employeeFullDTO);
-
-        employee.setEmployeeId(null);
 
         Employee savedEmployee = employeeRepository.save(employee);
 
@@ -114,12 +114,26 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     @Transactional
     public EmployeeDTO updateEmployee(Long employeeID, EmployeeDTO employeeFullDTO) {
-        // Find the existing employee by ID
         Employee employee = employeeRepository.findById(employeeID).orElseThrow(
                 () -> new RuntimeException("Employee: " + employeeFullDTO.employeeId() + " not found")
         );
 
+        System.out.println(
+                "Employee: " + employee.getEmployeeId() +
+                        ", First Name: " + employee.getFirstName() +
+                        ", Last Name: " + employee.getLastName() +
+                        ", Address: " + employee.getAddress()
+        );
+
         employeeMapper.updateEntity(employeeFullDTO, employee);
+
+        System.out.println(
+                "Employee: " + employee.getEmployeeId() +
+                        ", First Name: " + employee.getFirstName() +
+                        ", Last Name: " + employee.getLastName() +
+                        ", Address: " + employee.getAddress()
+        );
+
 
         return employeeMapper.toFullDTO(employeeRepository.save(employee));
     }

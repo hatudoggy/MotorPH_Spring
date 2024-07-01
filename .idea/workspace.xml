@@ -5,36 +5,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ef4833e7-6818-46a8-95cb-723fd7831949" name="Changes" comment="implemented clock in and out, and hr payroll viewing">
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/controller/CompanyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/controller/CompanyController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/0f2c4b24-f675-44b0-aa54-abd5c1f4cfd9.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/0f2c4b24-f675-44b0-aa54-abd5c1f4cfd9.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/0f2c4b24-f675-44b0-aa54-abd5c1f4cfd9/storage_v2/_src_/schema/motorph_db.0MiwFw.zip" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/0f2c4b24-f675-44b0-aa54-abd5c1f4cfd9/storage_v2/_src_/schema/motorph_db.0MiwFw.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/controller/EmployeeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/controller/EmployeeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/dto/ContactDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/dto/ContactDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/dto/EmployeeDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/dto/EmployeeDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/dto/PositionDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/dto/PositionDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/dto/SupervisorDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/dto/SupervisorDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/dto/mapper/BenefitsMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/dto/mapper/BenefitsMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/dto/GovernmentIdDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/dto/GovernmentIdDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/dto/mapper/EmployeeMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/dto/mapper/EmployeeMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/dto/mapper/PositionMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/dto/mapper/PositionMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/model/Benefits.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/model/Benefits.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/model/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/model/Employee.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/model/EmploymentStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/model/EmploymentStatus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/model/Position.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/model/Position.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/repository/EmployeeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/repository/EmployeeRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/service/EmployeeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/service/EmployeeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/service/impl/AttendanceServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/service/impl/AttendanceServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/service/impl/EmployeeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/service/impl/EmployeeServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/test/java/com/motorph/ems/service/EmployeeServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/test/java/com/motorph/ems/service/EmployeeServiceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/test/java/com/motorph/ems/service/LeaveRequestServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/test/java/com/motorph/ems/service/LeaveRequestServiceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/test/java/com/motorph/ems/service/PayrollServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/test/java/com/motorph/ems/service/PayrollServiceTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/api/Api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/api/Api.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/api/query/FetchUtil.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/api/query/FetchUtil.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/api/query/UseFetch.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/api/query/UseFetch.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/dev/previews.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/dev/previews.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/interface/Employee.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/interface/Employee.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/employee/Profile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/employee/Profile.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/hr/HRPayrolls.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/hr/HRPayrolls.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/employee/Attendance.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/employee/Attendance.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/hr/HREmployees.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/hr/HREmployees.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/hr/employeeManagement/EmployeeCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/hr/employeeManagement/EmployeeCard.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/pages/hr/employeeManagement/EmployeeDetails.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/hr/employeeManagement/EmployeeDetails.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/pages/hr/employeeManagement/form/EmployeeForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/hr/employeeManagement/form/EmployeeForm.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/pages/hr/employeeManagement/form/components/EmployeeFormArea.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/hr/employeeManagement/form/components/EmployeeFormArea.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/hr/employeeManagement/form/components/EmployeeFormUtils.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/hr/employeeManagement/form/components/EmployeeFormUtils.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/utils/utils.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/utils/utils.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,43 +74,43 @@
     <option name="sortByType" value="true" />
     <option name="sortKey" value="BY_TYPE" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "HTTP Request.EmsApplication | #2.executor": "Run",
-    "HTTP Request.EmsApplication | #3.executor": "Run",
-    "JUnit.AttendanceRepositoryTest.AttendanceRepository_findAllByDate_OrderByDateDesc_Found.executor": "Run",
-    "JUnit.EmployeeServiceTest.EmployeeService_getEmployeesBySupervisorName_ReturnsListOfEmployeeDTO.executor": "Run",
-    "JUnit.PayrollRepositoryTest.PayrollRepository_findAllByEmployee_EmployeeId_Found.executor": "Run",
-    "JUnit.java in ems.executor": "Run",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "Spring Boot.EmsApplication.executor": "Run",
-    "database.data.extractors.current.export.id": "Comma-separated (CSV)_id",
-    "git-widget-placeholder": "UI-integration",
-    "jdk.selected.JAVA_MODULE": "22",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Harvey/Documents/attendance.csv",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.standard": "true",
-    "node.js.detected.package.stylelint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.standard": "",
-    "node.js.selected.package.stylelint": "",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "npm.React Buddy Preview.executor": "Run",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15429688",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "reference.settings.ide.settings.web.browsers",
-    "ts.external.directory.path": "C:\\Users\\Harvey\\Documents\\GitHub\\MotorPH_Spring\\frontend\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;HTTP Request.EmsApplication | #2.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.EmsApplication | #3.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AttendanceRepositoryTest.AttendanceRepository_findAllByDate_OrderByDateDesc_Found.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeServiceTest.EmployeeService_getEmployeesBySupervisorName_ReturnsListOfEmployeeDTO.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PayrollRepositoryTest.PayrollRepository_findAllByEmployee_EmployeeId_Found.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.java in ems.executor&quot;: &quot;Run&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;Spring Boot.EmsApplication.executor&quot;: &quot;Run&quot;,
+    &quot;database.data.extractors.current.export.id&quot;: &quot;Comma-separated (CSV)_id&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;UI-integration&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;22&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Harvey/Documents/attendance.csv&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.stylelint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
+    &quot;node.js.selected.package.stylelint&quot;: &quot;&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;npm.React Buddy Preview.executor&quot;: &quot;Run&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15429688&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.ide.settings.web.browsers&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Harvey\\Documents\\GitHub\\MotorPH_Spring\\frontend\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="ReactDesignerToolWindowState">
     <option name="myId2Visible">
       <map>
@@ -194,7 +186,8 @@
       <workItem from="1719638282746" duration="332000" />
       <workItem from="1719638631769" duration="720000" />
       <workItem from="1719639374836" duration="26753000" />
-      <workItem from="1719747476400" duration="26368000" />
+      <workItem from="1719747476400" duration="43276000" />
+      <workItem from="1719823317395" duration="15020000" />
     </task>
     <task id="LOCAL-00001" summary="x">
       <option name="closed" value="true" />

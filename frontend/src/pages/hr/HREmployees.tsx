@@ -22,7 +22,7 @@ export default function HREmployees() {
     const debouncedSearch = useDebounce(search, 300);
 
     // Fetch employees data from server
-    const {isPending, data} = useFetchEmployees();
+    const {isPending, isRefetching, data} = useFetchEmployees();
 
     // State for the select employee dialog
     const [openSelectDialog, setOpenSelectDialog] = useState(false);
@@ -31,7 +31,9 @@ export default function HREmployees() {
     const [openCUDialog, setOpenCUDialog] = useState<null | 'add' | 'edit'>(null);
 
     // State for the currently selected employee
-    const [selectedEmployee, setSelectedEmployee] = useState<number | null>(null);
+    const [selectedEmployeeId, setSelectedEmployeeId] = useState<number | null>(null);
+
+    const [refetchingEmployeeId, setRefetchingEmployeeId] = useState<number | null>(null);
 
     /**
      * Handles selecting an employee.
@@ -40,7 +42,8 @@ export default function HREmployees() {
      */
     const handleSelectEmployee = (employeeId: number) => {
         setOpenSelectDialog(true);
-        setSelectedEmployee(employeeId);
+        setSelectedEmployeeId(employeeId);
+        setRefetchingEmployeeId(employeeId);
     };
 
     /**
@@ -52,7 +55,7 @@ export default function HREmployees() {
     const handleCUEmployee = (type: 'add' | 'edit', employeeId?: number) => {
         setOpenCUDialog(type);
         if (employeeId) {
-            setSelectedEmployee(employeeId);
+            setSelectedEmployeeId(employeeId);
         }
     };
 
@@ -141,10 +144,15 @@ export default function HREmployees() {
                                     hireDate={format(item.hireDate, "MMM dd, yyyy")}
                                     onClick={() => handleSelectEmployee(item.employeeId)}
                                     onEdit={() => handleCUEmployee("edit", item.employeeId)}
+                                    isLoading={isRefetching && refetchingEmployeeId === item.employeeId}
+                                    isSelected={selectedEmployeeId === item.employeeId}
                                 />
                             ))
                         ) : (
-                            <Stack width='100%' alignItems='center'>
+                            <Stack width="100%"
+                                   height="100%"
+                                   alignItems="center"
+                                   justifyContent="center">
                                 <CircularProgress/>
                             </Stack>
                         )}
@@ -156,7 +164,7 @@ export default function HREmployees() {
                 open={openSelectDialog}
                 onClose={() => setOpenSelectDialog(false)}
                 TransitionProps={{
-                    onExit: () => setSelectedEmployee(null),
+                    onExit: () => setSelectedEmployeeId(null),
                 }}
                 fullWidth
                 maxWidth="sm"
@@ -166,14 +174,14 @@ export default function HREmployees() {
                     },
                 }}
             >
-                <EmployeeDetailsDialog selectedEmployee={selectedEmployee} onClose={() => setOpenSelectDialog(false)}/>
+                <EmployeeDetailsDialog selectedEmployee={selectedEmployeeId} onClose={() => setOpenSelectDialog(false)}/>
             </Dialog>
             {/* Create/Update Employee Dialog */}
             <Dialog
                 open={openCUDialog !== null}
                 onClose={() => setOpenCUDialog(null)}
                 TransitionProps={{
-                    onExit: () => setSelectedEmployee(null),
+                    onExit: () => setSelectedEmployeeId(null),
                 }}
                 fullWidth
                 maxWidth="xs"
@@ -184,7 +192,7 @@ export default function HREmployees() {
                 }}
             >
                 {openCUDialog && (
-                    <EmployeeFormDialog type={openCUDialog} selectedId={selectedEmployee}
+                    <EmployeeFormDialog type={openCUDialog} selectedId={selectedEmployeeId}
                                         onClose={() => setOpenCUDialog(null)}/>
                 )}
             </Dialog>
