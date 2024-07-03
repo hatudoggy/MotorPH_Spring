@@ -9,24 +9,6 @@ import java.util.Optional;
 
 public interface BenefitsService {
 
-    BenefitDTO addNewBenefit(BenefitDTO benefit);
-
-    Optional<BenefitDTO> getBenefitById(Long benefitId);
-
-    List<BenefitDTO> getAllBenefits();
-
-    List<BenefitDTO> getBenefitsByEmployeeId(Long employeeId);
-
-    List<BenefitDTO> getBenefitsByEmployeeName(String firstName, String lastName);
-
-    List<BenefitDTO> getBenefitsByPositionCode(String positionCode);
-
-    BenefitDTO updateBenefit(Long benefitId, BenefitDTO updatedBenefit);
-
-    void deleteBenefitById(Long benefitId);
-
-    void deleteBenefitsByEmployeeId(Long employeeId);
-
     Optional<BenefitTypeDTO> getBenefitTypeByBenefitId(int benefitId);
 
 //    Optional<BenefitTypeDTO> getBenefitTypeByBenefit(String benefit);

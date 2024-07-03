@@ -4,29 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ef4833e7-6818-46a8-95cb-723fd7831949" name="Changes" comment="implemented clock in and out, and hr payroll viewing">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+    <list default="true" id="ef4833e7-6818-46a8-95cb-723fd7831949" name="Changes" comment="implemented update and add employee">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/0f2c4b24-f675-44b0-aa54-abd5c1f4cfd9.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/0f2c4b24-f675-44b0-aa54-abd5c1f4cfd9.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/0f2c4b24-f675-44b0-aa54-abd5c1f4cfd9/storage_v2/_src_/schema/motorph_db.0MiwFw.zip" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/0f2c4b24-f675-44b0-aa54-abd5c1f4cfd9/storage_v2/_src_/schema/motorph_db.0MiwFw.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/controller/EmployeeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/controller/EmployeeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/dto/GovernmentIdDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/dto/GovernmentIdDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/dto/mapper/EmployeeMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/dto/mapper/EmployeeMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/dto/mapper/PositionMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/dto/mapper/PositionMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/model/Benefits.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/model/Benefits.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/model/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/model/Employee.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/service/impl/AttendanceServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/service/impl/AttendanceServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/service/impl/EmployeeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/service/impl/EmployeeServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/api/Api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/api/Api.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/dev/previews.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/dev/previews.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/interface/Employee.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/interface/Employee.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/employee/Attendance.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/employee/Attendance.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/hr/HREmployees.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/hr/HREmployees.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/hr/employeeManagement/EmployeeCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/hr/employeeManagement/EmployeeCard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/hr/employeeManagement/EmployeeDetails.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/hr/employeeManagement/EmployeeDetails.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/hr/employeeManagement/form/EmployeeForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/hr/employeeManagement/form/EmployeeForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/hr/employeeManagement/form/components/EmployeeFormArea.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/hr/employeeManagement/form/components/EmployeeFormArea.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/EmsApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/PmsApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/repository/BenefitsRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/repository/DeductionTypeRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/repository/DeductionsRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/service/BenefitsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/service/BenefitsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/service/DeductionsService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/service/impl/BenefitsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/service/impl/BenefitsServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/service/impl/DeductionsServiceImpl.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,43 +63,43 @@
     <option name="sortByType" value="true" />
     <option name="sortKey" value="BY_TYPE" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;HTTP Request.EmsApplication | #2.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.EmsApplication | #3.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.AttendanceRepositoryTest.AttendanceRepository_findAllByDate_OrderByDateDesc_Found.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.EmployeeServiceTest.EmployeeService_getEmployeesBySupervisorName_ReturnsListOfEmployeeDTO.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.PayrollRepositoryTest.PayrollRepository_findAllByEmployee_EmployeeId_Found.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.java in ems.executor&quot;: &quot;Run&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;Spring Boot.EmsApplication.executor&quot;: &quot;Run&quot;,
-    &quot;database.data.extractors.current.export.id&quot;: &quot;Comma-separated (CSV)_id&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;UI-integration&quot;,
-    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;22&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Harvey/Documents/attendance.csv&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.stylelint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
-    &quot;node.js.selected.package.stylelint&quot;: &quot;&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;npm.React Buddy Preview.executor&quot;: &quot;Run&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15429688&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.ide.settings.web.browsers&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Harvey\\Documents\\GitHub\\MotorPH_Spring\\frontend\\node_modules\\typescript\\lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "HTTP Request.EmsApplication | #2.executor": "Run",
+    "HTTP Request.EmsApplication | #3.executor": "Run",
+    "JUnit.AttendanceRepositoryTest.AttendanceRepository_findAllByDate_OrderByDateDesc_Found.executor": "Run",
+    "JUnit.EmployeeServiceTest.EmployeeService_getEmployeesBySupervisorName_ReturnsListOfEmployeeDTO.executor": "Run",
+    "JUnit.PayrollRepositoryTest.PayrollRepository_findAllByEmployee_EmployeeId_Found.executor": "Run",
+    "JUnit.java in ems.executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "Spring Boot.EmsApplication.executor": "Run",
+    "database.data.extractors.current.export.id": "Comma-separated (CSV)_id",
+    "git-widget-placeholder": "UI-integration",
+    "jdk.selected.JAVA_MODULE": "22",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Harvey/Documents",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.standard": "true",
+    "node.js.detected.package.stylelint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.standard": "",
+    "node.js.selected.package.stylelint": "",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "npm.React Buddy Preview.executor": "Run",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15429688",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "C:\\Users\\Harvey\\Documents\\GitHub\\MotorPH_Spring\\frontend\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="ReactDesignerToolWindowState">
     <option name="myId2Visible">
       <map>
@@ -129,7 +118,7 @@
       <recent name="C:\Users\Harvey\Documents\GitHub\MotorPH_Spring\frontend\src\constants" />
     </key>
   </component>
-  <component name="RunManager" selected="Spring Boot.EmsApplication">
+  <component name="RunManager" selected="Spring Boot.PmsApplication">
     <configuration name="EmsApplication | #3" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/EmsApplication.http" index="3" requestIdentifier="#3" runType="Run single request">
       <method v="2" />
     </configuration>
@@ -143,10 +132,10 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="EmsApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+    <configuration name="PmsApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
       <module name="ems" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.motorph.ems.EmsApplication" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.motorph.ems.PmsApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -154,7 +143,7 @@
     <list>
       <item itemvalue="HTTP Request.EmsApplication | #3" />
       <item itemvalue="JUnit.java in ems" />
-      <item itemvalue="Spring Boot.EmsApplication" />
+      <item itemvalue="Spring Boot.PmsApplication" />
     </list>
     <recent_temporary>
       <list>
@@ -187,7 +176,8 @@
       <workItem from="1719638631769" duration="720000" />
       <workItem from="1719639374836" duration="26753000" />
       <workItem from="1719747476400" duration="43276000" />
-      <workItem from="1719823317395" duration="15020000" />
+      <workItem from="1719823317395" duration="18840000" />
+      <workItem from="1719888193950" duration="7966000" />
     </task>
     <task id="LOCAL-00001" summary="x">
       <option name="closed" value="true" />
@@ -309,7 +299,15 @@
       <option name="project" value="LOCAL" />
       <updated>1719757786013</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="implemented update and add employee">
+      <option name="closed" value="true" />
+      <created>1719852039333</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1719852039333</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -340,7 +338,8 @@
     <MESSAGE value="fixed sidebar changing view after refresh and hr attendance table spacing" />
     <MESSAGE value="added more details to employee dialog" />
     <MESSAGE value="implemented clock in and out, and hr payroll viewing" />
-    <option name="LAST_COMMIT_MESSAGE" value="implemented clock in and out, and hr payroll viewing" />
+    <MESSAGE value="implemented update and add employee" />
+    <option name="LAST_COMMIT_MESSAGE" value="implemented update and add employee" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand>
