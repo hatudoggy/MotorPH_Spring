@@ -1,15 +1,10 @@
-package com.motorph.ems.dto.mapper;
+package com.motorph.pms.dto.mapper;
 
 
-import com.motorph.ems.dto.*;
-import com.motorph.ems.model.*;
-import com.motorph.ems.model.Employee.Contact;
-import com.motorph.ems.model.Employee.GovernmentId;
-import lombok.extern.java.Log;
-import lombok.extern.log4j.Log4j2;
-import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.motorph.pms.dto.*;
+import com.motorph.pms.model.*;
+import com.motorph.pms.model.Employee.Contact;
+import com.motorph.pms.model.Employee.GovernmentId;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

@@ -1,7 +1,7 @@
-package com.motorph.ems.dto.mapper;
+package com.motorph.pms.dto.mapper;
 
-import com.motorph.ems.dto.AttendanceDTO;
-import com.motorph.ems.model.Attendance;
+import com.motorph.pms.dto.AttendanceDTO;
+import com.motorph.pms.model.Attendance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

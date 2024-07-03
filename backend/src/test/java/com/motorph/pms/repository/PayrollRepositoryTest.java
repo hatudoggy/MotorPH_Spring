@@ -1,7 +1,7 @@
-package com.motorph.ems.repository;
+package com.motorph.pms.repository;
 
-import com.motorph.ems.model.Employee;
-import com.motorph.ems.model.Payroll;
+import com.motorph.pms.model.Employee;
+import com.motorph.pms.model.Payroll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

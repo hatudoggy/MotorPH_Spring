@@ -1,7 +1,7 @@
-package com.motorph.ems.dto.mapper;
+package com.motorph.pms.dto.mapper;
 
-import com.motorph.ems.dto.EmploymentStatusDTO;
-import com.motorph.ems.model.EmploymentStatus;
+import com.motorph.pms.dto.EmploymentStatusDTO;
+import com.motorph.pms.model.EmploymentStatus;
 import org.springframework.stereotype.Component;
 
 @Component

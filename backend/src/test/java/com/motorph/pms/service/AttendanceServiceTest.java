@@ -1,12 +1,12 @@
-package com.motorph.ems.service;
+package com.motorph.pms.service;
 
-import com.motorph.ems.dto.AttendanceDTO;
-import com.motorph.ems.dto.EmployeeDTO;
-import com.motorph.ems.dto.mapper.AttendanceMapper;
-import com.motorph.ems.model.Attendance;
-import com.motorph.ems.model.Employee;
-import com.motorph.ems.repository.AttendanceRepository;
-import com.motorph.ems.service.impl.AttendanceServiceImpl;
+import com.motorph.pms.dto.AttendanceDTO;
+import com.motorph.pms.dto.EmployeeDTO;
+import com.motorph.pms.dto.mapper.AttendanceMapper;
+import com.motorph.pms.model.Attendance;
+import com.motorph.pms.model.Employee;
+import com.motorph.pms.repository.AttendanceRepository;
+import com.motorph.pms.service.impl.AttendanceServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

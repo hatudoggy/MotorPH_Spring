@@ -1,7 +1,7 @@
-package com.motorph.ems.repository;
+package com.motorph.pms.repository;
 
-import com.motorph.ems.model.Attendance;
-import com.motorph.ems.model.Employee;
+import com.motorph.pms.model.Attendance;
+import com.motorph.pms.model.Employee;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
 import java.util.List;
 import java.util.Optional;
 

@@ -1,9 +1,9 @@
-package com.motorph.ems.dto.mapper;
+package com.motorph.pms.dto.mapper;
 
-import com.motorph.ems.dto.LeaveBalanceDTO;
-import com.motorph.ems.dto.LeaveTypeDTO;
-import com.motorph.ems.model.LeaveBalance;
-import com.motorph.ems.model.LeaveBalance.LeaveType;
+import com.motorph.pms.dto.LeaveBalanceDTO;
+import com.motorph.pms.dto.LeaveTypeDTO;
+import com.motorph.pms.model.LeaveBalance;
+import com.motorph.pms.model.LeaveBalance.LeaveType;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

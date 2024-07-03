@@ -1,11 +1,11 @@
-package com.motorph.ems.service;
+package com.motorph.pms.service;
 
-import com.motorph.ems.dto.PositionDTO;
-import com.motorph.ems.dto.mapper.PositionMapper;
-import com.motorph.ems.model.Department;
-import com.motorph.ems.model.Position;
-import com.motorph.ems.repository.PositionRepository;
-import com.motorph.ems.service.impl.PositionServiceImpl;
+import com.motorph.pms.dto.PositionDTO;
+import com.motorph.pms.dto.mapper.PositionMapper;
+import com.motorph.pms.model.Department;
+import com.motorph.pms.model.Position;
+import com.motorph.pms.repository.PositionRepository;
+import com.motorph.pms.service.impl.PositionServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -1,161 +1,166 @@
-package com.motorph.ems.service.impl;
+package com.motorph.pms.service.impl;
 
-import com.motorph.ems.dto.EmployeeDTO;
-import com.motorph.ems.dto.SupervisorDTO;
-import com.motorph.ems.dto.mapper.EmployeeMapper;
+<<<<<<< HEAD:backend/src/main/java/com/motorph/ems/service/impl/EmployeeServiceImpl.java
+import com.motorph.ems.model.Benefits;
 import com.motorph.ems.model.Employee;
+import com.motorph.ems.model.Employment;
+import com.motorph.ems.model.GovernmentId;
+import com.motorph.ems.repository.BenefitsRepository;
 import com.motorph.ems.repository.EmployeeRepository;
+import com.motorph.ems.repository.EmploymentRepository;
+import com.motorph.ems.repository.GovernmentIdRepository;
+import com.motorph.ems.service.BenefitsService;
 import com.motorph.ems.service.EmployeeService;
+import com.motorph.ems.service.EmploymentService;
+import com.motorph.ems.service.GovernmentIdService;
+import com.motorph.pms.dto.EmployeeDTO;
+import com.motorph.pms.dto.SupervisorDTO;
+import com.motorph.pms.dto.mapper.EmployeeMapper;
+import com.motorph.pms.model.Employee;
+import com.motorph.pms.repository.EmployeeRepository;
+import com.motorph.pms.service.EmployeeService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
-@Transactional
 @Service
-public class EmployeeServiceImpl implements EmployeeService {
+public class EmployeeServiceImpl implements EmployeeService, EmploymentService, GovernmentIdService, BenefitsService {
 
     private final EmployeeRepository employeeRepository;
-    private final EmployeeMapper employeeMapper;
+    private final EmploymentRepository employmentRepository;
+    private final GovernmentIdRepository governmentIdRepository;
+    private final BenefitsRepository benefitsRepository;
+
 
     @Autowired
     public EmployeeServiceImpl(
             EmployeeRepository employeeRepository,
-            EmployeeMapper employeeMapper) {
+            EmploymentRepository employmentRepository,
+            GovernmentIdRepository governmentIdRepository,
+            BenefitsRepository benefitsRepository
+    ) {
         this.employeeRepository = employeeRepository;
-        this.employeeMapper = employeeMapper;
+        this.employmentRepository = employmentRepository;
+        this.governmentIdRepository = governmentIdRepository;
+        this.benefitsRepository = benefitsRepository;
     }
 
     @Override
-    @Transactional
-    public EmployeeDTO addNewEmployee(EmployeeDTO employeeFullDTO) {
-        if (employeeRepository.existsByFirstNameAndLastName(employeeFullDTO.firstName(), employeeFullDTO.lastName())) {
-            throw new EntityNotFoundException("Employee with first name " + employeeFullDTO.firstName() + " and last name " + employeeFullDTO.lastName() + " already exists");
-        }
-
-        Employee employee = employeeMapper.toEntity(employeeFullDTO);
-
-        Employee savedEmployee = employeeRepository.save(employee);
-
-        return employeeMapper.toFullDTO(savedEmployee);
+    public void addNewEmployee(Employee employee) {
+        System.out.println(employee.getEmployment().getSupervisor().getId());
+        Employee supervisor = employeeRepository.findById(employee.getEmployment().getSupervisor().getId()).orElse(null);
+        employee.getEmployment().setSupervisor(supervisor);
+        employeeRepository.save(employee);
     }
 
     @Override
-    public Optional<EmployeeDTO> getEmployeeById(Long employeeID, boolean isFullDetails) {
-        if (isFullDetails) {
-            return employeeRepository.findById(employeeID).map(employeeMapper::toFullDTO);
-        }
-
-        else {
-            return employeeRepository.findById(employeeID).map(employeeMapper::toLimitedDTO);
-        }
+    public Employee getEmployeeById(Long employeeID) {
+        return employeeRepository.findById(employeeID).orElse(null);
     }
 
     @Override
-    public Optional<EmployeeDTO> getEmployeeByName(String firstName, String lastName) {
-        return employeeRepository.findByFirstNameAndLastName(firstName, lastName).map(employeeMapper::toFullDTO);
+    public List<Employee> getAllEmployees() {
+        return employeeRepository.findAll();
     }
 
     @Override
-    public List<EmployeeDTO> getEmployees() {
-        List<Employee> employees = employeeRepository.findAll();
-
-        if (employees.isEmpty()) {
-            return Collections.emptyList();
-        }
-
-        return employees.stream()
-                .map(employeeMapper::toLimitedDTO)
-                .collect(Collectors.toList());
+    public List<Employee> getAllEmployeesNameContains(String name) {
+        return employeeRepository.findByNameContaining(name);
     }
 
     @Override
-    public List<EmployeeDTO> getEmployeesByDepartment(String departmentName) {
-        return employeeRepository.findAllByDepartment_DepartmentName(departmentName)
-                .stream().map(employeeMapper::toLimitedDTO).collect(Collectors.toList());
+    public Employee updateEmployee(Employee employee) {
+        return employeeRepository.save(employee);
     }
 
     @Override
-    public List<EmployeeDTO> getEmployeesByPosition(String positionName) {
-        return employeeRepository.findAllByPosition_PositionName(positionName)
-                .stream().map(employeeMapper::toLimitedDTO).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<EmployeeDTO> getEmployeesByStatus(String statusName) {
-        return employeeRepository.findAllByStatus_StatusName(statusName)
-                .stream().map(employeeMapper::toLimitedDTO).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<EmployeeDTO> getEmployeesBySupervisorId(Long supervisorId) {
-        return employeeRepository.findAllBySupervisor_EmployeeId(supervisorId)
-                .stream().map(employeeMapper::toLimitedDTO).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<EmployeeDTO> getEmployeesBySupervisorName(String firstName, String lastName) {
-        return employeeRepository.findAllBySupervisor_FirstName_AndSupervisor_LastName(firstName, lastName)
-                .stream().map(employeeMapper::toLimitedDTO).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<EmployeeDTO> getEmployeesByHiredBetween(LocalDate startDate, LocalDate endDate) {
-        return employeeRepository.findAllByHireDateBetween(startDate, endDate)
-                .stream().map(employeeMapper::toLimitedDTO).collect(Collectors.toList());
-    }
-
-    @Override
-    @Transactional
-    public EmployeeDTO updateEmployee(Long employeeID, EmployeeDTO employeeFullDTO) {
-        Employee employee = employeeRepository.findById(employeeID).orElseThrow(
-                () -> new RuntimeException("Employee: " + employeeFullDTO.employeeId() + " not found")
-        );
-
-        System.out.println(
-                "Employee: " + employee.getEmployeeId() +
-                        ", First Name: " + employee.getFirstName() +
-                        ", Last Name: " + employee.getLastName() +
-                        ", Address: " + employee.getAddress()
-        );
-
-        employeeMapper.updateEntity(employeeFullDTO, employee);
-
-        System.out.println(
-                "Employee: " + employee.getEmployeeId() +
-                        ", First Name: " + employee.getFirstName() +
-                        ", Last Name: " + employee.getLastName() +
-                        ", Address: " + employee.getAddress()
-        );
-
-
-        return employeeMapper.toFullDTO(employeeRepository.save(employee));
-    }
-
-    @Override
-    @Transactional
     public void deleteEmployee(Long employeeID) {
-        Employee employee = employeeRepository.findById(employeeID).orElseThrow(
-                () -> new RuntimeException("EmployeeDTO not found with status: " + employeeID)
-        );
-
+        Employee employee = getEmployeeById(employeeID);
         employeeRepository.delete(employee);
     }
-
     @Override
     public void addNewEmployeesFromCSV(String employeeCSVPath) {
         //TODO: implement adding employees from CSV
     }
 
+    //EMPLOYMENT SERVICES
     @Override
-    public List<SupervisorDTO> getSupervisors() {
-        return employeeRepository.findAllByPosition_isLeader(true).stream()
-                .map(employeeMapper::toSupervisorDTO).toList();
+    public Employment addNewEmployment(Employment employmentDetails) {
+        return employmentRepository.save(employmentDetails);
+    }
+
+    @Override
+    public Employment getEmploymentByEmployeeId(Long employeeID) {
+        return employmentRepository.findById(employeeID).orElse(null);
+    }
+
+    @Override
+    public Employment updateEmployment(Employment employmentDetails) {
+        return employmentRepository.save(employmentDetails);
+    }
+
+    @Override
+    public void deleteEmployment(Long employeeID) {
+        employmentRepository.deleteById(employeeID);
+    }
+
+    //BENEFITS SERVICES
+    @Override
+    public void addNewBenefit(Benefits benefit) {
+        benefitsRepository.save(benefit);
+    }
+
+    @Override
+    public List<Benefits> getAllBenefits() {
+        return benefitsRepository.findAll();
+    }
+
+    @Override
+    public List<Benefits> getAllBenefitsByEmployeeId(Long employeeId) {
+        return benefitsRepository.findAllById(Collections.singleton(employeeId));
+    }
+
+    @Override
+    public Benefits getBenefitById(Long benefitId) {
+        return benefitsRepository.findById(benefitId).orElse(null);
+    }
+
+    @Override
+    public Benefits updateBenefit(Benefits updatedBenefit) {
+        return benefitsRepository.save(updatedBenefit);
+    }
+
+    @Override
+    public void deleteBenefit(Long benefitId) {
+        benefitsRepository.deleteById(benefitId);
+    }
+
+    @Override
+    public void deleteBenefitsByEmployeeId(Long employeeId) {
+        benefitsRepository.deleteAllById(Collections.singleton(employeeId));
+    }
+
+    //GOVERNMENT ID SERVICES
+    @Override
+    public GovernmentId addNewGovernmentId(GovernmentId governmentIdDetails) {
+        return governmentIdRepository.save(governmentIdDetails);
+    }
+
+    @Override
+    public List<GovernmentId> getAllGovernmentIdByEmployeeId(Long employeeID) {
+        return governmentIdRepository.findAllById(Collections.singleton(employeeID));
+    }
+
+    @Override
+    public GovernmentId updateGovernmentId(GovernmentId governmentIdDetails) {
+        return governmentIdRepository.save(governmentIdDetails);
+    }
+
+    @Override
+    public void deleteGovernmentId(Long governmentId) {
+        governmentIdRepository.deleteById(governmentId);
     }
 }

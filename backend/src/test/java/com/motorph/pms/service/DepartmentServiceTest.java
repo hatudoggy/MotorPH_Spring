@@ -1,10 +1,10 @@
-package com.motorph.ems.service;
+package com.motorph.pms.service;
 
-import com.motorph.ems.dto.DepartmentDTO;
-import com.motorph.ems.dto.mapper.DepartmentMapper;
-import com.motorph.ems.model.Department;
-import com.motorph.ems.repository.DepartmentRepository;
-import com.motorph.ems.service.impl.DepartmentServiceImpl;
+import com.motorph.pms.dto.DepartmentDTO;
+import com.motorph.pms.dto.mapper.DepartmentMapper;
+import com.motorph.pms.model.Department;
+import com.motorph.pms.repository.DepartmentRepository;
+import com.motorph.pms.service.impl.DepartmentServiceImpl;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

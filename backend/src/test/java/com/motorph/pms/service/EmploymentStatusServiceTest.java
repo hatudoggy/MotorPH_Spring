@@ -1,10 +1,10 @@
-package com.motorph.ems.service;
+package com.motorph.pms.service;
 
-import com.motorph.ems.dto.EmploymentStatusDTO;
-import com.motorph.ems.dto.mapper.EmploymentStatusMapper;
-import com.motorph.ems.model.EmploymentStatus;
-import com.motorph.ems.repository.EmploymentStatusRepository;
-import com.motorph.ems.service.impl.EmploymentStatusServiceImpl;
+import com.motorph.pms.dto.EmploymentStatusDTO;
+import com.motorph.pms.dto.mapper.EmploymentStatusMapper;
+import com.motorph.pms.model.EmploymentStatus;
+import com.motorph.pms.repository.EmploymentStatusRepository;
+import com.motorph.pms.service.impl.EmploymentStatusServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -1,8 +1,8 @@
-package com.motorph.ems.repository;
+package com.motorph.pms.repository;
 
-import com.motorph.ems.model.*;
-import com.motorph.ems.model.EmploymentStatus;
-import com.motorph.ems.model.LeaveRequest.LeaveStatus;
+import com.motorph.pms.model.*;
+import com.motorph.pms.model.EmploymentStatus;
+import com.motorph.pms.model.LeaveRequest.LeaveStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

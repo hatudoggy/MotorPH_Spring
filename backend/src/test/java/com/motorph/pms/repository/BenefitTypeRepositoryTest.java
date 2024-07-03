@@ -1,6 +1,6 @@
-package com.motorph.ems.repository;
+package com.motorph.pms.repository;
 
-import com.motorph.ems.model.Benefits.BenefitType;
+import com.motorph.pms.model.Benefits.BenefitType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

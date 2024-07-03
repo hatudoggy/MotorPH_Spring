@@ -1,5 +1,5 @@
 import { ReactNode, createContext, useContext, useEffect, useState } from "react";
-import { API, BASE_API } from "../api/Api.ts";
+import { API, BASE_API } from "../constants/Api";
 import axios from "axios";
 
 

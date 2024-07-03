@@ -1,6 +1,6 @@
-package com.motorph.ems.service;
+package com.motorph.pms.service;
 
-import com.motorph.ems.dto.DepartmentDTO;
+import com.motorph.pms.dto.DepartmentDTO;
 
 import java.util.List;
 import java.util.Optional;

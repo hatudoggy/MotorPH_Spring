@@ -1,58 +1,65 @@
-package com.motorph.ems.model;
+package com.motorph.pms.model;
 
+<<<<<<< HEAD:backend/src/main/java/com/motorph/ems/model/Benefits.java
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+=======
+>>>>>>> UI-integration:backend/src/main/java/com/motorph/pms/model/Benefits.java
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-@Entity
-@Table(name = "benefits")
+
+@Getter @Setter
+@Entity @Table(name = "benefits")
 public class Benefits {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long benefitId;
+    private Double amount;
 
     @ManyToOne
     @JoinColumn(name = "employee_id", nullable = false)
+    @JsonBackReference
     private Employee employee;
 
-    private Double amount;
-
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "benefit_type_id", nullable = false)
     private BenefitType benefitType;
 
-    public Benefits(int benefitTypeId, Double amount) {
+    public Benefits() {}
+
+    public Benefits(
+            Double amount,
+            BenefitType benefitType) {
         this.amount = amount;
-        this.benefitType = new BenefitType(benefitTypeId);
+        this.benefitType = benefitType;
     }
 
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @Builder
-    @Entity
-    @Table(name = "benefit_type")
+    @Override
+    public String toString() {
+        return "Benefits{" +
+                "benefitId=" + benefitId +
+                ", employeeID=" + employee.getEmployeeId() +
+                ", amount=" + amount +
+                ", benefitType=" + benefitType +
+                '}';
+    }
+
+    @Getter @Setter
+    @Entity @Table(name = "benefit_type")
     public static class BenefitType {
 
         @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
         private int benefitTypeId;
         private String benefit;
 
-        public BenefitType(String benefit) {
-            this.benefit = benefit;
+        public BenefitType() {
         }
 
-        public BenefitType(int benefitTypeId) {
-            this.benefitTypeId = benefitTypeId;
+        public BenefitType(String benefit) {
+            this.benefit = benefit;
         }
 
         @Override
@@ -64,3 +71,4 @@ public class Benefits {
         }
     }
 }
+

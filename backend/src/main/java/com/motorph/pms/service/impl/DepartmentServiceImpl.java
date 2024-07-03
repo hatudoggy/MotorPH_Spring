@@ -1,10 +1,10 @@
-package com.motorph.ems.service.impl;
+package com.motorph.pms.service.impl;
 
-import com.motorph.ems.dto.DepartmentDTO;
-import com.motorph.ems.dto.mapper.DepartmentMapper;
-import com.motorph.ems.model.Department;
-import com.motorph.ems.repository.DepartmentRepository;
-import com.motorph.ems.service.DepartmentService;
+import com.motorph.pms.dto.DepartmentDTO;
+import com.motorph.pms.dto.mapper.DepartmentMapper;
+import com.motorph.pms.model.Department;
+import com.motorph.pms.repository.DepartmentRepository;
+import com.motorph.pms.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;

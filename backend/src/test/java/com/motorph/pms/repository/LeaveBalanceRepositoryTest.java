@@ -1,8 +1,8 @@
-package com.motorph.ems.repository;
+package com.motorph.pms.repository;
 
-import com.motorph.ems.model.Employee;
-import com.motorph.ems.model.LeaveBalance;
-import com.motorph.ems.model.LeaveBalance.LeaveType;
+import com.motorph.pms.model.Employee;
+import com.motorph.pms.model.LeaveBalance;
+import com.motorph.pms.model.LeaveBalance.LeaveType;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

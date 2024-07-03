@@ -1,4 +1,4 @@
-package com.motorph.ems.projection;
+package com.motorph.pms.projection;
 
 public interface EmployeeView {
     Long getId();

@@ -5,32 +5,25 @@ interface AttendanceRes {
   date: string
   timeIn: string
   timeOut: string
-  totalHours: number
-  overtimeHours: number
+  hoursWorked: number
+  overtime: number
 }
 
-interface TimeInOut {
-  attendanceId: number
-  employeeId: number
-  timeIn: string
-  timeOut: string
+interface AttendanceSummaryRes {
+  totalCount: number
+  presentCount: number
+  lateCount: number
+  absentCount: number
+  averageTimeIn: string
+  averageTimeOut: string
 }
 
 interface AttendanceFull {
   attendanceId: number
-  employee: EmployeeAttendanceInfo
+  employee: EmployeeRes
   date: string
   timeIn: string
   timeOut: string
-  totalHours: number
-  overtimeHours: number
+  hoursWorked: number
+  overtime: number
 }
-
-interface EmployeeAttendanceInfo {
-  employeeId: number
-  lastName: string
-  firstName: string
-  position: PositionRes,
-  department: DepartmentRes
-}
-

@@ -1,9 +1,9 @@
-package com.motorph.ems.dto.mapper;
+package com.motorph.pms.dto.mapper;
 
-import com.motorph.ems.dto.BenefitDTO;
-import com.motorph.ems.dto.BenefitTypeDTO;
-import com.motorph.ems.model.Benefits;
-import com.motorph.ems.model.Benefits.BenefitType;
+import com.motorph.pms.dto.BenefitDTO;
+import com.motorph.pms.dto.BenefitTypeDTO;
+import com.motorph.pms.model.Benefits;
+import com.motorph.pms.model.Benefits.BenefitType;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

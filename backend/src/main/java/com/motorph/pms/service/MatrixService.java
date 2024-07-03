@@ -1,9 +1,9 @@
-package com.motorph.ems.service;
+package com.motorph.pms.service;
 
-import com.motorph.ems.model.PagibigMatrix;
-import com.motorph.ems.model.PhilhealthMatrix;
-import com.motorph.ems.model.SSSMatrix;
-import com.motorph.ems.model.WitholdingTaxMatrix;
+import com.motorph.pms.model.PagibigMatrix;
+import com.motorph.pms.model.PhilhealthMatrix;
+import com.motorph.pms.model.SSSMatrix;
+import com.motorph.pms.model.WitholdingTaxMatrix;
 
 public interface MatrixService {
 

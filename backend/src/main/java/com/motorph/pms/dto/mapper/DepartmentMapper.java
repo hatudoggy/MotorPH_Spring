@@ -1,7 +1,7 @@
-package com.motorph.ems.dto.mapper;
+package com.motorph.pms.dto.mapper;
 
-import com.motorph.ems.dto.DepartmentDTO;
-import com.motorph.ems.model.Department;
+import com.motorph.pms.dto.DepartmentDTO;
+import com.motorph.pms.model.Department;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

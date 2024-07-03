@@ -1,4 +1,4 @@
-package com.motorph.ems.dto;
+package com.motorph.pms.dto;
 
 import lombok.Builder;
 

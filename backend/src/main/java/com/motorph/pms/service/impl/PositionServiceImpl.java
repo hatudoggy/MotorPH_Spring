@@ -1,9 +1,9 @@
-package com.motorph.ems.service.impl;
+package com.motorph.pms.service.impl;
 
-import com.motorph.ems.dto.PositionDTO;
-import com.motorph.ems.dto.mapper.PositionMapper;
-import com.motorph.ems.repository.PositionRepository;
-import com.motorph.ems.service.PositionService;
+import com.motorph.pms.dto.PositionDTO;
+import com.motorph.pms.dto.mapper.PositionMapper;
+import com.motorph.pms.repository.PositionRepository;
+import com.motorph.pms.service.PositionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

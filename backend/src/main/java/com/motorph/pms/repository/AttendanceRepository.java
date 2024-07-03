@@ -1,5 +1,3 @@
-package com.motorph.ems.repository;
-
 import com.motorph.ems.model.Attendance;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;

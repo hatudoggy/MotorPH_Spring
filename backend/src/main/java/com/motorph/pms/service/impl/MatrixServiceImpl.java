@@ -1,11 +1,11 @@
-package com.motorph.ems.service.impl;
+package com.motorph.pms.service.impl;
 
-import com.motorph.ems.model.PagibigMatrix;
-import com.motorph.ems.model.PhilhealthMatrix;
-import com.motorph.ems.model.SSSMatrix;
-import com.motorph.ems.model.WitholdingTaxMatrix;
-import com.motorph.ems.repository.*;
-import com.motorph.ems.service.MatrixService;
+import com.motorph.pms.model.PagibigMatrix;
+import com.motorph.pms.model.PhilhealthMatrix;
+import com.motorph.pms.model.SSSMatrix;
+import com.motorph.pms.model.WitholdingTaxMatrix;
+import com.motorph.pms.repository.*;
+import com.motorph.pms.service.MatrixService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

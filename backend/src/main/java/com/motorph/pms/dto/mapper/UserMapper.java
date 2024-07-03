@@ -1,9 +1,9 @@
-package com.motorph.ems.dto.mapper;
+package com.motorph.pms.dto.mapper;
 
-import com.motorph.ems.dto.RoleDTO;
-import com.motorph.ems.dto.UserDTO;
-import com.motorph.ems.model.User;
-import com.motorph.ems.model.User.Role;
+import com.motorph.pms.dto.RoleDTO;
+import com.motorph.pms.dto.UserDTO;
+import com.motorph.pms.model.User;
+import com.motorph.pms.model.User.Role;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;

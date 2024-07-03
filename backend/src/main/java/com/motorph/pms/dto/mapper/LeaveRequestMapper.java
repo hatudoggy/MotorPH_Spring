@@ -1,9 +1,9 @@
-package com.motorph.ems.dto.mapper;
+package com.motorph.pms.dto.mapper;
 
-import com.motorph.ems.dto.LeaveRequestDTO;
-import com.motorph.ems.dto.LeaveStatusDTO;
-import com.motorph.ems.model.LeaveRequest;
-import com.motorph.ems.model.LeaveRequest.LeaveStatus;
+import com.motorph.pms.dto.LeaveRequestDTO;
+import com.motorph.pms.dto.LeaveStatusDTO;
+import com.motorph.pms.model.LeaveRequest;
+import com.motorph.pms.model.LeaveRequest.LeaveStatus;
 import org.springframework.stereotype.Component;
 
 @Component

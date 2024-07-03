@@ -1,8 +1,6 @@
-package com.motorph.ems.dto;
+package com.motorph.pms.dto;
 
 import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.time.LocalTime;
 

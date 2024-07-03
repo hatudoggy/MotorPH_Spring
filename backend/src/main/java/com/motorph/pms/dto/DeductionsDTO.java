@@ -1,6 +1,6 @@
-package com.motorph.ems.dto;
+package com.motorph.pms.dto;
 
-import com.motorph.ems.model.Deductions.DeductionType;
+import com.motorph.pms.model.Deductions.DeductionType;
 import lombok.Builder;
 
 @Builder
