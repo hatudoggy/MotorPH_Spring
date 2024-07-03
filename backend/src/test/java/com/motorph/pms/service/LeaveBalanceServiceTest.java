@@ -68,39 +68,6 @@ class LeaveBalanceServiceTest {
     @Test
     @Transactional
     @DirtiesContext
-    void LeaveBalanceService_addNewLeaveBalance_ReturnsLeaveBalanceDTO() {
-        when(leaveBalanceRepository.existsByEmployee_EmployeeIdAndLeaveType_LeaveTypeId(any(Long.class), any(int.class))).thenReturn(false);
-
-        when(balanceMapper.toEntity(any(LeaveBalanceDTO.class))).thenReturn(leaveBalance1);
-        when(leaveBalanceRepository.save(any(LeaveBalance.class))).thenReturn(leaveBalance1);
-        when(balanceMapper.toDTO(any(LeaveBalance.class))).thenReturn(leaveBalanceDTO1);
-
-        LeaveBalanceDTO savedBalance = leaveBalanceService.addNewLeaveBalance(leaveBalanceDTO1);
-
-        assertThat(savedBalance).isNotNull();
-        assertThat(savedBalance.id()).isEqualTo(1L);
-        assertThat(savedBalance.leaveTypeId()).isEqualTo(1);
-    }
-
-    @Test
-    @Transactional
-    @DirtiesContext
-    void LeaveBalanceService_addMultipleLeaveBalances_ReturnsListOfLeaveBalanceDTO() {
-        when(balanceMapper.toEntity(any(LeaveBalanceDTO.class))).thenReturn(leaveBalance1);
-
-        when(leaveBalanceRepository.saveAll(any(List.class))).thenReturn(List.of(leaveBalance1));
-
-        when(balanceMapper.toDTO(any(LeaveBalance.class))).thenReturn(leaveBalanceDTO1);
-
-        List<LeaveBalanceDTO> savedBalances = leaveBalanceService.addMultipleLeaveBalances(List.of(leaveBalanceDTO1));
-
-        assertThat(savedBalances).isNotEmpty();
-        assertThat(savedBalances.get(0).id()).isEqualTo(1L);
-    }
-
-    @Test
-    @Transactional
-    @DirtiesContext
     void LeaveBalanceService_getLeaveBalanceById_ReturnsLeaveBalanceDTO() {
         when(balanceMapper.toDTO(any(LeaveBalance.class))).thenReturn(leaveBalanceDTO1);
         when(leaveBalanceRepository.findById(1L)).thenReturn(Optional.of(leaveBalance1));
@@ -109,47 +76,6 @@ class LeaveBalanceServiceTest {
 
         assertThat(foundBalance).isPresent();
         assertThat(foundBalance.get().id()).isEqualTo(1L);
-    }
-
-    @Test
-    @Transactional
-    @DirtiesContext
-    void LeaveBalanceService_getLeaveBalanceByEmployeeIdAndLeaveType_ReturnsLeaveBalanceDTO() {
-        when(balanceMapper.toDTO(any(LeaveBalance.class))).thenReturn(leaveBalanceDTO1);
-        when(leaveBalanceRepository.getLeaveBalanceByEmployee_EmployeeIdAndLeaveType_LeaveTypeId(1L, 1)).thenReturn(Optional.of(leaveBalance1));
-
-        Optional<LeaveBalanceDTO> foundBalance = leaveBalanceService.getLeaveBalanceByEmployeeIdAndLeaveType(1L, 1);
-
-        assertThat(foundBalance).isPresent();
-        assertThat(foundBalance.get().leaveTypeId()).isEqualTo(1);
-    }
-
-    @Test
-    @Transactional
-    @DirtiesContext
-    void LeaveBalanceService_getAllLeaveBalances_ReturnsListOfLeaveBalanceDTO() {
-        when(balanceMapper.toDTO(any(LeaveBalance.class))).thenReturn(leaveBalanceDTO1);
-
-        when(leaveBalanceRepository.findAll()).thenReturn(List.of(leaveBalance1));
-
-        List<LeaveBalanceDTO> balances = leaveBalanceService.getAllLeaveBalances();
-
-        assertThat(balances).isNotEmpty();
-        assertThat(balances.get(0).id()).isEqualTo(1L);
-    }
-
-    @Test
-    @Transactional
-    @DirtiesContext
-    void LeaveBalanceService_getLeaveBalancesByEmployeeId_ReturnsListOfLeaveBalanceDTO() {
-        when(balanceMapper.toDTO(any(LeaveBalance.class))).thenReturn(leaveBalanceDTO1);
-
-        when(leaveBalanceRepository.findAllByEmployee_EmployeeId(any(Long.class))).thenReturn(List.of(leaveBalance1));
-
-        List<LeaveBalanceDTO> balances = leaveBalanceService.getLeaveBalancesByEmployeeId(1L);
-
-        assertThat(balances).isNotEmpty();
-        assertThat(balances.get(0).id()).isEqualTo(1L);
     }
 
     @Test
@@ -172,44 +98,6 @@ class LeaveBalanceServiceTest {
     @Test
     @Transactional
     @DirtiesContext
-    void LeaveBalanceService_deleteLeaveBalanceById_RemovesLeaveBalance() {
-        leaveBalanceService.deleteLeaveBalanceById(1L);
-
-        Mockito.verify(leaveBalanceRepository, Mockito.times(1)).deleteById(1L);
-    }
-
-    @Test
-    @Transactional
-    @DirtiesContext
-    void LeaveBalanceService_deleteMultipleLeaveBalancesByEmployeeId_RemovesAllLeaveBalances() {
-        when(leaveBalanceRepository.findAllByEmployee_EmployeeId(any(Long.class))).thenReturn(List.of(leaveBalance1));
-
-        leaveBalanceService.deleteMultipleLeaveBalancesByEmployeeId(1L);
-
-        Mockito.verify(leaveBalanceRepository, Mockito.times(1)).deleteAllById(any(List.class));
-    }
-
-    @Test
-    @Transactional
-    @DirtiesContext
-    void LeaveBalanceService_addNewLeaveType_ReturnsLeaveTypeDTO() {
-        when(leaveTypeRepository.existsByType(any(String.class))).thenReturn(false);
-
-        when(balanceMapper.toLeaveTypeEntity(any(LeaveTypeDTO.class))).thenReturn(leaveType1);
-
-        when(leaveTypeRepository.save(any(LeaveType.class))).thenReturn(leaveType1);
-
-        when(balanceMapper.toLeaveTypeDTO(any(LeaveType.class))).thenReturn(leaveTypeDTO1);
-
-        LeaveTypeDTO savedType = leaveBalanceService.addNewLeaveType(leaveTypeDTO1);
-
-        assertThat(savedType).isNotNull();
-        assertThat(savedType.typeName()).isEqualTo("Sick Leave");
-    }
-
-    @Test
-    @Transactional
-    @DirtiesContext
     void LeaveBalanceService_getLeaveTypeById_ReturnsLeaveTypeDTO() {
         when(balanceMapper.toLeaveTypeDTO(any(LeaveType.class))).thenReturn(leaveTypeDTO1);
 
@@ -220,20 +108,6 @@ class LeaveBalanceServiceTest {
         assertThat(foundType).isPresent();
         assertThat(foundType.get().id()).isEqualTo(1);
     }
-
-//    @Test
-//    @Transactional
-//    @DirtiesContext
-//    void LeaveBalanceService_getLeaveTypeByTypeName_ReturnsLeaveTypeDTO() {
-//        when(balanceMapper.toLeaveTypeDTO(any(LeaveType.class))).thenReturn(leaveTypeDTO1);
-//
-//        when(leaveTypeRepository.findByType("Sick Leave")).thenReturn(Optional.of(leaveType1));
-//
-//        Optional<LeaveTypeDTO> foundType = leaveBalanceService.getLeaveTypeByTypeName("Sick Leave");
-//
-//        assertThat(foundType).isPresent();
-//        assertThat(foundType.get().typeName()).isEqualTo("Sick Leave");
-//    }
 
     @Test
     @Transactional

@@ -107,10 +107,6 @@ public class UserServiceImpl implements UserService {
         return userRoleRepository.findById(roleId).map(userMapper::toDTO);
     }
 
-//    @Override
-//    public Optional<RoleDTO> getRoleByRoleName(String roleName) {
-//        return userRoleRepository.findByRoleName(roleName).map(userMapper::toDTO);
-//    }
 
     @Override
     public List<RoleDTO> getAllRoles() {

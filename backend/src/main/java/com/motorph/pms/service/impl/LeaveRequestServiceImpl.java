@@ -53,77 +53,8 @@ public class LeaveRequestServiceImpl implements LeaveRequestService {
     }
 
     @Override
-    public List<LeaveRequestDTO> getAllLeaveRequestsByEmployeeId(Long employeeId) {
-        return requestRepository.findAllByEmployee_EmployeeId(employeeId).stream()
-                .map(leaveRequestMapper::toDTO)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<LeaveRequestDTO> getAllLeaveRequestsByPositionCode(String positionCode) {
-        return requestRepository.findAllByEmployee_Position_PositionCode(positionCode).stream()
-                .map(leaveRequestMapper::toDTO)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<LeaveRequestDTO> getAllLeaveRequestsByDepartmentCode(String departmentCode) {
-        return requestRepository.findAllByEmployee_Department_DepartmentCode(departmentCode).stream()
-                .map(leaveRequestMapper::toDTO)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<LeaveRequestDTO> getAllLeaveRequestsByStatus(String status) {
-        return requestRepository.findAllByStatus_StatusName(status).stream()
-                .map(leaveRequestMapper::toDTO)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<LeaveRequestDTO> getAllLeaveRequestsByRequestDate(LocalDate requestDate) {
-        return requestRepository.findAllByRequestDate(requestDate).stream()
-                .map(leaveRequestMapper::toDTO)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<LeaveRequestDTO> getAllLeaveRequestsByStartDate(LocalDate startDate) {
-        return requestRepository.findAllByStartDate(startDate).stream()
-                .map(leaveRequestMapper::toDTO)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<LeaveRequestDTO> getAllLeaveRequestsByRequestDateBetween(LocalDate startDate, LocalDate endDate) {
-        return requestRepository.findAllByRequestDateBetween(startDate, endDate).stream()
-                .map(leaveRequestMapper::toDTO)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<LeaveRequestDTO> getAllLeaveRequestsByStatusAndRequestDateBetween(String status, LocalDate startDate, LocalDate endDate) {
-        return requestRepository.findAllByStatus_StatusNameAndRequestDateBetween(status, startDate, endDate).stream()
-                .map(leaveRequestMapper::toDTO)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<LeaveRequestDTO> getAllLeaveRequestsBySupervisorId(Long supervisorId) {
-        return requestRepository.findAllByEmployee_Supervisor_EmployeeId(supervisorId).stream()
-                .map(leaveRequestMapper::toDTO)
-                .collect(Collectors.toList());
-    }
-
-
-    @Override
     public Optional<LeaveRequestDTO> getLeaveRequestById(Long leaveRequestId) {
         return requestRepository.findById(leaveRequestId).map(leaveRequestMapper::toDTO);
-    }
-
-    @Override
-    public Optional<LeaveRequestDTO> getLeaveRequestByEmployeeIdAndDate(Long employeeId, LocalDate date) {
-        return requestRepository.findByEmployee_EmployeeIdAndRequestDate(employeeId, date).map(leaveRequestMapper::toDTO);
     }
 
     @Override
@@ -147,18 +78,11 @@ public class LeaveRequestServiceImpl implements LeaveRequestService {
         requestRepository.deleteById(leaveRequestId);
     }
 
-    @Cacheable(value = "leaveStatuses", key = "#leaveStatusId")
     @Override
     public Optional<LeaveStatusDTO> getLeaveStatusById(int leaveStatusId) {
         return statusRepository.findById(leaveStatusId).map(leaveRequestMapper::toDTO);
     }
 
-//    @Override
-//    public Optional<LeaveStatusDTO> getLeaveStatusByStatusName(String statusName) {
-//        return statusRepository.findByStatusName(statusName).map(leaveRequestMapper::toDTO);
-//    }
-
-    @Cacheable("leaveStatuses")
     @Override
     public List<LeaveStatusDTO> getAllLeaveStatus() {
         return statusRepository.findAll().stream()

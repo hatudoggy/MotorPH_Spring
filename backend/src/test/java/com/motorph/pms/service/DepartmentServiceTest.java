@@ -53,27 +53,6 @@ class DepartmentServiceTest {
     @Test
     @Transactional
     @DirtiesContext
-    void DepartmentService_addNewDepartment_ReturnsDepartmentDTO() {
-        when(departmentRepository.existsById(any(String.class))).thenReturn(false);
-
-        when(departmentRepository.findByDepartmentName(any(String.class))).thenReturn(Optional.empty());
-
-        when(departmentMapper.toEntity(any(DepartmentDTO.class))).thenReturn(Department.fromDTO(departmentDTO1));
-
-        when(departmentRepository.save(any(Department.class))).thenReturn(department1);
-
-        when(departmentMapper.toDTO(any(Department.class))).thenReturn(departmentDTO1);
-
-        DepartmentDTO savedDepartment = departmentService.addNewDepartment(departmentDTO1);
-
-        assertThat(savedDepartment).isNotNull();
-        assertThat(savedDepartment.departmentCode()).isEqualTo("D001");
-        assertThat(savedDepartment.departmentName()).isEqualTo("HR");
-    }
-
-    @Test
-    @Transactional
-    @DirtiesContext
     void DepartmentService_getDepartments_ReturnsListOfDepartmentDTO() {
         when(departmentRepository.findAll()).thenReturn(List.of(department1));
 

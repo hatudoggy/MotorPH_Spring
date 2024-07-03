@@ -23,18 +23,6 @@ public class PositionServiceImpl implements PositionService {
     }
 
     @Override
-    public PositionDTO addPosition(PositionDTO positionDTO) {
-        if (positionRepository.existsById(positionDTO.positionCode())) {
-            throw new IllegalStateException("Position with code " + positionDTO.positionCode() + " already exists");
-        }
-        if (positionRepository.findByPositionName(positionDTO.positionName()).isPresent()) {
-            throw new IllegalStateException("Position with name " + positionDTO.positionName() + " already exists");
-        }
-
-        return positionMapper.toDTO(positionRepository.save(positionMapper.toEntity(positionDTO)));
-    }
-
-    @Override
     public List<PositionDTO> getPositionsByDepartment(String departmentCode) {
         return positionRepository.findAllByDepartment_DepartmentCode(departmentCode).stream()
                 .map(positionMapper::toDTO).toList();

@@ -71,20 +71,6 @@ class BenefitsServiceTest {
     }
 
 
-    @Test
-    @Transactional
-    @DirtiesContext
-    void BenefitsService_getBenefitTypeByBenefitId_ReturnsBenefitType() {
-        when(typeRepository.findById(1)).thenReturn(Optional.of(benefitType1));
-
-        when(benefitsMapper.toDTO(any(BenefitType.class))).thenReturn(benefitTypeDTO1);
-
-        Optional<BenefitTypeDTO> foundBenefitType = benefitsService.getBenefitTypeByBenefitId(1);
-
-        assertThat(foundBenefitType).isPresent();
-        assertThat(foundBenefitType.get().benefit()).isEqualTo("Health Insurance");
-    }
-
 //    @Test
 //    @Transactional
 //    @DirtiesContext

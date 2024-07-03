@@ -26,28 +26,12 @@ public class DepartmentServiceImpl implements DepartmentService {
         this.departmentMapper = departmentMapper;
     }
 
-    @Override
-    public DepartmentDTO addNewDepartment(DepartmentDTO departmentDTO) {
-        if (departmentRepository.existsById(departmentDTO.departmentCode())) {
-            throw new IllegalStateException("Department " + departmentDTO.departmentCode() + " already exists");
-        }
 
-        if (departmentRepository.findByDepartmentName(departmentDTO.departmentName()).isPresent()) {
-            throw new IllegalStateException("Department with name " + departmentDTO.departmentName() + " already exists");
-        }
-
-        Department department = departmentMapper.toEntity(departmentDTO);
-        Department savedDepartment = departmentRepository.save(department);
-        return departmentMapper.toDTO(savedDepartment);
-    }
-
-    @Cacheable("departments")
     @Override
     public List<DepartmentDTO> getDepartments() {
         return departmentMapper.toDTO(departmentRepository.findAll());
     }
 
-    @Cacheable(value = "departments", key = "#departmentCode")
     @Override
     public Optional<DepartmentDTO> getDepartmentByDepartmentCode(String departmentCode) {
         return departmentRepository.findById(departmentCode)

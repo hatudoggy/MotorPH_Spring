@@ -6,7 +6,6 @@ import com.motorph.pms.model.SSSMatrix;
 import com.motorph.pms.model.WitholdingTaxMatrix;
 
 public interface MatrixService {
-
     SSSMatrix getSSSMatrix(Double value);
     PhilhealthMatrix getPhilhealthMatrix(Double value);
     PagibigMatrix getPagibigMatrix(Double value);

@@ -26,18 +26,6 @@ public class BenefitsServiceImpl implements BenefitsService {
         this.employeeService = employeeService;
     }
 
-    @Cacheable(value = "benefits", key = "#benefitId")
-    @Override
-    public Optional<BenefitTypeDTO> getBenefitTypeByBenefitId(int benefitId) {
-        return typeRepository.findById(benefitId).map(benefitsMapper::toDTO);
-    }
-
-//    @Override
-//    public Optional<BenefitTypeDTO> getBenefitTypeByBenefit(String benefit) {
-//        return typeRepository.findBenefitTypeByBenefit(benefit).map(benefitsMapper::toDTO);
-//    }
-
-    @Cacheable("benefits")
     @Override
     public List<BenefitTypeDTO> getAllBenefitTypes() {
         return typeRepository.findAll().stream()

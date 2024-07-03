@@ -11,27 +11,11 @@ public interface EmployeeService {
 
     EmployeeDTO addNewEmployee(EmployeeDTO employee);
 
-    Optional<EmployeeDTO> getEmployeeById(Long employeeId, boolean isFullDetails);
-
-    Optional<EmployeeDTO> getEmployeeByName(String firstName, String lastName);
-
     List<EmployeeDTO> getEmployees();
 
-    List<EmployeeDTO> getEmployeesByDepartment(String departmentName);
-
-    List<EmployeeDTO> getEmployeesByPosition(String positionName);
-
-    List<EmployeeDTO> getEmployeesByStatus(String statusName);
-
-    List<EmployeeDTO> getEmployeesBySupervisorId(Long supervisorId);
-
-    List<EmployeeDTO> getEmployeesBySupervisorName(String firstName, String lastName);
-
-    List<EmployeeDTO> getEmployeesByHiredBetween(LocalDate startDate, LocalDate endDate);
+    Optional<EmployeeDTO> getEmployeeById(Long employeeId, boolean isFullDetails);
 
     EmployeeDTO updateEmployee(Long employeeId, EmployeeDTO employee);
-
-    void deleteEmployee(Long employeeId);
 
     void addNewEmployeesFromCSV(String employeeCSVPath);
 

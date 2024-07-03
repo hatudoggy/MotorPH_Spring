@@ -25,19 +25,7 @@ public interface AttendanceService {
 
      List<AttendanceDTO> getAllByDate(LocalDate date);
 
-     List<AttendanceDTO> getAttendancesForDateRange(LocalDate start, LocalDate end);
-
-     List<AttendanceDTO> getAttendancesAfterTimeIn(LocalTime timeIn, LocalDate date);
-
-     List<AttendanceDTO> getAttendancesByDateAndEmployeeName(LocalDate date, String name);
-
-    public AttendanceSummaryDTO getAttendanceSummaryByEmployeeId(Long employeeId);
-
-     List<AttendanceDTO> getAttendancesAfterTimeOut(LocalTime timeOut, LocalDate date);
-
      AttendanceDTO updateAttendance(Long employeeId, AttendanceDTO attendance);
-
-     void deleteAttendanceById(Long attendanceId);
 
     List<AttendanceDTO> getAllAttendanceByEmployeeIdAndDateRange(Long id, LocalDate start, LocalDate end);
 }

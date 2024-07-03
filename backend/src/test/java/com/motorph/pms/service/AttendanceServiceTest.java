@@ -173,41 +173,6 @@ class AttendanceServiceTest {
         assertThat(attendances).isNotEmpty();
     }
 
-    @Test
-    @Transactional
-    @DirtiesContext
-    void AttendanceService_getAttendancesForDateRange_ReturnsListOfAttendanceDTO() {
-        when(attendanceRepository.findAllByDateBetweenOrderByDateDesc(date.minusDays(1), date.plusDays(1)))
-                .thenReturn(Collections.singletonList(attendance1));
-
-        List<AttendanceDTO> attendances = attendanceService.getAttendancesForDateRange(date.minusDays(1), date.plusDays(1));
-
-        assertThat(attendances).isNotEmpty();
-    }
-
-    @Test
-    @Transactional
-    @DirtiesContext
-    void AttendanceService_getAttendancesAfterTimeIn_ReturnsListOfAttendanceDTO() {
-        when(attendanceRepository.findAllByTimeInIsAfterAndDate(timeIn.minusHours(1), date))
-                .thenReturn(Collections.singletonList(attendance1));
-
-        List<AttendanceDTO> attendances = attendanceService.getAttendancesAfterTimeIn(timeIn.minusHours(1), date);
-
-        assertThat(attendances).isNotEmpty();
-    }
-
-    @Test
-    @Transactional
-    @DirtiesContext
-    void AttendanceService_getAttendancesAfterTimeOut_ReturnsListOfAttendanceDTO() {
-        when(attendanceRepository.findAllByTimeOutIsAfterAndDate(timeOut.minusHours(1), date))
-                .thenReturn(Collections.singletonList(attendance1));
-
-        List<AttendanceDTO> attendances = attendanceService.getAttendancesAfterTimeOut(timeOut.minusHours(1), date);
-
-        assertThat(attendances).isNotEmpty();
-    }
 
     @Test
     @Transactional
@@ -235,16 +200,5 @@ class AttendanceServiceTest {
 
         assertThat(updatedAttendance).isNotNull();
         assertThat(updatedAttendance.timeOut()).isEqualTo(updated.getTimeOut());
-    }
-
-    @Test
-    @Transactional
-    @DirtiesContext
-    void AttendanceService_deleteAttendance_DeletesAttendance() {
-        when(attendanceRepository.existsById(1L)).thenReturn(true);
-
-        attendanceService.deleteAttendanceById(1L);
-
-        verify(attendanceRepository).deleteById(1L);
     }
 }

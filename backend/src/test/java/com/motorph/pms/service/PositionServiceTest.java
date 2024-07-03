@@ -61,27 +61,6 @@ class PositionServiceTest {
     @Test
     @Transactional
     @DirtiesContext
-    void PositionService_addPosition_ReturnsPositionDTO() {
-        when(positionRepository.existsById(any(String.class))).thenReturn(false);
-
-        when(positionRepository.findByPositionName(any(String.class))).thenReturn(Optional.empty());
-
-        when(positionMapper.toEntity(any(PositionDTO.class))).thenReturn(position1);
-
-        when(positionRepository.save(any(Position.class))).thenReturn(position1);
-
-        when(positionMapper.toDTO(any(Position.class))).thenReturn(positionDTO1);
-
-        PositionDTO savedPosition = positionService.addPosition(positionDTO1);
-
-        assertThat(savedPosition).isNotNull();
-        assertThat(savedPosition.positionCode()).isEqualTo("P001");
-        assertThat(savedPosition.positionName()).isEqualTo("Manager");
-    }
-
-    @Test
-    @Transactional
-    @DirtiesContext
     void PositionService_getPositionsByDepartment_ReturnsListOfPositionByPositionCodeDTO() {
         when(positionRepository.findAllByDepartment_DepartmentCode("D001")).thenReturn(List.of(position1));
 

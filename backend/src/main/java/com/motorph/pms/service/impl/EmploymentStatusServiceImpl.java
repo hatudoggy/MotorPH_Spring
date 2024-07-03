@@ -27,16 +27,6 @@ public class EmploymentStatusServiceImpl implements EmploymentStatusService {
     }
 
     @Override
-    public EmploymentStatusDTO addNewStatus(EmploymentStatusDTO statusDTO) {
-        if (employmentStatusRepository.findByStatusName(statusDTO.statusName()).isPresent()) {
-            throw new IllegalStateException("EmploymentStatus with name " + statusDTO.statusName() + " already exists");
-        }
-
-        EmploymentStatus status = employmentStatusMapper.toEntity(statusDTO);
-        return employmentStatusMapper.toDTO(employmentStatusRepository.save(status));
-    }
-
-    @Override
     public List<EmploymentStatusDTO> getEmploymentStatuses() {
         return employmentStatusRepository.findAll().stream()
                 .map(employmentStatusMapper::toDTO)
@@ -48,10 +38,4 @@ public class EmploymentStatusServiceImpl implements EmploymentStatusService {
         return employmentStatusRepository.findById(statusId)
                 .map(employmentStatusMapper::toDTO);
     }
-
-//    @Override
-//    public Optional<EmploymentStatusDTO> getEmploymentStatusByStatusName(String statusName) {
-//        return employmentStatusRepository.findByStatusName(statusName)
-//                .map(employmentStatusMapper::toDTO);
-//    }
 }

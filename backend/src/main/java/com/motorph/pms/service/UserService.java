@@ -32,8 +32,6 @@ public interface UserService {
 
     Optional<RoleDTO> getRoleById(int roleId);
 
-//    Optional<RoleDTO> getRoleByRoleName(String roleName);
-
     List<RoleDTO> getAllRoles();
 
     UserAuth authenticateUser(String username, String password);

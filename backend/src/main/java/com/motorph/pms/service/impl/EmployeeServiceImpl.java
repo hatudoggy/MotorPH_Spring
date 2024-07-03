@@ -11,11 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Transactional
 @Service
@@ -47,6 +44,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    public List<EmployeeDTO> getEmployees() {
+        return employeeRepository.findAll().stream().map(employeeMapper::toLimitedDTO).toList();
+    }
+
+    @Override
     public Optional<EmployeeDTO> getEmployeeById(Long employeeID, boolean isFullDetails) {
         if (isFullDetails) {
             return employeeRepository.findById(employeeID).map(employeeMapper::toFullDTO);
@@ -55,60 +57,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         else {
             return employeeRepository.findById(employeeID).map(employeeMapper::toLimitedDTO);
         }
-    }
-
-    @Override
-    public Optional<EmployeeDTO> getEmployeeByName(String firstName, String lastName) {
-        return employeeRepository.findByFirstNameAndLastName(firstName, lastName).map(employeeMapper::toFullDTO);
-    }
-
-    @Override
-    public List<EmployeeDTO> getEmployees() {
-        List<Employee> employees = employeeRepository.findAll();
-
-        if (employees.isEmpty()) {
-            return Collections.emptyList();
-        }
-
-        return employees.stream()
-                .map(employeeMapper::toLimitedDTO)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<EmployeeDTO> getEmployeesByDepartment(String departmentName) {
-        return employeeRepository.findAllByDepartment_DepartmentName(departmentName)
-                .stream().map(employeeMapper::toLimitedDTO).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<EmployeeDTO> getEmployeesByPosition(String positionName) {
-        return employeeRepository.findAllByPosition_PositionName(positionName)
-                .stream().map(employeeMapper::toLimitedDTO).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<EmployeeDTO> getEmployeesByStatus(String statusName) {
-        return employeeRepository.findAllByStatus_StatusName(statusName)
-                .stream().map(employeeMapper::toLimitedDTO).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<EmployeeDTO> getEmployeesBySupervisorId(Long supervisorId) {
-        return employeeRepository.findAllBySupervisor_EmployeeId(supervisorId)
-                .stream().map(employeeMapper::toLimitedDTO).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<EmployeeDTO> getEmployeesBySupervisorName(String firstName, String lastName) {
-        return employeeRepository.findAllBySupervisor_FirstName_AndSupervisor_LastName(firstName, lastName)
-                .stream().map(employeeMapper::toLimitedDTO).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<EmployeeDTO> getEmployeesByHiredBetween(LocalDate startDate, LocalDate endDate) {
-        return employeeRepository.findAllByHireDateBetween(startDate, endDate)
-                .stream().map(employeeMapper::toLimitedDTO).collect(Collectors.toList());
     }
 
     @Override
@@ -136,16 +84,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 
         return employeeMapper.toFullDTO(employeeRepository.save(employee));
-    }
-
-    @Override
-    @Transactional
-    public void deleteEmployee(Long employeeID) {
-        Employee employee = employeeRepository.findById(employeeID).orElseThrow(
-                () -> new RuntimeException("EmployeeDTO not found with status: " + employeeID)
-        );
-
-        employeeRepository.delete(employee);
     }
 
     @Override

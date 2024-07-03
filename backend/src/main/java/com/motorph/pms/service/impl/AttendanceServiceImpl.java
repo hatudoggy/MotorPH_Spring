@@ -71,30 +71,6 @@ public class AttendanceServiceImpl implements AttendanceService {
                 .map(attendanceMapper::toDTO).collect(Collectors.toList());
     }
 
-    @Override
-    public List<AttendanceDTO> getAttendancesForDateRange(LocalDate start, LocalDate end) {
-        return attendanceRepository.findAllByDateBetweenOrderByDateDesc(start, end).stream()
-                .map(attendanceMapper::toDTO).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<AttendanceDTO> getAttendancesAfterTimeIn(LocalTime timeIn, LocalDate date) {
-        return attendanceRepository.findAllByTimeInIsAfterAndDate(timeIn, date).stream()
-                .map(attendanceMapper::toDTO).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<AttendanceDTO> getAttendancesByDateAndEmployeeName(LocalDate date, String name) {
-        return attendanceRepository.findByDateAndNameContaining(date, name).stream()
-                .map(attendanceMapper::toDTO).collect(Collectors.toList());
-    }
-
-
-    @Override
-    public List<AttendanceDTO> getAttendancesAfterTimeOut(LocalTime timeOut, LocalDate date) {
-        return attendanceRepository.findAllByTimeOutIsAfterAndDate(timeOut, date).stream()
-                .map(attendanceMapper::toDTO).collect(Collectors.toList());
-    }
 
     @Transactional
     @Override
@@ -111,50 +87,8 @@ public class AttendanceServiceImpl implements AttendanceService {
     }
 
     @Override
-    public AttendanceSummaryDTO getAttendanceSummaryByEmployeeId(Long employeeId) {
-        List<Attendance> attendanceList = attendanceRepository.findAllByEmployee_EmployeeId_OrderByDateDesc(employeeId);
-
-        int totalCount = attendanceList.size();
-        int lateCount = (int) attendanceList.stream().filter(a -> a.getTimeIn().isAfter(LocalTime.of(8,0))).count();
-        int absentCount = (int) attendanceList.stream().filter(a -> a.getTimeIn() == null && a.getTimeOut() == null).count();
-
-        double averageCheckInMinutes = attendanceList.stream()
-                .filter(a -> a.getTimeIn() != null)
-                .mapToInt(a -> a.getTimeIn().toSecondOfDay())
-                .average()
-                .orElse(0);
-
-        double averageCheckOutMinutes = attendanceList.stream()
-                .filter(a -> a.getTimeOut() != null)
-                .mapToInt(a -> a.getTimeOut().toSecondOfDay())
-                .average()
-                .orElse(0);
-
-        LocalTime averageCheckIn = LocalTime.ofSecondOfDay((long) averageCheckInMinutes);
-        LocalTime averageCheckOut = LocalTime.ofSecondOfDay((long) averageCheckOutMinutes);
-
-        return AttendanceSummaryDTO.builder()
-                .totalCount(totalCount)
-                .presentCount(totalCount - absentCount)
-                .lateCount(lateCount)
-                .absentCount(absentCount)
-                .averageTimeIn(averageCheckIn)
-                .averageTimeOut(averageCheckOut)
-                .build();
-    }
-
-    @Override
-    public void deleteAttendanceById(Long attendanceId) {
-        if (!attendanceRepository.existsById(attendanceId)) {
-            throw new EntityNotFoundException("Attendance with status " + attendanceId + " does not exist");
-        }
-
-        attendanceRepository.deleteById(attendanceId);
-    }
-
-    @Override
-    public List<AttendanceDTO> getAllAttendanceByEmployeeIdAndDateRange(Long employeeId, LocalDate start, LocalDate end) {
-        return attendanceRepository.findAllByEmployee_EmployeeId_AndDateBetween(employeeId, start, end)
-                .stream().map(attendanceMapper::toDTO).collect(Collectors.toList());
+    public List<AttendanceDTO> getAllAttendanceByEmployeeIdAndDateRange(Long id, LocalDate start, LocalDate end) {
+        return attendanceRepository.findAllByEmployee_EmployeeId_AndDateBetween(id, start, end).stream()
+                .map(attendanceMapper::toDTO).collect(Collectors.toList());
     }
 }
