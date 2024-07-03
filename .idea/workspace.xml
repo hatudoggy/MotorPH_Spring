@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="ef4833e7-6818-46a8-95cb-723fd7831949" name="Changes" comment="implemented update and add employee">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/0f2c4b24-f675-44b0-aa54-abd5c1f4cfd9.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/0f2c4b24-f675-44b0-aa54-abd5c1f4cfd9.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/EmsApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/PmsApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/repository/BenefitsRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/repository/DeductionTypeRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/repository/DeductionsRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/service/BenefitsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/service/BenefitsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/service/DeductionsService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/service/impl/BenefitsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/service/impl/BenefitsServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/service/impl/DeductionsServiceImpl.java" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="com.intellij.reactbuddy.palette" />
+        <option value="com.intellij.reactbuddy.previews" />
+        <option value="com.intellij.reactbuddy.index" />
+        <option value="com.intellij.reactbuddy.useInitial" />
+        <option value="com.intellij.reactbuddy.README" />
+        <option value="Class" />
+        <option value="JSX File" />
+        <option value="TypeScript JSX File" />
+        <option value="TypeScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="JsBowerSettings">
+    <bower-package value="" />
+    <bower.json value="" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="2iLo9d6FELIUrDM8S7V41JGzder" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showVisibilityIcons" value="true" />
+    <option name="sortByType" value="true" />
+    <option name="sortKey" value="BY_TYPE" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "HTTP Request.EmsApplication | #2.executor": "Run",
+    "HTTP Request.EmsApplication | #3.executor": "Run",
+    "JUnit.AttendanceRepositoryTest.AttendanceRepository_findAllByDate_OrderByDateDesc_Found.executor": "Run",
+    "JUnit.EmployeeServiceTest.EmployeeService_getEmployeesBySupervisorName_ReturnsListOfEmployeeDTO.executor": "Run",
+    "JUnit.PayrollRepositoryTest.PayrollRepository_findAllByEmployee_EmployeeId_Found.executor": "Run",
+    "JUnit.java in ems.executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "Spring Boot.EmsApplication.executor": "Run",
+    "database.data.extractors.current.export.id": "Comma-separated (CSV)_id",
+    "git-widget-placeholder": "UI-integration",
+    "jdk.selected.JAVA_MODULE": "22",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Harvey/Documents",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.standard": "true",
+    "node.js.detected.package.stylelint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.standard": "",
+    "node.js.selected.package.stylelint": "",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "npm.React Buddy Preview.executor": "Run",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15429688",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "C:\\Users\\Harvey\\Documents\\GitHub\\MotorPH_Spring\\frontend\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="ReactDesignerToolWindowState">
+    <option name="myId2Visible">
+      <map>
+        <entry key="com.intellij.reactbuddy.reactComponents" value="false" />
+        <entry key="com.intellij.reactbuddy.reactInspector" value="false" />
+        <entry key="com.intellij.reactbuddy.storybook" value="false" />
+      </map>
+    </option>
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Harvey\Documents\GitHub\MotorPH_Spring\frontend\src\api\query" />
+      <recent name="C:\Users\Harvey\Documents\GitHub\MotorPH_Spring\frontend\src\api" />
+      <recent name="C:\Users\Harvey\Documents\GitHub\MotorPH_Spring\frontend\src\pages\hr\employeeManagement\form" />
+      <recent name="C:\Users\Harvey\Documents\GitHub\MotorPH_Spring\frontend\src\hooks" />
+      <recent name="C:\Users\Harvey\Documents\GitHub\MotorPH_Spring\frontend\src\constants" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Spring Boot.PmsApplication">
+    <configuration name="EmsApplication | #3" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/EmsApplication.http" index="3" requestIdentifier="#3" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="java in ems" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ems" />
+      <option name="MAIN_CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="directory" />
+      <dir value="$PROJECT_DIR$/backend/src/test/java" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PmsApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="ems" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.motorph.ems.PmsApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="HTTP Request.EmsApplication | #3" />
+      <item itemvalue="JUnit.java in ems" />
+      <item itemvalue="Spring Boot.PmsApplication" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="HTTP Request.EmsApplication | #3" />
+        <item itemvalue="JUnit.java in ems" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SpringBootHealthEndpointTabSettings">
+    <option name="checkHealth" value="false" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration>C:\Users\Harvey\AppData\Roaming\Subversion</configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ef4833e7-6818-46a8-95cb-723fd7831949" name="Changes" comment="" />
+      <created>1719279069179</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1719279069179</updated>
+      <workItem from="1719279072647" duration="55708000" />
+      <workItem from="1719459594369" duration="62350000" />
+      <workItem from="1719633352005" duration="1385000" />
+      <workItem from="1719634786853" duration="2387000" />
+      <workItem from="1719637895462" duration="187000" />
+      <workItem from="1719638103862" duration="158000" />
+      <workItem from="1719638282746" duration="332000" />
+      <workItem from="1719638631769" duration="720000" />
+      <workItem from="1719639374836" duration="26753000" />
+      <workItem from="1719747476400" duration="43276000" />
+      <workItem from="1719823317395" duration="18840000" />
+      <workItem from="1719888193950" duration="7966000" />
+    </task>
+    <task id="LOCAL-00001" summary="x">
+      <option name="closed" value="true" />
+      <created>1719279529004</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1719279529004</updated>
+    </task>
+    <task id="LOCAL-00002" summary="integrated ui, backend and database, modified payslip ui">
+      <option name="closed" value="true" />
+      <created>1719337263183</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1719337263183</updated>
+    </task>
+    <task id="LOCAL-00003" summary="done integrating ui, backend and database, for employee">
+      <option name="closed" value="true" />
+      <created>1719470121216</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1719470121216</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Hr attendance now only filters instead of querying again the search">
+      <option name="closed" value="true" />
+      <created>1719475039238</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1719475039238</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Hr attendance now only filters instead of querying again the search">
+      <option name="closed" value="true" />
+      <created>1719480124594</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1719480124594</updated>
+    </task>
+    <task id="LOCAL-00006" summary="made attendance overview dynamic, implemented changing month, added details on overview">
+      <option name="closed" value="true" />
+      <created>1719505963053</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1719505963053</updated>
+    </task>
+    <task id="LOCAL-00007" summary="integrated hr employees, added loading after clicking a card">
+      <option name="closed" value="true" />
+      <created>1719508975486</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1719508975486</updated>
+    </task>
+    <task id="LOCAL-00008" summary="used filtering for real time search rather than querying again">
+      <option name="closed" value="true" />
+      <created>1719509220267</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1719509220267</updated>
+    </task>
+    <task id="LOCAL-00009" summary="improved hr attendance performance">
+      <option name="closed" value="true" />
+      <created>1719511093507</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1719511093507</updated>
+    </task>
+    <task id="LOCAL-00010" summary="improved hr employee performance">
+      <option name="closed" value="true" />
+      <created>1719512344626</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1719512344626</updated>
+    </task>
+    <task id="LOCAL-00011" summary="improved hr employee performance">
+      <option name="closed" value="true" />
+      <created>1719512792999</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1719512792999</updated>
+    </task>
+    <task id="LOCAL-00012" summary="fixed sidebar changing view after refresh and hr attendance table spacing">
+      <option name="closed" value="true" />
+      <created>1719513313228</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1719513313228</updated>
+    </task>
+    <task id="LOCAL-00013" summary="added more details to employee dialog">
+      <option name="closed" value="true" />
+      <created>1719513765052</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1719513765052</updated>
+    </task>
+    <task id="LOCAL-00014" summary="added more details to employee dialog">
+      <option name="closed" value="true" />
+      <created>1719514246027</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1719514246027</updated>
+    </task>
+    <task id="LOCAL-00015" summary="implemented clock in and out, and hr payroll viewing">
+      <option name="closed" value="true" />
+      <created>1719757786013</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1719757786013</updated>
+    </task>
+    <task id="LOCAL-00016" summary="implemented update and add employee">
+      <option name="closed" value="true" />
+      <created>1719852039333</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1719852039333</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="x" />
+    <MESSAGE value="integrated ui, backend and database, modified payslip ui" />
+    <MESSAGE value="done integrating ui, backend and database, for employee" />
+    <MESSAGE value="Hr attendance now only filters instead of querying again the search" />
+    <MESSAGE value="made attendance overview dynamic, implemented changing month" />
+    <MESSAGE value="made attendance overview dynamic, implemented changing month, added details on overview" />
+    <MESSAGE value="integrated hr employees, added loading after clicking a card" />
+    <MESSAGE value="used filtering for real time search rather than querying again" />
+    <MESSAGE value="improved hr attendance performance" />
+    <MESSAGE value="improved hr employee performance" />
+    <MESSAGE value="fixed sidebar changing view after refresh and hr attendance table spacing" />
+    <MESSAGE value="added more details to employee dialog" />
+    <MESSAGE value="implemented clock in and out, and hr payroll viewing" />
+    <MESSAGE value="implemented update and add employee" />
+    <option name="LAST_COMMIT_MESSAGE" value="implemented update and add employee" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand>
+      <path>
+        <item name="MotorPH_Spring" type="b2602c69:ProjectViewProjectNode" />
+        <item name="dir{file://C:/Users/Harvey/Documents/GitHub/MotorPH_Spring}" type="462c0819:PsiDirectoryNode" />
+      </path>
+    </expand>
+    <select />
+  </component>
+</project>
