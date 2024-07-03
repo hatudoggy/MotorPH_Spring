@@ -5,34 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ef4833e7-6818-46a8-95cb-723fd7831949" name="Changes" comment="updated project structure, added a Main class to run both backend and frontend">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/aacb57b9-4b1d-42b3-9e47-3257a000b82e.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/aacb57b9-4b1d-42b3-9e47-3257a000b82e.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/aacb57b9-4b1d-42b3-9e47-3257a000b82e/storage_v2/_src_/schema/motorph_db.0MiwFw.zip" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/aacb57b9-4b1d-42b3-9e47-3257a000b82e/storage_v2/_src_/schema/motorph_db.0MiwFw.zip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_6_24_2024_3_52_AM__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_6_24_2024_3_52_AM__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/AttendanceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/AttendanceService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/BenefitsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/BenefitsService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/DepartmentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/DepartmentService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/EmployeeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/EmployeeService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/EmploymentStatusService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/EmploymentStatusService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/LeaveBalanceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/LeaveBalanceService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/LeaveRequestService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/LeaveRequestService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/MatrixService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/MatrixService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/PayrollService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/PayrollService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/PositionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/PositionService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/impl/AttendanceServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/impl/AttendanceServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/impl/BenefitsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/impl/BenefitsServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/impl/DepartmentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/impl/DepartmentServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/impl/EmployeeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/impl/EmployeeServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/impl/EmploymentStatusServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/impl/EmploymentStatusServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/impl/LeaveBalanceServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/impl/LeaveBalanceServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/impl/LeaveRequestServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/impl/LeaveRequestServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/impl/PositionServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/impl/PositionServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/impl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/impl/UserServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/test/java/com/motorph/pms/service/AttendanceServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/test/java/com/motorph/pms/service/AttendanceServiceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/test/java/com/motorph/pms/service/BenefitsServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/test/java/com/motorph/pms/service/BenefitsServiceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/test/java/com/motorph/pms/service/DepartmentServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/test/java/com/motorph/pms/service/DepartmentServiceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/test/java/com/motorph/pms/service/EmploymentStatusServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/test/java/com/motorph/pms/service/EmploymentStatusServiceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,6 +31,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="JsBowerSettings">
@@ -105,7 +86,7 @@
     "Spring Boot.EmsApplication.executor": "Run",
     "Spring Boot.Main.executor": "Run",
     "database.data.extractors.current.export.id": "Comma-separated (CSV)_id",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "UI-integration",
     "jdk.selected.JAVA_MODULE": "22",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/Harvey/Documents/GitHub/MotorPH_Spring/pom.xml",
@@ -145,7 +126,7 @@
       <recent name="C:\Users\Harvey\Documents\GitHub\MotorPH_Spring\frontend\src\pages\hr\employeeManagement\form" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.java in ems">
+  <component name="RunManager" selected="Spring Boot.Main">
     <configuration name="EmsApplication | #3" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/EmsApplication.http" index="3" requestIdentifier="#3" runType="Run single request">
       <method v="2" />
     </configuration>
@@ -159,7 +140,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Main" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+    <configuration name="Main" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="MotorPH_Spring" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.motorph.pms.Main" />
       <extension name="coverage">
@@ -189,7 +170,6 @@
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.java in ems" />
-        <item itemvalue="Spring Boot.Main" />
         <item itemvalue="HTTP Request.EmsApplication | #3" />
       </list>
     </recent_temporary>

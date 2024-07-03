@@ -118,7 +118,7 @@ function PayrollMonthList() {
                                     <PayrollCard
                                         key={item.payrollId}
                                         periodEnd={item.periodEnd}
-                                        grossIncome={item.grossIncome}
+                                        netPay={item.netPay}
                                         onClick={() => handlePayrollSelect(item.payrollId)}
                                     />
                                 ))
@@ -139,7 +139,7 @@ function PayrollMonthList() {
 }
 
 // PayrollCard component
-function PayrollCard({periodEnd, grossIncome, onClick}) {
+function PayrollCard({periodEnd, netPay, onClick}) {
     const month = formatMonth(periodEnd);
     const endDate = formatDate(periodEnd);
 
@@ -162,7 +162,7 @@ function PayrollCard({periodEnd, grossIncome, onClick}) {
                 >
                     <Stack direction="row" justifyContent='space-between'>
                         <Typography variant="h5" fontWeight={500}>{month}</Typography>
-                        <Typography variant="body1" fontWeight={500}>{formatterWhole.format(grossIncome)}</Typography>
+                        <Typography variant="body1" fontWeight={500}>{formatterWhole.format(netPay)}</Typography>
                     </Stack>
                     <Typography variant="body2" color="GrayText">{endDate}</Typography>
                     <East
