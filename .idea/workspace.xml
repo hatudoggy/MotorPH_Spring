@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="09e51294-ee19-4f25-9e9e-1b5e2b56cdfe" name="Changes" comment="maven dependencies" />
+    <list default="true" id="09e51294-ee19-4f25-9e9e-1b5e2b56cdfe" name="Changes" comment="updated project structure" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -286,6 +286,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="JUnit.LeaveBalanceServiceTest" />
+      <item itemvalue="JUnit.LeaveRequestServiceTest" />
+      <item itemvalue="JUnit.PayrollServiceTest" />
+      <item itemvalue="JUnit.PositionServiceTest" />
+      <item itemvalue="JUnit.java in ems" />
+      <item itemvalue="Spring Boot.System" />
+      <item itemvalue="Spring Boot.PmsApplication" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.PositionServiceTest" />
@@ -626,7 +635,7 @@
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/backend/src/test/java/com/motorph/ems/service/PayrollServiceTest.java</url>
           <line>123</line>
-          <properties class="com.motorph.ems.service.PayrollServiceTest" method="addNewPayroll">
+          <properties class="com.motorph.ems.service.PayrollServiceTest">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
           </properties>
