@@ -4,19 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ef4833e7-6818-46a8-95cb-723fd7831949" name="Changes" comment="implemented update and add employee">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/0f2c4b24-f675-44b0-aa54-abd5c1f4cfd9.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/0f2c4b24-f675-44b0-aa54-abd5c1f4cfd9.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/EmsApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/PmsApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/repository/BenefitsRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/repository/DeductionTypeRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/repository/DeductionsRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/service/BenefitsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/service/BenefitsService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/service/DeductionsService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/service/impl/BenefitsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/service/impl/BenefitsServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/service/impl/DeductionsServiceImpl.java" beforeDir="false" />
-    </list>
+    <list default="true" id="09e51294-ee19-4f25-9e9e-1b5e2b56cdfe" name="Changes" comment="maven dependencies" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -25,37 +13,26 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="com.intellij.reactbuddy.palette" />
-        <option value="com.intellij.reactbuddy.previews" />
-        <option value="com.intellij.reactbuddy.index" />
-        <option value="com.intellij.reactbuddy.useInitial" />
-        <option value="com.intellij.reactbuddy.README" />
+        <option value="Record" />
+        <option value="JUnit5 Test Class" />
+        <option value="Interface" />
         <option value="Class" />
-        <option value="JSX File" />
-        <option value="TypeScript JSX File" />
-        <option value="TypeScript File" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="JsBowerSettings">
-    <bower-package value="" />
-    <bower.json value="" />
-  </component>
-  <component name="MavenImportPreferences">
-    <option name="generalSettings">
-      <MavenGeneralSettings>
-        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
-      </MavenGeneralSettings>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
     </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
   </component>
   <component name="ProjectColorInfo">{
-  &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 5
 }</component>
-  <component name="ProjectId" id="2iLo9d6FELIUrDM8S7V41JGzder" />
+  <component name="ProjectId" id="2husKWfirVV10POj7YlCFSrwhm2" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -63,69 +40,231 @@
     <option name="sortByType" value="true" />
     <option name="sortKey" value="BY_TYPE" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "HTTP Request.EmsApplication | #2.executor": "Run",
-    "HTTP Request.EmsApplication | #3.executor": "Run",
-    "JUnit.AttendanceRepositoryTest.AttendanceRepository_findAllByDate_OrderByDateDesc_Found.executor": "Run",
-    "JUnit.EmployeeServiceTest.EmployeeService_getEmployeesBySupervisorName_ReturnsListOfEmployeeDTO.executor": "Run",
-    "JUnit.PayrollRepositoryTest.PayrollRepository_findAllByEmployee_EmployeeId_Found.executor": "Run",
-    "JUnit.java in ems.executor": "Run",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "Spring Boot.EmsApplication.executor": "Run",
-    "database.data.extractors.current.export.id": "Comma-separated (CSV)_id",
-    "git-widget-placeholder": "UI-integration",
-    "jdk.selected.JAVA_MODULE": "22",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Harvey/Documents",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.standard": "true",
-    "node.js.detected.package.stylelint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.standard": "",
-    "node.js.selected.package.stylelint": "",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "npm.React Buddy Preview.executor": "Run",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15429688",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "ts.external.directory.path": "C:\\Users\\Harvey\\Documents\\GitHub\\MotorPH_Spring\\frontend\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;JUnit.AttendanceRepositoryTest.AttendanceRepository_findAllByDate_OrderByDateDesc_Found.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AttendanceRepositoryTest.AttendanceRepository_findAttendancesByEmployeeId_Desc_Found.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AttendanceRepositoryTest.AttendanceRepository_findByEmployeeIdAndDate_Found.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AttendanceRepositoryTest.AttendanceRepository_saveAttendance_returnsSavedAttendance.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AttendanceRepositoryTest.AttendanceRepository_updateAttendance_ReturnsUpdatedAttendance.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AttendanceRepositoryTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AttendanceServiceTest.AttendanceService_deleteAttendance_DeletesAttendance.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AttendanceServiceTest.AttendanceService_getAllAttendancesByEmployeeId_ReturnsListOfAttendance.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AttendanceServiceTest.AttendanceService_getAllAttendancesByEmployeeId_ReturnsListOfAttendanceDTO.executor&quot;: &quot;Debug&quot;,
+    &quot;JUnit.AttendanceServiceTest.AttendanceService_getAttendanceByEmployeeIdAndDate_ReturnsAttendance.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AttendanceServiceTest.AttendanceService_getAttendanceById_ReturnsAttendance.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AttendanceServiceTest.AttendanceService_updateAttendance_UpdatesAndReturnsAttendance.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AttendanceServiceTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AttendanceServiceTest.getAllAttendancesByEmployeeId.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.BenefitTypeRepositoryTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.BenefitsRepositoryTest.BenefitsRepository_findBenefitsByPositionCode_Found.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.BenefitsRepositoryTest.BenefitsRepository_saveBenefit_returnsSavedBenefit.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.BenefitsRepositoryTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.BenefitsServiceTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.ContactRepositoryTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.ContactServiceTest.ContactService_getAllContacts_ReturnsListOfContactsDTO.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.ContactServiceTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.DepartmentRepositoryTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.DepartmentServiceTest and 1 more.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.DepartmentServiceTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeBasicInfoDTORepositoryTest.EmployeeBasicInfoDTORepository_Save_ReturnsSavedEmployeeBasicInfoDTO.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeBasicInfoDTORepositoryTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeControllerTest.getEmployeeById.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeRepositoryTest.EmployeeRepository_Save_ReturnsSavedEmployee.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeRepositoryTest.EmployeeRepository_Save_ReturnsSavedEmployees.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeRepositoryTest.EmployeeRepository_deleteEmployee_ReturnsDeletedEmployee.executor&quot;: &quot;Coverage&quot;,
+    &quot;JUnit.EmployeeRepositoryTest.EmployeeRepository_findAllBy_DepartmentName_Found.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeRepositoryTest.EmployeeRepository_findByEmployeeNameFound.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeRepositoryTest.EmployeeRepository_getAllEmployeesByEmploymentStatus_ReturnsEmptyList.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeRepositoryTest.EmployeeRepository_getAllEmployeesByEmploymentStatus_ReturnsMatchingEmployees.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeRepositoryTest.EmployeeRepository_getAllEmployees_ReturnsAllEmployees.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeRepositoryTest.EmployeeRepository_getById_ReturnsEmployee.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeRepositoryTest.EmployeeRepository_updateEmployee_ReturnsUpdatedEmployee.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeRepositoryTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeRepositoryTest.findAllByEmployment_Department_DepartmentName.executor&quot;: &quot;Debug&quot;,
+    &quot;JUnit.EmployeeRepositoryTest.findAllByEmployment_Position_PositionName.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeRepositoryTest.findAllByUser_Role_RoleName.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeRepositoryTest.findByEmployeeName.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeRepositoryTest.findByEmployeeNameNotFound.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeServiceTest.EmployeeService_CreateEmployee.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeServiceTest.EmployeeService_addNewEmployee_ReturnsEmployee.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeServiceTest.EmployeeService_getEmployeeById_ReturnsEmployee.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeServiceTest.EmployeeService_getEmployeeByName_ReturnsEmployee.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeServiceTest.EmployeeService_getEmployeesByHireDate_Month_Year_ReturnsListOfEmployeeDTO.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeServiceTest.EmployeeService_getEmployeesBySupervisorName_ReturnsListOfEmployeeDTO.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeServiceTest.EmployeeService_getEmployees_ReturnsListOfEmployeeDTO.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeServiceTest.EmployeeService_getEmployees_ReturnsListOfEmployees.executor&quot;: &quot;Debug&quot;,
+    &quot;JUnit.EmployeeServiceTest.EmployeeService_updateEmployee_UpdatesAndReturnsEmployee.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeServiceTest.addNewEmployee.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeServiceTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeServiceTest.getAllEmployees.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeServiceTest.getEmployeeById.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmploymentRepositoryTest.EmploymentRepository_Save_ReturnsSavedEmployment.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmploymentRepositoryTest.EmploymentRepository_findByEmployeeId_Found.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmploymentRepositoryTest.EmploymentRepository_findByEmployee_FirstNameAndEmployee_LastName_Found.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmploymentRepositoryTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmploymentStatusRepositoryTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmploymentStatusServiceTest.EmploymentStatusService_addNewStatus_ReturnsEmploymentStatusDTO.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmploymentStatusServiceTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmsApplicationTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.GovernmentIdRepositoryTest.GovernmentIdRepository_SaveGovernmentId.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.GovernmentIdRepositoryTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.LeaveBalanceRepositoryTest.LeaveBalanceRepository_FindAllByEmployeeId_ReturnsAllLeaveBalancesById.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.LeaveBalanceRepositoryTest.LeaveBalanceRepository_FindAllById_ReturnsAllLeaveBalancesById.executor&quot;: &quot;Debug&quot;,
+    &quot;JUnit.LeaveBalanceRepositoryTest.LeaveBalanceRepository_FindByEmployeeIdAndLeaveType_ReturnsMatchingLeaveBalance.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.LeaveBalanceRepositoryTest.LeaveBalanceRepository_FindByEmployeeId_ReturnsLeaveBalance.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.LeaveBalanceRepositoryTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.LeaveBalanceServiceTest.LeaveBalanceService_addMultipleLeaveBalances_ReturnsListOfLeaveBalanceDTO.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.LeaveBalanceServiceTest.LeaveBalanceService_addNewLeaveBalance_ReturnsLeaveBalanceDTO.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.LeaveBalanceServiceTest.LeaveBalanceService_deleteMultipleLeaveBalancesByEmployeeId_RemovesAllLeaveBalances.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.LeaveBalanceServiceTest.LeaveBalanceService_getLeaveBalancesByEmployeeId_ReturnsListOfLeaveBalanceDTO.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.LeaveBalanceServiceTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.LeaveRequestRepositoryTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.LeaveRequestServiceImplTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.LeaveRequestServiceTest.addNewLeaveRequest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.LeaveRequestServiceTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PayrollRepositoryTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PayrollServiceImplTest.addNewPayroll.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PayrollServiceImplTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PayrollServiceTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PositionRepositoryTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PositionServiceTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.SalaryRepositoryTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserRepositoryTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserRoleRepositoryTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.ems in ems.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.java in ems.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.repository in ems.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.service in ems.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.ems [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.ems [compile].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.ems [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.ems [test].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.ems [validate].executor&quot;: &quot;Run&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;Spring Boot.EmsApplication.executor&quot;: &quot;Coverage&quot;,
+    &quot;Spring Boot.System.executor&quot;: &quot;Run&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
+    &quot;database.data.extractors.current.export.id&quot;: &quot;Comma-separated (CSV)_id&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Arbii&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Harvey/Documents/GitHub/MotorPH_Spring/frontend&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Facets&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.import&quot;,
+    &quot;sql.rename.search.for.storage.occurrences&quot;: &quot;true&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Harvey\\Documents\\GitHub\\MotorPH_Spring\\frontend\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
-  <component name="ReactDesignerToolWindowState">
-    <option name="myId2Visible">
-      <map>
-        <entry key="com.intellij.reactbuddy.reactComponents" value="false" />
-        <entry key="com.intellij.reactbuddy.reactInspector" value="false" />
-        <entry key="com.intellij.reactbuddy.storybook" value="false" />
-      </map>
-    </option>
-  </component>
+}</component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Harvey\Documents\GitHub\MotorPH_Spring\frontend\src\api\query" />
-      <recent name="C:\Users\Harvey\Documents\GitHub\MotorPH_Spring\frontend\src\api" />
-      <recent name="C:\Users\Harvey\Documents\GitHub\MotorPH_Spring\frontend\src\pages\hr\employeeManagement\form" />
-      <recent name="C:\Users\Harvey\Documents\GitHub\MotorPH_Spring\frontend\src\hooks" />
-      <recent name="C:\Users\Harvey\Documents\GitHub\MotorPH_Spring\frontend\src\constants" />
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.motorph.ems.dto.mapper" />
+      <recent name="com.motorph.ems.service.impl" />
+      <recent name="com.motorph.ems.service" />
+      <recent name="com.motorph.ems.dto" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Harvey\Documents\GitHub\MotorPH_Spring\backend\src\main\java\com\motorph\ems\controller" />
+      <recent name="C:\Users\Harvey\Documents\GitHub\MotorPH_Spring\backend\src\main\java\com\motorph\ems\service" />
+      <recent name="C:\Users\Harvey\Documents\GitHub\MotorPH_Spring\backend\src\main\java\com\motorph\ems\model" />
+      <recent name="C:\Users\Harvey\Documents\GitHub\MotorPH_Spring\backend\src\main\java\com\motorph\ems\repository" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.motorph.ems.service" />
+      <recent name="com.motorph.ems.repository" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="com.motorph.ems.service" />
+      <recent name="com.motorph.ems.repository" />
+      <recent name="com.motorph.ems.service.impl" />
+      <recent name="com.motorph.ems.model" />
+      <recent name="com.motorph.ems.controller" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.motorph.ems.repository" />
+      <recent name="com.motorph.ems.service" />
+      <recent name="com.motorph.ems.model" />
+      <recent name="com.motorph.ems.controller" />
     </key>
   </component>
-  <component name="RunManager" selected="Spring Boot.PmsApplication">
-    <configuration name="EmsApplication | #3" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/EmsApplication.http" index="3" requestIdentifier="#3" runType="Run single request">
-      <method v="2" />
+  <component name="RunManager" selected="JUnit.java in ems">
+    <configuration name="LeaveBalanceServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ems" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.motorph.ems.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.motorph.ems.service" />
+      <option name="MAIN_CLASS_NAME" value="com.motorph.ems.service.LeaveBalanceServiceTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="LeaveRequestServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ems" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.motorph.ems.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.motorph.ems.service" />
+      <option name="MAIN_CLASS_NAME" value="com.motorph.ems.service.LeaveRequestServiceTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PayrollServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ems" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.motorph.ems.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.motorph.ems.service" />
+      <option name="MAIN_CLASS_NAME" value="com.motorph.ems.service.PayrollServiceTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PositionServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ems" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.motorph.ems.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.motorph.ems.service" />
+      <option name="MAIN_CLASS_NAME" value="com.motorph.ems.service.PositionServiceTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="java in ems" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ems" />
-      <option name="MAIN_CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="directory" />
       <dir value="$PROJECT_DIR$/backend/src/test/java" />
       <method v="2">
@@ -140,180 +279,285 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <list>
-      <item itemvalue="HTTP Request.EmsApplication | #3" />
-      <item itemvalue="JUnit.java in ems" />
-      <item itemvalue="Spring Boot.PmsApplication" />
-    </list>
+    <configuration name="System" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="ems" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.motorph.ems.EmsApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="HTTP Request.EmsApplication | #3" />
+        <item itemvalue="JUnit.PositionServiceTest" />
+        <item itemvalue="JUnit.PayrollServiceTest" />
+        <item itemvalue="JUnit.LeaveRequestServiceTest" />
+        <item itemvalue="JUnit.LeaveBalanceServiceTest" />
         <item itemvalue="JUnit.java in ems" />
       </list>
     </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
-  <component name="SpringBootHealthEndpointTabSettings">
-    <option name="checkHealth" value="false" />
-  </component>
-  <component name="SvnConfiguration">
-    <configuration>C:\Users\Harvey\AppData\Roaming\Subversion</configuration>
-  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="ef4833e7-6818-46a8-95cb-723fd7831949" name="Changes" comment="" />
-      <created>1719279069179</created>
+      <changelist id="09e51294-ee19-4f25-9e9e-1b5e2b56cdfe" name="Changes" comment="" />
+      <created>1718455232828</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1719279069179</updated>
-      <workItem from="1719279072647" duration="55708000" />
-      <workItem from="1719459594369" duration="62350000" />
-      <workItem from="1719633352005" duration="1385000" />
-      <workItem from="1719634786853" duration="2387000" />
-      <workItem from="1719637895462" duration="187000" />
-      <workItem from="1719638103862" duration="158000" />
-      <workItem from="1719638282746" duration="332000" />
-      <workItem from="1719638631769" duration="720000" />
-      <workItem from="1719639374836" duration="26753000" />
-      <workItem from="1719747476400" duration="43276000" />
-      <workItem from="1719823317395" duration="18840000" />
-      <workItem from="1719888193950" duration="7966000" />
+      <updated>1718455232828</updated>
+      <workItem from="1718455234176" duration="1742000" />
+      <workItem from="1718457011466" duration="15440000" />
+      <workItem from="1718549027386" duration="927000" />
+      <workItem from="1718593953117" duration="48520000" />
+      <workItem from="1718671015506" duration="56415000" />
+      <workItem from="1718845848606" duration="105677000" />
+      <workItem from="1719240105114" duration="146000" />
+      <workItem from="1719240283858" duration="593000" />
+      <workItem from="1719240893079" duration="22000" />
     </task>
-    <task id="LOCAL-00001" summary="x">
+    <task id="LOCAL-00001" summary="configured MySQL credentials">
       <option name="closed" value="true" />
-      <created>1719279529004</created>
+      <created>1718463150271</created>
       <option name="number" value="00001" />
       <option name="presentableId" value="LOCAL-00001" />
       <option name="project" value="LOCAL" />
-      <updated>1719279529004</updated>
+      <updated>1718463150271</updated>
     </task>
-    <task id="LOCAL-00002" summary="integrated ui, backend and database, modified payslip ui">
+    <task id="LOCAL-00002" summary="Attendance">
       <option name="closed" value="true" />
-      <created>1719337263183</created>
+      <created>1718463168995</created>
       <option name="number" value="00002" />
       <option name="presentableId" value="LOCAL-00002" />
       <option name="project" value="LOCAL" />
-      <updated>1719337263183</updated>
+      <updated>1718463168995</updated>
     </task>
-    <task id="LOCAL-00003" summary="done integrating ui, backend and database, for employee">
+    <task id="LOCAL-00003" summary="Benefits">
       <option name="closed" value="true" />
-      <created>1719470121216</created>
+      <created>1718463179866</created>
       <option name="number" value="00003" />
       <option name="presentableId" value="LOCAL-00003" />
       <option name="project" value="LOCAL" />
-      <updated>1719470121216</updated>
+      <updated>1718463179866</updated>
     </task>
-    <task id="LOCAL-00004" summary="Hr attendance now only filters instead of querying again the search">
+    <task id="LOCAL-00004" summary="Contact">
       <option name="closed" value="true" />
-      <created>1719475039238</created>
+      <created>1718463188814</created>
       <option name="number" value="00004" />
       <option name="presentableId" value="LOCAL-00004" />
       <option name="project" value="LOCAL" />
-      <updated>1719475039238</updated>
+      <updated>1718463188814</updated>
     </task>
-    <task id="LOCAL-00005" summary="Hr attendance now only filters instead of querying again the search">
+    <task id="LOCAL-00005" summary="Employee">
       <option name="closed" value="true" />
-      <created>1719480124594</created>
+      <created>1718463215539</created>
       <option name="number" value="00005" />
       <option name="presentableId" value="LOCAL-00005" />
       <option name="project" value="LOCAL" />
-      <updated>1719480124594</updated>
+      <updated>1718463215539</updated>
     </task>
-    <task id="LOCAL-00006" summary="made attendance overview dynamic, implemented changing month, added details on overview">
+    <task id="LOCAL-00006" summary="Employment Details">
       <option name="closed" value="true" />
-      <created>1719505963053</created>
+      <created>1718463235553</created>
       <option name="number" value="00006" />
       <option name="presentableId" value="LOCAL-00006" />
       <option name="project" value="LOCAL" />
-      <updated>1719505963053</updated>
+      <updated>1718463235553</updated>
     </task>
-    <task id="LOCAL-00007" summary="integrated hr employees, added loading after clicking a card">
+    <task id="LOCAL-00007" summary="Government ID Details">
       <option name="closed" value="true" />
-      <created>1719508975486</created>
+      <created>1718463253755</created>
       <option name="number" value="00007" />
       <option name="presentableId" value="LOCAL-00007" />
       <option name="project" value="LOCAL" />
-      <updated>1719508975486</updated>
+      <updated>1718463253755</updated>
     </task>
-    <task id="LOCAL-00008" summary="used filtering for real time search rather than querying again">
+    <task id="LOCAL-00008" summary="LeaveBalance&#10;&#10;Check TODO comments for missing implementations">
       <option name="closed" value="true" />
-      <created>1719509220267</created>
+      <created>1718465878869</created>
       <option name="number" value="00008" />
       <option name="presentableId" value="LOCAL-00008" />
       <option name="project" value="LOCAL" />
-      <updated>1719509220267</updated>
+      <updated>1718465878869</updated>
     </task>
-    <task id="LOCAL-00009" summary="improved hr attendance performance">
+    <task id="LOCAL-00009" summary="LeaveRequest&#10;&#10;Check TODO comments for missing implementations">
       <option name="closed" value="true" />
-      <created>1719511093507</created>
+      <created>1718465895725</created>
       <option name="number" value="00009" />
       <option name="presentableId" value="LOCAL-00009" />
       <option name="project" value="LOCAL" />
-      <updated>1719511093507</updated>
+      <updated>1718465895725</updated>
     </task>
-    <task id="LOCAL-00010" summary="improved hr employee performance">
+    <task id="LOCAL-00010" summary="User&#10;&#10;Check TODO comments for missing implementations">
       <option name="closed" value="true" />
-      <created>1719512344626</created>
+      <created>1718465905968</created>
       <option name="number" value="00010" />
       <option name="presentableId" value="LOCAL-00010" />
       <option name="project" value="LOCAL" />
-      <updated>1719512344626</updated>
+      <updated>1718465905968</updated>
     </task>
-    <task id="LOCAL-00011" summary="improved hr employee performance">
+    <task id="LOCAL-00011" summary="Payroll&#10;&#10;Check TODO comments for missing implementations">
       <option name="closed" value="true" />
-      <created>1719512792999</created>
+      <created>1718466630119</created>
       <option name="number" value="00011" />
       <option name="presentableId" value="LOCAL-00011" />
       <option name="project" value="LOCAL" />
-      <updated>1719512792999</updated>
+      <updated>1718466630119</updated>
     </task>
-    <task id="LOCAL-00012" summary="fixed sidebar changing view after refresh and hr attendance table spacing">
+    <task id="LOCAL-00012" summary="User&#10;&#10;Check TODO comments for missing implementations">
       <option name="closed" value="true" />
-      <created>1719513313228</created>
+      <created>1718467347855</created>
       <option name="number" value="00012" />
       <option name="presentableId" value="LOCAL-00012" />
       <option name="project" value="LOCAL" />
-      <updated>1719513313228</updated>
+      <updated>1718467347855</updated>
     </task>
-    <task id="LOCAL-00013" summary="added more details to employee dialog">
+    <task id="LOCAL-00013" summary="Attendance">
       <option name="closed" value="true" />
-      <created>1719513765052</created>
+      <created>1719171702751</created>
       <option name="number" value="00013" />
       <option name="presentableId" value="LOCAL-00013" />
       <option name="project" value="LOCAL" />
-      <updated>1719513765052</updated>
+      <updated>1719171702751</updated>
     </task>
-    <task id="LOCAL-00014" summary="added more details to employee dialog">
+    <task id="LOCAL-00014" summary="Benefits">
       <option name="closed" value="true" />
-      <created>1719514246027</created>
+      <created>1719171719887</created>
       <option name="number" value="00014" />
       <option name="presentableId" value="LOCAL-00014" />
       <option name="project" value="LOCAL" />
-      <updated>1719514246027</updated>
+      <updated>1719171719887</updated>
     </task>
-    <task id="LOCAL-00015" summary="implemented clock in and out, and hr payroll viewing">
+    <task id="LOCAL-00015" summary="Contact">
       <option name="closed" value="true" />
-      <created>1719757786013</created>
+      <created>1719171732385</created>
       <option name="number" value="00015" />
       <option name="presentableId" value="LOCAL-00015" />
       <option name="project" value="LOCAL" />
-      <updated>1719757786013</updated>
+      <updated>1719171732385</updated>
     </task>
-    <task id="LOCAL-00016" summary="implemented update and add employee">
+    <task id="LOCAL-00016" summary="Deductions">
       <option name="closed" value="true" />
-      <created>1719852039333</created>
+      <created>1719171745918</created>
       <option name="number" value="00016" />
       <option name="presentableId" value="LOCAL-00016" />
       <option name="project" value="LOCAL" />
-      <updated>1719852039333</updated>
+      <updated>1719171745918</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Department">
+      <option name="closed" value="true" />
+      <created>1719171759771</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1719171759771</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Employee">
+      <option name="closed" value="true" />
+      <created>1719171776263</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1719171776263</updated>
+    </task>
+    <task id="LOCAL-00019" summary="EmploymentStatus">
+      <option name="closed" value="true" />
+      <created>1719171792180</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1719171792180</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Employment">
+      <option name="closed" value="true" />
+      <created>1719171807711</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1719171807711</updated>
+    </task>
+    <task id="LOCAL-00021" summary="GovernmentId">
+      <option name="closed" value="true" />
+      <created>1719171825901</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1719171825901</updated>
+    </task>
+    <task id="LOCAL-00022" summary="LeaveBalance">
+      <option name="closed" value="true" />
+      <created>1719171840203</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1719171840203</updated>
+    </task>
+    <task id="LOCAL-00023" summary="LeaveRequest">
+      <option name="closed" value="true" />
+      <created>1719171856626</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1719171856626</updated>
+    </task>
+    <task id="LOCAL-00024" summary="LeaveStatus and Type">
+      <option name="closed" value="true" />
+      <created>1719171874441</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1719171874441</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Payroll">
+      <option name="closed" value="true" />
+      <created>1719171889540</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1719171889540</updated>
+    </task>
+    <task id="LOCAL-00026" summary="Position">
+      <option name="closed" value="true" />
+      <created>1719171905141</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1719171905141</updated>
+    </task>
+    <task id="LOCAL-00027" summary="Supervisor">
+      <option name="closed" value="true" />
+      <created>1719171918150</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1719171918150</updated>
+    </task>
+    <task id="LOCAL-00028" summary="User">
+      <option name="closed" value="true" />
+      <created>1719171931039</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1719171931039</updated>
+    </task>
+    <task id="LOCAL-00029" summary="maven dependencies">
+      <option name="closed" value="true" />
+      <created>1719172012021</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1719172012021</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
+    <option name="OPEN_GENERIC_TABS">
+      <map>
+        <entry key="de57b262-9368-4101-a848-5366caac3836" value="TOOL_WINDOW" />
+      </map>
+    </option>
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
@@ -321,33 +565,96 @@
             <State />
           </value>
         </entry>
+        <entry key="de57b262-9368-4101-a848-5366caac3836">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="structure">
+                    <value>
+                      <list>
+                        <option value="dir:C:/Users/Harvey/Documents/GitHub/MotorPH_Spring/backend" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
+            </State>
+          </value>
+        </entry>
       </map>
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="x" />
-    <MESSAGE value="integrated ui, backend and database, modified payslip ui" />
-    <MESSAGE value="done integrating ui, backend and database, for employee" />
-    <MESSAGE value="Hr attendance now only filters instead of querying again the search" />
-    <MESSAGE value="made attendance overview dynamic, implemented changing month" />
-    <MESSAGE value="made attendance overview dynamic, implemented changing month, added details on overview" />
-    <MESSAGE value="integrated hr employees, added loading after clicking a card" />
-    <MESSAGE value="used filtering for real time search rather than querying again" />
-    <MESSAGE value="improved hr attendance performance" />
-    <MESSAGE value="improved hr employee performance" />
-    <MESSAGE value="fixed sidebar changing view after refresh and hr attendance table spacing" />
-    <MESSAGE value="added more details to employee dialog" />
-    <MESSAGE value="implemented clock in and out, and hr payroll viewing" />
-    <MESSAGE value="implemented update and add employee" />
-    <option name="LAST_COMMIT_MESSAGE" value="implemented update and add employee" />
+    <MESSAGE value="configured MySQL credentials" />
+    <MESSAGE value="Employment Details" />
+    <MESSAGE value="Government ID Details" />
+    <MESSAGE value="LeaveBalance&#10;&#10;Check TODO comments for missing implementations" />
+    <MESSAGE value="LeaveRequest&#10;&#10;Check TODO comments for missing implementations" />
+    <MESSAGE value="Payroll&#10;&#10;Check TODO comments for missing implementations" />
+    <MESSAGE value="User&#10;&#10;Check TODO comments for missing implementations" />
+    <MESSAGE value="Attendance" />
+    <MESSAGE value="Benefits" />
+    <MESSAGE value="Contact" />
+    <MESSAGE value="Deductions" />
+    <MESSAGE value="Department" />
+    <MESSAGE value="Employee" />
+    <MESSAGE value="EmploymentStatus" />
+    <MESSAGE value="Employment" />
+    <MESSAGE value="GovernmentId" />
+    <MESSAGE value="LeaveBalance" />
+    <MESSAGE value="LeaveRequest" />
+    <MESSAGE value="LeaveStatus and Type" />
+    <MESSAGE value="Payroll" />
+    <MESSAGE value="Position" />
+    <MESSAGE value="Supervisor" />
+    <MESSAGE value="User" />
+    <MESSAGE value="maven dependencies" />
+    <option name="LAST_COMMIT_MESSAGE" value="maven dependencies" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/backend/src/test/java/com/motorph/ems/service/PayrollServiceTest.java</url>
+          <line>123</line>
+          <properties class="com.motorph.ems.service.PayrollServiceTest" method="addNewPayroll">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="28" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/service/impl/LeaveRequestServiceImpl.java</url>
+          <line>37</line>
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/backend/src/main/java/com/motorph/ems/service/impl/LeaveBalanceServiceImpl.java</url>
+          <line>44</line>
+          <option name="timeStamp" value="30" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
-    <expand>
-      <path>
-        <item name="MotorPH_Spring" type="b2602c69:ProjectViewProjectNode" />
-        <item name="dir{file://C:/Users/Harvey/Documents/GitHub/MotorPH_Spring}" type="462c0819:PsiDirectoryNode" />
-      </path>
-    </expand>
+    <expand />
     <select />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/MotorPH_Spring$EmsApplication.ic" NAME="EmsApplication Coverage Results" MODIFIED="1718455740674" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
+      <FILTER>com.motorph.ems.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/MotorPH_Spring$EmployeeRepositoryTest_EmployeeRepository_deleteEmployee_ReturnsDeletedEmployee.ic" NAME="EmployeeRepositoryTest.EmployeeRepository_deleteEmployee_ReturnsDeletedEmployee Coverage Results" MODIFIED="1718611295998" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
+      <FILTER>com.motorph.ems.repository.*</FILTER>
+    </SUITE>
   </component>
 </project>
