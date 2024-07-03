@@ -1,4 +1,4 @@
-package com.motorph.ems.model;
+package com.motorph.pms.model;
 
 import com.motorph.pms.dto.DepartmentDTO;
 import jakarta.persistence.Entity;

@@ -1,8 +1,7 @@
-package com.motorph.ems.service;
+package com.motorph.pms.service;
 
 import com.motorph.pms.dto.MonthlyPayrollReportDTO;
 import com.motorph.pms.dto.PayrollDTO;
-import com.motorph.pms.model.Payroll;
 
 import java.time.LocalDate;
 import java.util.List;

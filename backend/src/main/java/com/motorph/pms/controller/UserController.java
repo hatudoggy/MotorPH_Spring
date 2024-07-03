@@ -1,4 +1,4 @@
-package com.motorph.ems.controller;
+package com.motorph.pms.controller;
 
 import com.motorph.pms.dto.UserAuth;
 import com.motorph.pms.dto.UserDTO;

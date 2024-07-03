@@ -1,3 +1,5 @@
+package com.motorph.pms.repository;
+
 import com.motorph.pms.model.Attendance;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,4 +1,4 @@
-package com.motorph.ems.service;
+package com.motorph.pms.service;
 
 import com.motorph.pms.dto.LeaveBalanceDTO;
 import com.motorph.pms.dto.LeaveTypeDTO;

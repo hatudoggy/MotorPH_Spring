@@ -1,4 +1,4 @@
-package com.motorph.ems.model;
+package com.motorph.pms.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;

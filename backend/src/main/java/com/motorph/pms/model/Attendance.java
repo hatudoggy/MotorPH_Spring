@@ -1,3 +1,5 @@
+package com.motorph.pms.model;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,7 +22,7 @@ public class Attendance {
 
     @ManyToOne
     @JoinColumn(name = "employee_id")
-    private com.motorph.ems.model.Employee employee;
+    private Employee employee;
 
     private LocalDate date;
     private LocalTime timeIn;
@@ -33,7 +35,7 @@ public class Attendance {
             LocalDate date,
             LocalTime timeIn
     ) {
-        this.employee = new com.motorph.ems.model.Employee(employeeId);
+        this.employee = new Employee(employeeId);
         this.date = date;
         this.timeIn = timeIn;
         this.timeOut = null;
@@ -47,7 +49,7 @@ public class Attendance {
             LocalTime timeIn,
             LocalTime timeOut
     ) {
-        this.employee = new com.motorph.ems.model.Employee(employeeId);
+        this.employee = new Employee(employeeId);
         this.date = date;
         this.timeIn = timeIn;
         this.timeOut = timeOut;

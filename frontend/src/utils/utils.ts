@@ -11,12 +11,16 @@ export const formatterWhole = new Intl.NumberFormat('en-US', {
 export const formatterDecimal = new Intl.NumberFormat('en-US', {
   style: 'currency',
   currency: 'PHP',
-  minimumFractionDigits: 2,
-  maximumFractionDigits: 2,
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 0,
 })
 
 
 export const calculateAge = (birthdateString: string) => {
+  if (!birthdateString) {
+    return 0;
+  }
+
   const birthdate = new Date(birthdateString);
 
   const today = new Date();

@@ -1,16 +1,14 @@
-import { Box, Button, Card, CardActionArea, CardContent, Container, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, Paper, PaperProps, Select, Stack, Typography, styled } from "@mui/material";
+import { Box, Button, Card, CardActionArea, CardContent, Container, MenuItem, Paper, PaperProps, Select, Stack, Typography, styled } from "@mui/material";
 import Headertext from "../../components/HeaderText";
 import Table from "../../components/Table";
-import { AttachMoney, ChevronRight, PointOfSale, Widgets, WidgetsRounded, Workspaces } from "@mui/icons-material";
-import { API, BASE_API } from "../../constants/Api";
+import { ChevronRight, PointOfSale } from "@mui/icons-material";
+import { API, BASE_API } from "../../api/Api.ts";
 import axios from "axios";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { LineChart, areaElementClasses } from "@mui/x-charts";
-import { DatePicker } from "@mui/x-date-pickers";
-import { format, subMonths } from "date-fns";
-import { formatterDecimal, formatterWhole } from "../../utils/utils";
 
+//TODO: implement this
 
 export default function HRPayrolls() {
 
@@ -34,6 +32,18 @@ export default function HRPayrolls() {
     }
   }, [data])
 
+  const pData = [2400, 1398, 9800, 3908, 4800, 3800, 4300];
+  const amtData = [2400, 2210, 0, 2000, 2181, 2500, 2100];
+  const xLabels = [
+    'Page A',
+    'Page B',
+    'Page C',
+    'Page D',
+    'Page E',
+    'Page F',
+    'Page G',
+  ];
+
   return(
     <Container
       sx={{
@@ -42,7 +52,30 @@ export default function HRPayrolls() {
     >
       <Stack height='100%'>
         <Headertext>HR Payroll</Headertext>
-        <PayrollReport />
+        <Stack>
+          <Widget variant="outlined" sx={{width: 'min-content'}}>
+            <LineChart 
+              width={500}
+              height={200}
+              series={[
+                { data: pData, label: 'Deductions', area: true, stack: 'total', showMark: true },
+                {
+                  data: amtData,
+                  label: 'Earnings',
+                  area: true,
+                  stack: 'total',
+                  showMark: true,
+                },
+              ]}
+              xAxis={[{ scaleType: 'point', data: xLabels }]}
+              sx={{
+                [`& .${areaElementClasses.root}`]: {
+                  opacity: 0.2
+                },
+              }}
+            />
+          </Widget>
+        </Stack>
         <Stack gap={2} flex={1} mt={2}>
           <Stack
             direction='row'
@@ -62,7 +95,16 @@ export default function HRPayrolls() {
             }
 
 
-            <GeneratePayroll />
+            <Button 
+              variant="contained"
+              sx={{
+                borderRadius: 2
+              }}
+              disableElevation
+              startIcon={<PointOfSale />}
+            >
+              Generate
+            </Button>
           </Stack>
           <Stack
             direction='row'
@@ -75,193 +117,6 @@ export default function HRPayrolls() {
         </Stack>
       </Stack>
       </Container>
-  )
-}
-
-function PayrollReport() {
-  const fetchPayrollReportMonthly = async() => {
-    const {PAYROLLS} = API
-      const res = await axios.get(BASE_API + PAYROLLS.REPORT_MONTHLY, {
-        params: {
-          startDate: format(subMonths(new Date(), 5), 'yyyy-MM-dd'),
-          endDate: format(subMonths(new Date(), 1), 'yyyy-MM-dd')
-        }
-      } )
-      return res.data;
-  }
-
-  const {isPending, data} = useQuery<PayrollReportMonthly[]>({
-    queryKey: ['payrollReportMonthly'],
-    queryFn: fetchPayrollReportMonthly,
-  })
-
-  const deductionsTotal = data ? data.map((item)=> item.totalDeductions) : []
-  const earningsTotal = data ? data.map((item)=> item.totalEarnings) : []
-  const monthLabels = data ? data.map((item)=> item.month) : []
-  return(
-    <Stack direction='row' gap={2}>
-      <Widget variant="outlined" sx={{width: 'min-content'}}>
-        <LineChart 
-          width={500}
-          height={200}
-          series={[
-            { data: deductionsTotal, label: 'Deductions', area: true, stack: 'total', showMark: true, color: '#737373'},
-            { data: earningsTotal, label: 'Earnings', area: true, stack: 'total', showMark: true, color: '#292929' },
-          ]}
-          xAxis={[{ scaleType: 'point', data: monthLabels }]}
-          sx={{
-            [`& .${areaElementClasses.root}`]: {
-              opacity: 0.2
-            },
-          }}
-        />
-      </Widget>
-      <Stack gap={1}>
-        <Widget variant="outlined" sx={{flex: 1, width: 200, position: 'relative'}}>
-          <Box
-            sx={{
-              position: 'absolute',
-              top: 15,
-              right: 15,
-              borderRadius: 2,
-              display: 'grid',
-              placeContent: 'center',
-              fontSize: 22
-            }}
-          >
-            <WidgetsRounded fontSize="inherit"/>
-          </Box>
-          <Stack height='100%' justifyContent='end'>
-            <Typography variant="h5" fontSize={28}>
-              {formatterWhole.format(earningsTotal[earningsTotal.length - 1])}
-            </Typography>
-            <Typography variant="body2" color="GrayText">Total Earnings</Typography>
-            </Stack>
-        </Widget>
-        <Widget variant="outlined" sx={{flex: 1, width: 200, position: 'relative'}}>
-          <Box
-            sx={{
-              position: 'absolute',
-              top: 15,
-              right: 15,
-              borderRadius: 2,
-              display: 'grid',
-              placeContent: 'center',
-              fontSize: 22
-            }}
-          >
-            <Workspaces  fontSize="inherit"/>
-          </Box>
-          <Stack height='100%' justifyContent='end'>
-            <Typography variant="h5" fontSize={28}>
-              {formatterWhole.format(deductionsTotal[deductionsTotal.length - 1])}
-            </Typography>
-            <Typography variant="body2" color="GrayText">Total Deductions</Typography>
-            </Stack>
-        </Widget>
-      </Stack>
-    </Stack>
-  )
-}
-
-
-function GeneratePayroll() {
-
-
-  const [open, setOpen] = useState(false)
-
-
-  return(
-    <>
-      <Button 
-        variant="contained"
-        sx={{
-          borderRadius: 2
-        }}
-        disableElevation
-        startIcon={<PointOfSale />}
-        onClick={()=>setOpen(true)}
-      >
-        Generate
-      </Button>
-      <Dialog
-        maxWidth="sm"
-        fullWidth
-        open={open}
-        onClose={()=>setOpen(false)}
-      >
-        <GeneratePayrollDialog onClose={()=>setOpen(false)}/>
-      </Dialog>
-    </>
-  )
-}
-
-interface GeneratePayrollDialog {
-  onClose: () => void
-}
-
-function GeneratePayrollDialog({onClose}: GeneratePayrollDialog) {
-
-  const queryClient = useQueryClient()
-
-  const [startDate, setStartDate] = useState<Date | null>(null)
-  const [endDate, setEndDate] = useState<Date | null>(null)
-
-  const generatePayroll = async () => {
-    const {PAYROLLS} = API
-    if(startDate && endDate){
-      const res = await axios.post(BASE_API + PAYROLLS.GENERATE, {
-        startDate: format(startDate, 'yyyy-MM-dd'),
-        endDate: format(endDate, 'yyyy-MM-dd')
-      });
-      return res.data;
-    }
-  }
-
-  const useGeneratePayroll = useMutation({
-    mutationFn: generatePayroll,
-    onSettled: async () => {
-      return await queryClient.invalidateQueries({ queryKey: ['attendanceToday']})
-    }
-  })
-
-  const handleGeneratePayroll = () => {
-    useGeneratePayroll.mutate()
-    onClose()
-  }
-
-  return(
-    <>
-      <DialogTitle>Generate Payroll</DialogTitle>
-      <DialogContent>
-        <Stack direction='row' gap={2} mt={2}>
-          <DatePicker
-            label="Start Date"
-            value={startDate}
-            onChange={(e)=>setStartDate(e)}
-            slotProps={{
-              textField: {
-                fullWidth: true
-              }
-            }}
-          />
-          <DatePicker
-            label="End Date"
-            value={endDate}
-            onChange={(e)=>setEndDate(e)}
-            slotProps={{
-              textField: {
-                fullWidth: true
-              }
-            }}
-          />
-        </Stack>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose}>Cancel</Button>
-        <Button variant="contained" onClick={()=>handleGeneratePayroll()}>Generate</Button>
-      </DialogActions>
-    </>
   )
 }
 
@@ -288,7 +143,7 @@ function PayrollMonthList({filterYear, setFilterMonth}: PayrollMonthList) {
   })
 
   return(
-    <Stack gap={1}>
+    <Stack>
       {
         data &&
           data.map((item)=>
@@ -361,7 +216,7 @@ function PayrollTable({filterMonth}: PayrollTable) {
     if(filterMonth){
       const res = await axios.get(BASE_API + PAYROLLS.ALL, {
         params: {
-          date: filterMonth || ''
+          end_date: filterMonth || ''
         }
       })
       return res.data;
@@ -374,15 +229,7 @@ function PayrollTable({filterMonth}: PayrollTable) {
     enabled: !!filterMonth
   })
 
-  const tableData = data && data.map(({
-    dailyRate, periodStart, periodEnd, deductions, ...rest
-  })=> ({
-    employee: `${rest.employeeFirstName} ${rest.employeeLastName}`,
-    monthlyRate: rest.monthlyRate,
-    overtimePay: rest.overtimePay,
-    grossIncome: rest.grossIncome,
-    netIncome: rest.netIncome
-  }))
+  const payrollData = flattenPayrollData(data || []);
 
   return(
     <Widget 
@@ -392,32 +239,20 @@ function PayrollTable({filterMonth}: PayrollTable) {
       }}
     >
       {
-        tableData &&
-          <Table 
-            colSizes={[3.5, true, true, true, true]}
-            colHeader={[ 
-              "Employee",
-              "Monthly Rate",
-              "Overtime Pay",
-              "Gross Income",
-              "Net Income"
-            ]}
-            tableData={tableData}
-            renderers={{
-              employee: (item: string) => (
-                <Stack direction='row' alignItems='center' gap={1.5}>
-                  <Stack>
-                    <Typography variant="body2" fontSize={16} >
-                      {item}
-                    </Typography>
-                  </Stack>
-                </Stack>
-              ),
-              monthlyRate: (item) => formatterDecimal.format(item),
-              overtimePay: (item) => formatterDecimal.format(item),
-              grossIncome: (item) => formatterDecimal.format(item),
-              netIncome: (item) => formatterDecimal.format(item),
-            }}
+          payrollData &&
+          <Table
+              colSizes={[1, 1, 2.5, true, true, true, true, true,true, true,true]}
+              tableData={payrollData}
+              colHeader={[
+                "PID",
+                "EID",
+                "Name",
+                "Monthly Rate",
+                "Gross Income",
+                "Benefits",
+                "Deductions",
+                "Net Pay"
+              ]}
           />
       }
 
@@ -430,3 +265,26 @@ const Widget = styled(Paper)<PaperProps>(({}) => ({
   borderRadius: 12,
   padding: 16,
 }))
+
+const flattenPayrollData = (data: PayrollRes[]) => {
+  return data.map((item) => {
+    const { employeeId, firstName, lastName } = item.employee;
+    const { payrollId, monthlyRate, grossIncome, totalBenefits, totalDeductions, netPay } = item;
+
+    return {
+      PID: payrollId,
+      EID: employeeId,
+      Name: `${firstName}, ${lastName}`,
+      'Monthly Rate': formatToPeso(monthlyRate),
+      Gross: formatToPeso(grossIncome),
+      Benefits: formatToPeso(totalBenefits),
+      Deductions: formatToPeso(totalDeductions),
+      'Net Pay': formatToPeso(netPay),
+    };
+  });
+};
+
+
+const formatToPeso = (value: number) => {
+  return `₱${value.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`;
+};

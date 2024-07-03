@@ -1,4 +1,4 @@
-package com.motorph.ems.controller;
+package com.motorph.pms.controller;
 
 import com.motorph.pms.dto.*;
 import com.motorph.pms.service.*;

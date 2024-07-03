@@ -1,4 +1,4 @@
-package com.motorph.ems.model;
+package com.motorph.pms.model;
 
 import jakarta.persistence.*;
 import lombok.*;

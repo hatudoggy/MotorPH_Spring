@@ -5,12 +5,15 @@ export const BASE_API = "http://localhost:8080/api"
 
 export const API = {
   EMPLOYEES: {
-    BASE: "/employees/",
-    ALL: "/employees",
+    BASE: "/employee/",
+    ALL: "/employee/all",
+    UPDATE: "/employee/update/",
+    REGISTER: "/employee/register",
   },
   ATTENDANCES: {
     BASE: "/attendances",
-    SUMMARY: "/attendances/summary",
+    DATE: "/attendances/date",
+    RANGE: "/attendances/dateRange",
     TIME_IN: "/attendances/timeIn",
     TIME_OUT: "/attendances/timeOut",
   },
@@ -21,9 +24,7 @@ export const API = {
   PAYROLLS: {
     BASE: "/payrolls/",
     ALL: "/payrolls",
-    YEARS: "/years",
-    GENERATE: "/payrolls/batchGenerate",
-    REPORT_MONTHLY: "/payrolls/reports/monthlyTotal"
+    YEARS: "/years"
   },
   USERS: {
     BASE:  "/users/",
@@ -32,8 +33,12 @@ export const API = {
   },
   COMPANY: {
     BASE: "/company",
-    POSITIONS: "/company/positions",
-    DEPARTMENTS: "/company/departments",
-    STATUSES: "/company/statuses",
+    SUPERVISORS: "/company/supervisors/",
+    POSITIONS: "/company/positions/",
+    DEPARTMENTS: "/company/departments/",
+    STATUSES: "/company/statuses/",
+    BENEFITS: "/company/benefits/",
+    LEAVE_TYPES: "/company/leave/types",
+    LEAVE_STATUS: "/company/leave/status",
   }
 }

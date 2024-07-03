@@ -1,4 +1,4 @@
-package com.motorph.ems.service.impl;
+package com.motorph.pms.service.impl;
 
 import com.motorph.pms.dto.AttendanceDTO;
 import com.motorph.pms.dto.AttendanceSummaryDTO;
@@ -7,8 +7,6 @@ import com.motorph.pms.model.Attendance;
 import com.motorph.pms.repository.AttendanceRepository;
 import com.motorph.pms.service.AttendanceService;
 import jakarta.persistence.EntityNotFoundException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

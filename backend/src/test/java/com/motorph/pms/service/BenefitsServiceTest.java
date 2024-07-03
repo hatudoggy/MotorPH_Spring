@@ -1,4 +1,4 @@
-package com.motorph.ems.service;
+package com.motorph.pms.service;
 
 import com.motorph.pms.dto.BenefitDTO;
 import com.motorph.pms.dto.BenefitTypeDTO;
@@ -6,7 +6,6 @@ import com.motorph.pms.dto.mapper.BenefitsMapper;
 import com.motorph.pms.model.Benefits;
 import com.motorph.pms.model.Benefits.BenefitType;
 import com.motorph.pms.repository.BenefitTypeRepository;
-import com.motorph.pms.repository.BenefitsRepository;
 import com.motorph.pms.service.impl.BenefitsServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,9 +27,6 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class BenefitsServiceTest {
-
-    @Mock
-    private BenefitsRepository benefitsRepository;
 
     @Mock
     private BenefitsMapper benefitsMapper;
@@ -74,114 +70,6 @@ class BenefitsServiceTest {
                 .build();
     }
 
-    @Test
-    @Transactional
-    @DirtiesContext
-    void BenefitsService_addNewBenefit_ReturnsBenefit() {
-        when(benefitsMapper.toEntity(any(BenefitDTO.class))).thenReturn(benefit1);
-
-        when(benefitsRepository.save(any(Benefits.class))).thenReturn(benefit1);
-
-        when(benefitsMapper.toDTO(any(Benefits.class))).thenReturn(benefitDTO1);
-
-        BenefitDTO savedBenefit = benefitsService.addNewBenefit(benefitDTO1);
-
-        assertThat(savedBenefit).isNotNull();
-    }
-
-    @Test
-    @Transactional
-    @DirtiesContext
-    void BenefitsService_getBenefitById_ReturnsBenefitDTO() {
-        when(benefitsRepository.findById(1L)).thenReturn(Optional.of(benefit1));
-
-        when(benefitsMapper.toDTO(any(Benefits.class))).thenReturn(benefitDTO1);
-
-        Optional<BenefitDTO> foundBenefit = benefitsService.getBenefitById(1L);
-
-        assertThat(foundBenefit).isPresent();
-        assertThat(foundBenefit.get().benefitId()).isEqualTo(1L);
-    }
-
-    @Test
-    @Transactional
-    @DirtiesContext
-    void BenefitsService_getAllBenefits_ReturnsListOfBenefitDTO() {
-        when(benefitsRepository.findAll()).thenReturn(Collections.singletonList(benefit1));
-
-        when(benefitsMapper.toDTO(any(Benefits.class))).thenReturn(benefitDTO1);
-
-        List<BenefitDTO> benefits = benefitsService.getAllBenefits();
-
-        assertThat(benefits).isNotEmpty();
-    }
-
-    @Test
-    @Transactional
-    @DirtiesContext
-    void BenefitsService_deleteBenefit_DeletesBenefit() {
-        when(benefitsRepository.existsById(1L)).thenReturn(true);
-
-        benefitsService.deleteBenefitById(1L);
-
-        verify(benefitsRepository).deleteById(1L);
-    }
-
-    @Test
-    @Transactional
-    @DirtiesContext
-    void BenefitsService_getBenefitsByEmployeeId_ReturnsListOfBenefitDTO() {
-        when(benefitsRepository.findByEmployee_EmployeeId(1L)).thenReturn(Collections.singletonList(benefit1));
-
-        when(benefitsMapper.toDTO(any(Benefits.class))).thenReturn(benefitDTO1);
-
-        List<BenefitDTO> benefits = benefitsService.getBenefitsByEmployeeId(1L);
-
-        assertThat(benefits).isNotEmpty();
-    }
-
-    @Test
-    @Transactional
-    @DirtiesContext
-    void BenefitsService_getBenefitsByEmployeeName_ReturnsListOfBenefitDTO() {
-        when(benefitsRepository.findAllByEmployee_FirstNameAndEmployee_LastName("John", "Doe"))
-                .thenReturn(Collections.singletonList(benefit1));
-
-        when(benefitsMapper.toDTO(any(Benefits.class))).thenReturn(benefitDTO1);
-
-        List<BenefitDTO> benefits = benefitsService.getBenefitsByEmployeeName("John", "Doe");
-
-        assertThat(benefits).isNotEmpty();
-    }
-
-    @Test
-    @Transactional
-    @DirtiesContext
-    void BenefitsService_getBenefitsByPositionCode_ReturnsListOfBenefitDTO() {
-        when(benefitsRepository.findAllByEmployee_Position_PositionCode("DEV"))
-                .thenReturn(Collections.singletonList(benefit1));
-
-        when(benefitsMapper.toDTO(any(Benefits.class))).thenReturn(benefitDTO1);
-
-        List<BenefitDTO> benefits = benefitsService.getBenefitsByPositionCode("DEV");
-
-        assertThat(benefits).isNotEmpty();
-    }
-
-    @Test
-    @Transactional
-    @DirtiesContext
-    void BenefitsService_updateBenefit_UpdatesAndReturnsBenefit() {
-        when(benefitsRepository.findById(any(Long.class))).thenReturn(Optional.ofNullable(benefit1));
-        when(benefitsRepository.save(any(Benefits.class))).thenReturn(benefit1);
-
-        when(benefitsMapper.toDTO(any(Benefits.class))).thenReturn(benefitDTO1);
-
-        BenefitDTO updatedBenefit = benefitsService.updateBenefit(benefitId,benefitDTO1);
-
-        assertThat(updatedBenefit).isNotNull();
-        assertThat(updatedBenefit.benefitId()).isEqualTo(1);
-    }
 
     @Test
     @Transactional

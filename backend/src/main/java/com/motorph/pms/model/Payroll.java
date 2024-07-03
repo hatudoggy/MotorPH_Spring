@@ -1,6 +1,5 @@
-package com.motorph.ems.model;
+package com.motorph.pms.model;
 
-import com.motorph.pms.dto.BenefitDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
