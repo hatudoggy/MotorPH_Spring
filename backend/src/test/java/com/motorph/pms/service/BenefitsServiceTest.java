@@ -1,13 +1,13 @@
 package com.motorph.ems.service;
 
-import com.motorph.ems.dto.BenefitDTO;
-import com.motorph.ems.dto.BenefitTypeDTO;
-import com.motorph.ems.dto.mapper.BenefitsMapper;
-import com.motorph.ems.model.Benefits;
-import com.motorph.ems.model.Benefits.BenefitType;
-import com.motorph.ems.repository.BenefitTypeRepository;
-import com.motorph.ems.repository.BenefitsRepository;
-import com.motorph.ems.service.impl.BenefitsServiceImpl;
+import com.motorph.pms.dto.BenefitDTO;
+import com.motorph.pms.dto.BenefitTypeDTO;
+import com.motorph.pms.dto.mapper.BenefitsMapper;
+import com.motorph.pms.model.Benefits;
+import com.motorph.pms.model.Benefits.BenefitType;
+import com.motorph.pms.repository.BenefitTypeRepository;
+import com.motorph.pms.repository.BenefitsRepository;
+import com.motorph.pms.service.impl.BenefitsServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -1,8 +1,8 @@
 package com.motorph.ems.controller;
 
-import com.motorph.ems.dto.UserAuth;
-import com.motorph.ems.dto.UserDTO;
-import com.motorph.ems.service.UserService;
+import com.motorph.pms.dto.UserAuth;
+import com.motorph.pms.dto.UserDTO;
+import com.motorph.pms.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

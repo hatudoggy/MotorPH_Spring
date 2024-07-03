@@ -1,6 +1,6 @@
 package com.motorph.ems.repository;
 
-import com.motorph.ems.model.EmploymentStatus;
+import com.motorph.pms.model.EmploymentStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

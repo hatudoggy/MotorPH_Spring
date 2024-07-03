@@ -1,6 +1,6 @@
 package com.motorph.ems.service;
 
-import com.motorph.ems.model.Contact;
+import com.motorph.pms.model.Contact;
 
 import java.util.List;
 

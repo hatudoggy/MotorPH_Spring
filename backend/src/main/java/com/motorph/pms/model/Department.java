@@ -1,6 +1,6 @@
 package com.motorph.ems.model;
 
-import com.motorph.ems.dto.DepartmentDTO;
+import com.motorph.pms.dto.DepartmentDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;

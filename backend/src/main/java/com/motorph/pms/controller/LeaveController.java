@@ -1,9 +1,9 @@
 package com.motorph.ems.controller;
 
-import com.motorph.ems.dto.LeaveBalanceDTO;
-import com.motorph.ems.dto.LeaveRequestDTO;
-import com.motorph.ems.service.LeaveBalanceService;
-import com.motorph.ems.service.LeaveRequestService;
+import com.motorph.pms.dto.LeaveBalanceDTO;
+import com.motorph.pms.dto.LeaveRequestDTO;
+import com.motorph.pms.service.LeaveBalanceService;
+import com.motorph.pms.service.LeaveRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,6 +1,6 @@
 package com.motorph.ems.service;
 
-import com.motorph.ems.model.GovernmentId;
+import com.motorph.pms.model.GovernmentId;
 
 import java.util.List;
 

@@ -1,8 +1,8 @@
 package com.motorph.ems.service;
 
-import com.motorph.ems.dto.BenefitDTO;
-import com.motorph.ems.dto.BenefitTypeDTO;
-import com.motorph.ems.model.Benefits.BenefitType;
+import com.motorph.pms.dto.BenefitDTO;
+import com.motorph.pms.dto.BenefitTypeDTO;
+import com.motorph.pms.model.Benefits.BenefitType;
 
 import java.util.List;
 import java.util.Optional;

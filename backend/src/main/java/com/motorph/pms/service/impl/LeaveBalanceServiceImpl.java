@@ -1,12 +1,12 @@
 package com.motorph.ems.service.impl;
 
-import com.motorph.ems.dto.LeaveBalanceDTO;
-import com.motorph.ems.dto.LeaveTypeDTO;
-import com.motorph.ems.dto.mapper.LeaveBalanceMapper;
-import com.motorph.ems.model.LeaveBalance;
-import com.motorph.ems.repository.LeaveBalanceRepository;
-import com.motorph.ems.repository.LeaveTypeRepository;
-import com.motorph.ems.service.LeaveBalanceService;
+import com.motorph.pms.dto.LeaveBalanceDTO;
+import com.motorph.pms.dto.LeaveTypeDTO;
+import com.motorph.pms.dto.mapper.LeaveBalanceMapper;
+import com.motorph.pms.model.LeaveBalance;
+import com.motorph.pms.repository.LeaveBalanceRepository;
+import com.motorph.pms.repository.LeaveTypeRepository;
+import com.motorph.pms.service.LeaveBalanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;

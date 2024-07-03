@@ -1,7 +1,7 @@
 package com.motorph.ems.service;
 
-import com.motorph.ems.dto.LeaveRequestDTO;
-import com.motorph.ems.dto.LeaveStatusDTO;
+import com.motorph.pms.dto.LeaveRequestDTO;
+import com.motorph.pms.dto.LeaveStatusDTO;
 
 import java.time.LocalDate;
 import java.util.List;

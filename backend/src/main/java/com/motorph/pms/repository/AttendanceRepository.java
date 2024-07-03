@@ -1,4 +1,4 @@
-import com.motorph.ems.model.Attendance;
+import com.motorph.pms.model.Attendance;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

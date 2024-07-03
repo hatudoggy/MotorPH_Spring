@@ -1,9 +1,9 @@
 package com.motorph.ems.service;
 
-import com.motorph.ems.dto.RoleDTO;
-import com.motorph.ems.dto.UserAuth;
-import com.motorph.ems.dto.UserDTO;
-import com.motorph.ems.model.User.Role;
+import com.motorph.pms.dto.RoleDTO;
+import com.motorph.pms.dto.UserAuth;
+import com.motorph.pms.dto.UserDTO;
+import com.motorph.pms.model.User.Role;
 
 import java.time.LocalDateTime;
 import java.util.List;

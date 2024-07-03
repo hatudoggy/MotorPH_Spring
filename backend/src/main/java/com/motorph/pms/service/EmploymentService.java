@@ -1,6 +1,6 @@
 package com.motorph.ems.service;
 
-import com.motorph.ems.model.Employment;
+import com.motorph.pms.model.Employment;
 
 public interface EmploymentService {
 

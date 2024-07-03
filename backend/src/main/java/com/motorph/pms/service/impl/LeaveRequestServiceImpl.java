@@ -1,12 +1,12 @@
 package com.motorph.ems.service.impl;
 
-import com.motorph.ems.dto.LeaveRequestDTO;
-import com.motorph.ems.dto.LeaveStatusDTO;
-import com.motorph.ems.dto.mapper.LeaveRequestMapper;
-import com.motorph.ems.model.LeaveRequest;
-import com.motorph.ems.repository.LeaveRequestRepository;
-import com.motorph.ems.repository.LeaveStatusRepository;
-import com.motorph.ems.service.LeaveRequestService;
+import com.motorph.pms.dto.LeaveRequestDTO;
+import com.motorph.pms.dto.LeaveStatusDTO;
+import com.motorph.pms.dto.mapper.LeaveRequestMapper;
+import com.motorph.pms.model.LeaveRequest;
+import com.motorph.pms.repository.LeaveRequestRepository;
+import com.motorph.pms.repository.LeaveStatusRepository;
+import com.motorph.pms.service.LeaveRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;

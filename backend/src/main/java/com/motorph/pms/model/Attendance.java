@@ -1,4 +1,8 @@
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -16,7 +20,7 @@ public class Attendance {
 
     @ManyToOne
     @JoinColumn(name = "employee_id")
-    private Employee employee;
+    private com.motorph.ems.model.Employee employee;
 
     private LocalDate date;
     private LocalTime timeIn;
@@ -29,7 +33,7 @@ public class Attendance {
             LocalDate date,
             LocalTime timeIn
     ) {
-        this.employee = new Employee(employeeId);
+        this.employee = new com.motorph.ems.model.Employee(employeeId);
         this.date = date;
         this.timeIn = timeIn;
         this.timeOut = null;
@@ -43,7 +47,7 @@ public class Attendance {
             LocalTime timeIn,
             LocalTime timeOut
     ) {
-        this.employee = new Employee(employeeId);
+        this.employee = new com.motorph.ems.model.Employee(employeeId);
         this.date = date;
         this.timeIn = timeIn;
         this.timeOut = timeOut;

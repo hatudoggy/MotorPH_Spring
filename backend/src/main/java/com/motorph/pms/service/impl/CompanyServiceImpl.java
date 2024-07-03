@@ -1,13 +1,13 @@
 package com.motorph.ems.service.impl;
 
-import com.motorph.ems.model.Department;
-import com.motorph.ems.model.EmploymentStatus;
-import com.motorph.ems.model.Position;
-import com.motorph.ems.repository.AttendanceRepository;
-import com.motorph.ems.repository.DepartmentRepository;
-import com.motorph.ems.repository.EmploymentStatusRepository;
-import com.motorph.ems.repository.PositionRepository;
-import com.motorph.ems.service.CompanyService;
+import com.motorph.pms.model.Department;
+import com.motorph.pms.model.EmploymentStatus;
+import com.motorph.pms.model.Position;
+import com.motorph.pms.repository.AttendanceRepository;
+import com.motorph.pms.repository.DepartmentRepository;
+import com.motorph.pms.repository.EmploymentStatusRepository;
+import com.motorph.pms.repository.PositionRepository;
+import com.motorph.pms.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

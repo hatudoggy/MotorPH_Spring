@@ -1,7 +1,7 @@
 package com.motorph.ems.service;
 
-import com.motorph.ems.dto.EmployeeDTO;
-import com.motorph.ems.dto.SupervisorDTO;
+import com.motorph.pms.dto.EmployeeDTO;
+import com.motorph.pms.dto.SupervisorDTO;
 
 import java.time.LocalDate;
 import java.util.List;

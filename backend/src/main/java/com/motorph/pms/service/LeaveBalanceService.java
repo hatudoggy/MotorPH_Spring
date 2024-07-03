@@ -1,7 +1,7 @@
 package com.motorph.ems.service;
 
-import com.motorph.ems.dto.LeaveBalanceDTO;
-import com.motorph.ems.dto.LeaveTypeDTO;
+import com.motorph.pms.dto.LeaveBalanceDTO;
+import com.motorph.pms.dto.LeaveTypeDTO;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,8 +1,8 @@
 package com.motorph.ems.service;
 
-import com.motorph.ems.model.Department;
-import com.motorph.ems.model.EmploymentStatus;
-import com.motorph.ems.model.Position;
+import com.motorph.pms.model.Department;
+import com.motorph.pms.model.EmploymentStatus;
+import com.motorph.pms.model.Position;
 
 import java.util.List;
 

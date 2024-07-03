@@ -1,9 +1,9 @@
 package com.motorph.ems.controller;
 
 
-import com.motorph.ems.dto.*;
-import com.motorph.ems.model.Attendance;
-import com.motorph.ems.service.*;
+import com.motorph.pms.dto.*;
+import com.motorph.pms.model.Attendance;
+import com.motorph.pms.service.*;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

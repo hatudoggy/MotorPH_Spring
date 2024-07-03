@@ -1,15 +1,15 @@
 package com.motorph.ems.service.impl;
 
-import com.motorph.ems.dto.MonthlyPayrollReportDTO;
-import com.motorph.ems.dto.PayrollDTO;
-import com.motorph.ems.dto.mapper.PayrollMapper;
-import com.motorph.ems.model.*;
-import com.motorph.ems.model.Deductions.DeductionType;
-import com.motorph.ems.repository.AttendanceRepository;
-import com.motorph.ems.repository.EmployeeRepository;
-import com.motorph.ems.repository.PayrollRepository;
-import com.motorph.ems.service.MatrixService;
-import com.motorph.ems.service.PayrollService;
+import com.motorph.pms.dto.MonthlyPayrollReportDTO;
+import com.motorph.pms.dto.PayrollDTO;
+import com.motorph.pms.dto.mapper.PayrollMapper;
+import com.motorph.pms.model.*;
+import com.motorph.pms.model.Deductions.DeductionType;
+import com.motorph.pms.repository.AttendanceRepository;
+import com.motorph.pms.repository.EmployeeRepository;
+import com.motorph.pms.repository.PayrollRepository;
+import com.motorph.pms.service.MatrixService;
+import com.motorph.pms.service.PayrollService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
