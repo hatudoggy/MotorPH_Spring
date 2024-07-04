@@ -4,10 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ef4833e7-6818-46a8-95cb-723fd7831949" name="Changes" comment="changed employee payroll, preview from gross to net pay">
+    <list default="true" id="ef4833e7-6818-46a8-95cb-723fd7831949" name="Changes" comment="updated project structure">
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/util/PayrollCalculator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/aacb57b9-4b1d-42b3-9e47-3257a000b82e.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/aacb57b9-4b1d-42b3-9e47-3257a000b82e.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/aacb57b9-4b1d-42b3-9e47-3257a000b82e/storage_v2/_src_/schema/motorph_db.0MiwFw.zip" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/aacb57b9-4b1d-42b3-9e47-3257a000b82e/storage_v2/_src_/schema/motorph_db.0MiwFw.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/controller/PayrollController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/controller/PayrollController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/dto/mapper/DeductionsMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/dto/mapper/DeductionsMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/dto/mapper/PayrollMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/dto/mapper/PayrollMapper.java" afterDir="false" />
@@ -113,7 +115,7 @@
     "Spring Boot.EmsApplication.executor": "Run",
     "Spring Boot.Main.executor": "Run",
     "database.data.extractors.current.export.id": "Comma-separated (CSV)_id",
-    "git-widget-placeholder": "UI-integration",
+    "git-widget-placeholder": "Merging main",
     "jdk.selected.JAVA_MODULE": "22",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/Harvey/Documents/GitHub/MotorPH_Spring/pom.xml",
@@ -153,16 +155,21 @@
       <recent name="C:\Users\Harvey\Documents\GitHub\MotorPH_Spring\frontend\src\pages\hr\employeeManagement\form" />
     </key>
   </component>
-  <component name="RunManager" selected="Spring Boot.Main">
-    <configuration name="EmsApplication | #3" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/EmsApplication.http" index="3" requestIdentifier="#3" runType="Run single request">
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Spring Boot.Backend">
     <configuration name="java in ems" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="backend" />
       <option name="MAIN_CLASS_NAME" value="" />
       <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="directory" />
       <dir value="$PROJECT_DIR$/backend/src/test/java" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Backend" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="backend" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.motorph.pms.PmsApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -180,24 +187,14 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PmsApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
-      <module name="backend" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.motorph.pms.PmsApplication" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <list>
-      <item itemvalue="HTTP Request.EmsApplication | #3" />
       <item itemvalue="JUnit.java in ems" />
-      <item itemvalue="Spring Boot.PmsApplication" />
+      <item itemvalue="Spring Boot.Backend" />
       <item itemvalue="Spring Boot.Main" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.java in ems" />
-        <item itemvalue="HTTP Request.EmsApplication | #3" />
       </list>
     </recent_temporary>
   </component>
@@ -438,10 +435,10 @@
     <MESSAGE value="implemented clock in and out, and hr payroll viewing" />
     <MESSAGE value="implemented update and add employee" />
     <MESSAGE value="maven dependencies" />
-    <MESSAGE value="updated project structure" />
     <MESSAGE value="updated project structure, added a Main class to run both backend and frontend" />
     <MESSAGE value="changed employee payroll, preview from gross to net pay" />
-    <option name="LAST_COMMIT_MESSAGE" value="changed employee payroll, preview from gross to net pay" />
+    <MESSAGE value="updated project structure" />
+    <option name="LAST_COMMIT_MESSAGE" value="updated project structure" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand>
