@@ -27,10 +27,10 @@ public class Deductions {
     private double amount;
 
     public Deductions(
-            Long payrollId,
+            Payroll payroll,
             String deductionCode,
             double amount) {
-        this.payroll = new Payroll(payrollId);
+        this.payroll = payroll;
         this.deductionType = new DeductionType(deductionCode);
         this.amount = amount;
     }
@@ -46,6 +46,8 @@ public class Deductions {
         private String deductionCode;
         private String name;
 
-        public DeductionType(String deductionCode) {}
+        public DeductionType(String deductionCode) {
+            this.deductionCode = deductionCode;
+        }
     }
 }

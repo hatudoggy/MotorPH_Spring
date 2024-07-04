@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * Represents an employee in the system, providing access to various features such as attendance management,
- * leave management, and payroll management.
+ * leave management, and payrollId management.
  * <p>
  * Available methods:
  * <ul>

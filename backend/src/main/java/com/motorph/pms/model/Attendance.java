@@ -65,6 +65,7 @@ public class Attendance {
         if (timeIn == null || timeOut == null) {
             return 0;
         }
+
         return secondsToHours(timeOut.toSecondOfDay() - timeIn.toSecondOfDay());
     }
 
@@ -79,11 +80,11 @@ public class Attendance {
             return 0;
         }
 
-        return timeOut.toSecondOfDay() - outCutOff;
+        return secondsToHours(timeOut.toSecondOfDay() - outCutOff);
     }
 
     private double secondsToHours(long seconds) {
-        return seconds / 3600.0; // Convert seconds to hours
+        return Math.round(seconds / 3600.0 * 100) / 100.0;  // Convert seconds to hours
     }
 
     @Override

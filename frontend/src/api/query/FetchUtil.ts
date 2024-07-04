@@ -43,7 +43,7 @@ export const fetchData = async <T>(key: string, params?: Record<string, any>): P
         case 'payrolls':
             endpoint += API.PAYROLLS.BASE;
             break;
-        case 'payroll':
+        case 'payrollId':
             endpoint += API.PAYROLLS.BASE + params?.id;
             break;
         case 'employeePayrolls':

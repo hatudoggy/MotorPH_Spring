@@ -4,11 +4,38 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ef4833e7-6818-46a8-95cb-723fd7831949" name="Changes" comment="updated project structure, added a Main class to run both backend and frontend">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="ef4833e7-6818-46a8-95cb-723fd7831949" name="Changes" comment="changed employee payroll, preview from gross to net pay">
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/util/PayrollCalculator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/aacb57b9-4b1d-42b3-9e47-3257a000b82e.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/aacb57b9-4b1d-42b3-9e47-3257a000b82e.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/aacb57b9-4b1d-42b3-9e47-3257a000b82e/storage_v2/_src_/schema/motorph_db.0MiwFw.zip" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/aacb57b9-4b1d-42b3-9e47-3257a000b82e/storage_v2/_src_/schema/motorph_db.0MiwFw.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/controller/PayrollController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/controller/PayrollController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/dto/mapper/DeductionsMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/dto/mapper/DeductionsMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/dto/mapper/PayrollMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/dto/mapper/PayrollMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/model/Attendance.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/model/Attendance.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/model/Deductions.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/model/Deductions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/model/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/model/Employee.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/model/PagibigMatrix.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/model/PagibigMatrix.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/model/Payroll.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/model/Payroll.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/model/PhilhealthMatrix.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/model/PhilhealthMatrix.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/model/SSSMatrix.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/model/SSSMatrix.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/model/WitholdingTaxMatrix.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/model/WithholdingTaxMatrix.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/repository/EmployeeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/repository/EmployeeRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/repository/PhilhealthMatrixRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/repository/PhilhealthMatrixRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/repository/SSSMatrixRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/repository/SSSMatrixRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/repository/WitholdingTaxMatrixRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/repository/WitholdingTaxMatrixRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/MatrixService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/MatrixService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/PayrollService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/PayrollService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/impl/MatrixServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/impl/MatrixServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/impl/PayrollServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/impl/PayrollServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Routing.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Routing.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/api/Api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/api/Api.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/api/query/FetchUtil.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/api/query/FetchUtil.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/api/query/UseFetch.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/api/query/UseFetch.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Sidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Sidebar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/employee/Payroll.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/employee/Payroll.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/hr/HRAttendances.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/hr/HRAttendances.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/hr/HRPayrolls.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/hr/HRPayrolls.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/motorph/pms/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/motorph/pms/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -340,7 +367,15 @@
       <option name="project" value="LOCAL" />
       <updated>1720018165777</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="changed employee payroll, preview from gross to net pay">
+      <option name="closed" value="true" />
+      <created>1720020180840</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1720020180840</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -405,7 +440,8 @@
     <MESSAGE value="maven dependencies" />
     <MESSAGE value="updated project structure" />
     <MESSAGE value="updated project structure, added a Main class to run both backend and frontend" />
-    <option name="LAST_COMMIT_MESSAGE" value="updated project structure, added a Main class to run both backend and frontend" />
+    <MESSAGE value="changed employee payroll, preview from gross to net pay" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed employee payroll, preview from gross to net pay" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand>

@@ -10,12 +10,11 @@ import com.motorph.pms.repository.EmployeeRepository;
 import com.motorph.pms.repository.PayrollRepository;
 import com.motorph.pms.service.MatrixService;
 import com.motorph.pms.service.PayrollService;
+import com.motorph.pms.util.PayrollCalculator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -28,21 +27,21 @@ public class PayrollServiceImpl implements PayrollService {
     private final PayrollRepository payrollRepository;
     private final EmployeeRepository employeeRepository;
     private final AttendanceRepository attendanceRepository;
-    private final MatrixService matrixService;
     private final PayrollMapper payrollMapper;
+    private final PayrollCalculator payrollCalculator;
 
     @Autowired
     public PayrollServiceImpl(
             PayrollRepository payrollRepository,
             EmployeeRepository employeeRepository,
             AttendanceRepository attendanceRepository,
-            MatrixService matrixService,
-            PayrollMapper payrollMapper) {
+            PayrollMapper payrollMapper,
+            PayrollCalculator payrollCalculator) {
         this.payrollRepository = payrollRepository;
         this.employeeRepository = employeeRepository;
         this.attendanceRepository = attendanceRepository;
-        this.matrixService = matrixService;
         this.payrollMapper = payrollMapper;
+        this.payrollCalculator = payrollCalculator;
     }
 
     @Override
@@ -189,9 +188,12 @@ public class PayrollServiceImpl implements PayrollService {
         return null;
     }
 
+    @Transactional
     @Override
-    public void batchGeneratePayroll(LocalDate periodStart, LocalDate periodEnd) {
-        List<Employee> employees = employeeRepository.findAllExceptByStatus_StatusId(3);
+    public int batchGeneratePayroll(LocalDate periodStart, LocalDate periodEnd) {
+        List<Employee> employees = employeeRepository.findAllExceptByStatus_StatusIds(List.of(4,5,6));
+
+        int count = 0;
 
         for (Employee employee : employees) {
 
@@ -199,12 +201,33 @@ public class PayrollServiceImpl implements PayrollService {
                     employee.getEmployeeId(), periodStart, periodEnd
             );
 
-            int presentCount = countPresent(attendances);
-            double hoursWorked = calculateHoursWorked(attendances);
-            double overtimeHours = calculateOvertimeHours(attendances);
+            int presentCount = payrollCalculator.countPresent(attendances);
+            double hoursWorked = payrollCalculator.calculateHoursWorked(attendances);
+            double overtimeHours = payrollCalculator.calculateOvertimeHours(attendances);
             double monthlyRate = employee.getBasicSalary();
             double hourlyRate = employee.getHourlyRate();
             double overtimeRate = employee.getOvertimeRate();
+
+            double grossIncome = payrollCalculator.calculateGrossIncome(hoursWorked,hourlyRate,overtimeHours,overtimeRate);
+
+            if (grossIncome <= 0) {
+                continue;
+            }
+
+            double sss = payrollCalculator.calculateSSS(grossIncome);
+
+            double philhealth = payrollCalculator.calculatePhilHealth(grossIncome);
+
+            double pagibig = payrollCalculator.calculatePagIbig(grossIncome);
+
+            double withholdingTax = payrollCalculator.calculateTax(grossIncome,List.of(sss,philhealth,pagibig));
+
+            double totalDeduction = payrollCalculator.calculateTotalDeductions(List.of(sss, philhealth, pagibig, withholdingTax));
+
+            double totalBenefits = payrollCalculator.calculateTotalBenefits(employee.getBenefits().stream().map(Benefits::getAmount).collect(Collectors.toList()));
+
+            double netPay = payrollCalculator.calculateNetPay(grossIncome, totalBenefits, totalBenefits);
+
 
             Payroll payroll = new Payroll(
                     employee.getEmployeeId(),
@@ -215,116 +238,33 @@ public class PayrollServiceImpl implements PayrollService {
                     hourlyRate,
                     hoursWorked,
                     overtimeHours,
-                    overtimeRate
+                    overtimeRate,
+                    grossIncome,
+                    totalBenefits,
+                    totalDeduction,
+                    netPay
             );
 
-            double grossIncome = calculateGrossIncome(hoursWorked,hourlyRate,overtimeHours,overtimeRate);
+            List<Deductions> deductions = List.of(
+                    new Deductions(payroll, "SSS", sss),
+                    new Deductions(payroll, "PHIC", philhealth),
+                    new Deductions(payroll, "HDMF", pagibig),
+                    new Deductions(payroll, "TAX", withholdingTax)
+            );
 
-            PhilhealthMatrix phm = matrixService.getPhilhealthMatrix(grossIncome);
-            PagibigMatrix pgm = matrixService.getPagibigMatrix(grossIncome);
+            payroll.setDeductions(deductions);
 
-            double sss = matrixService.getSSSMatrix(grossIncome).getContribution();
-            double philhealth = Math.floor(
-                    (phm.getMonthlyPremiumCap() == null ?
-                            phm.getMonthlyPremiumBase() :
-                            grossIncome * phm.getPremiumRate()
-                            ) / 2 * 100) / 100;
+            payrollRepository.save(payroll);
 
-            double pagibig = Math.max((grossIncome * pgm.getTotalRate()), 100);
-            double partialDeduction = sss + philhealth + pagibig;
-
-            WitholdingTaxMatrix tm = matrixService.getWitholdingTaxMatrix(grossIncome - partialDeduction);
-
-            double withholdingTax = (tm.getTaxBase() + (grossIncome - partialDeduction) - tm.getMinRange()) * tm.getTaxRate();
-
-            double totalDeduction = calculateTotalDeductions(List.of(sss, philhealth, pagibig, withholdingTax));
-
-            double totalBenefits = calculateTotalBenefits(employee.getBenefits().stream().map(Benefits::getAmount).collect(Collectors.toList()));
-
-            double netPay = calculateNetPay(grossIncome,totalBenefits,totalBenefits);
-
-            payroll.setGrossIncome(grossIncome);
-            payroll.setTotalBenefits(totalBenefits);
-            payroll.setTotalDeductions(totalDeduction);
-            payroll.setNetPay(netPay);
-
-            Payroll saved = payrollRepository.save(payroll);
-
-            saveDeductions(saved, sss, philhealth, pagibig, withholdingTax);
-        }
-    }
-
-    private void saveDeductions(Payroll payroll, double sss, double philhealth, double pagibig, double withholdingTax) {
-        Deductions sssDeduction = createDeduction(payroll, sss, "SSS");
-        Deductions philhealthDeduction = createDeduction(payroll, philhealth, "PHIC");
-        Deductions pagibigDeduction = createDeduction(payroll, pagibig, "HDMF");
-        Deductions withholdingTaxDeduction = createDeduction(payroll, withholdingTax, "TAX");
-
-        payroll.setDeductions(List.of(sssDeduction, philhealthDeduction, pagibigDeduction, withholdingTaxDeduction));
-
-        payrollRepository.save(payroll);
-    }
-
-    private Deductions createDeduction(Payroll payroll, double amount, String deductionCode) {
-        Deductions deduction = new Deductions();
-        deduction.setPayroll(payroll);
-        deduction.setAmount(Math.round(amount));
-
-        DeductionType deductionType = new DeductionType();
-        deductionType.setDeductionCode(deductionCode);
-        deduction.setDeductionType(deductionType);
-
-        return deduction;
-    }
-
-    public static double round(double value, int places) {
-        if (places < 0) throw new IllegalArgumentException();
-
-        BigDecimal bd = BigDecimal.valueOf(value);
-        bd = bd.setScale(places, RoundingMode.HALF_UP);
-        return bd.doubleValue();
-    }
-
-
-    private double calculateHoursWorked(List<Attendance> attendances) {
-        return attendances.stream().mapToDouble(Attendance::calculateTotalHours).sum();
-    }
-
-    private double calculateOvertimeHours(List<Attendance> attendances) {
-        return attendances.stream().mapToDouble(Attendance::calculateOvertime).sum();
-    }
-
-
-    private int countPresent(List<Attendance> attendances) {
-        return attendances.size();
-    }
-
-    private double calculateGrossIncome(double hoursWorked, double hourlyRate, double overtimeHours, double overtimeRate) {
-        if (overtimeHours > 0) {
-            hoursWorked -= overtimeHours;
-            return Math.round((hoursWorked * hourlyRate) + (overtimeHours * overtimeRate) * 100) / 100.0;
+            count++;
         }
 
-        return Math.round(hoursWorked * hourlyRate * 100) / 100.0;
+        return count;
     }
 
-    private double calculateTotalDeductions(List<Double> deductions) {
-        return Math.round(deductions.stream().reduce(0.0, Double::sum) * 100) / 100.0;
-    }
-
-    private double calculateTotalBenefits(List<Double> benefits) {
-        return Math.round(benefits.stream().reduce(0.0, Double::sum) * 100) / 100.0;
-    }
-
-    private double calculateGross(double hoursWorked, double hourlyRate, double overtimeHours, double overtimePay) {
-        double gross = hoursWorked * hourlyRate;
-        if (overtimeHours > 0){
-            gross += overtimePay;
-        }
-        return Math.round(gross * 100) / 100.0; // Round the gross;
-    }
-
-    private double calculateNetPay(double grossIncome, double totalDeductions, double totalBenefits) {
-        return (double) Math.round((grossIncome - totalDeductions + totalBenefits) * 100) / 100;
+    @Override
+    public PayrollDTO generatePayroll(String startDate, String endDate, Long employeeId) {
+        //TODO: implement this
+        return null;
     }
 }

@@ -6,5 +6,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SSSMatrixRepository  extends JpaRepository<SSSMatrix, Long> {
-    SSSMatrix findByMinRangeLessThanEqualAndMaxRangeGreaterThanEqual(Double value, Double value2);
 }

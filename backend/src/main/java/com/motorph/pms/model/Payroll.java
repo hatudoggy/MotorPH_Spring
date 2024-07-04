@@ -59,7 +59,11 @@ public class Payroll {
             double hourlyRate,
             double hoursWorked,
             double overtimeHours,
-            double overtimeRate) {
+            double overtimeRate,
+            double grossIncome,
+            double totalBenefits,
+            double totalDeductions,
+            double netPay) {
         this.employee = new Employee(employeeId);
         this.periodStart = periodStart;
         this.periodEnd = periodEnd;
@@ -71,9 +75,11 @@ public class Payroll {
         this.overtimeRate = overtimeRate;
         this.overtimePay = calculateOvertimePay(overtimeHours,overtimeRate);
         this.overtimeHours = overtimeHours;
+        this.grossIncome = grossIncome;
+        this.totalBenefits = totalBenefits;
+        this.totalDeductions = totalDeductions;
+        this.netPay = netPay;
     }
-
-    public Payroll(Long payrollId) {}
 
     public int calculateWorkingDays(LocalDate periodStart, LocalDate periodEnd) {
         int workingDays = 0;

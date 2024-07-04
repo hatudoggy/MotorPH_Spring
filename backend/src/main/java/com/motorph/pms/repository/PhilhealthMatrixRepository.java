@@ -7,5 +7,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PhilhealthMatrixRepository  extends JpaRepository<PhilhealthMatrix, Long> {
-    PhilhealthMatrix findByMinRangeLessThanEqualAndMaxRangeGreaterThanEqual(Double value, Double value2);
 }

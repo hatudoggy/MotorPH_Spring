@@ -30,7 +30,9 @@ public interface PayrollService {
 
     List<MonthlyPayrollReportDTO> getMonthlyReport(LocalDate start, LocalDate end);
 
-    void batchGeneratePayroll(LocalDate periodStart, LocalDate periodEnd);
+    int batchGeneratePayroll(LocalDate periodStart, LocalDate periodEnd);
+
+    PayrollDTO generatePayroll(String startDate, String endDate, Long employeeId);
 
     List<PayrollDTO> getPayrollByEmployeeIdAndPeriodRange(long id, LocalDate start, LocalDate end);
 

@@ -1,11 +1,11 @@
 package com.motorph.pms.repository;
 
-import com.motorph.pms.model.WitholdingTaxMatrix;
+import com.motorph.pms.model.WithholdingTaxMatrix;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 
 @Repository
-public interface WitholdingTaxMatrixRepository  extends JpaRepository<WitholdingTaxMatrix, Long> {
-    WitholdingTaxMatrix findByMinRangeLessThanEqualAndMaxRangeGreaterThanEqual(Double value, Double value2);
+public interface WitholdingTaxMatrixRepository  extends JpaRepository<WithholdingTaxMatrix, Long> {
+    WithholdingTaxMatrix findByMinRangeLessThanEqualAndMaxRangeGreaterThanEqual(Double value, Double value2);
 }
