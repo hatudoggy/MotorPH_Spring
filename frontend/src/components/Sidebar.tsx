@@ -55,7 +55,7 @@ export default function Sidebar({ role }: Props) {
             IconActive: AssignmentInd,
             IconOutlined: AssignmentIndOutlined,
         },
-        { label: "Payroll", link: "payroll", IconActive: Paid, IconOutlined: PaidOutlined },
+        { label: "Payroll", link: "payrollId", IconActive: Paid, IconOutlined: PaidOutlined },
         { label: "Profile", link: "profile", IconActive: Person, IconOutlined: PersonOutlined },
     ];
 
@@ -68,7 +68,7 @@ export default function Sidebar({ role }: Props) {
         },
         {
             label: "Payrolls",
-            link: "hr/payroll",
+            link: "hr/payrollId",
             IconActive: Payments,
             IconOutlined: PaymentsOutlined,
         },

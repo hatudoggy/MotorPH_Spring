@@ -71,11 +71,11 @@ public class PayrollMapper {
 
     public Payroll toEntity(PayrollDTO dto) {
         if (dto == null || dto.employee() == null) {
-            throw new IllegalArgumentException("Employee ID cannot be null when creating payroll");
+            throw new IllegalArgumentException("Employee ID cannot be null when creating payrollId");
         }
 
         if (dto.deductions() == null) {
-            throw new IllegalArgumentException("Deductions cannot be null when creating payroll");
+            throw new IllegalArgumentException("Deductions cannot be null when creating payrollId");
         }
 
         return new Payroll(
@@ -87,7 +87,11 @@ public class PayrollMapper {
                 dto.hourlyRate(),
                 dto.hoursWorked(),
                 dto.overtimeHours(),
-                dto.overtimeRate()
+                dto.overtimeRate(),
+                dto.grossIncome(),
+                dto.totalBenefits(),
+                dto.totalDeductions(),
+                dto.netPay()
         );
     }
 
@@ -103,14 +107,13 @@ public class PayrollMapper {
 
     public void updateEntity(PayrollDTO payrollDTO, Payroll entity) {
         if (entity == null || entity.getPayrollId() == null) {
-            throw new IllegalArgumentException("Payroll ID cannot be null when updating a payroll");
+            throw new IllegalArgumentException("Payroll ID cannot be null when updating a payrollId");
         }
 
         if (!entity.getEmployee().getEmployeeId().equals(payrollDTO.employee().employeeId())) {
-            throw new IllegalArgumentException("Employee ID cannot be changed when updating a payroll");
+            throw new IllegalArgumentException("Employee ID cannot be changed when updating a payrollId");
         }
 
-        entity.setDeductions(deductionsMapper.toEntity(payrollDTO.deductions()));
         entity.setPeriodStart(payrollDTO.periodStart());
         entity.setPeriodEnd(payrollDTO.periodEnd());
         entity.setMonthlyRate(payrollDTO.monthlyRate());
@@ -118,5 +121,6 @@ public class PayrollMapper {
         entity.setOvertimePay(payrollDTO.overtimePay());
         entity.setGrossIncome(payrollDTO.grossIncome());
         entity.setNetPay(payrollDTO.netPay());
+        entity.setDeductions(deductionsMapper.toEntity(payrollDTO.deductions(), entity));
     }
 }

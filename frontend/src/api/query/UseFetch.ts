@@ -68,7 +68,7 @@ export const useFetchPayrollsByEmployeeId = (employeeId: number) => {
 };
 
 export const useFetchPayrollById = (payrollId: number) => {
-    return useFetch<PayrollRes>('payroll', { id: payrollId });
+    return useFetch<PayrollRes>('payrollId', { id: payrollId });
 };
 
 //ATTENDANCE -----------------------------------------------------------------------

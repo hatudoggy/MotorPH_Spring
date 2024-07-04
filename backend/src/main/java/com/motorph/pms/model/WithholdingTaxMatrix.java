@@ -7,13 +7,14 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-@Entity @Table(name = "withholding_tax_matrix")
-public class WitholdingTaxMatrix {
+@Entity @Table(name = "withholding_tax")
+public class WithholdingTaxMatrix {
 
     @Id
-    private Long matrixId;
-    private Long minRange;
-    private Long maxRange;
-    private Long taxBase;
+    private Long id;
+    private Double minRange;
+    private Double maxRange;
+    private Double baseTax;
     private Double taxRate;
+    private Double excess;
 }

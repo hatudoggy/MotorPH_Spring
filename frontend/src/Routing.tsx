@@ -35,7 +35,7 @@ export const router = createBrowserRouter([
         element: <Leave />
       },
       {
-        path: "payroll",
+        path: "payrollId",
         element: <Payroll />
       },
       {
@@ -51,7 +51,7 @@ export const router = createBrowserRouter([
             element: <HRAttendances />
           },
           {
-            path: "payroll",
+            path: "payrollId",
             element: <HRPayrolls />
           },
           {

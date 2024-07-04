@@ -1,7 +1,7 @@
 package com.motorph.pms;
 
-import com.motorph.pms.PmsApplication;
 import org.springframework.boot.SpringApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 
 import java.awt.*;
 import java.io.BufferedReader;
@@ -12,10 +12,11 @@ import java.net.URISyntaxException;
 
 public class Main {
     private static Process frontendProcess;
+    private static String npmCommand = "npm.cmd"; // Adjust for Windows
 
     public static void main(String[] args) {
         // Start the backend Spring Boot application
-        new Thread(() -> SpringApplication.run(PmsApplication.class, args)).start();
+        ConfigurableApplicationContext context = SpringApplication.run(PmsApplication.class, args);
 
         // Start the frontend React application
         startFrontend();
@@ -24,7 +25,9 @@ public class Main {
         try {
             Thread.sleep(5000); // Wait for 5 seconds
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            // Handle the interruption appropriately, e.g., log the exception or display an error message
+            System.out.println("Main thread interrupted: " + e.getMessage());
+            Thread.currentThread().interrupt(); // Restore interrupted status
         }
 
         // Open the frontend React application in the default web browser
@@ -33,13 +36,33 @@ public class Main {
         // Add shutdown hook to stop the frontend when Java application stops
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             if (frontendProcess != null) {
-                frontendProcess.destroy();
+                try {
+                    ProcessBuilder processBuilder = new ProcessBuilder("taskkill", "/F", "/T", "/PID", String.valueOf(frontendProcess.pid()));
+                    processBuilder.redirectErrorStream(true);
+                    Process stopProcess = processBuilder.start();
+                    stopProcess.waitFor(); // Wait for the stop process to complete
+                } catch (IOException | InterruptedException e) {
+                    // Handle the exception appropriately, e.g., log the exception or display an error message
+                    System.out.println("Error stopping frontend process: " + e.getMessage());
+                    Thread.currentThread().interrupt(); // Restore interrupted status
+                } finally {
+                    frontendProcess.destroyForcibly();
+                }
             }
         }));
+
+        // Wait for the backend application to terminate
+        context.registerShutdownHook();
+        try {
+            // Keep the context open until the application is explicitly stopped
+            Thread.currentThread().join();
+        } catch (InterruptedException e) {
+            System.out.println("Main thread interrupted: " + e.getMessage());
+            Thread.currentThread().interrupt(); // Restore interrupted status
+        }
     }
 
     private static void startFrontend() {
-        String npmCommand = "npm.cmd"; // Adjust for Windows
         ProcessBuilder processBuilder = new ProcessBuilder(npmCommand, "run", "dev");
         processBuilder.directory(new java.io.File("frontend"));
         processBuilder.redirectErrorStream(true);

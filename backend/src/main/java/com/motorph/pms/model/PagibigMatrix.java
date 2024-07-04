@@ -11,16 +11,10 @@ import lombok.Setter;
 @Entity @Table(name = "pagibig_matrix")
 public class PagibigMatrix {
     @Id
-    private Long matrixId;
-    private Long minRange;
-    private Long maxRange;
+    private Long id;
+    private Double minRange;
+    private Double maxRange;
     private Double employeeRate;
     private Double employerRate;
-
-    @Transient
-    private Double totalRate;
-
-    public Double getTotalRate() {
-        return this.employeeRate + this.employerRate;
-    }
+    private Double maxContribution;
 }

@@ -10,10 +10,8 @@ import lombok.Setter;
 @Entity @Table(name = "philhealth_matrix")
 public class PhilhealthMatrix {
     @Id
-    private Long matrixId;
-    private Double minRange;
-    private Double maxRange;
+    private Long id;
     private Double premiumRate;
-    private Long monthlyPremiumBase;
-    private Long monthlyPremiumCap;
+    private Double employeeShare;
+    private Double premiumCap;
 }

@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 @CrossOrigin
@@ -73,10 +74,37 @@ public class PayrollController {
     }
 
 
-    @PostMapping
-    public ResponseEntity<PayrollDTO> addPayroll(@RequestBody PayrollDTO payroll) {
-        PayrollDTO payrollDTO = payrollService.addNewPayroll(payroll);
+    @PostMapping("generate")
+    public ResponseEntity<Integer> generatePayroll(
+            @RequestParam (value = "startDate", required = false) String start_date,
+            @RequestParam (value = "endDate", required = false) String end_date,
+            @RequestParam (value = "employeeId", required = false) Long employee_id){
 
-        return ResponseEntity.ok(payrollDTO);
+        LocalDate nowDate = LocalDate.now();
+        LocalDate start;
+        LocalDate end;
+
+        if (start_date != null && end_date != null) {
+            try {
+                start = LocalDate.parse(start_date);
+                end = LocalDate.parse(end_date);
+            } catch (DateTimeParseException e) {
+                return ResponseEntity.badRequest().build();
+            }
+        } else {
+            // Set start and end date to the first and last date of the previous month
+            start = nowDate.minusMonths(1).withDayOfMonth(1);
+            end = start.plusMonths(1).minusDays(1);
+        }
+
+        if (employee_id == null) {
+            int generatedPayroll = payrollService.batchGeneratePayroll(start, end);
+
+            return ResponseEntity.ok(generatedPayroll);
+        }
+
+        PayrollDTO payroll = payrollService.generatePayroll(start_date, end_date, employee_id);
+
+        return ResponseEntity.ok(payroll.payrollId().intValue());
     }
 }
