@@ -1,0 +1,22 @@
+spring:
+  cache:
+    cache-names: [
+      attendanceList,
+      attendance,
+      company,
+      payrollList,
+      payroll,
+      positions,
+      departments,
+      employmentStatuses,
+      leaveTypes,
+      leaveStatuses,
+      benefitTypes,
+      supervisors,
+      employeeList,
+      employee,
+      leaveRequests,
+      users,
+      userRoles]
+    caffeine:
+      spec: maximumSize=10000, expireAfterAccess=30m

@@ -13,14 +13,10 @@ public interface LeaveRequestService {
 
     List<LeaveRequestDTO> getAllLeaveRequests();
 
-    Optional<LeaveRequestDTO> getLeaveRequestById(Long leaveRequestId);
+    List<LeaveRequestDTO> getLeaveRequestsByEmployeeId(Long employeeId);
 
     LeaveRequestDTO updateLeaveRequest(Long id, LeaveRequestDTO leaveRequest);
 
     void deleteLeaveRequest(Long leaveRequestId);
-
-    Optional<LeaveStatusDTO> getLeaveStatusById(int leaveStatusId);
-
-    List<LeaveStatusDTO> getAllLeaveStatus();
 }
 

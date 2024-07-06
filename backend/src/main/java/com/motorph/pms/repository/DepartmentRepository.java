@@ -8,7 +8,4 @@ import java.util.Optional;
 
 
 @Repository
-public interface DepartmentRepository extends JpaRepository<Department, String> {
-
-    Optional<Department> findByDepartmentName(String departmentName);
-}
+public interface DepartmentRepository extends JpaRepository<Department, String> {}

@@ -23,7 +23,7 @@ public class EmployeeController {
     private final EmployeeService employeeService;
     private final PayrollService payrollService;
     private final AttendanceService attendanceService;
-    private final BenefitsService benefitsService;
+    private final BenefitTypesService benefitTypesService;
     private final LeaveBalanceService leaveBalanceService;
 
     @Autowired
@@ -31,13 +31,13 @@ public class EmployeeController {
             EmployeeService employeeService,
             PayrollService payrollService,
             AttendanceService attendanceService,
-            BenefitsService benefitsService,
+            BenefitTypesService benefitTypesService,
             LeaveBalanceService leaveBalanceService
     ){
         this.employeeService = employeeService;
         this.payrollService = payrollService;
         this.attendanceService = attendanceService;
-        this.benefitsService = benefitsService;
+        this.benefitTypesService = benefitTypesService;
         this.leaveBalanceService = leaveBalanceService;
     }
 

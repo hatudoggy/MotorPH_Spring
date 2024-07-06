@@ -6,5 +6,4 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public interface PhilhealthMatrixRepository  extends JpaRepository<PhilhealthMatrix, Long> {
-}
+public interface PhilhealthMatrixRepository  extends JpaRepository<PhilhealthMatrix, Long> {}

@@ -9,7 +9,7 @@ export const fetchFromApi = async <T>(endpoint: string, options: RequestInit = {
     return response.json();
 };
 
-export const fetchData = async <T>(key: string, params?: Record<string, any>): Promise<T> => {
+export const fetchData = async <T>(key: string,params?: Record<string, any>): Promise<T> => {
     let endpoint = BASE_API;
 
     switch (key) {
@@ -46,7 +46,7 @@ export const fetchData = async <T>(key: string, params?: Record<string, any>): P
         case 'payrollId':
             endpoint += API.PAYROLLS.BASE + params?.id;
             break;
-        case 'employeePayrolls':
+        case 'payrollByEmployeeId':
             endpoint += API.EMPLOYEES.BASE + params?.id + API.PAYROLLS.ALL;
             break;
         case 'attendances':
@@ -70,3 +70,4 @@ export const fetchData = async <T>(key: string, params?: Record<string, any>): P
 
     return fetchFromApi<T>(endpoint);
 };
+

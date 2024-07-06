@@ -19,8 +19,6 @@ public interface AttendanceService {
 
      List<AttendanceDTO> getAllByEmployeeId(Long employeeId);
 
-     Optional<AttendanceDTO> getAttendanceById(Long attendanceId);
-
      Optional<AttendanceDTO> getAttendanceByEmployeeIdAndDate(Long employeeId, LocalDate date);
 
      List<AttendanceDTO> getAllByDate(LocalDate date);

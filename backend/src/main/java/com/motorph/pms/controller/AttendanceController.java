@@ -43,26 +43,6 @@ public class AttendanceController {
         return ResponseEntity.ok(attendances);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<AttendanceDTO> getAttendanceById(
-            @PathVariable(value = "id") Long id,
-            @RequestParam(value = "date", required = false) String date
-    ) {
-        Optional<AttendanceDTO> attendance;
-
-        if(date != null) {
-            attendance = attendanceService.getAttendanceByEmployeeIdAndDate(id, LocalDate.parse(date));
-        } else {
-            attendance = attendanceService.getAttendanceById(id);
-        }
-
-        if (attendance.isEmpty()) {
-            throw new IllegalStateException("Attendance with id " + id + " not found");
-        }
-
-        return ResponseEntity.ok(attendance.get());
-    }
-
     @PatchMapping("/{id}")
     public ResponseEntity<AttendanceDTO> updateAttendance(
             @PathVariable(value = "id") Long attendanceId,

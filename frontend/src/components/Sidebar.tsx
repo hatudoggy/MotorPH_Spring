@@ -200,6 +200,11 @@ function AccountButton() {
     const { logout, authUser } = useAuth();
     const employeeId = authUser?.employeeId;
 
+    if (!employeeId) {
+        console.error("Employee ID not found");
+        return <Typography>Error: Employee ID not found</Typography>;
+    }
+
     const { data } = useFetchEmployeeById(employeeId);
 
     const handleLogout = () => {

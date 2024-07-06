@@ -59,12 +59,36 @@ const EmployeeFormDialog = ({ type, selectedId, onClose }: EmployeeFormDialogPro
     const { isPending, data } = useQuery<EmployeeFullRes>({
         queryKey: ['employeeEdit', selectedId],
         queryFn: fetchEmployee,
+        enabled: type === 'edit' && selectedId !== null,
     });
 
     const supervisorData = data ? {
         value: data.supervisor.supervisorId,
         label: `${data.supervisor.firstName} ${data.supervisor.lastName}`
     } : null;
+
+    const mutation = useMutation({
+        mutationFn: async (employee: EmployeeReq) => {
+            const { EMPLOYEES } = API;
+
+            if (type === 'add') {
+                const response = await axios.post(`${BASE_API}${EMPLOYEES.REGISTER}`, employee);
+                return response.data;
+            } else {
+                const response = await axios.put(`${BASE_API}${EMPLOYEES.UPDATE}${selectedId}`, employee);
+                return response.data;
+            }
+        },
+        onSuccess: async  (data: EmployeeBasicRes) => {
+            onClose();
+
+            const employeeId = data.employeeId;
+
+            await queryClient.refetchQueries({queryKey: ['employees']});
+            await queryClient.refetchQueries({queryKey: ['employeeDialog', employeeId]});
+            await queryClient.refetchQueries({queryKey: ['employeeEdit', employeeId]});
+        },
+    });
 
     const {
         register,
@@ -122,34 +146,6 @@ const EmployeeFormDialog = ({ type, selectedId, onClose }: EmployeeFormDialogPro
             setIsFormInitialized(true);
         }
     }, [data, isPending, reset, selectedId, supervisorData, isFormInitialized]);
-
-    const addEmployee = async (employee : EmployeeReq)  => {
-        const { EMPLOYEES } = API;
-        const res = await axios.post(`${BASE_API}${EMPLOYEES.REGISTER}`, employee);
-        return res.data;
-    };
-
-    const useAddEmployee = useMutation({
-        mutationFn: addEmployee,
-        onSettled: async () => {
-            await queryClient.invalidateQueries({queryKey: ['employees']});
-            await queryClient.invalidateQueries({queryKey: ['employeeEdit']});
-        }
-    });
-
-    const editEmployee = async (employee: EmployeeReq) => {
-        const { EMPLOYEES } = API;
-        const res = await axios.put(`${BASE_API}${EMPLOYEES.UPDATE}${selectedId}`, employee);
-        return res.data;
-    };
-
-    const useEditEmployee = useMutation({
-        mutationFn: editEmployee,
-        onSettled: async () => {
-            await queryClient.invalidateQueries({queryKey: ['employees']});
-            await queryClient.invalidateQueries({queryKey: ['employeeEdit']});
-        }
-    });
 
     const onSubmit: SubmitHandler<Inputs> = (formData) => {
         if (selectedId && data) {
@@ -214,7 +210,7 @@ const EmployeeFormDialog = ({ type, selectedId, onClose }: EmployeeFormDialogPro
 
             if (Object.keys(changedData).length > 0) {
                 const formDataWithId = { employeeId: selectedId, ...changedData };
-                useEditEmployee.mutate(formDataWithId);
+                mutation.mutate(formDataWithId);
                 console.log("Updated employee data: " + JSON.stringify(formDataWithId));
             } else {
                 console.log("No changes detected");
@@ -243,16 +239,21 @@ const EmployeeFormDialog = ({ type, selectedId, onClose }: EmployeeFormDialogPro
                 hireDate: format(formData.hireDate, 'yyyy-MM-dd'),
                 basicSalary: formData.basicSalary
             };
-            useAddEmployee.mutate(newEmployeeData);
+            mutation.mutate(newEmployeeData);
             console.log("New employee data: " + JSON.stringify(newEmployeeData));
         }
 
         onClose();
     };
 
+    // Reset form initialization state on dialog close
+    const handleClose = () => {
+        setIsFormInitialized(false);
+        onClose();
+    };
 
     return (
-        <>
+            <>
             <DialogTitle textTransform='capitalize'>
                 {`${type} Employee`}
             </DialogTitle>
@@ -266,7 +267,7 @@ const EmployeeFormDialog = ({ type, selectedId, onClose }: EmployeeFormDialogPro
                 </Stack>
             </DialogContent>
             <DialogActions>
-                <Button onClick={onClose}>Cancel</Button>
+                <Button onClick={handleClose}>Cancel</Button>
                 <Button variant="contained" onClick={handleSubmit(onSubmit)}>Save</Button>
             </DialogActions>
         </>

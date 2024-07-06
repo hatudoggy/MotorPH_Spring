@@ -12,8 +12,6 @@ public interface PayrollService {
     
     Optional<PayrollDTO> getPayrollById(Long payrollId);
 
-    Optional<PayrollDTO> getPayrollByEmployeeIdAndPeriodStart(Long employeeId, LocalDate periodStart);
-
     List<PayrollDTO> getAllPayrolls(boolean isFullDetails);
 
     List<PayrollDTO> getPayrollsByEmployeeId(Long employeeId);

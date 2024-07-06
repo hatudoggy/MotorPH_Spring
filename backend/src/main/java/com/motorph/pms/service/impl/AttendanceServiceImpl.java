@@ -1,22 +1,25 @@
 package com.motorph.pms.service.impl;
 
 import com.motorph.pms.dto.AttendanceDTO;
-import com.motorph.pms.dto.AttendanceSummaryDTO;
 import com.motorph.pms.dto.mapper.AttendanceMapper;
 import com.motorph.pms.model.Attendance;
 import com.motorph.pms.repository.AttendanceRepository;
 import com.motorph.pms.service.AttendanceService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@CacheConfig(cacheNames = "attendanceList, attendance")
 @Service
 public class AttendanceServiceImpl implements AttendanceService {
 
@@ -32,6 +35,9 @@ public class AttendanceServiceImpl implements AttendanceService {
         this.attendanceMapper = attendanceMapper;
     }
 
+    @CachePut(cacheNames = "attendance", key = "#result.employee.employeeId")
+    @CacheEvict(cacheNames = "attendances", allEntries = true)
+    @Transactional
     @Override
     public AttendanceDTO addNewAttendance(Attendance attendance) {
         if (attendanceRepository.existsByEmployee_EmployeeIdAndDate(attendance.getEmployee().getEmployeeId(), attendance.getDate())) {
@@ -43,35 +49,34 @@ public class AttendanceServiceImpl implements AttendanceService {
         return attendanceMapper.toDTO(savedAttendance);
     }
 
-    @Override
-    public Optional<AttendanceDTO> getAttendanceById(Long attendanceId) {
-        return attendanceRepository.findById(attendanceId).map(attendanceMapper::toDTO);
-    }
-
+    @Cacheable(cacheNames = "attendance", key = "#employeeId")
     @Override
     public Optional<AttendanceDTO> getAttendanceByEmployeeIdAndDate(Long employeeId, LocalDate date) {
         return attendanceRepository.findByEmployee_EmployeeIdAndDate(employeeId, date).map(attendanceMapper::toDTO);
     }
 
+    @Cacheable(cacheNames = "attendanceList")
     @Override
     public List<AttendanceDTO> getAllAttendances() {
         return attendanceRepository.findAll().stream()
                 .map(attendanceMapper::toDTO).collect(Collectors.toList());
     }
 
+    @Cacheable(cacheNames = "attendanceList", key = "#employeeId")
     @Override
     public List<AttendanceDTO> getAllByEmployeeId(Long employeeId) {
         return attendanceRepository.findAllByEmployee_EmployeeId_OrderByDateDesc(employeeId).stream()
                 .map(attendanceMapper::toDTO).collect(Collectors.toList());
     }
 
+    @Cacheable(cacheNames = "attendanceList", key = "#date")
     @Override
     public List<AttendanceDTO> getAllByDate(LocalDate date) {
         return attendanceRepository.findAllByDate_OrderByDateDesc(date).stream()
                 .map(attendanceMapper::toDTO).collect(Collectors.toList());
     }
 
-
+    @CacheEvict(cacheNames = "attendance", key = "#employeeId")
     @Transactional
     @Override
     public AttendanceDTO updateAttendance(Long employeeId, AttendanceDTO attendance) {
@@ -86,9 +91,10 @@ public class AttendanceServiceImpl implements AttendanceService {
         return attendanceMapper.toDTO(updatedAttendance);
     }
 
+    @Cacheable(cacheNames = "attendanceList", key = "#start + '_' + #end")
     @Override
-    public List<AttendanceDTO> getAllAttendanceByEmployeeIdAndDateRange(Long id, LocalDate start, LocalDate end) {
-        return attendanceRepository.findAllByEmployee_EmployeeId_AndDateBetween(id, start, end).stream()
+    public List<AttendanceDTO> getAllAttendanceByEmployeeIdAndDateRange(Long employeeId, LocalDate start, LocalDate end) {
+        return attendanceRepository.findAllByEmployee_EmployeeId_AndDateBetween(employeeId, start, end).stream()
                 .map(attendanceMapper::toDTO).collect(Collectors.toList());
     }
 }

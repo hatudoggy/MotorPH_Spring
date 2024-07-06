@@ -3,15 +3,22 @@ package com.motorph.pms.service.impl;
 import com.motorph.pms.dto.MonthlyPayrollReportDTO;
 import com.motorph.pms.dto.PayrollDTO;
 import com.motorph.pms.dto.mapper.PayrollMapper;
+import com.motorph.pms.event.PayrollChangedEvent;
 import com.motorph.pms.model.*;
 import com.motorph.pms.model.Deductions.DeductionType;
 import com.motorph.pms.repository.AttendanceRepository;
 import com.motorph.pms.repository.EmployeeRepository;
 import com.motorph.pms.repository.PayrollRepository;
+import com.motorph.pms.service.EmployeeService;
 import com.motorph.pms.service.MatrixService;
 import com.motorph.pms.service.PayrollService;
 import com.motorph.pms.util.PayrollCalculator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,30 +27,35 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Transactional
+@CacheConfig(cacheNames = {"payrollList", "payroll"})
 @Service
 public class PayrollServiceImpl implements PayrollService {
 
     private final PayrollRepository payrollRepository;
-    private final EmployeeRepository employeeRepository;
+    private final EmployeeService employeeService;
     private final AttendanceRepository attendanceRepository;
     private final PayrollMapper payrollMapper;
     private final PayrollCalculator payrollCalculator;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Autowired
     public PayrollServiceImpl(
             PayrollRepository payrollRepository,
-            EmployeeRepository employeeRepository,
+            EmployeeService employeeService,
             AttendanceRepository attendanceRepository,
             PayrollMapper payrollMapper,
-            PayrollCalculator payrollCalculator) {
+            PayrollCalculator payrollCalculator,
+            ApplicationEventPublisher eventPublisher) {
         this.payrollRepository = payrollRepository;
-        this.employeeRepository = employeeRepository;
+        this.employeeService = employeeService;
         this.attendanceRepository = attendanceRepository;
         this.payrollMapper = payrollMapper;
         this.payrollCalculator = payrollCalculator;
+        this.eventPublisher = eventPublisher;
     }
 
+    @CachePut(cacheNames = "payroll", key = "#result.payrollId()")
+    @Transactional
     @Override
     public PayrollDTO addNewPayroll(PayrollDTO payrollDTO) {
         if (payrollRepository.existsByEmployee_EmployeeIdAndPeriodStart(
@@ -53,25 +65,24 @@ public class PayrollServiceImpl implements PayrollService {
         }
 
         Payroll payroll = payrollMapper.toEntity(payrollDTO);
+
+        eventPublisher.publishEvent(new PayrollChangedEvent(
+                this, payroll.getEmployee().getEmployeeId(), payrollDTO.periodStart(), payrollDTO.periodEnd()));
+
         return payrollMapper.toDTO(payrollRepository.save(payroll));
     }
 
+    @Cacheable(cacheNames = "payrollList", key = "#isFullDetails")
     @Override
     public List<PayrollDTO> getAllPayrolls(boolean isFullDetails) {
         List<Payroll> payrolls = payrollRepository.findAll();
 
-        if (isFullDetails){
-            return payrolls.stream()
-                    .map(payrollMapper::toDTO)
-                    .collect(Collectors.toList());
-        }
-        else {
-            return payrolls.stream()
-                    .map(payrollMapper::toLimitedDTO)
-                    .collect(Collectors.toList());
-        }
+        return payrolls.stream()
+                .map(isFullDetails ? payrollMapper::toDTO : payrollMapper::toLimitedDTO)
+                .collect(Collectors.toList());
     }
 
+    @Cacheable(cacheNames = "payrollList", key = "#employeeId")
     @Override
     public List<PayrollDTO> getPayrollsByEmployeeId(Long employeeId) {
         return payrollRepository.findAllByEmployee_EmployeeId(employeeId)
@@ -80,95 +91,80 @@ public class PayrollServiceImpl implements PayrollService {
                 .collect(Collectors.toList());
     }
 
+    @Cacheable(cacheNames = "payrollList", key = "#isFullDetails + '_' + #periodStart + '_' + #periodEnd")
     @Override
     public List<PayrollDTO> getPayrollsForPeriod(boolean isFullDetails, LocalDate periodStart, LocalDate periodEnd) {
         List<Payroll> payrolls = payrollRepository.findAllByPeriodStartAndPeriodEnd(periodStart, periodEnd);
 
-        if (isFullDetails){
-            return payrolls.stream()
-                    .map(payrollMapper::toDTO)
-                    .collect(Collectors.toList());
-        }
-        else {
-            return payrolls.stream()
-                    .map(payrollMapper::toLimitedDTO)
-                    .collect(Collectors.toList());
-        }
+        return payrolls.stream()
+                .map(isFullDetails ? payrollMapper::toDTO : payrollMapper::toLimitedDTO)
+                .collect(Collectors.toList());
     }
 
+    @Cacheable(cacheNames = "payrollList", key = "#employeeId + '_' + #start + '_' + #end")
     @Override
-    public List<PayrollDTO> getPayrollByEmployeeIdAndPeriodRange(long id, LocalDate start, LocalDate end) {
-        return payrollRepository.findAllByEmployeeEmployeeIdAndPeriodStartAndPeriodEnd(id, start, end)
+    public List<PayrollDTO> getPayrollByEmployeeIdAndPeriodRange(long employeeId, LocalDate start, LocalDate end) {
+        return payrollRepository.findAllByEmployeeEmployeeIdAndPeriodStartAndPeriodEnd(employeeId, start, end)
                 .stream()
                 .map(payrollMapper::toDTO)
                 .collect(Collectors.toList());
     }
 
+    @Cacheable(cacheNames = "payrollList", key = "#isFullDetails + '_' + #isStartDate + '_' + #date")
     @Override
     public List<PayrollDTO> getPayrollsByDate(boolean isFullDetails, boolean isStartDate, LocalDate date) {
-        List<Payroll> payrolls;
+        List<Payroll> payrolls = isStartDate ? payrollRepository.findAllByPeriodStart(date)
+                : payrollRepository.findAllByPeriodEnd(date);
 
-        if (isStartDate){
-            payrolls = payrollRepository.findAllByPeriodStart(date);
-        }
-        else {
-            payrolls = payrollRepository.findAllByPeriodEnd(date);
-        }
-
-        if (isFullDetails){
-            return payrolls.stream()
-                    .map(payrollMapper::toDTO)
-                    .collect(Collectors.toList());
-        }
-        else {
-            return payrolls.stream()
-                    .map(payrollMapper::toLimitedDTO)
-                    .collect(Collectors.toList());
-        }
+        return payrolls.stream()
+                .map(isFullDetails ? payrollMapper::toDTO : payrollMapper::toLimitedDTO)
+                .collect(Collectors.toList());
     }
 
+    @Cacheable(cacheNames = "payroll", key = "#payrollId")
     @Override
     public Optional<PayrollDTO> getPayrollById(Long payrollId) {
         return payrollRepository.findById(payrollId).map(payrollMapper::toDTO);
     }
 
-    @Override
-    public Optional<PayrollDTO> getPayrollByEmployeeIdAndPeriodStart(Long employeeId, LocalDate periodStart) {
-        return payrollRepository.findByEmployee_EmployeeIdAndPeriodStart(employeeId, periodStart)
-                .map(payrollMapper::toDTO);
-    }
-
+    @CachePut(cacheNames = "payroll", key = "#payrollId")
+    @Transactional
     @Override
     public PayrollDTO updatePayroll(Long payrollId, PayrollDTO payrollDTO) {
-        Payroll existingPayroll = payrollRepository.findById(payrollId).orElseThrow(
-                () -> new IllegalStateException("Payroll with payrollId " + payrollDTO.payrollId() + " does not exist"
-        ));
+        Payroll existingPayroll = payrollRepository.findById(payrollId)
+                .orElseThrow(() -> new IllegalStateException("Payroll with payrollId " + payrollDTO.payrollId() + " does not exist"));
 
         payrollMapper.updateEntity(payrollDTO, existingPayroll);
 
         return payrollMapper.toDTO(payrollRepository.save(existingPayroll));
     }
 
+    @Cacheable(cacheNames = "payrollList")
     @Override
     public List<LocalDate> getDistinctMonthsByYear(int year) {
         return payrollRepository.findDistinctMonthsByYear(year);
     }
 
+    @Cacheable(cacheNames = "payrollList")
+    @Override
+    public List<Integer> getDistinctYears() {
+        return payrollRepository.findDistinctYears();
+    }
+
+    @CacheEvict(cacheNames = {"payroll", "payrollList"}, key = "#payrollId", allEntries = true)
+    @Transactional
     @Override
     public void deletePayroll(Long payrollId) {
         if (!payrollRepository.existsById(payrollId)) {
             throw new IllegalStateException("Payroll with payrollId " + payrollId + " does not exist");
         }
 
+        eventPublisher.publishEvent(new PayrollChangedEvent(this));
+
         payrollRepository.deleteById(payrollId);
     }
 
-    @Override
-    public List<Integer> getDistinctYears() {
-        return payrollRepository.findDistinctYears();
-    }
-
-
+    @Cacheable
     @Override
     public List<MonthlyPayrollReportDTO> getMonthlyReport(LocalDate start, LocalDate end) {
 //        List<Object[]> results = payrollRepository.getTotalEarningsAndDeductionsByMonth(start, end);
@@ -188,12 +184,13 @@ public class PayrollServiceImpl implements PayrollService {
         return null;
     }
 
+    @CacheEvict(cacheNames = "payrollList", allEntries = true)
     @Transactional
     @Override
     public int batchGeneratePayroll(LocalDate periodStart, LocalDate periodEnd) {
-        List<Employee> employees = employeeRepository.findAllExceptByStatus_StatusIds(List.of(4,5,6));
-
         int count = 0;
+
+        List<Employee> employees = employeeService.findActiveEmployees(true);
 
         for (Employee employee : employees) {
 
@@ -259,12 +256,20 @@ public class PayrollServiceImpl implements PayrollService {
             count++;
         }
 
+        eventPublisher.publishEvent(new PayrollChangedEvent(
+                this));
+
         return count;
     }
 
+
+    @Transactional
     @Override
     public PayrollDTO generatePayroll(String startDate, String endDate, Long employeeId) {
         //TODO: implement this
+
+        eventPublisher.publishEvent(new PayrollChangedEvent(this));
+
         return null;
     }
 }

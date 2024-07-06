@@ -113,22 +113,14 @@ export default function EmployeeCard({
                     sx={{
                         width: 230,
                         p: 1.5,
-                        position: "relative", // Ensure content area is relative for absolute loading indicator
+                        position: "relative",
                     }}
                 >
                     {isLoading && isSelected && (
                         <Stack
                             alignItems="center"
                             justifyContent="center"
-                            sx={{
-                                position: "absolute",
-                                top: 0,
-                                left: 0,
-                                width: "100%",
-                                height: "100%",
-                                bgcolor: "rgba(255, 255, 255, 0.8)",
-                                zIndex: 10,
-                            }}
+                            height={"100%"}
                         >
                             <CircularProgress />
                         </Stack>

@@ -9,6 +9,13 @@ export default function Main() {
   const {authUser, loading} = useAuth()
   const location = useLocation()
 
+  const Roles: Record<number, UserRole> = {
+    1: "employee",
+    2: "admin",
+    3: "hr",
+    4: "payroll"
+  }
+
   if(loading) {
     return(
       <Box>
@@ -23,14 +30,7 @@ export default function Main() {
     )
   }
 
-  const roles: Record<number, UserRole> = {
-    1: "employee",
-    2: "admin",
-    3: "hr",
-    4: "payroll"
-  }
-
-  const role = roles[authUser.roleId]
+  const role = Roles[authUser.roleId]
 
   return(
     <Box

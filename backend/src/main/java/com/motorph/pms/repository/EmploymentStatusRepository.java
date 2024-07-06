@@ -5,7 +5,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface EmploymentStatusRepository extends JpaRepository<EmploymentStatus, Integer> {
-
-    Optional<EmploymentStatus> findByStatusName(String status);
-}
+public interface EmploymentStatusRepository extends JpaRepository<EmploymentStatus, Integer> {}

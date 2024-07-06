@@ -29,22 +29,6 @@ public class LeaveController {
         return ResponseEntity.ok(requests);
     }
 
-    @GetMapping("/requests/{id}")
-    public ResponseEntity<LeaveRequestDTO> getLeaveRequestById(@PathVariable(value = "id") Long id) {
-        LeaveRequestDTO request = requestService.getLeaveRequestById(id).orElseThrow(
-                () -> new IllegalArgumentException("Leave request not found")
-        );
-        return ResponseEntity.ok(request);
-    }
-
-    @GetMapping("/balances/{id}")
-    public ResponseEntity<LeaveBalanceDTO> getLeaveBalanceById(@PathVariable(value = "id") Long id) {
-        LeaveBalanceDTO balance = balanceService.getLeaveBalanceById(id).orElseThrow(
-                () -> new IllegalArgumentException("Leave balance not found")
-        );
-        return ResponseEntity.ok(balance);
-    }
-
     @PatchMapping("/requests/{id}")
     public ResponseEntity<LeaveRequestDTO> updateLeaveRequest(
             @RequestBody LeaveRequestDTO leaveRequest,

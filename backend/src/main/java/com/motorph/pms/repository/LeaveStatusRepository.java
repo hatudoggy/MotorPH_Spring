@@ -7,7 +7,4 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface LeaveStatusRepository extends JpaRepository<LeaveStatus, Integer> {
-
-    Optional<LeaveStatus> findByStatusName(String statusName);
-}
+public interface LeaveStatusRepository extends JpaRepository<LeaveStatus, Integer> {}

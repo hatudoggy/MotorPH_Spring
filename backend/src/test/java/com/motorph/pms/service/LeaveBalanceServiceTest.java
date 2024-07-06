@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.transaction.annotation.Transactional;
@@ -68,19 +67,6 @@ class LeaveBalanceServiceTest {
     @Test
     @Transactional
     @DirtiesContext
-    void LeaveBalanceService_getLeaveBalanceById_ReturnsLeaveBalanceDTO() {
-        when(balanceMapper.toDTO(any(LeaveBalance.class))).thenReturn(leaveBalanceDTO1);
-        when(leaveBalanceRepository.findById(1L)).thenReturn(Optional.of(leaveBalance1));
-
-        Optional<LeaveBalanceDTO> foundBalance = leaveBalanceService.getLeaveBalanceById(1L);
-
-        assertThat(foundBalance).isPresent();
-        assertThat(foundBalance.get().id()).isEqualTo(1L);
-    }
-
-    @Test
-    @Transactional
-    @DirtiesContext
     void LeaveBalanceService_updateLeaveBalance_ReturnsUpdatedLeaveBalanceDTO() {
         when(leaveBalanceRepository.findById(any(Long.class))).thenReturn(Optional.ofNullable(leaveBalance1));
 
@@ -93,33 +79,5 @@ class LeaveBalanceServiceTest {
         assertThat(updatedBalance).isNotNull();
         assertThat(updatedBalance.id()).isEqualTo(1L);
         assertThat(updatedBalance.balance()).isEqualTo(10);
-    }
-
-    @Test
-    @Transactional
-    @DirtiesContext
-    void LeaveBalanceService_getLeaveTypeById_ReturnsLeaveTypeDTO() {
-        when(balanceMapper.toLeaveTypeDTO(any(LeaveType.class))).thenReturn(leaveTypeDTO1);
-
-        when(leaveTypeRepository.findById(1)).thenReturn(Optional.of(leaveType1));
-
-        Optional<LeaveTypeDTO> foundType = leaveBalanceService.getLeaveTypeById(1);
-
-        assertThat(foundType).isPresent();
-        assertThat(foundType.get().id()).isEqualTo(1);
-    }
-
-    @Test
-    @Transactional
-    @DirtiesContext
-    void LeaveBalanceService_getAllLeaveTypes_ReturnsListOfLeaveTypeDTO() {
-        when(balanceMapper.toLeaveTypeDTO(any(LeaveType.class))).thenReturn(leaveTypeDTO1);
-
-        when(leaveTypeRepository.findAll()).thenReturn(List.of(leaveType1));
-
-        List<LeaveTypeDTO> leaveTypes = leaveBalanceService.getAllLeaveTypes();
-
-        assertThat(leaveTypes).isNotEmpty();
-        assertThat(leaveTypes.get(0).typeName()).isEqualTo("Sick Leave");
     }
 }

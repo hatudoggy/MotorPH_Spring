@@ -7,9 +7,4 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface LeaveTypeRepository extends JpaRepository<LeaveType, Integer> {
-
-    Optional<LeaveType> findByType(String type);
-
-    boolean existsByType(String type);
-}
+public interface LeaveTypeRepository extends JpaRepository<LeaveType, Integer> {}

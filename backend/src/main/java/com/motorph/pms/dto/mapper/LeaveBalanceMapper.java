@@ -69,7 +69,7 @@ public class LeaveBalanceMapper {
         leaveBalance.setBalance(leaveBalanceDTO.balance());
     }
 
-    public LeaveTypeDTO toLeaveTypeDTO(LeaveType leaveType) {
+    public LeaveTypeDTO toDTO(LeaveType leaveType) {
         if (leaveType == null) {
             return null;
         }
@@ -78,19 +78,5 @@ public class LeaveBalanceMapper {
                 .id(leaveType.getLeaveTypeId())
                 .typeName(leaveType.getType())
                 .build();
-    }
-
-    public List<LeaveTypeDTO> toLeaveTypeDTO(List<LeaveType> leaveBalances) {
-        if (leaveBalances == null) {
-            return null;
-        }
-
-        return leaveBalances.stream()
-                .map(this::toLeaveTypeDTO)
-                .collect(Collectors.toList());
-    }
-
-    public LeaveType toLeaveTypeEntity(LeaveTypeDTO leaveTypeDTO) {
-        return new LeaveType(leaveTypeDTO.typeName());
     }
 }

@@ -1,6 +1,8 @@
 import { ReactNode, createContext, useContext, useEffect, useState } from "react";
 import { API, BASE_API } from "../api/Api.ts";
 import axios from "axios";
+import {useQueryClient} from "@tanstack/react-query";
+import {preloadData} from "../api/PreLoader.ts";
 
 
 interface AuthPayload {
@@ -12,6 +14,13 @@ interface AuthPayload {
 
 const AuthContext = createContext<AuthPayload | null>(null)
 
+const Roles: Record<number, UserRole> = {
+  1: "employee",
+  2: "admin",
+  3: "hr",
+  4: "payroll"
+}
+
 export const useAuth = () => {
   return useContext(AuthContext) as AuthPayload;
 }
@@ -20,6 +29,7 @@ export function AuthProvider({children}: {children: ReactNode}) {
 
   const [authUser, setAuthUser] = useState<Auth | null>(null)
   const [loading, setLoading] = useState(true)
+  const queryClient = useQueryClient();
 
   const validateCredentials = async (username: string, password: string) => {
     const {USERS} = API
@@ -49,13 +59,13 @@ export function AuthProvider({children}: {children: ReactNode}) {
     localStorage.removeItem("auth")
   }
 
-
   const login = async (username: string, password: string) => {
     try {
       const auth = await validateCredentials(username, password)
       if(auth) {
         setAuthUser(auth)
         saveAuth(auth)
+        await preloadData(auth.employeeId, Roles[auth.roleId], queryClient)
         return true
       } else {
         return false
@@ -78,7 +88,6 @@ export function AuthProvider({children}: {children: ReactNode}) {
     }
     setLoading(false)
   }, [])
-
 
   const value: AuthPayload = {
     authUser,

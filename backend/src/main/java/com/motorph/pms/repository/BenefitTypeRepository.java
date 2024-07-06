@@ -7,7 +7,4 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface BenefitTypeRepository extends JpaRepository<BenefitType, Integer> {
-
-    Optional<BenefitType> findBenefitTypeByBenefit(String benefit);
-}
+public interface BenefitTypeRepository extends JpaRepository<BenefitType, Integer> {}

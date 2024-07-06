@@ -9,8 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface PositionRepository extends JpaRepository<Position, String> {
-
-    Optional<Position> findByPositionName(String positionName);
-
     List<Position> findAllByDepartment_DepartmentCode(String departmentCode);
 }

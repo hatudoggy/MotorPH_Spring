@@ -2,6 +2,7 @@ package com.motorph.pms.service;
 
 import com.motorph.pms.dto.EmployeeDTO;
 import com.motorph.pms.dto.SupervisorDTO;
+import com.motorph.pms.model.Employee;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -20,4 +21,6 @@ public interface EmployeeService {
     void addNewEmployeesFromCSV(String employeeCSVPath);
 
     List<SupervisorDTO> getSupervisors();
+
+    List<Employee> findActiveEmployees(boolean isActive);
 }

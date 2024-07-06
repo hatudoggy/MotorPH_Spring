@@ -34,11 +34,6 @@ public class LeaveBalanceServiceImpl implements LeaveBalanceService {
     }
 
     @Override
-    public Optional<LeaveBalanceDTO> getLeaveBalanceById(Long leaveBalanceId) {
-        return balanceRepository.findById(leaveBalanceId).map(leaveMapper::toDTO);
-    }
-
-    @Override
     public LeaveBalanceDTO updateLeaveBalance(Long leaveBalanceId, LeaveBalanceDTO leaveBalance) {
         LeaveBalance balance = balanceRepository.findById(leaveBalanceId).orElseThrow(
                 () -> new IllegalArgumentException("Leave balance with status " + leaveBalance.id() + " does not exist")
@@ -49,14 +44,5 @@ public class LeaveBalanceServiceImpl implements LeaveBalanceService {
         return leaveMapper.toDTO(balanceRepository.save(balance));
     }
 
-    @Override
-    public Optional<LeaveTypeDTO> getLeaveTypeById(int leaveTypeId) {
-        return leaveTypeRepository.findById(leaveTypeId).map(leaveMapper::toLeaveTypeDTO);
-    }
 
-
-    @Override
-    public List<LeaveTypeDTO> getAllLeaveTypes() {
-        return leaveTypeRepository.findAll().stream().map(leaveMapper::toLeaveTypeDTO).toList();
-    }
 }

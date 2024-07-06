@@ -1,6 +1,6 @@
-import {useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
-    Box, Button, Card, CardActionArea, CardContent, Container, Divider, IconButton, MenuItem, Paper, Select, Stack,
+    Button, Card, CardActionArea, CardContent, Container, Divider, IconButton, MenuItem, Paper, Select, Stack,
     Typography, styled, CircularProgress
 } from "@mui/material";
 import {ArrowBack, East, Download} from "@mui/icons-material";
@@ -20,8 +20,8 @@ const CHART_DIMENSIONS = {width: 180, height: 180};
 const YEARS = ["2024", "2023", "2022"];
 
 // Utility functions
-const formatMonth = (date) => new Date(date).toLocaleString('default', {month: 'long'});
-const formatDate = (date) => new Date(date).toLocaleDateString();
+const formatMonth = (date: string) => new Date(date).toLocaleString('default', {month: 'long'});
+const formatDate = (date: string) => new Date(date).toLocaleDateString();
 
 // Styled components
 const StyledText = styled('text')(({theme}) => ({
@@ -32,7 +32,7 @@ const StyledText = styled('text')(({theme}) => ({
     fontWeight: 500
 }));
 
-const PieCenterLabel = ({children}) => {
+const PieCenterLabel = ({children} : {children: React.ReactNode}) => {
     const {height, top} = useDrawingArea();
     return (
         <StyledText x={CHART_DIMENSIONS.width / 2} y={top + height / 2}>
@@ -57,7 +57,7 @@ export default function Payroll() {
 function PayrollMonthList() {
     const {authUser} = useAuth();
     const employeeId = authUser?.employeeId;
-    const [selectedPayroll, setSelectedPayroll] = useState(null);
+    const [selectedPayrollId, setSelectedPayrollId] = useState(0);
     const [selectedYear, setSelectedYear] = useState(YEARS[0]);
 
     if (!employeeId) {
@@ -82,8 +82,8 @@ function PayrollMonthList() {
         });
     }, [employee, payrolls, isLoading, error]);
 
-    const handlePayrollSelect = (payrollId) => {
-        setSelectedPayroll(payrollId);
+    const handlePayrollSelect = (payrollId: number) => {
+        setSelectedPayrollId(payrollId);
         console.log('Selected Payroll ID:', payrollId);
     };
 
@@ -128,8 +128,8 @@ function PayrollMonthList() {
 
                         </Stack>
                         <PayrollSelect
-                            selectedPayroll={selectedPayroll}
-                            goBack={() => setSelectedPayroll(null)}
+                            selectedPayrollId={selectedPayrollId}
+                            goBack={() => setSelectedPayrollId(0)}
                         />
                     </Stack>
                 </>
@@ -138,8 +138,14 @@ function PayrollMonthList() {
     );
 }
 
+interface PayrollCardProps {
+    periodEnd: string;
+    netPay: number;
+    onClick: () => void;
+}
+
 // PayrollCard component
-function PayrollCard({periodEnd, netPay, onClick}) {
+function PayrollCard({periodEnd, netPay, onClick} : PayrollCardProps) {
     const month = formatMonth(periodEnd);
     const endDate = formatDate(periodEnd);
 
@@ -179,20 +185,27 @@ function PayrollCard({periodEnd, netPay, onClick}) {
     );
 }
 
+interface PayrollSelectProps {
+    selectedPayrollId: number;
+    goBack: () => void;
+}
+
 // PayrollSelect component
-function PayrollSelect({selectedPayroll, goBack}) {
-    if (selectedPayroll != null) {
-        const {data: selectedPayrollData, error, isLoading} = useFetchPayrollById(selectedPayroll);
+function PayrollSelect({selectedPayrollId, goBack} : PayrollSelectProps) {
+    if (selectedPayrollId > 0) {
+        console.log('Selected Payroll ID:', selectedPayrollId);
+
+        const {data: selectedPayrollData, error, isLoading} = useFetchPayrollById(selectedPayrollId);
 
         useEffect(() => {
-            console.log('Fetching data for selected payrollId ID:', selectedPayroll);
-        }, [selectedPayroll]);
+            console.log('Fetching data for selected payrollId ID:', selectedPayrollId);
+        }, [selectedPayrollId]);
 
         useEffect(() => {
-            console.log('Payroll data for payrollId ID:', selectedPayroll, {selectedPayrollData, error, isLoading});
+            console.log('Payroll data for payrollId ID:', selectedPayrollId, {selectedPayrollData, error, isLoading});
         }, [selectedPayrollData, error, isLoading]);
 
-        if (!selectedPayroll) return null;
+        if (!selectedPayrollData) return;
 
         return (
             <Paper
@@ -245,7 +258,7 @@ function PayrollSelect({selectedPayroll, goBack}) {
 }
 
 // PayrollDetails component
-function PayrollDetails({payrollData}) {
+function PayrollDetails({payrollData}:{payrollData: PayrollRes}) {
     return (
         <Stack px={3} pb={3} gap={1.5}>
             <Stack alignItems='center'>

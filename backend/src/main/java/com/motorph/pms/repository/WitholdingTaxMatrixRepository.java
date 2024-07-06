@@ -6,6 +6,4 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public interface WitholdingTaxMatrixRepository  extends JpaRepository<WithholdingTaxMatrix, Long> {
-    WithholdingTaxMatrix findByMinRangeLessThanEqualAndMaxRangeGreaterThanEqual(Double value, Double value2);
-}
+public interface WitholdingTaxMatrixRepository  extends JpaRepository<WithholdingTaxMatrix, Long> {}

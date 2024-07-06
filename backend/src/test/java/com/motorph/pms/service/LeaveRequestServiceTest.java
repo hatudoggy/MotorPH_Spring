@@ -178,20 +178,6 @@ class LeaveRequestServiceTest {
     @Test
     @Transactional
     @DirtiesContext
-    void getLeaveRequestById() {
-        when(requestRepository.findById(anyLong())).thenReturn(Optional.of(leaveRequest));
-
-        when(requestMapper.toDTO(any(LeaveRequest.class))).thenReturn(leaveRequestDTO);
-
-        Optional<LeaveRequestDTO> result = leaveRequestService.getLeaveRequestById(1L);
-
-        assertTrue(result.isPresent());
-        assertEquals(leaveRequestDTO.leaveRequestId(), result.get().leaveRequestId());
-    }
-
-    @Test
-    @Transactional
-    @DirtiesContext
     void updateLeaveRequest() {
         when(requestRepository.findById(anyLong())).thenReturn(Optional.of(leaveRequest));
 
@@ -233,34 +219,5 @@ class LeaveRequestServiceTest {
         when(requestRepository.existsById(anyLong())).thenReturn(false);
 
         assertThrows(IllegalStateException.class, () -> leaveRequestService.deleteLeaveRequest(1L));
-    }
-
-    @Test
-    @Transactional
-    @DirtiesContext
-    void getLeaveStatusById() {
-        when(statusRepository.findById(anyInt())).thenReturn(Optional.of(leaveStatus));
-
-        when(requestMapper.toDTO(any(LeaveStatus.class))).thenReturn(leaveStatusDTO);
-
-        Optional<LeaveStatusDTO> result = leaveRequestService.getLeaveStatusById(1);
-
-        assertTrue(result.isPresent());
-        assertEquals(leaveStatus.getLeaveStatusId(), result.get().id());
-    }
-
-    @Test
-    @Transactional
-    @DirtiesContext
-    void getAllLeaveStatus() {
-        when(statusRepository.findAll()).thenReturn(List.of(leaveStatus));
-
-        when(requestMapper.toDTO(any(LeaveStatus.class))).thenReturn(leaveStatusDTO);
-
-        List<LeaveStatusDTO> result = leaveRequestService.getAllLeaveStatus();
-
-        assertFalse(result.isEmpty());
-        assertEquals(1, result.size());
-        assertEquals(leaveStatus.getLeaveStatusId(), result.get(0).id());
     }
 }

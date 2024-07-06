@@ -3,32 +3,43 @@ package com.motorph.pms.service.impl;
 import com.motorph.pms.dto.EmployeeDTO;
 import com.motorph.pms.dto.SupervisorDTO;
 import com.motorph.pms.dto.mapper.EmployeeMapper;
+import com.motorph.pms.event.EmployeeChangedEvent;
 import com.motorph.pms.model.Employee;
 import com.motorph.pms.repository.EmployeeRepository;
 import com.motorph.pms.service.EmployeeService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
-@Transactional
+@CacheConfig(cacheNames = {"employeeList", "employee", "supervisors"})
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
     private final EmployeeMapper employeeMapper;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Autowired
     public EmployeeServiceImpl(
             EmployeeRepository employeeRepository,
-            EmployeeMapper employeeMapper) {
+            EmployeeMapper employeeMapper,
+            ApplicationEventPublisher eventPublisher) {
         this.employeeRepository = employeeRepository;
         this.employeeMapper = employeeMapper;
+        this.eventPublisher = eventPublisher;
     }
 
+    @CacheEvict(cacheNames = {"employeeList", "supervisors"}, allEntries = true)
+    @CachePut(cacheNames = {"employee"}, key = "#result.employeeId")
     @Override
     @Transactional
     public EmployeeDTO addNewEmployee(EmployeeDTO employeeFullDTO) {
@@ -40,60 +51,66 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         Employee savedEmployee = employeeRepository.save(employee);
 
+        eventPublisher.publishEvent(new EmployeeChangedEvent(this, savedEmployee.getEmployeeId(), true));
+
         return employeeMapper.toFullDTO(savedEmployee);
     }
 
+    @Cacheable(cacheNames = "employeeList")
     @Override
     public List<EmployeeDTO> getEmployees() {
         return employeeRepository.findAll().stream().map(employeeMapper::toLimitedDTO).toList();
     }
 
+    @Cacheable(cacheNames = "employee", key = "#employeeID")
     @Override
     public Optional<EmployeeDTO> getEmployeeById(Long employeeID, boolean isFullDetails) {
         if (isFullDetails) {
             return employeeRepository.findById(employeeID).map(employeeMapper::toFullDTO);
-        }
-
-        else {
+        } else {
             return employeeRepository.findById(employeeID).map(employeeMapper::toLimitedDTO);
         }
     }
 
+    @CacheEvict(cacheNames = {"employeeList", "supervisors"}, allEntries = true)
     @Override
     @Transactional
     public EmployeeDTO updateEmployee(Long employeeID, EmployeeDTO employeeFullDTO) {
         Employee employee = employeeRepository.findById(employeeID).orElseThrow(
-                () -> new RuntimeException("Employee: " + employeeFullDTO.employeeId() + " not found")
-        );
-
-        System.out.println(
-                "Employee: " + employee.getEmployeeId() +
-                        ", First Name: " + employee.getFirstName() +
-                        ", Last Name: " + employee.getLastName() +
-                        ", Address: " + employee.getAddress()
+                () -> new EntityNotFoundException("Employee: " + employeeFullDTO.employeeId() + " not found")
         );
 
         employeeMapper.updateEntity(employeeFullDTO, employee);
 
-        System.out.println(
-                "Employee: " + employee.getEmployeeId() +
-                        ", First Name: " + employee.getFirstName() +
-                        ", Last Name: " + employee.getLastName() +
-                        ", Address: " + employee.getAddress()
-        );
+        Employee updatedEmployee = employeeRepository.save(employee);
 
+        eventPublisher.publishEvent(new EmployeeChangedEvent(this, updatedEmployee.getEmployeeId(), true));
 
-        return employeeMapper.toFullDTO(employeeRepository.save(employee));
+        return employeeMapper.toFullDTO(updatedEmployee);
     }
 
+    @CacheEvict(cacheNames = {"employeeList", "supervisors"}, allEntries = true)
     @Override
+    @Transactional
     public void addNewEmployeesFromCSV(String employeeCSVPath) {
         //TODO: implement adding employees from CSV
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 
+    @Cacheable(cacheNames = "supervisors")
     @Override
     public List<SupervisorDTO> getSupervisors() {
         return employeeRepository.findAllByPosition_isLeader(true).stream()
                 .map(employeeMapper::toSupervisorDTO).toList();
+    }
+
+    @Cacheable(cacheNames = "employeeList", key = "#isActive")
+    @Override
+    public List<Employee> findActiveEmployees(boolean isActive) {
+        if (isActive) {
+            return employeeRepository.findAllExceptByStatus_StatusIds(List.of(4,5,6));
+        }
+
+        return employeeRepository.findAllExceptByStatus_StatusIds(List.of(1,2,3));
     }
 }

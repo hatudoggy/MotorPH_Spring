@@ -9,10 +9,7 @@ import java.util.Optional;
 
 @Repository
 public interface LeaveBalanceRepository extends JpaRepository<LeaveBalance, Long> {
-
     Optional<LeaveBalance> getLeaveBalanceByEmployee_EmployeeIdAndLeaveType_LeaveTypeId(Long employee_employeeId, int leaveTypeId);
 
     List<LeaveBalance> findAllByEmployee_EmployeeId(Long employeeId);
-
-    boolean existsByEmployee_EmployeeIdAndLeaveType_LeaveTypeId(Long employeeId, int leaveTypeId);
 }

@@ -9,49 +9,21 @@ import EmployeeDetailsDialog from "./employeeManagement/EmployeeDetails.tsx";
 import EmployeeCard from "./employeeManagement/EmployeeCard.tsx";
 import EmployeeFormDialog from "./employeeManagement/form/EmployeeForm.tsx";
 
-/**
- * Component for displaying and managing HR employees.
- *
- * @returns {JSX.Element} The HR employees component.
- */
 export default function HREmployees() {
-    // State for the search input
     const [search, setSearch] = useState('');
-
-    // Debounced search value
     const debouncedSearch = useDebounce(search, 300);
-
-    // Fetch employees data from server
     const {isPending, isRefetching, data} = useFetchEmployees();
-
-    // State for the select employee dialog
     const [openSelectDialog, setOpenSelectDialog] = useState(false);
-
-    // State for the create/update employee dialog
     const [openCUDialog, setOpenCUDialog] = useState<null | 'add' | 'edit'>(null);
-
-    // State for the currently selected employee
     const [selectedEmployeeId, setSelectedEmployeeId] = useState<number | null>(null);
-
     const [refetchingEmployeeId, setRefetchingEmployeeId] = useState<number | null>(null);
 
-    /**
-     * Handles selecting an employee.
-     *
-     * @param {number} employeeId - The ID of the employee to select.
-     */
     const handleSelectEmployee = (employeeId: number) => {
         setOpenSelectDialog(true);
         setSelectedEmployeeId(employeeId);
         setRefetchingEmployeeId(employeeId);
     };
 
-    /**
-     * Handles creating or updating an employee.
-     *
-     * @param {'add' | 'edit'} type - The type of operation to perform.
-     * @param {number} [employeeId] - The ID of the employee to update (optional).
-     */
     const handleCUEmployee = (type: 'add' | 'edit', employeeId?: number) => {
         setOpenCUDialog(type);
         if (employeeId) {
@@ -59,17 +31,8 @@ export default function HREmployees() {
         }
     };
 
-
-    /**
-     *  Filters employee data based on search term
-     *
-     *  @param {Array} data - The original employee data
-     *  @param {string} debouncedSearch - The debounced search term entered by the user
-     *  @returns {Array} - The filtered employee data based on search term
-     */
     const filteredData = useMemo(() => {
         if (!data) return [];
-
         return data.filter((item) => {
             const fullName = `${item.firstName} ${item.lastName}`.toLowerCase();
             const searchTerm = debouncedSearch.toLowerCase();
@@ -79,16 +42,20 @@ export default function HREmployees() {
         });
     }, [data, debouncedSearch]);
 
-    // JSX code for the component
+    const handleCloseSelectDialog = () => {
+        setOpenSelectDialog(false);
+        setSelectedEmployeeId(null);
+    };
+
+    const handleCloseCUDialog = () => {
+        setOpenCUDialog(null);
+        setSelectedEmployeeId(null);
+    };
+
     return (
-        <>
-            <Container
-                sx={{
-                    my: 5,
-                }}
-            >
+            <>
+            <Container sx={{ my: 5 }}>
                 <Headertext>HR Employees</Headertext>
-                {/* Search bar */}
                 <Stack gap={2}>
                     <Stack direction="row" justifyContent='space-between'>
                         <Box>
@@ -101,19 +68,13 @@ export default function HREmployees() {
                                             <Search/>
                                         </InputAdornment>
                                     ),
-                                    sx: {
-                                        borderRadius: 3,
-                                    },
+                                    sx: { borderRadius: 3 },
                                 }}
-                                sx={{
-                                    bgcolor: 'white',
-                                    width: 300,
-                                }}
+                                sx={{ bgcolor: 'white', width: 300 }}
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
                             />
                         </Box>
-                        {/* Export and New Employee buttons */}
                         <Stack direction='row' gap={1}>
                             <Button
                                 variant="outlined"
@@ -131,7 +92,6 @@ export default function HREmployees() {
                             </Button>
                         </Stack>
                     </Stack>
-                    {/* Employee list */}
                     <Stack direction="row" flexWrap='wrap' gap={2}>
                         {!isPending ? (
                             filteredData.map((item) => (
@@ -149,51 +109,37 @@ export default function HREmployees() {
                                 />
                             ))
                         ) : (
-                            <Stack width="100%"
-                                   height="100%"
-                                   alignItems="center"
-                                   justifyContent="center">
+                            <Stack width="100%" height="100%" alignItems="center" justifyContent="center">
                                 <CircularProgress/>
                             </Stack>
                         )}
                     </Stack>
                 </Stack>
             </Container>
-            {/* Select Employee Dialog */}
             <Dialog
                 open={openSelectDialog}
-                onClose={() => setOpenSelectDialog(false)}
+                onClose={() => handleCloseSelectDialog()}
                 TransitionProps={{
                     onExit: () => setSelectedEmployeeId(null),
                 }}
                 fullWidth
                 maxWidth="sm"
-                PaperProps={{
-                    sx: {
-                        borderRadius: 3,
-                    },
-                }}
+                PaperProps={{ sx: { borderRadius: 3 } }}
             >
-                <EmployeeDetailsDialog selectedEmployee={selectedEmployeeId} onClose={() => setOpenSelectDialog(false)}/>
+                <EmployeeDetailsDialog selectedEmployee={selectedEmployeeId} onClose={() => handleCloseSelectDialog()}/>
             </Dialog>
-            {/* Create/Update Employee Dialog */}
             <Dialog
                 open={openCUDialog !== null}
-                onClose={() => setOpenCUDialog(null)}
+                onClose={() => handleCloseCUDialog()}
                 TransitionProps={{
                     onExit: () => setSelectedEmployeeId(null),
                 }}
                 fullWidth
                 maxWidth="xs"
-                PaperProps={{
-                    sx: {
-                        borderRadius: 3,
-                    },
-                }}
+                PaperProps={{ sx: { borderRadius: 3 } }}
             >
                 {openCUDialog && (
-                    <EmployeeFormDialog type={openCUDialog} selectedId={selectedEmployeeId}
-                                        onClose={() => setOpenCUDialog(null)}/>
+                    <EmployeeFormDialog type={openCUDialog} selectedId={selectedEmployeeId} onClose={() => handleCloseCUDialog()}/>
                 )}
             </Dialog>
         </>
