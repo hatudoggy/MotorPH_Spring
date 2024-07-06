@@ -53,6 +53,12 @@ public class EmployeeController {
         return ResponseEntity.ok(employees);
     }
 
+    @GetMapping("/active")
+    public ResponseEntity<List<EmployeeDTO>> getActiveEmployees() {
+        List<EmployeeDTO> employees = employeeService.findActiveEmployees(true, true);
+        return ResponseEntity.ok(employees);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<EmployeeDTO> getEmployeeById(@PathVariable(value = "id") Long employeeID) {
         EmployeeDTO employee = employeeService.getEmployeeById(employeeID, true).orElseThrow(

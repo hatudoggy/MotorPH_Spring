@@ -9,10 +9,7 @@ import com.motorph.pms.repository.EmployeeRepository;
 import com.motorph.pms.service.EmployeeService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.*;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -72,7 +69,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
     }
 
-    @CacheEvict(cacheNames = {"employeeList", "supervisors"}, allEntries = true)
+    @Caching(evict = {
+            @CacheEvict(cacheNames = {"employeeList", "supervisors"}, allEntries = true),
+            @CacheEvict(cacheNames = "employee", key = "#employeeID")
+    })
     @Override
     @Transactional
     public EmployeeDTO updateEmployee(Long employeeID, EmployeeDTO employeeFullDTO) {
@@ -97,20 +97,21 @@ public class EmployeeServiceImpl implements EmployeeService {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
-    @Cacheable(cacheNames = "supervisors")
+    @Cacheable(cacheNames = "employeeList", key = "#isActive + '_' + #isFullDetails")
     @Override
-    public List<SupervisorDTO> getSupervisors() {
-        return employeeRepository.findAllByPosition_isLeader(true).stream()
-                .map(employeeMapper::toSupervisorDTO).toList();
-    }
+    public List<EmployeeDTO> findActiveEmployees(boolean isActive, boolean isFullDetails) {
+        List<Employee> employees;
 
-    @Cacheable(cacheNames = "employeeList", key = "#isActive")
-    @Override
-    public List<Employee> findActiveEmployees(boolean isActive) {
         if (isActive) {
-            return employeeRepository.findAllExceptByStatus_StatusIds(List.of(4,5,6));
+            employees = employeeRepository.findAllExceptByStatus_StatusIds(List.of(5,6));
+        } else {
+            employees = employeeRepository.findAllExceptByStatus_StatusIds(List.of(1,2,3));
         }
 
-        return employeeRepository.findAllExceptByStatus_StatusIds(List.of(1,2,3));
+        if (isFullDetails){
+            return employees.stream().map(employeeMapper::toFullDTO).toList();
+        } else {
+            return employees.stream().map(employeeMapper::toLimitedDTO).toList();
+        }
     }
 }

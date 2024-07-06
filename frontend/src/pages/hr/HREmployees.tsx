@@ -126,7 +126,7 @@ export default function HREmployees() {
                 maxWidth="sm"
                 PaperProps={{ sx: { borderRadius: 3 } }}
             >
-                <EmployeeDetailsDialog selectedEmployee={selectedEmployeeId} onClose={() => handleCloseSelectDialog()}/>
+                <EmployeeDetailsDialog selectedEmployeeId={selectedEmployeeId} onClose={() => handleCloseSelectDialog()}/>
             </Dialog>
             <Dialog
                 open={openCUDialog !== null}

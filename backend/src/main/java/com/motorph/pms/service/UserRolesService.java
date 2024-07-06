@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface UserRolesService {
     List<RoleDTO> getRoles();
+
+    RoleDTO getRole(int id);
 }

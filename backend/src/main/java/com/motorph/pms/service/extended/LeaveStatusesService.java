@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface LeaveStatusesService {
     List<LeaveStatusDTO> getLeaveStatuses();
+
+    LeaveStatusDTO getLeaveStatus(int id);
 }

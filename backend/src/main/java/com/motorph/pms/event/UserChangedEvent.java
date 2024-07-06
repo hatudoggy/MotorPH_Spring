@@ -31,13 +31,13 @@ public class UserChangedEvent extends ApplicationEvent {
             this.cacheManager = cacheManager;
         }
 
-        @EventListener
-        public void handleUserChangedEvent(UserChangedEvent event) {
-            cacheManager.getCache("users").clear();
-            if (event.getEmployeeId() > 0) {
-                cacheManager.getCache("user").evict(event.getEmployeeId());
-            }
-            cacheManager.getCache("userRoles").clear();
-        }
+//        @EventListener
+//        public void handleUserChangedEvent(UserChangedEvent event) {
+//            cacheManager.getCache("users").clear();
+//            if (event.getEmployeeId() > 0) {
+//                cacheManager.getCache("user").evict(event.getEmployeeId());
+//            }
+//            cacheManager.getCache("userRoles").clear();
+//        }
     }
 }

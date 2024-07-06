@@ -20,7 +20,7 @@ import Table from "../../components/Table";
 import { ChevronRight, PointOfSale } from "@mui/icons-material";
 import { API, BASE_API } from "../../api/Api.ts";
 import axios from "axios";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { LineChart, areaElementClasses } from "@mui/x-charts";
 import { DatePicker } from "@mui/x-date-pickers";
@@ -42,7 +42,7 @@ export default function HRPayrolls() {
     return res.data;
   };
 
-  const { isPending, data } = useQuery<number[]>({
+  const {data } = useQuery<number[]>({
     queryKey: ["payrollYears"],
     queryFn: fetchPayrollYears,
   });
@@ -238,7 +238,7 @@ function PayrollMonthList({ filterYear, setFilterMonth }: PayrollMonthList) {
     }
   };
 
-  const { isPending, data } = useQuery<string[]>({
+  const {data } = useQuery<string[]>({
     queryKey: ["payrollMonths", filterYear],
     queryFn: fetchPayrollMonths,
     enabled: !!filterYear,
@@ -297,7 +297,7 @@ function PayrollTable({ filterMonth }: PayrollTable) {
     }
   };
 
-  const { isPending, data } = useQuery<PayrollRes[]>({
+  const {data } = useQuery<PayrollRes[]>({
     queryKey: ["payrollAll", filterMonth],
     queryFn: fetchPayrollMonths,
     enabled: !!filterMonth,

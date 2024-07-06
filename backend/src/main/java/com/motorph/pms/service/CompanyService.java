@@ -1,6 +1,9 @@
 package com.motorph.pms.service;
 
+import com.motorph.pms.dto.SupervisorDTO;
 import com.motorph.pms.service.extended.*;
+
+import java.util.List;
 
 public interface CompanyService extends
         EmploymentStatusService,
@@ -9,4 +12,8 @@ public interface CompanyService extends
         BenefitTypesService,
         LeaveTypesService,
         LeaveStatusesService,
-        UserRolesService{}
+        UserRolesService{
+
+    List<SupervisorDTO> getSupervisors();
+    SupervisorDTO getSupervisor(Long supervisorId);
+}

@@ -69,7 +69,8 @@ interface AttendanceTable {
 
 function AttendanceTable({ dateFilter, searchFilter }: AttendanceTable) {
 
-    const { isLoading, data, refetch } = useFetchAttendancesByDate(dateFilter)
+    const { isLoading, data, refetch } = dateFilter ?
+        useFetchAttendancesByDate(dateFilter) : {isLoading: false, data:null, refetch:()=>{}};
 
     useEffect(() => {
         if (!localStorage.getItem('attendanceData' + dateFilter)) {

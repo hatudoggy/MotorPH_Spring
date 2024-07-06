@@ -19,6 +19,9 @@ export const fetchData = async <T>(key: string,params?: Record<string, any>): Pr
         case 'employee':
             endpoint += API.EMPLOYEES.BASE + params?.id;
             break;
+        case 'activeEmployees':
+            endpoint += API.EMPLOYEES.ACTIVE;
+            break;
         case 'supervisors':
             endpoint += API.COMPANY.SUPERVISORS + "all";
             break;

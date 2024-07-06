@@ -23,11 +23,11 @@ public class LeaveRequestChangedEvent extends ApplicationEvent {
         public LeaveRequestEventListener(CacheManager cacheManager) {
             this.cacheManager = cacheManager;
         }
-
-        @EventListener
-        public void handleLeaveRequestChangedEvent(LeaveRequestChangedEvent event) {
-            cacheManager.getCache("leaveRequests").evict(event.getEmployeeId());
-            cacheManager.getCache("leaveRequests").clear();
-        }
+//
+//        @EventListener
+//        public void handleLeaveRequestChangedEvent(LeaveRequestChangedEvent event) {
+//            cacheManager.getCache("leaveRequests").evict(event.getEmployeeId());
+//            cacheManager.getCache("leaveRequests").clear();
+//        }
     }
 }

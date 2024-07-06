@@ -13,20 +13,17 @@ import java.util.List;
 @RequestMapping(path = "api/company")
 public class CompanyController {
 
-    private final EmployeeService employeeService;
     private final CompanyService companyService;
 
     @Autowired
     public CompanyController(
-            EmployeeService employeeService,
             CompanyService companyService) {
-        this.employeeService = employeeService;
         this.companyService = companyService;
     }
 
     @GetMapping("/supervisors/all")
     public ResponseEntity<List<SupervisorDTO>> getSupervisorList() {
-        return ResponseEntity.ok(employeeService.getSupervisors());
+        return ResponseEntity.ok(companyService.getSupervisors());
     }
 
     @GetMapping("/positions/all")

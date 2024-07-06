@@ -3,7 +3,6 @@ spring:
     cache-names: [
       attendanceList,
       attendance,
-      company,
       payrollList,
       payroll,
       positions,

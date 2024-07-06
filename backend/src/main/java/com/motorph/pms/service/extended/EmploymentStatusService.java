@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface EmploymentStatusService {
     List<EmploymentStatusDTO> getEmploymentStatuses();
+
+    EmploymentStatusDTO getEmploymentStatus(int id);
 }

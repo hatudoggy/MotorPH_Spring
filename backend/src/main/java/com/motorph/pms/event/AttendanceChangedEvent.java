@@ -32,13 +32,13 @@ public class AttendanceChangedEvent extends ApplicationEvent {
 
         @EventListener
         public void handleAttendanceChangedEvent(AttendanceChangedEvent event) {
-            cacheManager.getCache("attendances").clear();
-            cacheManager.getCache("attendances").evict(event.getEmployeeId());
-            cacheManager.getCache("attendances").evict(event.getDate());
-            cacheManager.getCache("attendancesByDateRange").clear();
-
-            String compositeKey = event.getEmployeeId() + "_" + event.getDate();
-            cacheManager.getCache("attendances").evict(compositeKey);
+//            cacheManager.getCache("attendances").clear();
+//            cacheManager.getCache("attendances").evict(event.getEmployeeId());
+//            cacheManager.getCache("attendances").evict(event.getDate());
+//            cacheManager.getCache("attendancesByDateRange").clear();
+//
+//            String compositeKey = event.getEmployeeId() + "_" + event.getDate();
+//            cacheManager.getCache("attendances").evict(compositeKey);
         }
     }
 }

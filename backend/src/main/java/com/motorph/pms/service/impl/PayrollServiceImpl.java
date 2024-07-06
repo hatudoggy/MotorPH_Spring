@@ -1,5 +1,7 @@
 package com.motorph.pms.service.impl;
 
+import com.motorph.pms.dto.BenefitDTO;
+import com.motorph.pms.dto.EmployeeDTO;
 import com.motorph.pms.dto.MonthlyPayrollReportDTO;
 import com.motorph.pms.dto.PayrollDTO;
 import com.motorph.pms.dto.mapper.PayrollMapper;
@@ -32,11 +34,12 @@ import java.util.stream.Collectors;
 public class PayrollServiceImpl implements PayrollService {
 
     private final PayrollRepository payrollRepository;
-    private final EmployeeService employeeService;
     private final AttendanceRepository attendanceRepository;
     private final PayrollMapper payrollMapper;
     private final PayrollCalculator payrollCalculator;
     private final ApplicationEventPublisher eventPublisher;
+
+    private final EmployeeService employeeService;
 
     @Autowired
     public PayrollServiceImpl(
@@ -47,11 +50,11 @@ public class PayrollServiceImpl implements PayrollService {
             PayrollCalculator payrollCalculator,
             ApplicationEventPublisher eventPublisher) {
         this.payrollRepository = payrollRepository;
-        this.employeeService = employeeService;
         this.attendanceRepository = attendanceRepository;
         this.payrollMapper = payrollMapper;
         this.payrollCalculator = payrollCalculator;
         this.eventPublisher = eventPublisher;
+        this.employeeService = employeeService;
     }
 
     @CachePut(cacheNames = "payroll", key = "#result.payrollId()")
@@ -190,20 +193,20 @@ public class PayrollServiceImpl implements PayrollService {
     public int batchGeneratePayroll(LocalDate periodStart, LocalDate periodEnd) {
         int count = 0;
 
-        List<Employee> employees = employeeService.findActiveEmployees(true);
+        List<EmployeeDTO> employees = employeeService.findActiveEmployees(true, true);
 
-        for (Employee employee : employees) {
+        for (EmployeeDTO employee : employees) {
 
             List<Attendance> attendances = attendanceRepository.findAllByEmployee_EmployeeId_AndDateBetween(
-                    employee.getEmployeeId(), periodStart, periodEnd
+                    employee.employeeId(), periodStart, periodEnd
             );
 
             int presentCount = payrollCalculator.countPresent(attendances);
             double hoursWorked = payrollCalculator.calculateHoursWorked(attendances);
             double overtimeHours = payrollCalculator.calculateOvertimeHours(attendances);
-            double monthlyRate = employee.getBasicSalary();
-            double hourlyRate = employee.getHourlyRate();
-            double overtimeRate = employee.getOvertimeRate();
+            double monthlyRate = employee.basicSalary();
+            double hourlyRate = employee.hourlyRate();
+            double overtimeRate = employee.overtimeRate();
 
             double grossIncome = payrollCalculator.calculateGrossIncome(hoursWorked,hourlyRate,overtimeHours,overtimeRate);
 
@@ -221,13 +224,13 @@ public class PayrollServiceImpl implements PayrollService {
 
             double totalDeduction = payrollCalculator.calculateTotalDeductions(List.of(sss, philhealth, pagibig, withholdingTax));
 
-            double totalBenefits = payrollCalculator.calculateTotalBenefits(employee.getBenefits().stream().map(Benefits::getAmount).collect(Collectors.toList()));
+            double totalBenefits = payrollCalculator.calculateTotalBenefits(employee.benefits().stream().map(BenefitDTO::amount).collect(Collectors.toList()));
 
             double netPay = payrollCalculator.calculateNetPay(grossIncome, totalBenefits, totalBenefits);
 
 
             Payroll payroll = new Payroll(
-                    employee.getEmployeeId(),
+                    employee.employeeId(),
                     periodStart,
                     periodEnd,
                     presentCount,

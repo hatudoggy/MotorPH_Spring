@@ -24,27 +24,6 @@ public class Department {
         this.departmentCode = departmentCode;
     }
 
-    public DepartmentDTO toDTO() {
-        if ( departmentCode == null || departmentName == null) {
-            return null;
-        }
-
-        return DepartmentDTO.builder()
-                .departmentCode(departmentCode)
-                .departmentName(departmentName)
-                .build();
-    }
-    public static Department fromDTO(DepartmentDTO department) {
-        if (department == null) {
-            return null;
-        }
-
-        return Department.builder()
-                .departmentCode(department.departmentCode())
-                .departmentName(department.departmentName())
-                .build();
-    }
-
     @Override
     public String toString() {
         return "Department{" +

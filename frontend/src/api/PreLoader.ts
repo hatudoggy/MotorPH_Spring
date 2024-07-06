@@ -40,6 +40,12 @@ export const preloadData = async (employeeId: number, role: UserRole, queryClien
             queryFn: () => fetchData('employees')
         });
 
+        // Preload active employee data
+        await queryClient.prefetchQuery({
+            queryKey: ['activeEmployees'],
+            queryFn: () => fetchData('activeEmployees')
+        });
+
         // Preload supervisor data
         await queryClient.prefetchQuery({
             queryKey: ['supervisors'],

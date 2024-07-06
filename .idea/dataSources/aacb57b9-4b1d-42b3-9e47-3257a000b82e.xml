@@ -1043,7 +1043,7 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
     </schema>
     <schema id="296" parent="1" name="motorph_db">
       <Current>1</Current>
-      <LastIntrospectionLocalTimestamp>2024-07-04.17:55:58</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2024-07-06.10:04:46</LastIntrospectionLocalTimestamp>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </schema>
     <schema id="297" parent="1" name="payrollsystem_db">
@@ -1433,7 +1433,7 @@ date</ColNames>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
     <column id="389" parent="308" name="benefit_id">
-      <AutoIncrement>106</AutoIncrement>
+      <AutoIncrement>109</AutoIncrement>
       <DasType>bigint|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -1526,7 +1526,7 @@ amount</ColNames>
       <UnderlyingIndexName>name_UNIQUE</UnderlyingIndexName>
     </key>
     <column id="409" parent="310" name="deduction_id">
-      <AutoIncrement>137</AutoIncrement>
+      <AutoIncrement>749</AutoIncrement>
       <DasType>bigint|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -1603,7 +1603,7 @@ amount</ColNames>
       <UnderlyingIndexName>uk__department_department_name</UnderlyingIndexName>
     </key>
     <column id="425" parent="312" name="employee_id">
-      <AutoIncrement>44</AutoIncrement>
+      <AutoIncrement>45</AutoIncrement>
       <DasType>bigint|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -1734,7 +1734,7 @@ first_name</ColNames>
       <UnderlyingIndexName>UKo3e87yks8vhfpnw4ef60kdkb9</UnderlyingIndexName>
     </key>
     <column id="454" parent="314" name="contact_id">
-      <AutoIncrement>48</AutoIncrement>
+      <AutoIncrement>51</AutoIncrement>
       <DasType>bigint|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -1778,7 +1778,7 @@ contact_no</ColNames>
       <UnderlyingIndexName>ux_contact_no_per_employee</UnderlyingIndexName>
     </key>
     <column id="463" parent="315" name="id">
-      <AutoIncrement>38</AutoIncrement>
+      <AutoIncrement>39</AutoIncrement>
       <DasType>bigint|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -2107,7 +2107,7 @@ contact_no</ColNames>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
     <column id="534" parent="322" name="payroll_id">
-      <AutoIncrement>35</AutoIncrement>
+      <AutoIncrement>189</AutoIncrement>
       <DasType>bigint|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -2493,8 +2493,7 @@ role_id</ColNames>
       <UnderlyingIndexName>role_UNIQUE</UnderlyingIndexName>
     </key>
     <column id="616" parent="329" name="id">
-      <AutoIncrement>7</AutoIncrement>
-      <DasType>int|0s</DasType>
+      <DasType>bigint|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>

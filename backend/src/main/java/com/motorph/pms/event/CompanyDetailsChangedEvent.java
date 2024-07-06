@@ -24,13 +24,13 @@ public class CompanyDetailsChangedEvent extends ApplicationEvent {
 
         @EventListener
         public void handleCompanyDetailsChangedEvent(CompanyDetailsChangedEvent event) {
-            cacheManager.getCache("positions").clear();
-            cacheManager.getCache("departments").clear();
-            cacheManager.getCache("employmentStatuses").clear();
-            cacheManager.getCache("leaveTypes").clear();
-            cacheManager.getCache("leaveStatuses").clear();
-            cacheManager.getCache("benefitTypes").clear();
-            cacheManager.getCache("supervisors").clear();
+//            cacheManager.getCache("positions").clear();
+//            cacheManager.getCache("departments").clear();
+//            cacheManager.getCache("employmentStatuses").clear();
+//            cacheManager.getCache("leaveTypes").clear();
+//            cacheManager.getCache("leaveStatuses").clear();
+//            cacheManager.getCache("benefitTypes").clear();
+//            cacheManager.getCache("supervisors").clear();
         }
     }
 }

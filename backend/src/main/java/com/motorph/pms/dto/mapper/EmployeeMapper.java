@@ -67,6 +67,7 @@ public class EmployeeMapper {
                 .basicSalary(employee.getBasicSalary())
                 .semiMonthlyRate(employee.getSemiMonthlyRate())
                 .hourlyRate(employee.getHourlyRate())
+                .overtimeRate(employee.getOvertimeRate())
 
                 // From DTOs
                 .contacts(toContactDTO(employee.getContacts()))

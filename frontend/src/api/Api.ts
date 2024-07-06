@@ -9,6 +9,8 @@ export const API = {
     ALL: "/employee/all",
     UPDATE: "/employee/update/",
     REGISTER: "/employee/register",
+    ACTIVE: "/employee/active",
+
   },
   ATTENDANCES: {
     BASE: "/attendances",

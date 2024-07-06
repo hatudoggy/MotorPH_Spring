@@ -1,91 +1,91 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
-import {fetchData} from "./FetchUtil.ts";
+import { fetchData } from "./FetchUtil.ts";
 
-export const useFetch = <T>(key: string, params?: Record<string, any>): UseQueryResult<T, Error> => {
+const useFetch = <T>(key: string, params?: Record<string, any>): UseQueryResult<T, Error> => {
     return useQuery<T, Error>({
         queryKey: [key, params],
         queryFn: () => fetchData(key, params),
-        refetchOnWindowFocus: false
+        enabled: !params || Object.values(params).every(param => param !== null && param !== undefined),
+        refetchOnWindowFocus: true
     });
 };
 
-//EMPLOYEES ------------------------------------------------------------------------
-export const useFetchEmployeeById = (employeeId: number) => {
-    return useFetch<EmployeeBasicRes>('employee', { id: employeeId });
+// EMPLOYEES ------------------------------------------------------------------------
+export const useFetchEmployeeById = (employeeId: number | null) => {
+    return useFetch<EmployeeBasicRes>('employee', employeeId ? { id: employeeId } : undefined);
 };
 
 export const useFetchEmployees = () => {
     return useFetch<EmployeeBasicRes[]>('employees');
 };
 
-export const useFetchEmployeeFullById = (employeeId: number) => {
-    return useFetch<EmployeeFullRes>('employee', { id: employeeId });
+export const useFetchEmployeeFullById = (employeeId: number | null) => {
+    return useFetch<EmployeeFullRes>('employee', employeeId ? { id: employeeId } : undefined);
 };
 
-//SUPERVISORS -----------------------------------------------------------------------
-export const useFetchSupervisorById = (employeeId: number) => {
-    return useFetch<SupervisorRes>('employee', { id: employeeId });
+// SUPERVISORS -----------------------------------------------------------------------
+export const useFetchSupervisorById = (employeeId: number | null) => {
+    return useFetch<SupervisorRes>('employee', employeeId ? { id: employeeId } : undefined);
 };
 
 export const useFetchSupervisors = () => {
     return useFetch<SupervisorRes[]>('supervisors');
 };
 
-//POSITIONS -----------------------------------------------------------------------
+// POSITIONS -----------------------------------------------------------------------
 export const useFetchPositions = () => {
     return useFetch<PositionRes[]>('positions');
 };
 
-export const useFetchPositionById = (positionCode: string) => {
-    return useFetch<PositionRes>('position', { id: positionCode });
+export const useFetchPositionById = (positionCode: string | null) => {
+    return useFetch<PositionRes>('position', positionCode ? { id: positionCode } : undefined);
 };
 
-//DEPARTMENTS ---------------------------------------------------------------------
+// DEPARTMENTS ---------------------------------------------------------------------
 export const useFetchDepartments = () => {
     return useFetch<DepartmentRes[]>('departments');
 };
 
-export const useFetchDepartmentById = (departmentCode: string) => {
-    return useFetch<DepartmentRes>('department', { id: departmentCode });
+export const useFetchDepartmentById = (departmentCode: string | null) => {
+    return useFetch<DepartmentRes>('department', departmentCode ? { id: departmentCode } : undefined);
 };
 
-//STATUSES -----------------------------------------------------------------------
+// STATUSES -----------------------------------------------------------------------
 export const useFetchEmploymentStatuses = () => {
     return useFetch<EmploymentStatusRes[]>('employmentStatuses');
 };
 
-export const useFetchEmploymentStatusById = (statusId: number) => {
-    return useFetch<EmploymentStatusRes>('employmentStatus', { id: statusId });
+export const useFetchEmploymentStatusById = (statusId: number | null) => {
+    return useFetch<EmploymentStatusRes>('employmentStatus', statusId ? { id: statusId } : undefined);
 };
 
-//PAYROLL -----------------------------------------------------------------------
+// PAYROLL -----------------------------------------------------------------------
 export const useFetchPayroll = () => {
     return useFetch<PayrollRes[]>('payrolls');
 };
 
-export const useFetchPayrollsByEmployeeId = (employeeId: number) => {
-    return useFetch<PayrollRes[]>('payrollByEmployeeId', { id: employeeId });
+export const useFetchPayrollsByEmployeeId = (employeeId: number | null) => {
+    return useFetch<PayrollRes[]>('payrollByEmployeeId', employeeId ? { id: employeeId } : undefined);
 };
 
-export const useFetchPayrollById = (payrollId: number) => {
-    return useFetch<PayrollRes>('payrollId', { id: payrollId });
+export const useFetchPayrollById = (payrollId: number | null) => {
+    return useFetch<PayrollRes>('payrollId', payrollId ? { id: payrollId } : undefined);
 };
 
-//ATTENDANCE -----------------------------------------------------------------------
-export const useFetchAttendancesByEmployeeId = (employeeId: number) => {
-    return useFetch<AttendanceRes[]>('attendancesByEmployeeId', { id: employeeId });
+// ATTENDANCE -----------------------------------------------------------------------
+export const useFetchAttendancesByEmployeeId = (employeeId: number | null) => {
+    return useFetch<AttendanceRes[]>('attendancesByEmployeeId', employeeId ? { id: employeeId } : undefined);
 };
 
-export const useFetchAttendancesByEmployeeIdAndDateRange = (employeeId: number, startDate: string, endDate: string) => {
-    return useFetch<AttendanceRes[]>('attendancesByDateRange', { id: employeeId, startDate: startDate, endDate: endDate });
+export const useFetchAttendancesByEmployeeIdAndDateRange = (employeeId: number | null, startDate: string, endDate: string) => {
+    return useFetch<AttendanceRes[]>('attendancesByDateRange', employeeId ? { id: employeeId, startDate, endDate } : undefined);
 };
 
-export const useFetchAttendanceByEmployeeIdAndDate = (employeeId: number, date: string) => {
+export const useFetchAttendanceByEmployeeIdAndDate = (employeeId: number | null, date: string) => {
     console.log(`Fetching attendance for employee ${employeeId} on ${date}`);
-
-    return useFetch<AttendanceRes>('attendanceByEmployeeIdAndDate', { id: employeeId, startDate: date });
+    return useFetch<AttendanceRes>('attendanceByEmployeeIdAndDate', employeeId ? { id: employeeId, startDate: date } : undefined);
 };
 
-export const useFetchAttendancesByDate = (dateFilter: Date) => {
-    return useFetch<AttendanceFull[]>('attendancesByDate', { date: dateFilter });
+export const useFetchAttendancesByDate = (dateFilter: Date | null) => {
+    return useFetch<AttendanceFull[]>('attendancesByDate', dateFilter ? { date: dateFilter } : undefined);
 };

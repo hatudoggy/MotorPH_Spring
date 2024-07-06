@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface PositionService {
     List<PositionDTO> getPositions();
+
+    PositionDTO getPosition(String positionCode);
 }

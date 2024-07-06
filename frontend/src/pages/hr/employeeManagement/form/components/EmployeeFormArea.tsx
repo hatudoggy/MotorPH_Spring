@@ -1,18 +1,14 @@
 import {Control, UseFormRegister, UseFormSetValue, UseFormWatch} from "react-hook-form";
 import {Box, IconButton, InputAdornment, TextField, Typography} from "@mui/material";
-import {AddCircle, Badge, Circle, Payments, Person, Phone, TripOrigin, Work} from "@mui/icons-material";
-import {API, BASE_API} from "../../../../../api/Api.ts";
-import axios from "axios";
-import {keepPreviousData, useQuery} from "@tanstack/react-query";
+import {AddCircle, Badge, Payments, Person, Phone, Work} from "@mui/icons-material";
 import Dropdown, {DateSelect, FormWidget, HeadIcon, TextComplete} from "./EmployeeFormUtils.tsx";
-import {Inputs} from "../EmployeeForm.tsx";
 import {
     useFetchDepartments,
-    useFetchEmployees,
     useFetchEmploymentStatuses,
     useFetchPositions, useFetchSupervisors
 } from "../../../../../api/query/UseFetch.ts";
 import {useState} from "react";
+import {Inputs} from "../EmployeeForm.tsx";
 
 interface FormArea {
     register: UseFormRegister<Inputs>
@@ -22,20 +18,10 @@ interface FormArea {
     selectedId?: number | null
 }
 
-/**
- * Component for displaying and editing basic information of an employee.
- *
- * @param {Object} props - The component props.
- * @param {UseFormRegister<Inputs>} props.register - The register function from react-hook-form.
- * @param {Control<Inputs, any>} props.control - The control object from react-hook-form.
- * @param {number | null} [props.selectedId] - The ID of the selected employee.
- * @returns {JSX.Element} The rendered component.
- */
 export default function BasicInfoArea({
                                           register,
                                           control,
-                                          selectedId,
-                                      }: FormArea): JSX.Element {
+                                      }: FormArea) {
     return (
         <Box>
             {/* Display the "Basic Info" icon */}
@@ -83,13 +69,7 @@ export default function BasicInfoArea({
     );
 }
 
-/**
- * Component for displaying contact numbers.
- *
- * @param {FormArea} props - The component props.
- * @param {UseFormRegister<Inputs>} props.register - The register function from react-hook-form.
- * @returns {JSX.Element} The rendered component.
- */
+
 export function ContactNumbersArea({ register }: FormArea) {
     // Render the component
     const [numFields, setNumFields] = useState<number>(1); // Start with 1 field initially

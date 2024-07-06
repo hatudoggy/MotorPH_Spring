@@ -22,6 +22,7 @@ public record EmployeeDTO(
         Double basicSalary,
         Double semiMonthlyRate,
         Double hourlyRate,
+        Double overtimeRate,
         List<BenefitDTO> benefits,
         List<LeaveBalanceDTO> leaveBalances
 ) {

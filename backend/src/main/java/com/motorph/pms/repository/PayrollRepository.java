@@ -2,6 +2,7 @@ package com.motorph.pms.repository;
 
 import com.motorph.pms.model.Payroll;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,6 +15,7 @@ import java.util.Optional;
 @Repository
 public interface PayrollRepository extends JpaRepository<Payroll, Long> {
 
+    @EntityGraph(attributePaths = {"employee", "employee.position", "employee.department"})
     List<Payroll> findAllByEmployee_EmployeeId(Long employeeId);
 
     @Query("SELECT DISTINCT YEAR(p.periodEnd) FROM Payroll p ORDER BY YEAR(p.periodEnd)")
@@ -24,13 +26,18 @@ public interface PayrollRepository extends JpaRepository<Payroll, Long> {
 
     boolean existsByEmployee_EmployeeIdAndPeriodStart(Long aLong, LocalDate localDate);
 
+    @EntityGraph(attributePaths = {"employee", "employee.position", "employee.department"})
     Optional<Payroll> findByEmployee_EmployeeIdAndPeriodStart(Long employeeId, LocalDate periodStart);
 
+    @EntityGraph(attributePaths = {"employee", "employee.position", "employee.department"})
     List<Payroll> findAllByPeriodStartAndPeriodEnd(LocalDate periodStart, LocalDate periodEnd);
 
+    @EntityGraph(attributePaths = {"employee", "employee.position", "employee.department"})
     List<Payroll> findAllByEmployeeEmployeeIdAndPeriodStartAndPeriodEnd(long id, LocalDate start, LocalDate end);
 
+    @EntityGraph(attributePaths = {"employee", "employee.position", "employee.department"})
     List<Payroll> findAllByPeriodStart(LocalDate date);
 
+    @EntityGraph(attributePaths = {"employee", "employee.position", "employee.department"})
     List<Payroll> findAllByPeriodEnd(LocalDate date);
 }

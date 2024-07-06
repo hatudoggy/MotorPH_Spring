@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { API, BASE_API } from "../../../../api/Api.ts";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
@@ -7,8 +7,9 @@ import { Button, DialogActions, DialogContent, DialogTitle, Stack } from "@mui/m
 import BasicInfoArea, { ContactNumbersArea, ContributionIdsArea, EmploymentInfoArea, SalaryBenefitsArea } from "./components/EmployeeFormArea.tsx";
 import { TextCompleteOption } from "./components/EmployeeFormUtils.tsx";
 import axios from "axios";
+import {useFetchEmployeeFullById} from "../../../../api/query/UseFetch.ts";
 
-interface Inputs {
+export interface Inputs {
     firstName: string;
     lastName: string;
     dob: Date;
@@ -38,7 +39,7 @@ interface BenefitInput {
 
 interface EmployeeFormDialogProps {
     type: 'add' | 'edit';
-    selectedId?: number | null;
+    selectedId: number;
     onClose: () => void;
 }
 
@@ -46,21 +47,7 @@ const EmployeeFormDialog = ({ type, selectedId, onClose }: EmployeeFormDialogPro
     const queryClient = useQueryClient();
     const [isFormInitialized, setIsFormInitialized] = useState(false);
 
-    const fetchEmployee = async () => {
-        const { EMPLOYEES } = API;
-        if (selectedId) {
-            const res = await axios.get(`${BASE_API}${EMPLOYEES.BASE}${selectedId}`);
-            return res.data;
-        } else {
-            return null;
-        }
-    };
-
-    const { isPending, data } = useQuery<EmployeeFullRes>({
-        queryKey: ['employeeEdit', selectedId],
-        queryFn: fetchEmployee,
-        enabled: type === 'edit' && selectedId !== null,
-    });
+    const { isPending, data } = useFetchEmployeeFullById(selectedId);
 
     const supervisorData = data ? {
         value: data.supervisor.supervisorId,
@@ -85,8 +72,7 @@ const EmployeeFormDialog = ({ type, selectedId, onClose }: EmployeeFormDialogPro
             const employeeId = data.employeeId;
 
             await queryClient.refetchQueries({queryKey: ['employees']});
-            await queryClient.refetchQueries({queryKey: ['employeeDialog', employeeId]});
-            await queryClient.refetchQueries({queryKey: ['employeeEdit', employeeId]});
+            await queryClient.refetchQueries({queryKey: ['employee', employeeId]});
         },
     });
 

@@ -6,5 +6,7 @@ import java.util.List;
 
 public interface BenefitTypesService {
     List<BenefitTypeDTO> getBenefitTypes();
+
+    BenefitTypeDTO getBenefitType(int id);
 }
 

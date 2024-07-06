@@ -20,7 +20,5 @@ public interface EmployeeService {
 
     void addNewEmployeesFromCSV(String employeeCSVPath);
 
-    List<SupervisorDTO> getSupervisors();
-
-    List<Employee> findActiveEmployees(boolean isActive);
+    List<EmployeeDTO> findActiveEmployees(boolean isActive, boolean isFullDetails);
 }

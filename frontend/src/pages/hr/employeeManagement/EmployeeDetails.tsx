@@ -1,34 +1,21 @@
-import {useEffect, useState} from "react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import {useState} from "react";
 import { Avatar, Box, CircularProgress, DialogContent, IconButton, Stack, Tab, Typography } from "@mui/material";
 import { ArrowBack } from "@mui/icons-material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import ReadonlyTextField from "../../../components/ReadOnlyTextField.tsx";
 import { calculateAge, formatterWhole } from "../../../utils/utils.ts";
 import { format } from "date-fns";
-import { API, BASE_API } from "../../../api/Api.ts";
-import axios from "axios";
+import {useFetchEmployeeFullById} from "../../../api/query/UseFetch.ts";
 
 interface EmployeeDetailsDialogProps {
-    selectedEmployee: number | null;
+    selectedEmployeeId: number | null;
     onClose: () => void;
 }
 
-const EmployeeDetailsDialog = ({ selectedEmployee, onClose }: EmployeeDetailsDialogProps) => {
+const EmployeeDetailsDialog = ({ selectedEmployeeId, onClose }: EmployeeDetailsDialogProps) => {
     const [value, setValue] = useState("1");
-    const queryClient = useQueryClient();
 
-    const fetchEmployee = async () => {
-        const { EMPLOYEES } = API;
-        const res = await axios.get(BASE_API + EMPLOYEES.BASE + selectedEmployee);
-        return res.data;
-    };
-
-    const { isPending, data } = useQuery({
-        queryKey: ['employeeDialog', selectedEmployee],
-        queryFn: fetchEmployee,
-        enabled: selectedEmployee !== null,
-    });
+    const { isPending, data } = useFetchEmployeeFullById(selectedEmployeeId);
 
     const picURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3ZsJ_-wh-pIJV2hEL92vKyS07J3Hfp1USqA&s";
 
