@@ -3,7 +3,6 @@ package com.motorph.pms.service.impl;
 import com.motorph.pms.dto.UserAuth;
 import com.motorph.pms.dto.UserDTO;
 import com.motorph.pms.dto.mapper.UserMapper;
-import com.motorph.pms.event.UserChangedEvent;
 import com.motorph.pms.model.User;
 import com.motorph.pms.repository.UserRepository;
 import com.motorph.pms.service.UserService;
@@ -53,7 +52,6 @@ public class UserServiceImpl implements UserService {
         User user = userMapper.toEntity(userDTO);
 
         User savedUser = userRepository.save(user);
-        eventPublisher.publishEvent(new UserChangedEvent(this, savedUser.getEmployee().getEmployeeId()));
 
         return userMapper.toDTO(savedUser);
     }
@@ -82,7 +80,6 @@ public class UserServiceImpl implements UserService {
         userMapper.updateEntity(userDTO, user);
 
         User updatedUser = userRepository.save(user);
-        eventPublisher.publishEvent(new UserChangedEvent(this, updatedUser.getEmployee().getEmployeeId()));
 
         return userMapper.toDTO(updatedUser);
     }
@@ -92,7 +89,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(Long userId) {
         userRepository.deleteById(userId);
-        eventPublisher.publishEvent(new UserChangedEvent(this));
     }
 
     @Override

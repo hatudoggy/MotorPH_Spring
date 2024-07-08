@@ -1,9 +1,7 @@
 package com.motorph.pms.service.impl;
 
 import com.motorph.pms.dto.EmployeeDTO;
-import com.motorph.pms.dto.SupervisorDTO;
 import com.motorph.pms.dto.mapper.EmployeeMapper;
-import com.motorph.pms.event.EmployeeChangedEvent;
 import com.motorph.pms.model.Employee;
 import com.motorph.pms.repository.EmployeeRepository;
 import com.motorph.pms.service.EmployeeService;
@@ -48,8 +46,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         Employee savedEmployee = employeeRepository.save(employee);
 
-        eventPublisher.publishEvent(new EmployeeChangedEvent(this, savedEmployee.getEmployeeId(), true));
-
         return employeeMapper.toFullDTO(savedEmployee);
     }
 
@@ -83,8 +79,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeMapper.updateEntity(employeeFullDTO, employee);
 
         Employee updatedEmployee = employeeRepository.save(employee);
-
-        eventPublisher.publishEvent(new EmployeeChangedEvent(this, updatedEmployee.getEmployeeId(), true));
 
         return employeeMapper.toFullDTO(updatedEmployee);
     }

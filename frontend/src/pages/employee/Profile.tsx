@@ -1,7 +1,7 @@
-import {Avatar, Button, Container, Paper, PaperProps, Stack, Typography, styled, CircularProgress} from "@mui/material";
+import {Avatar, Container, Paper, PaperProps, Stack, Typography, styled, CircularProgress} from "@mui/material";
 import Headertext from "../../components/HeaderText";
 import Labeled from "../../components/Labeled";
-import { Badge, Edit, Payments, Person, Work } from "@mui/icons-material";
+import { Badge, Payments, Person, Work } from "@mui/icons-material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { calculateAge, formatterWhole, idformatter } from "../../utils/utils";
 import { Shadows } from "../../constants/Shadows";
@@ -78,18 +78,18 @@ export default function Profile() {
                                         <Typography>{employee?.position.positionName}</Typography>
                                     </Stack>
                                 </Stack>
-                                <Button
-                                    variant="contained"
-                                    sx={{
-                                        height: 'min-content',
-                                        borderRadius: 4,
-                                        py: 1
-                                    }}
-                                    disableElevation
-                                    startIcon={<Edit />}
-                                >
-                                    Edit Profile
-                                </Button>
+                                {/*<Button*/}
+                                {/*    variant="contained"*/}
+                                {/*    sx={{*/}
+                                {/*        height: 'min-content',*/}
+                                {/*        borderRadius: 4,*/}
+                                {/*        py: 1*/}
+                                {/*    }}*/}
+                                {/*    disableElevation*/}
+                                {/*    startIcon={<Edit />}*/}
+                                {/*>*/}
+                                {/*    Edit Profile*/}
+                                {/*</Button>*/}
                             </Stack>
 
                             {/* Profile Details */}
@@ -151,17 +151,17 @@ export default function Profile() {
                                                 <Grid container gap={3}>
                                                     <Grid xs={4}>
                                                         <Labeled label="Hire Date">
-                                                            <Typography>{new Date(employee.hireDate).toLocaleDateString()}</Typography>
+                                                            <Typography>{new Date(employee?.hireDate).toLocaleDateString()}</Typography>
                                                         </Labeled>
                                                     </Grid>
                                                     <Grid xs>
                                                         <Labeled label="Employment Status">
-                                                            <Typography>{employee.status.statusName}</Typography>
+                                                            <Typography>{employee?.status.statusName}</Typography>
                                                         </Labeled>
                                                     </Grid>
                                                     <Grid xs>
                                                         <Labeled label="Hire Date">
-                                                            <Typography>{employee.hireDate}</Typography>
+                                                            <Typography>{employee?.hireDate}</Typography>
                                                         </Labeled>
                                                     </Grid>
                                                 </Grid>
@@ -179,24 +179,24 @@ export default function Profile() {
                                                 <Grid container>
                                                     <Grid xs>
                                                         <Labeled label="Tin">
-                                                            <Typography>{idformatter(employee.governmentId.tinNo,'tin')}</Typography>
+                                                            <Typography>{idformatter(employee?.governmentId.tinNo,'tin')}</Typography>
                                                         </Labeled>
                                                     </Grid>
                                                     <Grid xs>
                                                         <Labeled label="SSS">
-                                                            <Typography>{idformatter(employee.governmentId.sssNo,'sss')}</Typography>
+                                                            <Typography>{idformatter(employee?.governmentId.sssNo,'sss')}</Typography>
                                                         </Labeled>
                                                     </Grid>
                                                 </Grid>
                                                 <Grid container>
                                                     <Grid xs>
                                                         <Labeled label="Philhealth">
-                                                            <Typography>{idformatter(employee.governmentId.pagIbigNo,'philhealth')}</Typography>
+                                                            <Typography>{idformatter(employee?.governmentId.pagIbigNo,'philhealth')}</Typography>
                                                         </Labeled>
                                                     </Grid>
                                                     <Grid xs>
                                                         <Labeled label="Pagibig">
-                                                            <Typography>{idformatter(employee.governmentId.philHealthNo,'pagibig')}</Typography>
+                                                            <Typography>{idformatter(employee?.governmentId.philHealthNo,'pagibig')}</Typography>
                                                         </Labeled>
                                                     </Grid>
                                                 </Grid>
@@ -212,22 +212,22 @@ export default function Profile() {
                                                 <Grid container>
                                                     <Grid xs>
                                                         <Labeled label="Base Salary">
-                                                            <Typography>{formatterWhole.format(employee.basicSalary)}</Typography>
+                                                            <Typography>{formatterWhole.format(employee?.basicSalary)}</Typography>
                                                         </Labeled>
                                                     </Grid>
                                                     <Grid xs>
                                                         <Labeled label="Semi-Monthly Rate">
-                                                            <Typography>{formatterWhole.format(employee.semiMonthlyRate)}</Typography>
+                                                            <Typography>{formatterWhole.format(employee?.semiMonthlyRate)}</Typography>
                                                         </Labeled>
                                                     </Grid>
                                                     <Grid xs>
                                                         <Labeled label="Hourly Rate">
-                                                            <Typography>{formatterWhole.format(employee.hourlyRate)}</Typography>
+                                                            <Typography>{formatterWhole.format(employee?.hourlyRate)}</Typography>
                                                         </Labeled>
                                                     </Grid>
                                                 </Grid>
                                                 <Grid container>
-                                                    {employee.benefits && employee.benefits.map((val) => (
+                                                    {employee?.benefits && employee?.benefits.map((val) => (
                                                         <Grid key={val.benefitId} xs>
                                                             <Labeled label={val.benefitType.benefit}>
                                                                 <Typography>{formatterWhole.format(val.amount)}</Typography>

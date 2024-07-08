@@ -57,11 +57,11 @@ public class PayrollCalculator {
     }
 
     public double calculateHoursWorked(List<Attendance> attendances) {
-        return attendances.stream().mapToDouble(Attendance::getTotalHours).sum();
+        return Math.round(attendances.stream().mapToDouble(Attendance::getTotalHours).sum() * 100) / 100.0;
     }
 
     public double calculateOvertimeHours(List<Attendance> attendances) {
-        return attendances.stream().mapToDouble(Attendance::getOvertimeHours).sum();
+        return Math.round(attendances.stream().mapToDouble(Attendance::getOvertimeHours).sum() * 100) / 100.0;
     }
 
     public int countPresent(List<Attendance> attendances) {

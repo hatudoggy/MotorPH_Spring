@@ -1,6 +1,5 @@
 package com.motorph.pms.service;
 
-import com.motorph.pms.dto.MonthlyPayrollReportDTO;
 import com.motorph.pms.dto.PayrollDTO;
 
 import java.time.LocalDate;
@@ -25,8 +24,6 @@ public interface PayrollService {
     void deletePayroll(Long payrollId);
 
     List<Integer> getDistinctYears();
-
-    List<MonthlyPayrollReportDTO> getMonthlyReport(LocalDate start, LocalDate end);
 
     int batchGeneratePayroll(LocalDate periodStart, LocalDate periodEnd);
 

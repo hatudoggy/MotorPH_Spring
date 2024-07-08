@@ -1,11 +1,9 @@
 package com.motorph.pms.service;
 
 import com.motorph.pms.dto.AttendanceDTO;
-import com.motorph.pms.dto.AttendanceSummaryDTO;
 import com.motorph.pms.model.Attendance;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 

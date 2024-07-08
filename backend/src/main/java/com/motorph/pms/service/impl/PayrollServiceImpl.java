@@ -2,17 +2,12 @@ package com.motorph.pms.service.impl;
 
 import com.motorph.pms.dto.BenefitDTO;
 import com.motorph.pms.dto.EmployeeDTO;
-import com.motorph.pms.dto.MonthlyPayrollReportDTO;
 import com.motorph.pms.dto.PayrollDTO;
 import com.motorph.pms.dto.mapper.PayrollMapper;
-import com.motorph.pms.event.PayrollChangedEvent;
 import com.motorph.pms.model.*;
-import com.motorph.pms.model.Deductions.DeductionType;
 import com.motorph.pms.repository.AttendanceRepository;
-import com.motorph.pms.repository.EmployeeRepository;
 import com.motorph.pms.repository.PayrollRepository;
 import com.motorph.pms.service.EmployeeService;
-import com.motorph.pms.service.MatrixService;
 import com.motorph.pms.service.PayrollService;
 import com.motorph.pms.util.PayrollCalculator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,9 +63,6 @@ public class PayrollServiceImpl implements PayrollService {
         }
 
         Payroll payroll = payrollMapper.toEntity(payrollDTO);
-
-        eventPublisher.publishEvent(new PayrollChangedEvent(
-                this, payroll.getEmployee().getEmployeeId(), payrollDTO.periodStart(), payrollDTO.periodEnd()));
 
         return payrollMapper.toDTO(payrollRepository.save(payroll));
     }
@@ -162,30 +154,28 @@ public class PayrollServiceImpl implements PayrollService {
             throw new IllegalStateException("Payroll with payrollId " + payrollId + " does not exist");
         }
 
-        eventPublisher.publishEvent(new PayrollChangedEvent(this));
-
         payrollRepository.deleteById(payrollId);
     }
 
-    @Cacheable
-    @Override
-    public List<MonthlyPayrollReportDTO> getMonthlyReport(LocalDate start, LocalDate end) {
-//        List<Object[]> results = payrollRepository.getTotalEarningsAndDeductionsByMonth(start, end);
-//        List<MonthlyPayrollReportDTO> dtoList = new ArrayList<>();
-//        DateTimeFormatter monthFormatter = DateTimeFormatter.ofPattern("MMMM yyyy");
-//
-//        for (Object[] result : results) {
-//            LocalDate monthYear = LocalDate.parse((String) result[0]);
-//            double totalEarnings = (Double) result[1];
-//            double totalDeductions = (Double) result[2];
-//
-//            MonthlyPayrollReportDTO dto = new MonthlyPayrollReportDTO(monthYear, totalEarnings, totalDeductions);
-//            dtoList.add(dto);
-//        }
-//
-//        return dtoList;
-        return null;
-    }
+//    @Cacheable
+//    @Override
+//    public List<MonthlyPayrollReportDTO> getMonthlyReport(LocalDate start, LocalDate end) {
+////        List<Object[]> results = payrollRepository.getTotalEarningsAndDeductionsByMonth(start, end);
+////        List<MonthlyPayrollReportDTO> dtoList = new ArrayList<>();
+////        DateTimeFormatter monthFormatter = DateTimeFormatter.ofPattern("MMMM yyyy");
+////
+////        for (Object[] result : results) {
+////            LocalDate monthYear = LocalDate.parse((String) result[0]);
+////            double totalEarnings = (Double) result[1];
+////            double totalDeductions = (Double) result[2];
+////
+////            MonthlyPayrollReportDTO dto = new MonthlyPayrollReportDTO(monthYear, totalEarnings, totalDeductions);
+////            dtoList.add(dto);
+////        }
+////
+////        return dtoList;
+//        return null;
+//    }
 
     @CacheEvict(cacheNames = "payrollList", allEntries = true)
     @Transactional
@@ -259,9 +249,6 @@ public class PayrollServiceImpl implements PayrollService {
             count++;
         }
 
-        eventPublisher.publishEvent(new PayrollChangedEvent(
-                this));
-
         return count;
     }
 
@@ -270,8 +257,6 @@ public class PayrollServiceImpl implements PayrollService {
     @Override
     public PayrollDTO generatePayroll(String startDate, String endDate, Long employeeId) {
         //TODO: implement this
-
-        eventPublisher.publishEvent(new PayrollChangedEvent(this));
 
         return null;
     }

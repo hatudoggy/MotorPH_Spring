@@ -1,19 +1,16 @@
 package com.motorph.pms.service.impl;
 
 import com.motorph.pms.dto.LeaveRequestDTO;
-import com.motorph.pms.dto.LeaveStatusDTO;
+
 import com.motorph.pms.dto.mapper.LeaveRequestMapper;
-import com.motorph.pms.event.LeaveRequestChangedEvent;
 import com.motorph.pms.model.LeaveRequest;
 import com.motorph.pms.repository.LeaveRequestRepository;
-import com.motorph.pms.repository.LeaveStatusRepository;
 import com.motorph.pms.service.LeaveRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
@@ -51,8 +48,6 @@ public class LeaveRequestServiceImpl implements LeaveRequestService {
 
         LeaveRequest leaveRequest = leaveRequestMapper.toEntity(leaveRequestDTO);
 
-        eventPublisher.publishEvent(new LeaveRequestChangedEvent(this, leaveRequest.getEmployee().getEmployeeId()));
-
         return leaveRequestMapper.toDTO(requestRepository.save(leaveRequest));
     }
 
@@ -81,8 +76,6 @@ public class LeaveRequestServiceImpl implements LeaveRequestService {
 
         leaveRequestMapper.updateEntity(leaveRequestDTO, existingRequest);
 
-        eventPublisher.publishEvent(new LeaveRequestChangedEvent(this, existingRequest.getEmployee().getEmployeeId()));
-
         return leaveRequestMapper.toDTO(requestRepository.save(existingRequest));
     }
 
@@ -93,8 +86,6 @@ public class LeaveRequestServiceImpl implements LeaveRequestService {
         if (!requestRepository.existsById(leaveRequestId)) {
             throw new IllegalStateException("Leave request does not exist");
         }
-
-        eventPublisher.publishEvent(new LeaveRequestChangedEvent(this, 0));
 
         requestRepository.deleteById(leaveRequestId);
     }
