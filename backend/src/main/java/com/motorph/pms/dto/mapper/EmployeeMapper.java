@@ -133,17 +133,6 @@ public class EmployeeMapper {
                 .collect(Collectors.toList());
     }
 
-    private List<Contact> toContactEntity(List<ContactDTO> contactDTOs) {
-        if (contactDTOs == null) return null;
-        return contactDTOs.stream()
-                .map(contactDTO -> new Contact(
-                        contactDTO.contactId(),
-                        new Employee(contactDTO.employeeId()),
-                        contactDTO.contactNo()
-                ))
-                .collect(Collectors.toList());
-    }
-
     public GovernmentIdDTO toGovernmentIdDTO (GovernmentId governmentId) {
         if (governmentId == null) {
             return null;

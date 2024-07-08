@@ -58,18 +58,6 @@ import java.util.List;
                 benefitDTO.benefit());
     }
 
-    public void updateFromDTO(BenefitDTO benefitDTO, Benefits benefit) {
-        if (benefitDTO.employeeId() == null) {
-            throw new IllegalArgumentException("Employee ID cannot be null when updating benefit");
-        }
-
-        if (!benefitDTO.employeeId().equals(benefit.getEmployee().getEmployeeId())) {
-            throw new IllegalArgumentException("Employee ID does not match when updating benefit");
-        }
-
-        benefit.setAmount(benefitDTO.amount());
-    }
-
     public List<BenefitDTO> toDTO(List<Benefits> benefits) {
         if (benefits == null) {
             return null;

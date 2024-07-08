@@ -4,47 +4,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ef4833e7-6818-46a8-95cb-723fd7831949" name="Changes" comment="implemented caching functionalities for faster queries">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/aacb57b9-4b1d-42b3-9e47-3257a000b82e.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/aacb57b9-4b1d-42b3-9e47-3257a000b82e.xml" afterDir="false" />
+    <list default="true" id="ef4833e7-6818-46a8-95cb-723fd7831949" name="Changes" comment="fixed bugs on employee update, enhanced query performance">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/controller/CompanyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/controller/CompanyController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/controller/EmployeeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/controller/EmployeeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/dto/EmployeeDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/dto/EmployeeDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/dto/AttendanceSummaryDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/dto/DeductionTypeDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/dto/DeductionTypeDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/dto/DeductionsDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/dto/DeductionsDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/dto/MonthlyPayrollReportDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/dto/mapper/BenefitsMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/dto/mapper/BenefitsMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/dto/mapper/DeductionsMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/dto/mapper/DeductionsMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/dto/mapper/DepartmentMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/dto/mapper/DepartmentMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/dto/mapper/EmployeeMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/dto/mapper/EmployeeMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/event/AttendanceChangedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/event/AttendanceChangedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/event/CompanyDetailsChangedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/event/CompanyDetailsChangedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/event/LeaveRequestChangedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/event/LeaveRequestChangedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/event/UserChangedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/event/UserChangedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/model/Department.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/model/Department.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/model/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/model/Employee.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/repository/AttendanceRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/repository/AttendanceRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/repository/EmployeeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/repository/EmployeeRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/repository/PayrollRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/repository/PayrollRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/BenefitTypesService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/BenefitTypesService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/CompanyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/CompanyService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/EmployeeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/EmployeeService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/UserRolesService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/UserRolesService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/extended/DepartmentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/extended/DepartmentService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/extended/EmploymentStatusService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/extended/EmploymentStatusService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/extended/LeaveStatusesService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/extended/LeaveStatusesService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/extended/LeaveTypesService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/extended/LeaveTypesService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/extended/PositionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/extended/PositionService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/impl/CompanyServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/impl/CompanyServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/impl/DepartmentServiceImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/impl/EmployeeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/impl/EmployeeServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/impl/PayrollServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/impl/PayrollServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/impl/PositionServiceImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/api/Api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/api/Api.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/api/PreLoader.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/api/PreLoader.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/api/query/FetchUtil.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/api/query/FetchUtil.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/api/query/UseFetch.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/api/query/UseFetch.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/hr/HRAttendances.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/hr/HRAttendances.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/hr/HREmployees.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/hr/HREmployees.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/hr/HRPayrolls.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/hr/HRPayrolls.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/hr/employeeManagement/EmployeeDetails.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/hr/employeeManagement/EmployeeDetails.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/hr/employeeManagement/form/EmployeeForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/hr/employeeManagement/form/EmployeeForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/hr/employeeManagement/form/components/EmployeeFormArea.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/hr/employeeManagement/form/components/EmployeeFormArea.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/event/AttendanceChangedEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/event/CompanyDetailsChangedEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/event/EmployeeChangedEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/event/LeaveRequestChangedEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/event/PayrollChangedEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/event/UserChangedEvent.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -126,7 +102,7 @@
     "git-widget-placeholder": "main",
     "jdk.selected.JAVA_MODULE": "22",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Harvey/Documents/GitHub/MotorPH_Spring/pom.xml",
+    "last_opened_file_path": "C:/Users/Harvey/Documents/GitHub/MotorPH_Spring",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.standard": "true",
     "node.js.detected.package.stylelint": "true",
@@ -140,7 +116,7 @@
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15429688",
     "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "settings.editor.selected.configurable": "reference.settings.ide.settings.uml",
     "ts.external.directory.path": "C:\\Users\\Harvey\\Documents\\GitHub\\MotorPH_Spring\\frontend\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
   }
@@ -241,6 +217,8 @@
       <workItem from="1719992506220" duration="1004000" />
       <workItem from="1719993534495" duration="239000" />
       <workItem from="1719993793712" duration="2681000" />
+      <workItem from="1720403800280" duration="324000" />
+      <workItem from="1720404167987" duration="8942000" />
     </task>
     <task id="LOCAL-00001" summary="x">
       <option name="closed" value="true" />
@@ -402,7 +380,15 @@
       <option name="project" value="LOCAL" />
       <updated>1720252562702</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="fixed bugs on employee update, enhanced query performance">
+      <option name="closed" value="true" />
+      <created>1720266897517</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1720266897517</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -470,7 +456,8 @@
     <MESSAGE value="updated project structure" />
     <MESSAGE value="workspace" />
     <MESSAGE value="implemented caching functionalities for faster queries" />
-    <option name="LAST_COMMIT_MESSAGE" value="implemented caching functionalities for faster queries" />
+    <MESSAGE value="fixed bugs on employee update, enhanced query performance" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed bugs on employee update, enhanced query performance" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand>

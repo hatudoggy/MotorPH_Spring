@@ -32,15 +32,5 @@ public class DepartmentMapper {
                 departmentDTO.departmentCode(),
                 departmentDTO.departmentName());
     }
-
-    public List<DepartmentDTO> toDTO(List<Department> departments) {
-        if (departments == null) {
-            return null;
-        }
-
-        return departments.stream()
-                .map(this::toDTO)
-                .toList();
-    }
 }
 

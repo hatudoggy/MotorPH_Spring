@@ -7,6 +7,6 @@ import lombok.Builder;
 public record DeductionsDTO(
         Long deductionId,
         Long payrollId,
-        DeductionType deductionType,
+        DeductionTypeDTO deductionType,
         double amount
 ) {}

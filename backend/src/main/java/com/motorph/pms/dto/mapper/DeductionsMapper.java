@@ -1,7 +1,9 @@
 package com.motorph.pms.dto.mapper;
 
+import com.motorph.pms.dto.DeductionTypeDTO;
 import com.motorph.pms.dto.DeductionsDTO;
 import com.motorph.pms.model.Deductions;
+import com.motorph.pms.model.Deductions.DeductionType;
 import com.motorph.pms.model.Payroll;
 import org.springframework.stereotype.Component;
 
@@ -11,8 +13,6 @@ import java.util.stream.Collectors;
 @Component
 public class DeductionsMapper {
 
-
-
     public DeductionsDTO toDTO(Deductions entity) {
         if (entity == null || entity.getPayroll() == null) {
             return null;
@@ -21,7 +21,7 @@ public class DeductionsMapper {
         return DeductionsDTO.builder()
                 .deductionId(entity.getDeductionId())
                 .payrollId(entity.getPayroll().getPayrollId())
-                .deductionType(entity.getDeductionType())
+                .deductionType(toDTO(entity.getDeductionType()))
                 .amount(entity.getAmount())
                 .build();
     }
@@ -33,7 +33,7 @@ public class DeductionsMapper {
 
         return new Deductions(
                 payroll,
-                dto.deductionType().getDeductionCode(),
+                dto.deductionType().deductionCode(),
                 dto.amount()
         );
     }
@@ -58,15 +58,13 @@ public class DeductionsMapper {
                 .collect(Collectors.toList());
     }
 
-    public void updateFromDTO(DeductionsDTO dto, Deductions entity) {
-        if (dto.payrollId() == null) {
-            throw new IllegalArgumentException("Payroll ID cannot be null when updating deduction");
+    public DeductionTypeDTO toDTO(DeductionType entity) {
+        if (entity == null) {
+            return null;
         }
-
-        if (!dto.payrollId().equals(entity.getPayroll().getPayrollId())) {
-            throw new IllegalArgumentException("Payroll ID does not match when updating deduction");
-        }
-
-        entity.setAmount(dto.amount());
+        return DeductionTypeDTO.builder()
+                .deductionCode(entity.getDeductionCode())
+                .name(entity.getName())
+                .build();
     }
 }
