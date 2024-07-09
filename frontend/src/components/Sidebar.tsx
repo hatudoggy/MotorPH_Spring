@@ -61,13 +61,13 @@ export default function Sidebar({ role }: Props) {
 
     const hrItems: SidebarItem[] = [
         {
-            label: "Attendances",
+            label: "Attendance",
             link: "hr/attendance",
             IconActive: RecentActors,
             IconOutlined: RecentActorsOutlined,
         },
         {
-            label: "Payrolls",
+            label: "Payroll",
             link: "hr/payrollId",
             IconActive: Payments,
             IconOutlined: PaymentsOutlined,

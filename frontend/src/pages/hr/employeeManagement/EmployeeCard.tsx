@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import {Shadows} from "../../../constants/Shadows.js";
 import PopupState, {bindMenu, bindTrigger} from "material-ui-popup-state";
-import {Edit, MoreVert} from "@mui/icons-material";
+import {Edit, MoreVert, Delete} from "@mui/icons-material"; // Import Delete icon
 import Labeled from "../../../components/Labeled.js";
 import {format} from "date-fns";
 
@@ -25,6 +25,7 @@ interface EmployeeCard {
     status: EmploymentStatusRes
     onClick: () => void
     onEdit: () => void
+    onDelete: () => void // Add onDelete prop
     isLoading: boolean;
     isSelected: boolean;
 }
@@ -38,6 +39,7 @@ export default function EmployeeCard({
                                          status,
                                          onClick,
                                          onEdit,
+                                         onDelete, // Destructure onDelete prop
                                          isLoading,
                                          isSelected
                                      }: EmployeeCard) {
@@ -102,6 +104,20 @@ export default function EmployeeCard({
                                         <Edit />
                                     </ListItemIcon>
                                     <ListItemText>Edit</ListItemText>
+                                </MenuItem>
+                                <MenuItem
+                                    sx={{
+                                        minWidth: 130,
+                                    }}
+                                    onClick={() => {
+                                        onDelete();
+                                        popstate.close();
+                                    }}
+                                >
+                                    <ListItemIcon>
+                                        <Delete />
+                                    </ListItemIcon>
+                                    <ListItemText>Delete</ListItemText>
                                 </MenuItem>
                             </Menu>
                         </>

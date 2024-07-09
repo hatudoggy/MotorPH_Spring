@@ -247,7 +247,7 @@ function PayrollSelect({selectedPayrollId, goBack} : PayrollSelectProps) {
                                     startIcon={<Download/>}
                                     disableElevation
                                 >
-                                    Save Receipt
+                                    Save Payslip
                                 </Button>
                             </Stack>
                         </>
