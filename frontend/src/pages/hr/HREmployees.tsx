@@ -1,6 +1,6 @@
 import {Box, Button, CircularProgress, Container, Dialog, InputAdornment, Stack, TextField} from "@mui/material";
 import Headertext from "../../components/HeaderText";
-import { Add, FileCopy, Search } from "@mui/icons-material";
+import { Add, FileCopy, Search, Upload } from "@mui/icons-material"; // Import Upload icon
 import { useMemo, useState} from "react";
 import { useDebounce } from "@uidotdev/usehooks";
 import { format } from "date-fns";
@@ -52,10 +52,15 @@ export default function HREmployees() {
         setSelectedEmployeeId(null);
     };
 
+    const handleImport = () => {
+        // Add logic to handle import functionality here
+        console.log("Import button clicked");
+    };
+
     return (
-            <>
+        <>
             <Container sx={{ my: 5 }}>
-                <Headertext>HR Employees</Headertext>
+                <Headertext>Employee Management</Headertext>
                 <Stack gap={2}>
                     <Stack direction="row" justifyContent='space-between'>
                         <Box>
@@ -81,6 +86,14 @@ export default function HREmployees() {
                                 startIcon={<FileCopy/>}
                             >
                                 Export Data
+                            </Button>
+                            <Button
+                                variant="contained"
+                                startIcon={<Upload/>} // Use Upload icon
+                                disableElevation
+                                onClick={handleImport} // Add onClick handler
+                            >
+                                Import Data
                             </Button>
                             <Button
                                 variant="contained"
