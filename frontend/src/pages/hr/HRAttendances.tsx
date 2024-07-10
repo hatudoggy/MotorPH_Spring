@@ -15,7 +15,7 @@ export default function HRAttendances() {
     return(
         <Container sx={{ my: 5 }}>
             <Stack height='100%'>
-                <Headertext>HR Attendance</Headertext>
+                <Headertext>Attendance Management</Headertext>
                 <Stack direction='row' mb={2} gap={1}>
                     <DatePicker
                         slotProps={{
