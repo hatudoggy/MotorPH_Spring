@@ -31,6 +31,7 @@ export default function HRPayrolls() {
   const [filterMonth, setFilterMonth] = useState<string | undefined>();
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
+  const [payDate, setPayDate] = useState<Date | null>(null); // Added state for paydate
   const [isLoading, setIsLoading] = useState(false);
   const [generatedCount, setGeneratedCount] = useState<number | null>(null);
   const [openModal, setOpenModal] = useState(false);
@@ -63,6 +64,7 @@ export default function HRPayrolls() {
       const params: any = {};
       if (startDate) params.startDate = format(startDate, "yyyy-MM-dd");
       if (endDate) params.endDate = format(endDate, "yyyy-MM-dd");
+      if (payDate) params.payDate = format(payDate, "yyyy-MM-dd"); // Include paydate in params
 
       const res = await axios.post(BASE_API + API.PAYROLLS.GENERATE, null, { params });
       setGeneratedCount(res.data);
@@ -99,7 +101,7 @@ export default function HRPayrolls() {
   return (
       <Container sx={{ my: 5 }}>
         <Stack height="100%">
-          <Headertext>HR Payroll</Headertext>
+          <Headertext>Payroll Module</Headertext>
           <Stack>
             <Widget variant="outlined" sx={{ width: "min-content" }}>
               <LineChart
@@ -171,6 +173,26 @@ export default function HRPayrolls() {
                     }}
                     sx={{ width: 175, height: 50 }}
                     onChange={(newValue) => setEndDate(newValue)}
+                />
+                <DatePicker
+                    label="Pay Date" // Add DatePicker for pay date
+                    value={payDate}
+                    slotProps={{
+                      textField: {
+                        size: 'small',
+                        sx: {
+                          bgcolor: 'white',
+                          width: 180
+                        },
+                        InputProps: {
+                          sx: {
+                            borderRadius: 2
+                          }
+                        }
+                      }
+                    }}
+                    sx={{ width: 175, height: 50 }}
+                    onChange={(newValue) => setPayDate(newValue)}
                 />
                 <Button
                     variant="contained"
@@ -297,7 +319,7 @@ function PayrollTable({ filterMonth }: PayrollTable) {
     }
   };
 
-  const {data } = useQuery<PayrollRes[]>({
+  const {data} = useQuery<PayrollRes[]>({
     queryKey: ["payrollAll", filterMonth],
     queryFn: fetchPayrollMonths,
     enabled: !!filterMonth,
