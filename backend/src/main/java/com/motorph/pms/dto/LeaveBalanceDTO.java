@@ -6,6 +6,6 @@ import lombok.Builder;
 public record LeaveBalanceDTO (
         Long id,
         Long employeeId,
-        int leaveTypeId,
+        LeaveTypeDTO leaveType,
         int balance
 ){}

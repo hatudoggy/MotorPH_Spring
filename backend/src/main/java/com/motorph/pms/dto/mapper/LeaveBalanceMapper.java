@@ -20,7 +20,7 @@ public class LeaveBalanceMapper {
         return LeaveBalanceDTO.builder()
                 .id(leaveBalance.getLeaveBalanceId())
                 .employeeId(leaveBalance.getEmployee().getEmployeeId())
-                .leaveTypeId(leaveBalance.getLeaveType().getLeaveTypeId())
+                .leaveType(toDTO(leaveBalance.getLeaveType()))
                 .balance(leaveBalance.getBalance())
                 .build();
     }
@@ -42,7 +42,7 @@ public class LeaveBalanceMapper {
 
         return new LeaveBalance(
                 leaveBalanceDTO.employeeId(),
-                leaveBalanceDTO.leaveTypeId(),
+                leaveBalanceDTO.leaveType().id(),
                 leaveBalanceDTO.balance()
         );
     }

@@ -3,10 +3,20 @@ import { Button, Container, IconButton, InputAdornment, Paper, Stack, TextField,
 import { useState } from "react";
 import { useAuth } from "../hooks/AuthProvider";
 import { useNavigate } from "react-router-dom";
+import {postloadData, preloadData} from "../api/PreLoader.ts";
+import {useQueryClient} from "@tanstack/react-query";
+
+const Roles: Record<number, UserRole> = {
+    1: "employee",
+    2: "admin",
+    3: "hr",
+    4: "payroll"
+}
 
 export default function Login() {
-    const { login } = useAuth();
+    const {authUser, login } = useAuth();
     const navigate = useNavigate();
+    const queryClient = useQueryClient();
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -18,8 +28,10 @@ export default function Login() {
         setIsError(false);
         try {
             const auth = await login(username, password);
-            if (auth) {
+            if (auth && authUser) {
+                await preloadData(authUser?.employeeId, queryClient)
                 navigate('../dashboard');
+                await postloadData(Roles[authUser?.roleId], queryClient)
             } else {
                 setIsError(true);
             }

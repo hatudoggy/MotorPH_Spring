@@ -1,6 +1,7 @@
 package com.motorph.pms.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.motorph.pms.model.LeaveBalance.LeaveType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,6 +26,11 @@ public class LeaveRequest {
     @JsonManagedReference
     private Employee employee;
 
+    @ManyToOne
+    @JoinColumn(name = "leave_type_id")
+    @JsonManagedReference
+    private LeaveType leaveType;
+
     private LocalDate requestDate;
     private LocalDate startDate;
     private LocalDate endDate;
@@ -41,6 +47,7 @@ public class LeaveRequest {
 
     public LeaveRequest(
             Long employeeId,
+            int leaveTypeId,
             LocalDate requestDate,
             LocalDate startDate,
             LocalDate endDate,
@@ -48,6 +55,7 @@ public class LeaveRequest {
             String reason){
 
         this.employee = new Employee(employeeId);
+        this.leaveType = new LeaveType(leaveTypeId);
         this.requestDate = requestDate;
         this.startDate = startDate;
         this.endDate = endDate;

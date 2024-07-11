@@ -7,11 +7,13 @@ import com.motorph.pms.model.WithholdingTaxMatrix;
 import com.motorph.pms.repository.*;
 import com.motorph.pms.service.MatrixService;
 import jakarta.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 public class MatrixServiceImpl implements MatrixService {
 
@@ -44,6 +46,7 @@ public class MatrixServiceImpl implements MatrixService {
      */
     @PostConstruct
     private void loadMatrices() {
+        log.debug("Loading matrices...");
         sssMatrices = sssMatrixRepository.findAll();
         philhealthMatrix = philhealthMatrixRepository.findById(1L).orElseThrow(
                 () -> new RuntimeException("Philhealth Matrix not found")

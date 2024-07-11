@@ -101,7 +101,7 @@ function AttendanceToday() {
     const [loadingTimeOut, setLoadingTimeOut] = useState(false);
     const [clockedIn, setClockedIn] = useState(false);
 
-    const todayDate = format(new Date().setDate(29), 'yyyy-MM-dd');
+    const todayDate = format(new Date().setDate(13), 'yyyy-MM-dd');
 
     const { data: attendanceData, refetch: refetchAttendanceData } = useFetchAttendanceByEmployeeIdAndDate(employeeId, todayDate);
 
@@ -119,7 +119,9 @@ function AttendanceToday() {
             setLoadingTimeIn(false);
             setIsButtonDisabled(false);
             await refetchAttendanceData();
-            await queryClient.invalidateQueries(['attendancesByEmployeeId']);
+            await queryClient.invalidateQueries({queryKey: ['attendancesByEmployeeId', { id: employeeId }]});
+            await queryClient.invalidateQueries({queryKey: ['attendancesByEmployeeIdAndDate', { id: employeeId, startDate: todayDate }]});
+            await queryClient.invalidateQueries({queryKey: ['attendancesByDate', { date: todayDate }]});
         }
     });
 
@@ -135,7 +137,9 @@ function AttendanceToday() {
         onSettled: async () => {
             setLoadingTimeOut(false);
             await refetchAttendanceData();
-            await queryClient.invalidateQueries(['attendancesByEmployeeId']);
+            await queryClient.invalidateQueries({queryKey: ['attendancesByEmployeeId', { id: employeeId }]});
+            await queryClient.invalidateQueries({queryKey: ['attendancesByEmployeeIdAndDate', { id: employeeId, startDate: todayDate }]});
+            await queryClient.invalidateQueries({queryKey: ['attendancesByDate', { date: todayDate }]});
         }
     });
 

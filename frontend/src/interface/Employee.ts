@@ -43,12 +43,33 @@ interface BenefitTypeRes {
   benefit: string;
 }
 
+interface LeaveRequestRes {
+  leaveRequestId: number;
+  employee: EmployeeBasicRes;
+  leaveType: LeaveTypeRes;
+  requestDate: string;
+  startDate: string;
+  endDate: string;
+  daysRequested: number;
+  status: LeaveStatusRes;
+  reason: string;
+}
+
+interface LeaveStatusRes {
+  id: number;
+  status: string;
+}
 
 interface LeaveBalanceRes {
   id: number;
   employeeId: number;
-  leaveTypeId: number;
+  leaveType: LeaveTypeRes;
   balance: number;
+}
+
+interface LeaveTypeRes {
+  id: number;
+  typeName: string;
 }
 
 interface GovernmentIdRes {
@@ -119,13 +140,23 @@ interface LeaveBalanceReq {
 
 interface LeaveRequestReq {
   leaveRequestId?: number;
-  employeeId: number;
+  employee: EmployeeReq;
+  leaveType: LeaveTypeReq;
   requestDate: string; // Use string for dates to simplify JSON handling
   startDate: string; // Use string for dates to simplify JSON handling
   endDate: string; // Use string for dates to simplify JSON handling
-  daysRequested: number;
-  statusId: number;
+  status: LeaveStatusReq;
   reason?: string;
+}
+
+interface LeaveTypeReq{
+  id?: number
+  typeName?: string;
+}
+
+interface LeaveStatusReq{
+  id?: number;
+  status?: string;
 }
 
 interface EmploymentStatusReq {

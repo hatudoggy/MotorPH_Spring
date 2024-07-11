@@ -72,7 +72,7 @@ const EmployeeFormDialog = ({ type, selectedId, onClose }: EmployeeFormDialogPro
             const employeeId = data.employeeId;
 
             await queryClient.refetchQueries({queryKey: ['employees']});
-            await queryClient.refetchQueries({queryKey: ['employee', employeeId]});
+            await queryClient.refetchQueries({queryKey: ['employee', {id: employeeId}]});
         },
     });
 

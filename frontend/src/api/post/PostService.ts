@@ -26,7 +26,18 @@ export const postTimeIn = async (employeeId: number): Promise<TimeInOut> => {
 export const putTimeOut = async (employeeId : number): Promise<TimeInOut> => {
     console.log(`Clocking out for employee ${employeeId}`);
 
-
     const { EMPLOYEES, ATTENDANCES } = API;
     return fetchFromApi<TimeInOut>(false, `${BASE_API}${EMPLOYEES.BASE}${employeeId}${ATTENDANCES.TIME_OUT}`);
+}
+
+export const postLeaveRequest = async (leaveRequest: LeaveRequestReq): Promise<LeaveRequestRes> => {
+    console.log(`Requesting leave for employee ${leaveRequest.employee.employeeId}`);
+    const { LEAVES } = API;
+    return fetchFromApi<LeaveRequestRes>(true, `${BASE_API}${LEAVES.APPLY}`, leaveRequest);
+}
+
+export const putUpdateLeaveRequest = async (leaveRequest: LeaveRequestReq): Promise<LeaveRequestRes> => {
+    console.log(`Updating leave for employee ${leaveRequest.employee.employeeId}`);
+    const { LEAVES } = API;
+    return fetchFromApi<LeaveRequestRes>(false, `${BASE_API}${LEAVES.UPDATE}`, leaveRequest);
 }

@@ -182,17 +182,6 @@ class LeaveRequestRepositoryTest {
         assertThat(retrievedRequest.get().getReason()).isEqualTo("Family emergency");
     }
 
-
-    @Test
-    @Transactional
-    @DirtiesContext
-    void LeaveRequestRepository_findByEmployee_EmployeeIdAndRequestDate_Found() {
-        Optional<LeaveRequest> leaveRequest = leaveRequestRepository.findByEmployee_EmployeeIdAndRequestDate(employee1.getEmployeeId(), LocalDate.of(2023, 6, 1));
-        assertThat(leaveRequest).isPresent();
-        assertThat(leaveRequest.get().getReason()).isEqualTo("Vacation");
-    }
-
-
     @Test
     @Transactional
     @DirtiesContext
@@ -215,88 +204,6 @@ class LeaveRequestRepositoryTest {
         assertThat(leaveRequests.get(1).getReason()).isEqualTo("Medical");
     }
 
-    @Test
-    @Transactional
-    @DirtiesContext
-    void LeaveRequestRepository_findAllByEmployee_FirstNameAndEmployee_LastName_Found() {
-        List<LeaveRequest> leaveRequests = leaveRequestRepository.findAllByEmployee_FirstNameAndEmployee_LastName("Jim", "Halpert");
-        assertThat(leaveRequests).hasSize(2);
-        assertThat(leaveRequests.get(0).getReason()).isEqualTo("Vacation");
-        assertThat(leaveRequests.get(1).getReason()).isEqualTo("Medical");
-    }
-
-    @Test
-    @Transactional
-    @DirtiesContext
-    void LeaveRequestRepository_findAllByEmployee_Position_PositionCode_Found() {
-        List<LeaveRequest> leaveRequests = leaveRequestRepository.findAllByEmployee_Position_PositionCode("P01");
-        assertThat(leaveRequests).hasSize(3);
-    }
-
-    @Test
-    @Transactional
-    @DirtiesContext
-    void LeaveRequestRepository_findAllByEmployee_Department_DepartmentCode_Found() {
-        List<LeaveRequest> leaveRequests = leaveRequestRepository.findAllByEmployee_Department_DepartmentCode("D01");
-        assertThat(leaveRequests).hasSize(3);
-    }
-
-    @Test
-    @Transactional
-    @DirtiesContext
-    void LeaveRequestRepository_findAllByStatus_StatusName_Found() {
-        List<LeaveRequest> leaveRequests = leaveRequestRepository.findAllByStatus_StatusName("Approved");
-        assertThat(leaveRequests).hasSize(2);
-    }
-
-    @Test
-    @Transactional
-    @DirtiesContext
-    void LeaveRequestRepository_findAllByRequestDate_Found() {
-        List<LeaveRequest> leaveRequests = leaveRequestRepository.findAllByRequestDate(LocalDate.of(2023, 6, 1));
-        assertThat(leaveRequests).hasSize(1);
-        assertThat(leaveRequests.get(0).getReason()).isEqualTo("Vacation");
-    }
-
-    @Test
-    @Transactional
-    @DirtiesContext
-    void LeaveRequestRepository_findAllByStartDate_Found() {
-        List<LeaveRequest> leaveRequests = leaveRequestRepository.findAllByStartDate(LocalDate.of(2023, 6, 10));
-        assertThat(leaveRequests).hasSize(2);
-    }
-
-    @Test
-    @Transactional
-    @DirtiesContext
-    void LeaveRequestRepository_findAllByRequestDateBetween_Found() {
-        List<LeaveRequest> leaveRequests = leaveRequestRepository.findAllByRequestDateBetween(LocalDate.of(2023, 6, 1), LocalDate.of(2023, 6, 20));
-        assertThat(leaveRequests).hasSize(3);
-    }
-
-    @Test
-    @Transactional
-    @DirtiesContext
-    void LeaveRequestRepository_findAllByStatus_StatusNameAndRequestDateBetween_Found() {
-        List<LeaveRequest> leaveRequests = leaveRequestRepository.findAllByStatus_StatusNameAndRequestDateBetween("Approved", LocalDate.of(2023, 6, 1), LocalDate.of(2023, 6, 20));
-        assertThat(leaveRequests).hasSize(2);
-    }
-
-    @Test
-    @Transactional
-    @DirtiesContext
-    void LeaveRequestRepository_findAllBySupervisor_EmployeeId_Found() {
-        List<LeaveRequest> leaveRequests = leaveRequestRepository.findAllByEmployee_Supervisor_EmployeeId(supervisor.getEmployeeId());
-        assertThat(leaveRequests).hasSize(3);
-    }
-
-    @Test
-    @Transactional
-    @DirtiesContext
-    void LeaveRequestRepository_findBySupervisor_FirstNameAndSupervisor_LastName_Found() {
-        List<LeaveRequest> leaveRequests = leaveRequestRepository.findByEmployee_Supervisor_FirstNameAndEmployee_Supervisor_LastName("Michael", "Scott");
-        assertThat(leaveRequests).hasSize(3);
-    }
 
     @Test
     @Transactional

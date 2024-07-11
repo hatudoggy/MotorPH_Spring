@@ -1,12 +1,18 @@
-import { useQuery, UseQueryResult } from "@tanstack/react-query";
+import {useQuery, UseQueryOptions, UseQueryResult} from "@tanstack/react-query";
 import { fetchData } from "./FetchUtil.ts";
 
-const useFetch = <T>(key: string, params?: Record<string, any>): UseQueryResult<T, Error> => {
-    return useQuery<T, Error>({
+const useFetch = <T>(
+    key: string,
+    params?: Record<string, any>,
+    options?: Omit<UseQueryOptions<T, Error, T, [string, Record<string, any> | undefined]>, 'queryKey' | 'queryFn'>
+): UseQueryResult<T, Error> => {
+    console.log('Fetching data with key:', key, 'and params:', params);
+    return useQuery<T, Error, T, [string, Record<string, any> | undefined]>({
         queryKey: [key, params],
         queryFn: () => fetchData(key, params),
         enabled: !params || Object.values(params).every(param => param !== null && param !== undefined),
-        refetchOnWindowFocus: true
+        refetchOnWindowFocus: false,
+        ...options,
     });
 };
 
@@ -82,10 +88,26 @@ export const useFetchAttendancesByEmployeeIdAndDateRange = (employeeId: number |
 };
 
 export const useFetchAttendanceByEmployeeIdAndDate = (employeeId: number | null, date: string) => {
-    console.log(`Fetching attendance for employee ${employeeId} on ${date}`);
     return useFetch<AttendanceRes>('attendanceByEmployeeIdAndDate', employeeId ? { id: employeeId, startDate: date } : undefined);
 };
 
 export const useFetchAttendancesByDate = (dateFilter: Date | null) => {
     return useFetch<AttendanceFull[]>('attendancesByDate', dateFilter ? { date: dateFilter } : undefined);
+};
+
+// LEAVES -----------------------------------------------------------------------
+
+export const useFetchLeaveRequestsByEmployeeId = (employeeId: number | null) => {
+    return useFetch<LeaveRequestRes[]>('leaveRequestsByEmployeeId', employeeId ? {id: employeeId} : undefined);
+};
+
+export const useFetchLeaveBalancesByEmployeeId = (employeeId: number | null) => {
+    return useFetch<LeaveBalanceRes[]>('leaveBalancesByEmployeeId', employeeId ? {id: employeeId} : undefined);
+};
+
+export const useFetchLeaveRequestsByRequestDateRange = (afterDate: string, beforeDate: string) => {
+    return useFetch<LeaveRequestRes[]>('leaveRequestsByRequestDateRange', afterDate && beforeDate ? {afterDate, beforeDate} : undefined);
+}
+export const useFetchLeaveTypes = () => {
+    return useFetch<LeaveTypeRes[]>('leaveTypes');
 };

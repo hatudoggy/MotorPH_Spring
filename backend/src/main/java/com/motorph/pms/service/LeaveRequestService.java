@@ -1,11 +1,9 @@
 package com.motorph.pms.service;
 
 import com.motorph.pms.dto.LeaveRequestDTO;
-import com.motorph.pms.dto.LeaveStatusDTO;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 public interface LeaveRequestService {
 
@@ -15,8 +13,10 @@ public interface LeaveRequestService {
 
     List<LeaveRequestDTO> getLeaveRequestsByEmployeeId(Long employeeId);
 
-    LeaveRequestDTO updateLeaveRequest(Long id, LeaveRequestDTO leaveRequest);
+    LeaveRequestDTO updateLeaveRequest(LeaveRequestDTO leaveRequest);
 
     void deleteLeaveRequest(Long leaveRequestId);
+
+    List<LeaveRequestDTO> getLeaveRequestsByRequestDateRange(LocalDate after, LocalDate before);
 }
 

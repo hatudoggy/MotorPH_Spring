@@ -72,6 +72,7 @@ export default function HRPayrolls() {
 
       // Invalidate the payrollId months query to update the list
       await queryClient.invalidateQueries({ queryKey: ["payrollMonths", filterYear] });
+      await queryClient.invalidateQueries({ queryKey: ["payrollByEmployeeId"] });
 
     } catch (error) {
       console.error("Error generating payrollId:", error);

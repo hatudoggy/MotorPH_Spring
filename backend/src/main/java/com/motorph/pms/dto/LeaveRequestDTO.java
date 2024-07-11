@@ -7,11 +7,12 @@ import java.time.LocalDate;
 @Builder
 public record LeaveRequestDTO(
     Long leaveRequestId,
-    Long employeeId,
+    EmployeeDTO employee,
+    LeaveTypeDTO leaveType,
     LocalDate requestDate,
     LocalDate startDate,
     LocalDate endDate,
     int daysRequested,
-    int statusId,
+    LeaveStatusDTO status,
     String reason
 ) {}
