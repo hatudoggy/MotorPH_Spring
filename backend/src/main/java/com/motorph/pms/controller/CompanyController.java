@@ -21,39 +21,39 @@ public class CompanyController {
         this.companyService = companyService;
     }
 
-    @GetMapping("/supervisors/all")
+    @GetMapping("/supervisors")
     public ResponseEntity<List<SupervisorDTO>> getSupervisorList() {
         return ResponseEntity.ok(companyService.getSupervisors());
     }
 
-    @GetMapping("/positions/all")
+    @GetMapping("/positions")
     public ResponseEntity<List<PositionDTO>> getPositionList() {
         List<PositionDTO> positions;
             positions = companyService.getPositions();
         return ResponseEntity.ok(positions);
     }
 
-    @GetMapping("/departments/all")
+    @GetMapping("/departments")
     public ResponseEntity<List<DepartmentDTO>> getDepartmentList() {
         return ResponseEntity.ok(companyService.getDepartments());
     }
 
-    @GetMapping("/statuses/all")
+    @GetMapping("/statuses")
     public ResponseEntity<List<EmploymentStatusDTO>> getStatusList() {
         return ResponseEntity.ok(companyService.getEmploymentStatuses());
     }
 
-    @GetMapping("/leave/types/all")
+    @GetMapping("/leave/types")
     public ResponseEntity<List<LeaveTypeDTO>> getLeaveTypeList() {
         return ResponseEntity.ok(companyService.getLeaveTypes());
     }
 
-    @GetMapping("/leave/status/all")
+    @GetMapping("/leave/status")
     public ResponseEntity<List<LeaveStatusDTO>> getLeaveStatusList() {
         return ResponseEntity.ok(companyService.getLeaveStatuses());
     }
 
-    @GetMapping("/benefit/types/all")
+    @GetMapping("/benefit/types")
     public ResponseEntity<List<BenefitTypeDTO>> getBenefitTypesList(){
         return ResponseEntity.ok(companyService.getBenefitTypes());
     }

@@ -1,7 +1,7 @@
 import {QueryClient} from "@tanstack/react-query";
 import {fetchData} from "./query/FetchUtil.ts";
 
-export const preloadData = async (employeeId: number, role: UserRole, queryClient: QueryClient ) => {
+export const preloadData = async (employeeId: number, queryClient: QueryClient ) => {
     try {
         // Preload employee data
         await queryClient.prefetchQuery({
@@ -21,10 +21,30 @@ export const preloadData = async (employeeId: number, role: UserRole, queryClien
             queryFn: () => fetchData('attendancesByEmployeeId', { id: employeeId })
         });
 
+        //Preload leave request data
+        await queryClient.prefetchQuery({
+            queryKey: ['leaveRequestsByEmployeeId', employeeId],
+            queryFn: () => fetchData('leaveRequestsByEmployeeId', { id: employeeId })
+        });
+
+        //Preload leave balance data
+        await queryClient.prefetchQuery({
+            queryKey: ['leaveBalancesByEmployeeId', employeeId],
+            queryFn: () => fetchData('leaveBalancesByEmployeeId', { id: employeeId })
+        });
+
+        //Preload leave type data
+        await queryClient.prefetchQuery({
+            queryKey: ['leaveTypes'],
+            queryFn: () => fetchData('leaveTypes')
+        });
+
     } catch (error) {
         console.error('Error prefetching data:', error);
     }
+};
 
+export const postloadData = async (role: UserRole, queryClient: QueryClient ) => {
     if (role === 'admin'){
         //Preload User data
         // await queryClient.prefetchQuery({
@@ -76,4 +96,4 @@ export const preloadData = async (employeeId: number, role: UserRole, queryClien
             queryFn: () => fetchData('payrolls')
         });
     }
-};
+}

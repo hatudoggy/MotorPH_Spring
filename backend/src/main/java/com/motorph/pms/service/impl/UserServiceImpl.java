@@ -25,16 +25,13 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-    private final ApplicationEventPublisher eventPublisher;
 
     @Autowired
     public UserServiceImpl(
             UserRepository userRepository,
-            UserMapper userMapper,
-            ApplicationEventPublisher eventPublisher) {
+            UserMapper userMapper) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
-        this.eventPublisher = eventPublisher;
     }
 
     @CachePut(key = "#result.username()")

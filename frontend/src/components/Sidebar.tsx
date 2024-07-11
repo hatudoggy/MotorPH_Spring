@@ -16,6 +16,8 @@ import {
     RecentActorsOutlined,
     UnfoldMore,
     Whatshot,
+    EventNote,
+    EventNoteOutlined,
 } from "@mui/icons-material";
 import {
     Avatar,
@@ -50,13 +52,27 @@ export default function Sidebar({ role }: Props) {
             IconOutlined: DashboardOutlined,
         },
         {
+            label: "Profile",
+            link: "profile",
+            IconActive: Person,
+            IconOutlined: PersonOutlined },
+
+        {
             label: "Attendance",
             link: "attendance",
             IconActive: AssignmentInd,
             IconOutlined: AssignmentIndOutlined,
         },
-        { label: "Payroll", link: "payrollId", IconActive: Paid, IconOutlined: PaidOutlined },
-        { label: "Profile", link: "profile", IconActive: Person, IconOutlined: PersonOutlined },
+        {
+            label: "Payroll",
+            link: "payrollId",
+            IconActive: Paid,
+            IconOutlined: PaidOutlined },
+        {
+            label: "Leave Request",
+            link: "leave-request",
+            IconActive: EventNote,
+            IconOutlined: EventNoteOutlined },
     ];
 
     const hrItems: SidebarItem[] = [
@@ -72,11 +88,24 @@ export default function Sidebar({ role }: Props) {
             IconActive: Payments,
             IconOutlined: PaymentsOutlined,
         },
-        { label: "Employees", link: "hr/employee", IconActive: Group, IconOutlined: GroupOutlined },
+        {
+            label: "Employees",
+            link: "hr/employee",
+            IconActive: Group,
+            IconOutlined: GroupOutlined },
+        {
+            label: "Leave Requests",
+            link: "hr/leave-request",
+            IconActive: EventNote,
+            IconOutlined: EventNoteOutlined }, // Adding Leave Requests item
     ];
 
     const adminItems: SidebarItem[] = [
-        { label: "Users", link: "admin/users", IconActive: Dashboard, IconOutlined: DashboardOutlined },
+        {
+            label: "Users",
+            link: "admin/users",
+            IconActive: Dashboard,
+            IconOutlined: DashboardOutlined },
     ];
 
     const location = useLocation();

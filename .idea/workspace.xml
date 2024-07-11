@@ -5,16 +5,52 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ef4833e7-6818-46a8-95cb-723fd7831949" name="Changes" comment="added graphml for class diagram, open using yedLive">
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/employee/components/LeaveRequestForm.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/hr/HRLeaves.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/aacb57b9-4b1d-42b3-9e47-3257a000b82e.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/aacb57b9-4b1d-42b3-9e47-3257a000b82e.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/repository/PayrollRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/repository/PayrollRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/AttendanceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/AttendanceService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/PayrollService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/PayrollService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/controller/CompanyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/controller/CompanyController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/controller/EmployeeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/controller/EmployeeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/controller/LeaveController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/controller/LeaveController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/dto/LeaveBalanceDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/dto/LeaveBalanceDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/dto/LeaveRequestDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/dto/LeaveRequestDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/dto/mapper/LeaveBalanceMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/dto/mapper/LeaveBalanceMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/dto/mapper/LeaveRequestMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/dto/mapper/LeaveRequestMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/model/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/model/Employee.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/model/LeaveRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/model/LeaveRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/repository/LeaveBalanceRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/repository/LeaveBalanceRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/repository/LeaveRequestRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/repository/LeaveRequestRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/LeaveBalanceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/LeaveBalanceService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/LeaveRequestService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/LeaveRequestService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/impl/AttendanceServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/impl/AttendanceServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/impl/CompanyServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/impl/CompanyServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/impl/EmployeeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/impl/EmployeeServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/impl/LeaveBalanceServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/impl/LeaveBalanceServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/impl/LeaveRequestServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/impl/LeaveRequestServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/impl/MatrixServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/impl/MatrixServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/impl/PayrollServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/impl/PayrollServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/impl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/service/impl/UserServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/util/PayrollCalculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/motorph/pms/util/PayrollCalculator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/application.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/test/java/com/motorph/pms/repository/LeaveRequestRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/test/java/com/motorph/pms/repository/LeaveRequestRepositoryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/test/java/com/motorph/pms/service/LeaveRequestServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/test/java/com/motorph/pms/service/LeaveRequestServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Routing.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Routing.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/api/Api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/api/Api.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/api/PreLoader.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/api/PreLoader.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/api/post/PostService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/api/post/PostService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/api/query/FetchUtil.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/api/query/FetchUtil.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/api/query/UseFetch.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/api/query/UseFetch.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Sidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Sidebar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/hooks/AuthProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/hooks/AuthProvider.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/interface/Employee.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/interface/Employee.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Login.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/employee/Attendance.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/employee/Attendance.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/employee/Leave.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/employee/Leave.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/pages/employee/Profile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/employee/Profile.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/hr/HRPayrolls.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/hr/HRPayrolls.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/hr/employeeManagement/form/EmployeeForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/hr/employeeManagement/form/EmployeeForm.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,10 +66,10 @@
         <option value="com.intellij.reactbuddy.useInitial" />
         <option value="com.intellij.reactbuddy.README" />
         <option value="JSX File" />
-        <option value="TypeScript JSX File" />
         <option value="Class" />
         <option value="Interface" />
         <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
       </list>
     </option>
   </component>
@@ -93,7 +129,7 @@
     "Spring Boot.EmsApplication.executor": "Run",
     "Spring Boot.Main.executor": "Run",
     "database.data.extractors.current.export.id": "Comma-separated (CSV)_id",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "UI-integration",
     "jdk.selected.JAVA_MODULE": "22",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/Harvey/Documents/GitHub/MotorPH_Spring",

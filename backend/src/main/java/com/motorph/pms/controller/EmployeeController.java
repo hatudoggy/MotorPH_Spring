@@ -23,22 +23,22 @@ public class EmployeeController {
     private final EmployeeService employeeService;
     private final PayrollService payrollService;
     private final AttendanceService attendanceService;
-    private final BenefitTypesService benefitTypesService;
     private final LeaveBalanceService leaveBalanceService;
+    private final LeaveRequestService leaveRequestService;
 
     @Autowired
     public EmployeeController(
             EmployeeService employeeService,
             PayrollService payrollService,
             AttendanceService attendanceService,
-            BenefitTypesService benefitTypesService,
-            LeaveBalanceService leaveBalanceService
+            LeaveBalanceService leaveBalanceService,
+            LeaveRequestService leaveRequestService
     ){
         this.employeeService = employeeService;
         this.payrollService = payrollService;
         this.attendanceService = attendanceService;
-        this.benefitTypesService = benefitTypesService;
         this.leaveBalanceService = leaveBalanceService;
+        this.leaveRequestService = leaveRequestService;
     }
 
     @PostMapping("/register")
@@ -47,7 +47,7 @@ public class EmployeeController {
         return ResponseEntity.ok(savedEmployee);
     }
 
-    @GetMapping("/all")
+    @GetMapping()
     public ResponseEntity<List<EmployeeDTO>> getAllEmployees() {
         List<EmployeeDTO> employees = employeeService.getEmployees();
         return ResponseEntity.ok(employees);
@@ -189,15 +189,15 @@ public class EmployeeController {
     }
 
 
-//    @GetMapping("/{id}/leave-balances")
-//    public List<LeaveBalance> getEmployeeLeaveBalance(@PathVariable long id) {
-//        return leaveBalanceService.getLeaveBalancesByEmployeeId(id);
-//    }
-//
-//    @GetMapping("/{id}/leave-requests")
-//    public List<LeaveRequest> getEmployeeLeaveRequest(@PathVariable long id) {
-//        return leaveRequestService.getAllLeaveRequestsByEmployeeId(id);
-//    }
+    @GetMapping("/{id}/leaves/balances")
+    public List<LeaveBalanceDTO> getEmployeeLeaveBalance(@PathVariable long id) {
+        return leaveBalanceService.getLeaveBalancesByEmployeeId(id);
+    }
+
+    @GetMapping("/{id}/leaves/requests")
+    public List<LeaveRequestDTO> getEmployeeLeaveRequest(@PathVariable long id) {
+        return leaveRequestService.getLeaveRequestsByEmployeeId(id);
+    }
 
 
     @GetMapping("/{id}/payrolls")

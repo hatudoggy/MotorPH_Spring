@@ -115,7 +115,7 @@ class LeaveRequestServiceTest {
                 .requestDate(LocalDate.now())
                 .startDate(LocalDate.now().plusDays(1))
                 .endDate(LocalDate.now().plusDays(5))
-                .statusId(leaveStatus.getLeaveStatusId())
+                .status(leaveStatusDTO)
                 .reason("Vacation")
                 .build();
 
@@ -185,7 +185,7 @@ class LeaveRequestServiceTest {
 
         when(requestMapper.toDTO(any(LeaveRequest.class))).thenReturn(leaveRequestDTO);
 
-        LeaveRequestDTO result = leaveRequestService.updateLeaveRequest(1L, leaveRequestDTO);
+        LeaveRequestDTO result = leaveRequestService.updateLeaveRequest(leaveRequestDTO);
 
         assertNotNull(result);
         assertEquals(leaveRequestDTO.leaveRequestId(), result.leaveRequestId());
@@ -198,7 +198,7 @@ class LeaveRequestServiceTest {
     void updateLeaveRequest_notFound() {
         when(requestRepository.findById(anyLong())).thenReturn(Optional.empty());
 
-        assertThrows(IllegalStateException.class, () -> leaveRequestService.updateLeaveRequest(10L, leaveRequestDTO));
+        assertThrows(IllegalStateException.class, () -> leaveRequestService.updateLeaveRequest( leaveRequestDTO));
     }
 
     @Test

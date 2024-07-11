@@ -6,8 +6,7 @@ import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { calculateAge, formatterWhole, idformatter } from "../../utils/utils";
 import { Shadows } from "../../constants/Shadows";
 import { useAuth } from "../../hooks/AuthProvider";
-import {
-    useFetchEmployeeFullById,
+import {useFetchEmployeeFullById,
 
 } from "../../api/query/UseFetch.ts";
 import {useEffect} from "react";
